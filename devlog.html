@@ -1,0 +1,254 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; }
+code > span.dt { color: #204a87; }
+code > span.dv { color: #0000cf; }
+code > span.bn { color: #0000cf; }
+code > span.fl { color: #0000cf; }
+code > span.ch { color: #4e9a06; }
+code > span.st { color: #4e9a06; }
+code > span.co { color: #8f5902; font-style: italic; }
+code > span.ot { color: #8f5902; }
+code > span.al { color: #ef2929; }
+code > span.fu { color: #000000; }
+code > span.er { font-weight: bold; }
+  </style>
+  <link rel="stylesheet" href="styles/stylesheet.css" type="text/css" />
+  <link rel="stylesheet" href="styles/buttondown.css" type="text/css" />
+</head>
+<body>
+<div id="a-devlog-on-ranges" class="section level1">
+<h1>A devlog on ranges</h1>
+<div id="a-self-contained-ranges-post-mortem" class="section level2">
+<h2>A self-contained ranges post-mortem</h2>
+<p>In the first approach (of a second tentative), ranges are entirely self-contained. That is to say, a range stands for whatever state is necessary to represent one step of iteration. Two issues arise from that:</p>
+<ol style="list-style-type: decimal">
+<li><p>Random-access ranges are a very bizarre fit, in that an offset that can be used to access an element arguably also counts as a part of some iteration state. E.g.:</p>
+<pre class="sourceCode Cpp"><code class="sourceCode cpp"><span class="dt">auto</span> r = <span class="co">/* ... */</span>;
+<span class="kw">for</span>(<span class="dt">int</span> offset = <span class="dv">0</span>; valid(offset, r); ++offset) {
+    <span class="co">// offset is separate from r</span>
+    consume(at(r, offset));
+}</code></pre></li>
+<li><p>Saveable double-ended ranges (to reuse D terminology), i.e. double-ended ranges that can be copied, are curiously similar to pairs of bidirectional iterators. This subtly leads to the following: suppose we operate over text split over the two colons it contains (e.g. <code>&quot;abc:def:123&quot;</code>):</p>
+<pre class="sourceCode Cpp"><code class="sourceCode cpp"><span class="co">// Bidi iterator version</span>
+<span class="dt">void</span> iterators(Bidi <span class="dt">const</span> start, Bidi <span class="dt">const</span> stop)
+{
+    <span class="co">// prepare</span>
+    <span class="dt">auto</span> first_colon  = std::find(start, stop, &#39;:&#39;);
+    <span class="dt">auto</span> second_colon = std::find(first_colon, stop, &#39;:&#39;);
+
+    <span class="co">// consume</span>
+    process_first_part(start, first_colon);
+    process_second_part(first_colon, second_colon);
+    process_third_part(second_colon, stop);
+}
+
+<span class="co">// Saveable double-ended range version</span>
+<span class="dt">void</span> range(Bidi range)
+{
+    <span class="co">// prepare</span>
+    <span class="dt">auto</span> not_a_colon = [](<span class="dt">auto</span> <span class="dt">const</span>&amp; c) { <span class="kw">return</span> c != &#39;:&#39;; };
+    <span class="dt">auto</span> first_split = range::span(not_a_colon, std::move(range));
+    <span class="dt">auto</span>&amp; first_part = first_split.first;
+    <span class="dt">auto</span>&amp; rest       = first_split.second;
+    <span class="dt">auto</span> second_split = range::span(not_a_colon, std::move(rest));
+    <span class="dt">auto</span>&amp; second_part = second_split.first;
+    <span class="dt">auto</span>&amp; third_part  = second_split.second;
+
+    <span class="co">// consume</span>
+    process_first_part(first_part);
+    process_second_part(second_part);
+    process_third_part(third_part);
+}</code></pre>
+<p>While the two versions look to be equivalent, the iterators are more ‘efficient’ in that e.g. <code>first_colon</code> is reused and shared between the two subranges <code>[start, first_colon)</code> and <code>[first_colon, second_colon)</code>, and similarly for <code>second_colon</code>. For an N-partition of a bidirectional range, we need N+1 iterators with 0 overlap of iterators; or N subranges with N-1 overlap between them.</p>
+<p>Moreover, the apparent equivalence breaks down if the truly bidirectional nature of the iterators is exploited. E.g. performing <code>--first_colon</code> (assuming valid preconditions) re-partitions the entire range in three subranges still. But it is not possible to unpop <code>second_part</code> to ‘rewind’ back an element—and pushing back an element into it would be even more nonsensical, since ranges represent iteration and not necessarily e.g. sequences in memory, so there might not even be a place to push back into.</p>
+<p>This problem is not just a matter of taste. Writing a binary search algorithms for those not-quite-bidirectional ranges is much more unnatural than it is with iterators. For a double-ended range, a possible implementation may perform up to two scans per iteration: first to peek the middle element, then a second time to prepare the appropriate subrange.</p>
+<pre><code>searching for 6, length(r) == 11
+
+iteration 0, length(r) == 11:
+    r = [ - - - - - [4] x - - 6 - ]
+    read midpoint   {first scan}
+    4 &lt; 6
+    advance r to x  {second scan}
+
+iteration 1, length(r) == 5:
+    r = [ x - [-] @ - ]
+    …</code></pre>
+<p>It feels like it would be wiser to split the range down the middle no matter what in one go, but it’s actually interesting to contemplate how that could be achieved, what type the resulting subranges would have, and how the next iteration would take place (polytypic recursion?).</p>
+<p>An iterator version however could scan down the middle, read it, and adjust itself by one place if necessary.</p></li>
+</ol>
+<hr />
+<p>So while forward and double-ended ranges are very satisfactory (at least in the non-saveable case, for double-ended ranges), it is disappointing that random-access ranges don’t really fit into our story. If we go back to the problem of an N-partition of a bidirectional range, we can find a hint of where our abstraction might be breaking down:</p>
+<blockquote>
+<p>For an N-partition of a bidirectional range, we need N+1 iterators with 0 overlap of iterators; or N subranges with N-1 overlap between them.</p>
+</blockquote>
+<p>Interestingly, if we look deeper into it, that ‘0 overlap of iterators’ statement turns out to be treacherous. Indeed, one of the arguments as to why we turned to self-contained ranges in the first place was that a pair of e.g. <code>filter_iterator</code>s had the unfortunate property that it duplicates the filtering functor, one for each end of the range. So for an N-partition, we now have N+1 functors, even though we really only need the one. And since our N-partition of subranges has N-1 such functors, we’re not really coming out ahead here either with self-contained ranges!</p>
+<p>Thus begins the case for position-based ranges, as they are called.</p>
+</div>
+<div id="wip" class="section level2">
+<h2>WIP</h2>
+<table>
+<caption>A brief comparison of self-contained vs. position-based ranges (with non-primitives highlighted)</caption>
+<col width="22%" />
+<col width="27%" />
+<col width="19%" />
+<thead>
+<tr class="header">
+<th align="left">Operate on</th>
+<th align="left">Self-contained</th>
+<th align="left">Position-based</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">any range</td>
+<td align="left"><code>empty()</code></td>
+<td align="left"><code class="convenience">empty()</code><br /><code>equals_stop(start())</code> (forward)<br /><code>equals_start(stop())</code> (backward)</td>
+</tr>
+<tr class="even">
+<td align="left">the front</td>
+<td align="left"><code>peek_front()</code><br /><code>front()</code><br /><code>pop_front()</code></td>
+<td align="left"><code>peek_at(start())</code><br /><code>at(start())</code><br /><code>incr(start())</code><br /><code class="convenience">next(pos)</code></td>
+</tr>
+<tr class="odd">
+<td align="left">the back</td>
+<td align="left"><code>peek_back()</code><br /><code>back()</code><br /><code>pop_back()</code></td>
+<td align="left"><code>peek_at(prev(stop()))</code><br /><code>at(prev(stop()))</code><br /><code>decr(stop())</code><br /><code class="convenience">prev(pos)</code></td>
+</tr>
+<tr class="even">
+<td align="left">arbitrary pos.</td>
+<td align="left"><code>chop_front(n)</code><br /><code>chop_back(n)</code></td>
+<td align="left"><code>step(start(), n)</code><br /><code>step(stop(), n)</code><br /><code>step(pos, n)</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="zip-range-pseudo-code" class="section level2">
+<h2>Zip range pseudo-code</h2>
+<pre class="sourceCode Cpp"><code class="sourceCode cpp"><span class="kw">template</span>&lt;<span class="kw">typename</span>... Ranges&gt;
+<span class="kw">struct</span> zip_range {
+    <span class="co">/*</span>
+<span class="co">     * Invariant required: the ranges must be trimmed at the end if double-ended,</span>
+<span class="co">     * i.e. no ragged ends. E.g.:</span>
+<span class="co">     *</span>
+<span class="co">     * 1: o o o o [o]</span>
+<span class="co">     * 2: o o o o [o] x</span>
+<span class="co">     * 3: o o o o [o] x x x</span>
+<span class="co">     * 4: o o o o [o]</span>
+<span class="co">     *             l</span>
+<span class="co">     * where &#39;o&#39; is an element, and &#39;x&#39; a superfluous element that must be discarded</span>
+<span class="co">     * so that the l column of elements [o] correctly reflect `prev(stop())` for a</span>
+<span class="co">     * double-ended zip range.</span>
+<span class="co">     */</span>
+
+    std::tuple&lt;Ranges...&gt; zipped_ranges;
+
+    <span class="co">// SFINAE omitted</span>
+
+    <span class="kw">decltype</span>(<span class="dt">auto</span>) start() { <span class="kw">return</span> tuples::transform(zipped_ranges, functors::start {}); }
+    <span class="kw">decltype</span>(<span class="dt">auto</span>) stop()  { <span class="kw">return</span> tuples::transform(zipped_ranges, functors::stop {}); }
+
+    <span class="co">/*</span>
+<span class="co">     * The suck starts here.</span>
+<span class="co">     *</span>
+<span class="co">     * How much of {equal_pos, equals_start, equals_stop} should be implemented?</span>
+<span class="co">     * Additionally, those implementations are only correct for (trimmed) double-ended</span>
+<span class="co">     * ranges. On the other hand, forward-only ranges can implement an efficient</span>
+<span class="co">     * `equals_stop` with `functors::logical_or`.</span>
+<span class="co">     *</span>
+<span class="co">     * Tentative answer: non-overlapping overload set of</span>
+<span class="co">     *   - equals_stop + logical_or for forward-only</span>
+<span class="co">     *   - equal_pos + logical_and for double-ended or better</span>
+<span class="co">     */</span>
+
+    <span class="dt">bool</span> equal_pos(position <span class="dt">const</span>&amp; xs, position <span class="dt">const</span>&amp; ys)
+    { <span class="kw">return</span> tuples::fold1(functors::logical_and {}
+                           , tuples::zip_with(zipped_ranges
+                                             , xs
+                                             , ys
+                                             , [](<span class="dt">auto</span>&amp; r, <span class="dt">auto</span> <span class="dt">const</span>&amp; x, <span class="dt">auto</span> <span class="dt">const</span>&amp; y)
+                                             { <span class="kw">return</span> r.equal_pos(x, y); } ) ); }
+
+    <span class="dt">bool</span> equals_stop(position <span class="dt">const</span>&amp; pos)
+    { <span class="kw">return</span> tuples::fold1(functors::logical_and {}
+                           , tuples::zip_with(zipped_ranges
+                                              , position
+                                              , [](<span class="dt">auto</span>&amp; r, <span class="dt">auto</span> <span class="dt">const</span>&amp; p)
+                                              { <span class="kw">return</span> r.equals_stop(p); } ) ); }
+
+    <span class="dt">bool</span> equals_start(position <span class="dt">const</span>&amp; pos)
+    { <span class="kw">return</span> tuples::fold1(functors::logical_and {}
+                           , tuples::zip_with(zipped_ranges
+                                              , position
+                                              , [](<span class="dt">auto</span>&amp; r, <span class="dt">auto</span> <span class="dt">const</span>&amp; p)
+                                              { <span class="kw">return</span> r.equals_start(p); } ) ); }
+
+    <span class="kw">decltype</span>(<span class="dt">auto</span>) peek_at(position <span class="dt">const</span>&amp; pos) <span class="dt">const</span>
+    { <span class="kw">return</span> tuples::transform(zipped_ranges, functors::peek_at {}); }
+
+    <span class="kw">decltype</span>(<span class="dt">auto</span>) at(position <span class="dt">const</span>&amp; pos) <span class="dt">const</span>
+    { <span class="kw">return</span> tuples::transform(zipped_ranges, functors::at {}); }
+
+    <span class="dt">void</span> incr(position&amp; pos)
+    { tuples::zip_with(zipped_ranges, pos, [](<span class="dt">auto</span>&amp; r, <span class="dt">auto</span>&amp; p) { r.incr(p); }); }
+
+    <span class="dt">void</span> decr(position&amp; pos)
+    { tuples::zip_with(zipped_ranges, pos, [](<span class="dt">auto</span>&amp; r, <span class="dt">auto</span>&amp; p) { r.decr(p); }); }
+
+    <span class="dt">void</span> step(position&amp; pos, offset <span class="dt">const</span> n)
+    { tuples::zip_with(zipped_ranges, pos, [&amp;n](<span class="dt">auto</span>&amp; r, <span class="dt">auto</span>&amp; p) { r.step(p, n); }); }
+};</code></pre>
+</div>
+<div id="flatten-range-pseudo-code" class="section level2">
+<h2>Flatten range pseudo-code</h2>
+<pre class="sourceCode Cpp"><code class="sourceCode cpp"><span class="kw">template</span>&lt;<span class="kw">typename</span> Range&gt;
+<span class="kw">struct</span> flatten_range {
+    Range flattened_range;
+
+    <span class="co">// SFINAE omitted</span>
+
+<span class="kw">private</span>:
+    <span class="kw">using</span> current_type = iter_t&lt;element_t&lt;flattened_range&gt;&amp;&gt;;
+
+    <span class="co">// Looks like we&#39;re still using caching</span>
+    cache&lt;Range, current_type&gt; current;
+
+<span class="kw">public</span>:
+    <span class="kw">decltype</span>(<span class="dt">auto</span>) start()
+    { <span class="kw">return</span> current.front()-&gt;start(); }
+
+    <span class="kw">decltype</span>(<span class="dt">auto</span>) stop()
+    { <span class="kw">return</span> current.back() ? current.back()-&gt;stop() : current.front()-&gt;stop(); }
+
+    <span class="co">/*</span>
+<span class="co">     * Looks like we&#39;re double-ended at most, since there&#39;s no telling to which inner range</span>
+<span class="co">     * a position belongs, but it also looks like we need empty() as a primitive and</span>
+<span class="co">     * not just a convenience.</span>
+<span class="co">     */</span>
+    <span class="dt">bool</span> empty() <span class="dt">const</span>
+    { <span class="kw">return</span> !current.front() || current.front()-&gt;empty(); }
+
+    <span class="co">/*</span>
+<span class="co">     * UHOH! The above was clearly a warning sign, as it turns out we cannot define anything else:</span>
+<span class="co">     * when we receive a position, we really need to know to which inner range (or end) it belongs to</span>
+<span class="co">     * (e.g. for the `front() ==&gt; at(start())` translation). So we&#39;re back to self-contained ranges.</span>
+<span class="co">     * Relatedly it may be that &#39;double-ended + saveable == bidi&#39; may not be that straightforward either.</span>
+<span class="co">     */</span>
+};</code></pre>
+</div>
+</div>
+</body>
+</html>
