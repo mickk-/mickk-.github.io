@@ -32,72 +32,6 @@ code > span.er { font-weight: bold; }
 <body>
 <div id="a-devlog-on-ranges" class="section level1">
 <h1>A devlog on ranges</h1>
-<div id="a-self-contained-ranges-post-mortem" class="section level2">
-<h2>A self-contained ranges post-mortem</h2>
-<p>In the first approach (of a second tentative), ranges are entirely self-contained. That is to say, a range stands for whatever state is necessary to represent one step of iteration. Two issues arise from that:</p>
-<ol style="list-style-type: decimal">
-<li><p>Random-access ranges are a very bizarre fit, in that an offset that can be used to access an element arguably also counts as a part of some iteration state. E.g.:</p>
-<pre class="sourceCode Cpp"><code class="sourceCode cpp"><span class="dt">auto</span> r = <span class="co">/* ... */</span>;
-<span class="kw">for</span>(<span class="dt">int</span> offset = <span class="dv">0</span>; valid(offset, r); ++offset) {
-    <span class="co">// offset is separate from r</span>
-    consume(at(r, offset));
-}</code></pre></li>
-<li><p>Saveable double-ended ranges (to reuse D terminology), i.e. double-ended ranges that can be copied, are curiously similar to pairs of bidirectional iterators. This subtly leads to the following: suppose we operate over text split over the two colons it contains (e.g. <code>&quot;abc:def:123&quot;</code>):</p>
-<pre class="sourceCode Cpp"><code class="sourceCode cpp"><span class="co">// Bidi iterator version</span>
-<span class="dt">void</span> iterators(Bidi <span class="dt">const</span> start, Bidi <span class="dt">const</span> stop)
-{
-    <span class="co">// prepare</span>
-    <span class="dt">auto</span> first_colon  = std::find(start, stop, &#39;:&#39;);
-    <span class="dt">auto</span> second_colon = std::find(first_colon, stop, &#39;:&#39;);
-
-    <span class="co">// consume</span>
-    process_first_part(start, first_colon);
-    process_second_part(first_colon, second_colon);
-    process_third_part(second_colon, stop);
-}
-
-<span class="co">// Saveable double-ended range version</span>
-<span class="dt">void</span> range(Bidi range)
-{
-    <span class="co">// prepare</span>
-    <span class="dt">auto</span> not_a_colon = [](<span class="dt">auto</span> <span class="dt">const</span>&amp; c) { <span class="kw">return</span> c != &#39;:&#39;; };
-    <span class="dt">auto</span> first_split = range::span(not_a_colon, std::move(range));
-    <span class="dt">auto</span>&amp; first_part = first_split.first;
-    <span class="dt">auto</span>&amp; rest       = first_split.second;
-    <span class="dt">auto</span> second_split = range::span(not_a_colon, std::move(rest));
-    <span class="dt">auto</span>&amp; second_part = second_split.first;
-    <span class="dt">auto</span>&amp; third_part  = second_split.second;
-
-    <span class="co">// consume</span>
-    process_first_part(first_part);
-    process_second_part(second_part);
-    process_third_part(third_part);
-}</code></pre>
-<p>While the two versions look to be equivalent, the iterators are more ‘efficient’ in that e.g. <code>first_colon</code> is reused and shared between the two subranges <code>[start, first_colon)</code> and <code>[first_colon, second_colon)</code>, and similarly for <code>second_colon</code>. For an N-partition of a bidirectional range, we need N+1 iterators with 0 overlap of iterators; or N subranges with N-1 overlap between them.</p>
-<p>Moreover, the apparent equivalence breaks down if the truly bidirectional nature of the iterators is exploited. E.g. performing <code>--first_colon</code> (assuming valid preconditions) re-partitions the entire range in three subranges still. But it is not possible to unpop <code>second_part</code> to ‘rewind’ back an element—and pushing back an element into it would be even more nonsensical, since ranges represent iteration and not necessarily e.g. sequences in memory, so there might not even be a place to push back into.</p>
-<p>This problem is not just a matter of taste. Writing a binary search algorithms for those not-quite-bidirectional ranges is much more unnatural than it is with iterators. For a double-ended range, a possible implementation may perform up to two scans per iteration: first to peek the middle element, then a second time to prepare the appropriate subrange.</p>
-<pre><code>searching for 6, length(r) == 11
-
-iteration 0, length(r) == 11:
-    r = [ - - - - - [4] x - - 6 - ]
-    read midpoint   {first scan}
-    4 &lt; 6
-    advance r to x  {second scan}
-
-iteration 1, length(r) == 5:
-    r = [ x - [-] @ - ]
-    …</code></pre>
-<p>It feels like it would be wiser to split the range down the middle no matter what in one go, but it’s actually interesting to contemplate how that could be achieved, what type the resulting subranges would have, and how the next iteration would take place (polytypic recursion?).</p>
-<p>An iterator version however could scan down the middle, read it, and adjust itself by one place if necessary.</p></li>
-</ol>
-<hr />
-<p>So while forward and double-ended ranges are very satisfactory (at least in the non-saveable case, for double-ended ranges), it is disappointing that random-access ranges don’t really fit into our story. If we go back to the problem of an N-partition of a bidirectional range, we can find a hint of where our abstraction might be breaking down:</p>
-<blockquote>
-<p>For an N-partition of a bidirectional range, we need N+1 iterators with 0 overlap of iterators; or N subranges with N-1 overlap between them.</p>
-</blockquote>
-<p>Interestingly, if we look deeper into it, that ‘0 overlap of iterators’ statement turns out to be treacherous. Indeed, one of the arguments as to why we turned to self-contained ranges in the first place was that a pair of e.g. <code>filter_iterator</code>s had the unfortunate property that it duplicates the filtering functor, one for each end of the range. So for an N-partition, we now have N+1 functors, even though we really only need the one. And since our N-partition of subranges has N-1 such functors, we’re not really coming out ahead here either with self-contained ranges!</p>
-<p>Thus begins the case for position-based ranges, as they are called.</p>
-</div>
 <div id="wip" class="section level2">
 <h2>WIP</h2>
 <table>
@@ -138,7 +72,7 @@ iteration 1, length(r) == 5:
 </div>
 <div id="zip-range-pseudo-code" class="section level2">
 <h2>Zip range pseudo-code</h2>
-<pre class="sourceCode Cpp"><code class="sourceCode cpp"><span class="kw">template</span>&lt;<span class="kw">typename</span>... Ranges&gt;
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">template</span>&lt;<span class="kw">typename</span>... Ranges&gt;
 <span class="kw">struct</span> zip_range {
     <span class="co">/*</span>
 <span class="co">     * Invariant required: the ranges must be trimmed at the end if double-ended,</span>
@@ -214,7 +148,7 @@ iteration 1, length(r) == 5:
 </div>
 <div id="flatten-range-pseudo-code" class="section level2">
 <h2>Flatten range pseudo-code</h2>
-<pre class="sourceCode Cpp"><code class="sourceCode cpp"><span class="kw">template</span>&lt;<span class="kw">typename</span> Range&gt;
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">template</span>&lt;<span class="kw">typename</span> Range&gt;
 <span class="kw">struct</span> flatten_range {
     Range flattened_range;
 
