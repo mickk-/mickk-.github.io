@@ -146,6 +146,69 @@ code > span.er { font-weight: bold; }
     { tuples::zip_with(zipped_ranges, pos, [&amp;n](<span class="dt">auto</span>&amp; r, <span class="dt">auto</span>&amp; p) { r.step(p, n); }); }
 };</code></pre>
 </div>
+<div id="fliter-range-pseudo-code" class="section level2">
+<h2>Fliter range pseudo-code</h2>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">template</span>&lt;<span class="kw">typename</span> Tag, <span class="kw">typename</span> Position&gt;
+<span class="kw">struct</span> tagged_position: Position {
+    <span class="kw">using</span> Position::Position;
+};
+
+<span class="kw">template</span>&lt;<span class="kw">typename</span> Tag, <span class="kw">typename</span> Position&gt;
+tagged_position&lt;Tag, std::decay_t&lt;Position&gt;&gt; tag(Position&amp;&amp; position)
+{ <span class="kw">return</span> { std::forward&lt;Position&gt;(position) }; }
+
+<span class="kw">template</span>&lt;<span class="kw">typename</span> Predicate, <span class="kw">typename</span> Range&gt;
+<span class="kw">struct</span> filter_range {
+    Range filtered_range;
+    Predicate filtering_predicate;
+
+    <span class="kw">struct</span> tag {};
+
+    <span class="co">// SFINAE omitted</span>
+
+    <span class="kw">template</span>&lt;<span class="kw">typename</span> Position&gt;
+    <span class="kw">decltype</span>(<span class="dt">auto</span>) peek_at(Position <span class="dt">const</span>&amp; position) { <span class="kw">return</span> range::peek_at(filtered_range, position); }
+
+    <span class="kw">template</span>&lt;<span class="kw">typename</span> Position&gt;
+    <span class="kw">decltype</span>(<span class="dt">auto</span>) at(Position <span class="dt">const</span>&amp; position) { <span class="kw">return</span> range::at(filtered_range, position); }
+
+    <span class="kw">decltype</span>(<span class="dt">auto</span>) stop() { <span class="kw">return</span> range::tag&lt;tag&gt;(range::stop(filtered_range)); }
+
+    <span class="co">// Front</span>
+    <span class="kw">decltype</span>(<span class="dt">auto</span>) start() { <span class="kw">return</span> range::tag&lt;tag&gt;(range::start(filtered_range)); }
+
+    <span class="kw">template</span>&lt;<span class="kw">typename</span> Position&gt;
+    <span class="dt">bool</span> at_stop(Position <span class="dt">const</span>&amp; position) { <span class="kw">return</span> range::at_stop(filtered_range, position); }
+
+    <span class="kw">template</span>&lt;<span class="kw">typename</span> Position&gt;
+    <span class="dt">void</span> incr(Position&amp; position)
+    {
+        <span class="kw">do</span> {
+            range::incr(filtered_range, position);
+        } <span class="kw">while</span>(!range::at_stop(filtered_range, position)
+                &amp;&amp; !annex::invoke(filtering_predicate, range::peek_at(filtered_range, position)) );
+    }
+
+    <span class="co">// Back</span>
+
+    <span class="kw">template</span>&lt;<span class="kw">typename</span> Position&gt;
+    <span class="dt">bool</span> at_start(Position <span class="dt">const</span>&amp; position) { <span class="kw">return</span> range::at_start(filtered_range, position); }
+
+    <span class="kw">template</span>&lt;<span class="kw">typename</span> Position&gt;
+    <span class="dt">void</span> decr(Position&amp; position)
+    {
+        <span class="kw">do</span> {
+            range::decr(filtered_range, position);
+        } <span class="kw">while</span>(!range::at_start(filtered_range, position)
+                &amp;&amp; !annex::invoke(filtering_predicate, range::peek_at(filtered_range, position)) );
+    }
+
+    <span class="co">// Bidi</span>
+    <span class="kw">template</span>&lt;<span class="kw">typename</span> Position&gt;
+    <span class="dt">bool</span> equal_pos(Position <span class="dt">const</span>&amp; x, Position <span class="dt">const</span>&amp; y)
+    { <span class="kw">return</span> range::equal_pos(filtered_range, x, y); }
+};</code></pre>
+</div>
 <div id="flatten-range-pseudo-code" class="section level2">
 <h2>Flatten range pseudo-code</h2>
 <pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">template</span>&lt;<span class="kw">typename</span> Range&gt;
