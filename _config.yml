@@ -1,0 +1,11 @@
+# global options
+safe: true
+
+# content
+show_drafts: null
+future: false
+lsi: false
+
+# rendering
+markdown: rdiscount
+highlighter: pygments
