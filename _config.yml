@@ -2,6 +2,7 @@
 safe: true
 
 # content
+keep_files: ["ninjachef"]
 show_drafts: null
 future: false
 lsi: false
