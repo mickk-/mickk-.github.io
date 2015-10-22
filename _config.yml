@@ -2,7 +2,7 @@
 safe: true
 
 # content
-keep_files: ["ninjachef"]
+keep_files: ["test.html", "ninjachef"]
 show_drafts: null
 future: false
 lsi: false
