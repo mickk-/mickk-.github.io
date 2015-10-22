@@ -1,0 +1,285 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ninjachef.recipes.sandbox module &mdash; ninjachef 0.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="ninjachef 0.0.0 documentation" href="../index.html" />
+    <link rel="up" title="ninjachef.recipes package" href="ninjachef.recipes.html" />
+    <link rel="next" title="ninjachef.cookbook module" href="ninjachef.cookbook.html" />
+    <link rel="prev" title="ninjachef.recipes.recipe module" href="ninjachef.recipes.recipe.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-ninjachef.recipes.sandbox">
+<span id="ninjachef-recipes-sandbox-module"></span><h1>ninjachef.recipes.sandbox module<a class="headerlink" href="#module-ninjachef.recipes.sandbox" title="Permalink to this headline">¶</a></h1>
+<p>A recipe for development within a sandbox.</p>
+<p>This setup is especially convenient for concurrent development of inter-related
+and inter-dependent software projects. E.g. assume the following structure where
+<code class="docutils literal"><span class="pre">foo</span></code> and <code class="docutils literal"><span class="pre">bar</span></code> are projects, and <code class="docutils literal"><span class="pre">bar</span></code> is an executable that depends on
+library <code class="docutils literal"><span class="pre">foo</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre>root
+├── sandbox
+├── foo
+│   ├── include
+│   │   ├── foo.hpp
+│   │   └── …
+│   ├── source
+│   │   ├── foo.cpp
+│   │   └── …
+│   └── test
+│       └── …
+└── bar
+    ├── source
+    │   ├── main.cpp
+    │   └── …
+    └── test
+        └── …
+</pre></div>
+</div>
+<p>This can be put to use via the following:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">PurePath</span>
+<span class="kn">from</span> <span class="nn">ninjachef</span> <span class="kn">import</span> <span class="n">Project</span><span class="p">,</span> <span class="n">recipes</span><span class="p">,</span> <span class="n">flavors</span>
+
+<span class="n">root</span> <span class="o">=</span> <span class="n">PurePath</span><span class="p">(</span><span class="s">&#39;path&#39;</span><span class="p">,</span> <span class="s">&#39;to&#39;</span><span class="p">,</span> <span class="s">&#39;root&#39;</span><span class="p">)</span>
+<span class="n">recipe</span> <span class="o">=</span> <span class="n">recipes</span><span class="o">.</span><span class="n">Sandbox</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">root</span> <span class="o">/</span> <span class="s">&#39;sandbox&#39;</span><span class="p">)</span>
+<span class="n">foo</span> <span class="o">=</span> <span class="n">Project</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">root</span> <span class="o">/</span> <span class="s">&#39;foo&#39;</span><span class="p">)</span>
+<span class="n">bar</span> <span class="o">=</span> <span class="n">Project</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">root</span> <span class="o">/</span> <span class="s">&#39;bar&#39;</span><span class="p">)</span>
+
+<span class="n">ninja</span> <span class="o">=</span> <span class="n">recipe</span><span class="o">.</span><span class="n">cook</span><span class="p">([</span><span class="n">foo</span><span class="p">,</span> <span class="n">bar</span><span class="p">],</span> <span class="p">[</span><span class="n">flavors</span><span class="o">.</span><span class="n">Gcc</span><span class="p">()])</span>
+<span class="k">print</span><span class="p">(</span><span class="n">ninja</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>All the build artifacts will appear inside <code class="docutils literal"><span class="pre">sandbox</span></code>, with the following
+structure (for a given <cite>proj</cite>):</p>
+<blockquote>
+<div><ul class="simple">
+<li>headers are placed into <code class="docutils literal"><span class="pre">sandbox/include/proj</span></code></li>
+</ul>
+</div></blockquote>
+<p>For each <cite>flavor</cite>:</p>
+<blockquote>
+<div><ul class="simple">
+<li>library binaries are placed into <code class="docutils literal"><span class="pre">sandbox/flavor/lib</span></code></li>
+<li>executable binaries are placed into <code class="docutils literal"><span class="pre">sandbox/flavor/bin/proj/</span></code></li>
+<li>intermediate binaries are stowed inside <code class="docutils literal"><span class="pre">sandbox/flavor/build/proj</span></code></li>
+</ul>
+</div></blockquote>
+<p>Note that it is not necessary for <code class="docutils literal"><span class="pre">sandbox</span></code> to live within <code class="docutils literal"><span class="pre">root</span></code>, it can be
+anywhere.</p>
+<p>For our above example, this would result in the following sandbox structure:</p>
+<div class="highlight-python"><div class="highlight"><pre>root
+├── sandbox
+│   ├── include
+│   │   └── foo
+│   │       ├── foo.hpp
+│   │       └── …
+│   └── gcc
+│       ├── bin
+│       │   ├── foo
+│       │   │   └── test
+│       │   └── bar
+│       │       ├── bar
+│       │       └── test
+│       ├── lib
+│       │   └── libfoo.so
+│       └── build
+│           ├── foo
+│           │   ├── source
+│           │   │   ├── foo.o
+│           │   │   └── …
+│           │   └── test
+│           │       └── …
+│           └── bar
+│               └── source
+│                   ├── main.o
+│                   └── …
+├── foo
+│   └── …
+└── bar
+    └── …
+</pre></div>
+</div>
+<p>The benefits of using a sandbox recipe are as follows:</p>
+<blockquote>
+<div><ul class="simple">
+<li>the sand-boxed projects are completely left alone</li>
+<li>it’s possible to work simultaneously on <code class="docutils literal"><span class="pre">foo</span></code> and <code class="docutils literal"><span class="pre">bar</span></code> even though
+the latter depends on the former without having to install <code class="docutils literal"><span class="pre">foo</span></code> or
+modify the system in any way</li>
+<li>any change to e.g. a specific header of <code class="docutils literal"><span class="pre">foo</span></code> will only trigger the
+recompilation of those object files that depend on it inside both <code class="docutils literal"><span class="pre">foo</span></code>
+and <code class="docutils literal"><span class="pre">bar</span></code>.</li>
+<li>any number of flavors (debug with compiler A, release with compiler A,
+debug with compiler B, etc.) can live side-by-side</li>
+</ul>
+</div></blockquote>
+<p>There are also some drawbacks or caveats:</p>
+<blockquote>
+<div><ul class="simple">
+<li>it is not a goal of this setup to tightly or perfectly isolate the
+projects from the rest of the environment/system; see how dependency
+resolution is handled</li>
+<li>everything must be run from the root, it is not possible to descend into
+one of the sand-boxed projects and invoke Ninja there&nbsp;— there will be no
+Ninja build files inside</li>
+<li>mixing flavors can require some work, e.g. if one of the sand-boxed
+projects require a different compiler than the rest</li>
+</ul>
+</div></blockquote>
+<p>Recipe behavior:</p>
+<blockquote>
+<div><ul>
+<li><p class="first">The root of a project is assumed to be the name of the project (e.g. a
+project at <code class="docutils literal"><span class="pre">path/to/foo</span></code> will be named <cite>foo</cite>). This affects the <cite>self</cite>
+component name (see the <a class="reference internal" href="ninjachef.cookbook.html#module-ninjachef.cookbook" title="ninjachef.cookbook"><code class="xref py py-mod docutils literal"><span class="pre">cookbook</span></code></a>).</p>
+</li>
+<li><p class="first"><a class="reference internal" href="ninjachef.cookbook.html#ninjachef.cookbook.Deps" title="ninjachef.cookbook.Deps"><code class="xref py py-class docutils literal"><span class="pre">Dependencies</span></code></a> are first looked up amongst the sand-boxed
+projects. For a <cite>Tuple</cite> dependency the first element is assumed to be the
+project name, while the second element is assumed to be a component
+within that project; other elements, if any, are ignored. For this purpose
+<code class="xref py py-class docutils literal"><span class="pre">str</span></code> dependencies (e.g. <code class="docutils literal"><span class="pre">'foo'</span></code>) will be treated as if they
+were a pair of that <code class="xref py py-class docutils literal"><span class="pre">str</span></code> (e.g. <code class="docutils literal"><span class="pre">('foo',</span> <span class="pre">'foo')</span></code>).</p>
+<p>If a project is found, but it has no appropriately named component,
+dependency resolution fails.</p>
+<p>If no appropriately named project is found, the dependency is assumed to
+be fulfilled out-of-sandbox.</p>
+<p>As a consequence, if a sand-boxed project shares a name with a particular
+library available on the system, it may easily end up shadowing it (for
+better or for worse).</p>
+</li>
+</ul>
+</div></blockquote>
+<dl class="class">
+<dt id="ninjachef.recipes.sandbox.Sandbox">
+<em class="property">class </em><code class="descclassname">ninjachef.recipes.sandbox.</code><code class="descname">Sandbox</code><span class="sig-paren">(</span><em>root</em>, <em>sandbox</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ninjachef/recipes/sandbox.html#Sandbox"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ninjachef.recipes.sandbox.Sandbox" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="ninjachef.recipes.recipe.html#ninjachef.recipes.recipe.Recipe" title="ninjachef.recipes.recipe.Recipe"><code class="xref py py-class docutils literal"><span class="pre">ninjachef.recipes.recipe.Recipe</span></code></a></p>
+<p>Place build artifacts inside a common sandbox.</p>
+<dl class="attribute">
+<dt id="ninjachef.recipes.sandbox.Sandbox.root">
+<code class="descname">root</code><span class="sig-paren">(</span><em>Path</em><span class="sig-paren">)</span><a class="headerlink" href="#ninjachef.recipes.sandbox.Sandbox.root" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ninjachef.recipes.sandbox.Sandbox.sandbox">
+<code class="descname">sandbox</code><span class="sig-paren">(</span><em>Path</em><span class="sig-paren">)</span><a class="headerlink" href="#ninjachef.recipes.sandbox.Sandbox.sandbox" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>root</strong> (<em>Union[str, Path]</em>) &#8211; Root path common to all projects that will be
+cooked. It won’t be possible to cook a project that lives outside
+this common prefix. This is also where the Ninja build file will be
+emitted. Can be absolute or relative.</li>
+<li><strong>sandbox</strong> (<em>Union[str, Path]</em>) &#8211; Path to the sandbox where headers and
+binaries will be placed. It can be entirely independent from <cite>root</cite>,
+and can be absolute or relative.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="ninjachef.recipes.sandbox.Sandbox.cook">
+<code class="descname">cook</code><span class="sig-paren">(</span><em>projs</em>, <em>flavors</em>, <em>comments=True</em>, <em>default_targets=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ninjachef/recipes/sandbox.html#Sandbox.cook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ninjachef.recipes.sandbox.Sandbox.cook" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="ninjachef.recipes.sandbox.Sandbox.rule">
+<code class="descname">rule</code><span class="sig-paren">(</span><em>name</em>, <em>flavor</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ninjachef/recipes/sandbox.html#Sandbox.rule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ninjachef.recipes.sandbox.Sandbox.rule" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="ninjachef.html">ninjachef package</a><ul>
+  <li><a href="ninjachef.recipes.html">ninjachef.recipes package</a><ul>
+      <li>Previous: <a href="ninjachef.recipes.recipe.html" title="previous chapter">ninjachef.recipes.recipe module</a></li>
+      <li>Next: <a href="ninjachef.cookbook.html" title="next chapter">ninjachef.cookbook module</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/auto/ninjachef.recipes.sandbox.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, lucdanton.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+      |
+      <a href="../_sources/auto/ninjachef.recipes.sandbox.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,7 @@
+ninjachef.ninja_syntax module
+=============================
+
+.. automodule:: ninjachef.ninja_syntax
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ninjachef.recipes.recipe &mdash; ninjachef 0.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="ninjachef 0.0.0 documentation" href="../../../index.html" />
+    <link rel="up" title="ninjachef.recipes" href="../recipes.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for ninjachef.recipes.recipe</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;Writing recipes.</span>
+
+<span class="sd">Helpful things for recipe writers.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABCMeta</span><span class="p">,</span> <span class="n">abstractmethod</span>
+
+<div class="viewcode-block" id="Recipe"><a class="viewcode-back" href="../../../auto/ninjachef.recipes.recipe.html#ninjachef.recipes.recipe.Recipe">[docs]</a><span class="k">class</span> <span class="nc">Recipe</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Abstract base class for recipes.</span>
+
+<span class="sd">    This is intended as a convenience for recipe writers, so that they may</span>
+<span class="sd">    verify their recipe is (superficially) correctly implemented.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">class</span> <span class="nc">_Rules</span><span class="p">(</span><span class="nb">list</span><span class="p">):</span>
+        <span class="n">phony</span>   <span class="o">=</span> <span class="s">&#39;phony&#39;</span>
+        <span class="n">copy</span>    <span class="o">=</span> <span class="s">&#39;copy&#39;</span>
+        <span class="n">copy_to</span> <span class="o">=</span> <span class="s">&#39;copy_to&#39;</span>
+
+    <span class="n">rules</span> <span class="o">=</span> <span class="n">_Rules</span><span class="p">([</span><span class="s">&#39;compile&#39;</span><span class="p">,</span> <span class="s">&#39;link_exe&#39;</span><span class="p">,</span> <span class="s">&#39;link_lib&#39;</span><span class="p">])</span>
+    <span class="sd">&quot;&quot;&quot;Supported rule names and flavor-agnostic rules.&quot;&quot;&quot;</span>
+
+    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="Recipe.rule"><a class="viewcode-back" href="../../../auto/ninjachef.recipes.recipe.html#ninjachef.recipes.recipe.Recipe.rule">[docs]</a>    <span class="k">def</span> <span class="nf">rule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">flavor</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute rule name.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name (str): Name of the rule to compute. Which rule names are</span>
+<span class="sd">                supported is documented by the `rules` attribute.</span>
+<span class="sd">            flavor (Flavor): Flavor the computed rule name will be associated</span>
+<span class="sd">                with.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: if the rule name is not supported</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</div>
+    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="Recipe.cook"><a class="viewcode-back" href="../../../auto/ninjachef.recipes.recipe.html#ninjachef.recipes.recipe.Recipe.cook">[docs]</a>    <span class="k">def</span> <span class="nf">cook</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">projs</span><span class="p">,</span> <span class="n">flavors</span><span class="p">,</span> <span class="n">default_target</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Produce Ninja file directives.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            projs (Sequence[Project]):</span>
+<span class="sd">            flavors (Sequence[Flavor]):</span>
+
+<span class="sd">        Keyword Args:</span>
+<span class="sd">            default_target (Union[None, str, Sequence[str]]): If present,</span>
+<span class="sd">                default Ninja target or targets to set. A recipe may opt to not</span>
+<span class="sd">                honor this request.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            CyclicDependencyError: if there is a cycle in the dependencies.</span>
+<span class="sd">            DuplicateNameError: if a duplicate name was detected.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">pass</span>
+</div></div>
+<div class="viewcode-block" id="CyclicDependencyError"><a class="viewcode-back" href="../../../auto/ninjachef.recipes.recipe.html#ninjachef.recipes.recipe.CyclicDependencyError">[docs]</a><span class="k">class</span> <span class="nc">CyclicDependencyError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Error when cyclic dependencies are detected.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        deps (Any)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        deps (Any): The dependencies where a cycle was detected.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">deps</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="s">&#39;cycle detected in dependencies: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">deps</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">deps</span> <span class="o">=</span> <span class="n">deps</span>
+</div>
+<div class="viewcode-block" id="DuplicateNameError"><a class="viewcode-back" href="../../../auto/ninjachef.recipes.recipe.html#ninjachef.recipes.recipe.DuplicateNameError">[docs]</a><span class="k">class</span> <span class="nc">DuplicateNameError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Error when a duplicate name is detected.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        dups (List[str])</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        dups (Sequence[str]): The duplicate names that were detected.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dups</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="s">&#39;duplicate name(s) detected: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dups</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dups</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">dups</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="DependencyError"><a class="viewcode-back" href="../../../auto/ninjachef.recipes.recipe.html#ninjachef.recipes.recipe.DependencyError">[docs]</a><span class="k">class</span> <span class="nc">DependencyError</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Error when resolving dependencies.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">pass</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  <li><a href="../recipes.html">ninjachef.recipes</a><ul>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, lucdanton.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

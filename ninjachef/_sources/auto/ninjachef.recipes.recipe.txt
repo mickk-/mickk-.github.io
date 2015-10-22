@@ -1,0 +1,7 @@
+ninjachef.recipes.recipe module
+===============================
+
+.. automodule:: ninjachef.recipes.recipe
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,0 +1,7 @@
+ninjachef._tools module
+=======================
+
+.. automodule:: ninjachef._tools
+    :members:
+    :undoc-members:
+    :show-inheritance:

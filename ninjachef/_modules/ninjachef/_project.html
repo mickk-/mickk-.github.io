@@ -1,0 +1,518 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ninjachef._project &mdash; ninjachef 0.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="ninjachef 0.0.0 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for ninjachef._project</h1><div class="highlight"><pre>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">copy</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span>
+<span class="kn">import</span> <span class="nn">importlib.machinery</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">PurePath</span><span class="p">,</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">._tools</span> <span class="kn">import</span> <span class="n">cd</span>
+
+<div class="viewcode-block" id="Deps"><a class="viewcode-back" href="../../auto/ninjachef.cookbook.html#ninjachef.cookbook.Deps">[docs]</a><span class="k">class</span> <span class="nc">Deps</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A list of dependencies.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        deps (List[Union[str, Tuple[str, ...]])</span>
+<span class="sd">        local_deps (List[Ingredient])</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        *deps (Tuple[Union[str, Tuple[str, ...], ...]): A tuple of external</span>
+<span class="sd">            dependencies. It will be up to the recipe to interpret and take the</span>
+<span class="sd">            appropriate precautions for each dependency.</span>
+
+<span class="sd">            Each individual dependency can take the form of a :class:`.str`</span>
+<span class="sd">            (e.g. ``&#39;boost_system&#39;``) or a `Tuple[str, ...]` (e.g. ``(&#39;foo&#39;,</span>
+<span class="sd">            &#39;bar&#39;)``). With these examples, a recipe might choose to use the</span>
+<span class="sd">            system-installed Boost.System library and the `bar` component of a</span>
+<span class="sd">            ninjachef-aware `foo` project.</span>
+
+<span class="sd">    Keyword Args:</span>
+<span class="sd">        local (Sequence[Ingredient]): A sequence of internal dependencies. Those</span>
+<span class="sd">            must be other :class:`Ingredients &lt;.Ingredient&gt;` defined in the same</span>
+<span class="sd">            project. This typically happens for testsuites::</span>
+
+<span class="sd">                self = Binary(…)</span>
+<span class="sd">                test_files = Files(…)</span>
+<span class="sd">                test = Binary(self.files | test_files,</span>
+<span class="sd">                              main=…,</span>
+<span class="sd">                              deps=Deps(local=[self]))</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">deps</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">deps</span>       <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">deps</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">local_deps</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">local</span><span class="p">)</span> <span class="k">if</span> <span class="n">local</span> <span class="k">else</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="s">&#39;{{cls}}({args})&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="s">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;{deps}&#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">deps</span> <span class="k">else</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;local={self.local_deps}&#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">local_deps</span> <span class="k">else</span> <span class="s">&#39;&#39;</span><span class="p">])))</span>
+        <span class="k">return</span> <span class="n">message</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cls</span><span class="o">=</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">deps</span><span class="o">=</span><span class="s">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">repr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">deps</span><span class="p">)))</span>
+
+<div class="viewcode-block" id="Deps.__or__"><a class="viewcode-back" href="../../auto/ninjachef.cookbook.html#ninjachef.cookbook.Deps.__or__">[docs]</a>    <span class="k">def</span> <span class="nf">__or__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Merge two lists of dependencies.</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; d = Deps(&#39;a&#39;) | Deps(&#39;b&#39;) | Deps((&#39;a&#39;, &#39;b&#39;))</span>
+<span class="sd">            &gt;&gt;&gt; list(map(str, d.deps))</span>
+<span class="sd">            [&#39;a&#39;, &#39;b&#39;, &quot;(&#39;a&#39;, &#39;b&#39;)&quot;]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">r</span> <span class="o">=</span> <span class="n">Deps</span><span class="p">()</span>
+        <span class="n">r</span><span class="o">.</span><span class="n">deps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">deps</span> <span class="o">+</span> <span class="n">other</span><span class="o">.</span><span class="n">deps</span>
+        <span class="n">r</span><span class="o">.</span><span class="n">local_deps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">local_deps</span> <span class="o">+</span> <span class="n">other</span><span class="o">.</span><span class="n">local_deps</span>
+        <span class="k">return</span> <span class="n">r</span>
+</div></div>
+<div class="viewcode-block" id="Files"><a class="viewcode-back" href="../../auto/ninjachef.cookbook.html#ninjachef.cookbook.Files">[docs]</a><span class="k">class</span> <span class="nc">Files</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A set of paths to files.</span>
+
+<span class="sd">    A :class:`.Files` object can be created from either :class:`.str` paths (but</span>
+<span class="sd">    not separate path fragments) or :class:`.PurePath` objects.</span>
+
+<span class="sd">    Attribute:</span>
+<span class="sd">        paths (Set[PurePath])</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        *paths (Tuple[Union[str, PurePath], ...]): The paths to the files to</span>
+<span class="sd">            refer to; or the paths to glob from (see keyword arguments</span>
+<span class="sd">            `pattern`, `patterns`).</span>
+
+<span class="sd">    Keyword Args:</span>
+<span class="sd">        pattern (Optional[str]): A glob-style pattern which will be used with</span>
+<span class="sd">            the specified `paths` to collect all matching files. If neither</span>
+<span class="sd">            `pattern` nor `patterns` is provided, no globbing (or any</span>
+<span class="sd">            file system operation) will be performed and the specified `paths`</span>
+<span class="sd">            will be stored directly.</span>
+<span class="sd">        patterns (Optional[Sequence[str]]): A sequence of glob-style patterns to</span>
+<span class="sd">            use for matching, see `pattern`.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; # Use the specified paths directly, no file system operation</span>
+<span class="sd">        &gt;&gt;&gt; fs = Files(&#39;a&#39;, os.path.join(&#39;b&#39;, &#39;c&#39;))</span>
+<span class="sd">        &gt;&gt;&gt; len(fs.paths)</span>
+<span class="sd">        2</span>
+<span class="sd">        &gt;&gt;&gt; # Will walk down a and b/c to collect all matching files</span>
+<span class="sd">        &gt;&gt;&gt; Files(&#39;a&#39;, PurePath(&#39;b&#39;, &#39;c&#39;), patterns=[&#39;*.cxx&#39;, &#39;*.cpp&#39;])</span>
+<span class="sd">        Files(...)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">paths</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">patterns</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">pattern</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">patterns</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">paths</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">PurePath</span><span class="p">,</span> <span class="n">paths</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ps</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+            <span class="n">patterns</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">patterns</span> <span class="ow">or</span> <span class="p">[])</span>
+            <span class="k">if</span> <span class="n">pattern</span><span class="p">:</span>
+                <span class="n">patterns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="n">patterns</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">root</span> <span class="ow">in</span> <span class="n">paths</span><span class="p">:</span>
+                    <span class="n">ps</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">root</span><span class="p">)</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="n">pattern</span><span class="p">))</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">paths</span> <span class="o">=</span> <span class="n">ps</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;{cls}({paths})&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cls</span><span class="o">=</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">paths</span><span class="o">=</span><span class="s">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">repr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="p">)))</span>
+
+<div class="viewcode-block" id="Files.__or__"><a class="viewcode-back" href="../../auto/ninjachef.cookbook.html#ninjachef.cookbook.Files.__or__">[docs]</a>    <span class="k">def</span> <span class="nf">__or__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Merge two sets of files.</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; f = Files(&#39;a&#39;) | Files(&#39;b&#39;) | Files(PurePath(&#39;a&#39;))</span>
+<span class="sd">            &gt;&gt;&gt; sorted(map(str, f.paths))</span>
+<span class="sd">            [&#39;a&#39;, &#39;b&#39;]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">r</span> <span class="o">=</span> <span class="n">Files</span><span class="p">()</span>
+        <span class="n">r</span><span class="o">.</span><span class="n">paths</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">paths</span> <span class="o">|</span> <span class="n">other</span><span class="o">.</span><span class="n">paths</span>
+        <span class="k">return</span> <span class="n">r</span>
+</div></div>
+<div class="viewcode-block" id="Ingredient"><a class="viewcode-back" href="../../auto/ninjachef.html#ninjachef.cookbook.Ingredient">[docs]</a><span class="k">class</span> <span class="nc">Ingredient</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The base class for all the sorts of ingredients that can be used in</span>
+<span class="sd">    describing a project.</span>
+
+<span class="sd">    This is emphatically not an Abstract Base Class, and it is not meant to be</span>
+<span class="sd">    extended or derived from. This base class is used internally and is</span>
+<span class="sd">    documented for exposition purposes, in particular for recipe writers.</span>
+
+<span class="sd">    The ninjachef ingredients are intended to form a closed world of relatively</span>
+<span class="sd">    broad categories of things. In return, it makes it possible to define new</span>
+<span class="sd">    recipes (which are consumers of :class:`Projects &lt;.Project&gt;`, and hence</span>
+<span class="sd">    ingredients), even long after project descriptions have been written.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Ingredient.split"><a class="viewcode-back" href="../../auto/ninjachef.html#ninjachef.cookbook.Ingredient.split">[docs]</a>    <span class="k">def</span> <span class="nf">split</span><span class="p">(</span><span class="n">cont</span><span class="p">,</span> <span class="n">by</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">cls</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Split a container of :class:`Ingredients &lt;.Ingredient&gt;` into a</span>
+<span class="sd">        triple of :class:`.ProjectDeps`, :class:`.Headers`, and :class:`.Binary`</span>
+<span class="sd">        containers respectively.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            cont: The container to split. Must contain only :class:`Ingredients</span>
+<span class="sd">                &lt;.Ingredient&gt;` unless the `by` argument is specified. Can be an</span>
+<span class="sd">                iterable if `cls` is specified, but not an iterator.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A triple of containers, each discriminating against a specific kind</span>
+<span class="sd">            of :class:`.Ingredient`. In order: :class:`.ProjectDeps`,</span>
+<span class="sd">            :class:`.Headers`, and :class:`.Binary`.</span>
+
+<span class="sd">            The containers are the same as `cont` (e.g. a triple of :class:`sets</span>
+<span class="sd">            &lt;.set&gt;` for a :class:`.set` argument), unless `cls` is specified.</span>
+
+<span class="sd">        Keyword Args:</span>
+<span class="sd">            by (Optional[Union[str, Callable[..., Ingredient]]]): A projection</span>
+<span class="sd">                to single out an :class:`.Ingredient` out of a container</span>
+<span class="sd">                element, which will be used for partitioning. If not specified,</span>
+<span class="sd">                equivalent to using an identity function.</span>
+
+<span class="sd">                If a :class:`.str` is specified (e.g. ``&#39;foo&#39;``), equivalent to</span>
+<span class="sd">                passing ``by=lambda x: getattr(x, &#39;foo&#39;)``. Otherwise, a</span>
+<span class="sd">                callable is assumed and will be used on each element of the</span>
+<span class="sd">                container.</span>
+
+<span class="sd">                E.g. specifing ``by=lambda x: x[1]`` allows a container of</span>
+<span class="sd">                ``(name, ingr)`` pairs to be split according to the second</span>
+<span class="sd">                element of each pair. Note that the returned containers will</span>
+<span class="sd">                still contain ``(name, ingr)`` pairs (of appropriate type).</span>
+<span class="sd">                Compare to splitting a ``map(lambda x: x[1], cont)``, which</span>
+<span class="sd">                produces a triple of :class:`.Ingredient` containers.</span>
+
+<span class="sd">            cls (Optional[Type]): Explicit container type to use in the returned</span>
+<span class="sd">                triple. This makes it possible to pass in an iterable instead of</span>
+<span class="sd">                an actual container (e.g. a :class:`.dict_items`, when splitting</span>
+<span class="sd">                a :class:`.dict`).</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; e = Files()</span>
+<span class="sd">            &gt;&gt;&gt; ingrs = [Headers(e), ProjectDeps(), Headers(e), Binary(e), Binary(e), Binary(e)]</span>
+<span class="sd">            &gt;&gt;&gt; ds, hs, bs = Ingredient.split(ingrs)</span>
+<span class="sd">            &gt;&gt;&gt; len(ds)</span>
+<span class="sd">            1</span>
+<span class="sd">            &gt;&gt;&gt; len(hs)</span>
+<span class="sd">            2</span>
+<span class="sd">            &gt;&gt;&gt; len(bs)</span>
+<span class="sd">            3</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">by</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">attr</span> <span class="o">=</span> <span class="n">by</span>
+            <span class="n">by</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">by</span> <span class="o">=</span> <span class="n">by</span> <span class="ow">or</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">)</span>
+
+        <span class="n">cls</span> <span class="o">=</span> <span class="n">cls</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">cont</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">inst</span><span class="p">(</span><span class="n">base</span><span class="p">):</span>
+            <span class="k">return</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">by</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">base</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">cls</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="n">inst</span><span class="p">(</span><span class="n">ProjectDeps</span><span class="p">),</span> <span class="n">cont</span><span class="p">)),</span> <span class="n">cls</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="n">inst</span><span class="p">(</span><span class="n">Headers</span><span class="p">),</span> <span class="n">cont</span><span class="p">)),</span> <span class="n">cls</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="n">inst</span><span class="p">(</span><span class="n">Binary</span><span class="p">),</span> <span class="n">cont</span><span class="p">))</span>
+</div></div>
+<div class="viewcode-block" id="ProjectDeps"><a class="viewcode-back" href="../../auto/ninjachef.cookbook.html#ninjachef.cookbook.ProjectDeps">[docs]</a><span class="k">class</span> <span class="nc">ProjectDeps</span><span class="p">(</span><span class="n">Ingredient</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Project-wide external dependencies.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        project_deps (Deps): External dependencies, meaning that</span>
+<span class="sd">            ``project_deps.local_deps`` is empty.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        *deps (Tuple[Union[str, Tuple[str, ...]], ...]): A tuple of external</span>
+<span class="sd">            dependencies. See :class:`.Deps`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">deps</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">project_deps</span> <span class="o">=</span> <span class="n">Deps</span><span class="p">(</span><span class="o">*</span><span class="n">deps</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;{cls}({deps})&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cls</span><span class="o">=</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">deps</span><span class="o">=</span><span class="s">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">repr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">project_deps</span><span class="o">.</span><span class="n">deps</span><span class="p">)))</span>
+
+<div class="viewcode-block" id="ProjectDeps.__or__"><a class="viewcode-back" href="../../auto/ninjachef.cookbook.html#ninjachef.cookbook.ProjectDeps.__or__">[docs]</a>    <span class="k">def</span> <span class="nf">__or__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Merge two lists of external dependencies.</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; d = ProjectDeps(&#39;a&#39;) | ProjectDeps(&#39;b&#39;) | ProjectDeps((&#39;a&#39;, &#39;b&#39;))</span>
+<span class="sd">            &gt;&gt;&gt; d</span>
+<span class="sd">            ProjectDeps(&#39;a&#39;, &#39;b&#39;, (&#39;a&#39;, &#39;b&#39;))</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">r</span> <span class="o">=</span> <span class="n">ProjectDeps</span><span class="p">()</span>
+        <span class="n">r</span><span class="o">.</span><span class="n">project_deps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">project_deps</span> <span class="o">|</span> <span class="n">other</span><span class="o">.</span><span class="n">project_deps</span>
+        <span class="k">return</span> <span class="n">r</span>
+</div></div>
+<div class="viewcode-block" id="Headers"><a class="viewcode-back" href="../../auto/ninjachef.cookbook.html#ninjachef.cookbook.Headers">[docs]</a><span class="k">class</span> <span class="nc">Headers</span><span class="p">(</span><span class="n">Ingredient</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Installable headers.</span>
+
+<span class="sd">    This can be used by library projects (or library components within a</span>
+<span class="sd">    project) to specify that a particular set of headers is installable, e.g.</span>
+<span class="sd">    for development purposes.</span>
+
+<span class="sd">    This should *not* be used to describe how e.g. C++ ``#include`` directives</span>
+<span class="sd">    should be resolved, see :class:`.Binary` (in particular the</span>
+<span class="sd">    `includes` keyword argument) instead for that purpose.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        files (Files)</span>
+<span class="sd">        roots (Set[PurePath])</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        files (Files): The set of headers that should be installed.</span>
+
+<span class="sd">    Keyword Args:</span>
+<span class="sd">        roots (Sequence[Union[str, PurePath]): a sequence of paths serving as</span>
+<span class="sd">            candidate roots for the `files`. This allows the recipe to</span>
+<span class="sd">            eventually install headers at the correct location. E.g. given the</span>
+<span class="sd">            following::</span>
+
+<span class="sd">                hs = Headers(Files(path(&#39;include&#39;, &#39;location_0&#39;, &#39;foo.hpp&#39;),</span>
+<span class="sd">                                   path(&#39;include&#39;, &#39;location_a&#39;, &#39;location_b&#39;, &#39;bar&#39;, &#39;qux.hpp&#39;)),</span>
+<span class="sd">                             roots=[path(&#39;include&#39;, &#39;location_0&#39;),</span>
+<span class="sd">                                    path(&#39;include&#39;, &#39;location_a&#39;, &#39;location_b&#39;)])</span>
+
+<span class="sd">            then a recipe will know to install both ``foo.hpp`` and</span>
+<span class="sd">            ``bar/qux.hpp`` side-by-side at the same location (where exactly it</span>
+<span class="sd">            will do so depends on the precise recipe).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">files</span><span class="p">,</span> <span class="n">roots</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">files</span> <span class="o">=</span> <span class="n">files</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">roots</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">PurePath</span><span class="p">,</span> <span class="n">roots</span> <span class="ow">or</span> <span class="nb">set</span><span class="p">()))</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="s">&#39;{cls}(files={self.files}, roots={self.roots})&#39;</span>
+        <span class="k">return</span> <span class="n">message</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cls</span><span class="o">=</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Binary"><a class="viewcode-back" href="../../auto/ninjachef.cookbook.html#ninjachef.cookbook.Binary">[docs]</a><span class="k">class</span> <span class="nc">Binary</span><span class="p">(</span><span class="n">Ingredient</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Binary file.</span>
+
+<span class="sd">    Represents a given set of files that together can be compiled into a binary</span>
+<span class="sd">    file. If a `main` file is specified (see keyword argument `main`), the</span>
+<span class="sd">    produced binary is assumed to be an executable. Otherwise, it will be</span>
+<span class="sd">    assumed to be a library. A recipe may choose to override this behavior.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        files (Files): The files other than `main`.</span>
+<span class="sd">        main (Optional[PurePath]): The file containing the appropriate ``main``</span>
+<span class="sd">            function, if any.</span>
+<span class="sd">        includes (Set[PurePath])</span>
+<span class="sd">        deps (Deps)</span>
+<span class="sd">        defines (Set[str]): A set of C or C++ defines that should be used when</span>
+<span class="sd">            building this binary. This should be reserved for defines that are</span>
+<span class="sd">            unconditionally set. Build-specific flags (e.g. ``NDEBUG`` for a</span>
+<span class="sd">            release build) should be specified via the flavor.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        files (Files): The set of files that result in a binary. If the keyword</span>
+<span class="sd">            argument `main` is provided, its associated file will be ignored</span>
+<span class="sd">            here. This is convenient for executable tests which might want to</span>
+<span class="sd">            run their own ``main``::</span>
+
+<span class="sd">                self = Binary(Files(…),</span>
+<span class="sd">                              main=path(&#39;source&#39;, &#39;application_main.cpp&#39;))</span>
+<span class="sd">                test = Binary(self.files | Files(…),</span>
+<span class="sd">                              main=path(&#39;test&#39;, &#39;test_main.cpp&#39;))</span>
+
+<span class="sd">    Keyword Args:</span>
+<span class="sd">        main (Optional[Union[str, PurePath]]): An optional path to the file that</span>
+<span class="sd">            contains the appropriate ``main`` function, if relevant.</span>
+<span class="sd">        includes (Sequence[Union[str, PurePath]]): A sequence of paths</span>
+<span class="sd">            (relative to the project root) which are needed to properly resolve</span>
+<span class="sd">            C++ ``#include`` directives when it comes to the project-specific</span>
+<span class="sd">            headers.</span>
+<span class="sd">        deps (Deps): Binary-specific dependencies. If a dependency applies to</span>
+<span class="sd">            all binaries in a given project, consider using a separate</span>
+<span class="sd">            :class:`.ProjectDeps` component instead.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">files</span><span class="p">,</span> <span class="n">main</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">includes</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">deps</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="n">main</span> <span class="o">=</span> <span class="n">PurePath</span><span class="p">(</span><span class="n">main</span><span class="p">)</span> <span class="k">if</span> <span class="n">main</span> <span class="k">else</span> <span class="bp">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">files</span>    <span class="o">=</span> <span class="n">Files</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="nb">file</span> <span class="k">for</span> <span class="nb">file</span> <span class="ow">in</span> <span class="n">files</span><span class="o">.</span><span class="n">paths</span> <span class="k">if</span> <span class="nb">file</span> <span class="o">!=</span> <span class="n">main</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">main</span>     <span class="o">=</span> <span class="n">main</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">includes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">PurePath</span><span class="p">,</span> <span class="n">includes</span> <span class="ow">or</span> <span class="p">[]))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">deps</span>     <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">deps</span><span class="p">)</span> <span class="k">if</span> <span class="n">deps</span> <span class="k">else</span> <span class="n">Deps</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">defines</span>  <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="s">&#39;{cls}({self.files}, main={self.main}, includes={self.includes}, deps={self.deps})&#39;</span>
+        <span class="k">return</span> <span class="n">message</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cls</span><span class="o">=</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="IngredientError"><a class="viewcode-back" href="../../auto/ninjachef.html#ninjachef.cookbook.IngredientError">[docs]</a><span class="k">class</span> <span class="nc">IngredientError</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Error when analyzing an ingredient file.</span>
+
+<span class="sd">    Raised when loading an ingredient file goes wrong. Should be chained with</span>
+<span class="sd">    the actual exception that was raised during the import.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        path (Path): The path to the responsible ingredient file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        path (Union[str, Path]): Should be absolute for user-friendliness.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="s">&#39;error while importing ingredient file {path!r}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">PurePath</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Project"><a class="viewcode-back" href="../../auto/ninjachef.html#ninjachef.cookbook.Project">[docs]</a><span class="k">class</span> <span class="nc">Project</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The collected ninjachef-information of a project.</span>
+
+<span class="sd">    Present a :mod:`project description &lt;.cookbook&gt;` in Python form.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        path (PurePath): The root path of the project, which serves as a base</span>
+<span class="sd">            for :class:`.Ingredient` paths. It can be relative or absolute.</span>
+<span class="sd">        deps (Dict[str, Deps]): The mapping of names to :class:`.Deps`.</span>
+<span class="sd">        headers (Dict[str, Headers]): The mapping of names to :class:`.Headers`.</span>
+<span class="sd">        binaries (Dict[str, Binary]): The mapping of names to :class:`Binaries</span>
+<span class="sd">            &lt;.Binary&gt;`.</span>
+<span class="sd">        descr (Iterable[(str, Ingredient)]): The mapping of names to</span>
+<span class="sd">            :class:`Ingredients &lt;.Ingredient&gt;`. Equivalent to an iterable</span>
+<span class="sd">            containing all the entries of `deps`, `headers`, `binaries`.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        path (Union[str, PurePath]): Root path of the project.</span>
+<span class="sd">        descr (Mapping[str, Ingredient]): Project components, in the form of a</span>
+<span class="sd">            mapping of names to :class:`Ingredients &lt;.Ingredient&gt;`.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: if `descr` does not map names to :class:`Ingredients</span>
+<span class="sd">            &lt;.Ingredient&gt;`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">descr</span><span class="p">):</span>
+        <span class="n">deps</span>     <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="n">headers</span>  <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="n">binaries</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+        <span class="n">partitioning</span> <span class="o">=</span> <span class="p">[(</span><span class="n">ProjectDeps</span><span class="p">,</span> <span class="n">deps</span><span class="p">),</span> <span class="p">(</span><span class="n">Headers</span><span class="p">,</span> <span class="n">headers</span><span class="p">),</span> <span class="p">(</span><span class="n">Binary</span><span class="p">,</span> <span class="n">binaries</span><span class="p">)]</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">comp</span> <span class="ow">in</span> <span class="n">descr</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">cls</span><span class="p">,</span> <span class="n">cont</span> <span class="ow">in</span> <span class="n">partitioning</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">comp</span><span class="p">,</span> <span class="n">cls</span><span class="p">):</span>
+                    <span class="n">cont</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">comp</span>
+                    <span class="k">break</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;descr is not a mapping of names to ingredients: {descr}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">descr</span><span class="o">=</span><span class="n">descr</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">path</span>     <span class="o">=</span> <span class="n">PurePath</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">deps</span>     <span class="o">=</span> <span class="n">deps</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">headers</span>  <span class="o">=</span> <span class="n">headers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">binaries</span> <span class="o">=</span> <span class="n">binaries</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="s">&#39;{cls}(path={self.path}, descr={descr})&#39;</span>
+        <span class="k">return</span> <span class="n">message</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cls</span><span class="o">=</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">descr</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">descr</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">descr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">chain</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">deps</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">binaries</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Project.read"><a class="viewcode-back" href="../../auto/ninjachef.html#ninjachef.cookbook.Project.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="nb">file</span><span class="o">=</span><span class="s">&#39;ingredients.py&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Analyze a project to collect :class:`.Ingredient` information.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            path (Union[str, PurePath]): The root path of the project. An</span>
+<span class="sd">                ingredient file within that path will be looked up (see the</span>
+<span class="sd">                `file` keyword argument) and is assumed to contain a description</span>
+<span class="sd">                of the project (see :mod:`ninjachef.cookbook`).</span>
+
+<span class="sd">        Keyword Args:</span>
+<span class="sd">            file (str): The name of the ingredient file.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            OSError: if reading the ingredient file fails.</span>
+<span class="sd">            IngredientError: if importing the ingredient file otherwise fails.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Project: A description of the project.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">with</span> <span class="n">cd</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+            <span class="c"># load_module is deprecated in 3.4 but there is no suitable alternative yet</span>
+            <span class="n">loader</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">machinery</span><span class="o">.</span><span class="n">SourceFileLoader</span><span class="p">(</span><span class="n">PurePath</span><span class="p">(</span><span class="nb">file</span><span class="p">)</span><span class="o">.</span><span class="n">stem</span><span class="p">,</span> <span class="nb">file</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">module</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">load_module</span><span class="p">()</span>
+            <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+                <span class="k">raise</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">IngredientError</span><span class="p">(</span><span class="n">Path</span><span class="p">()</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span> <span class="o">/</span> <span class="nb">file</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">exc</span>
+            <span class="n">descr</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">module</span><span class="o">.</span><span class="n">__dict__</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">Ingredient</span><span class="p">)}</span>
+            <span class="k">return</span> <span class="n">cls</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">descr</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, lucdanton.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

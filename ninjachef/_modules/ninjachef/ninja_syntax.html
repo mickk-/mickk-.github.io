@@ -1,0 +1,261 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ninjachef.ninja_syntax &mdash; ninjachef 0.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="ninjachef 0.0.0 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for ninjachef.ninja_syntax</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/python</span>
+
+<span class="sd">&quot;&quot;&quot;Python module for generating .ninja files.</span>
+
+<span class="sd">Note that this is emphatically not a required piece of Ninja; it&#39;s</span>
+<span class="sd">just a helpful utility for build-file-generation systems that already</span>
+<span class="sd">use Python.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">textwrap</span>
+
+<div class="viewcode-block" id="escape_path"><a class="viewcode-back" href="../../auto/ninjachef.ninja_syntax.html#ninjachef.ninja_syntax.escape_path">[docs]</a><span class="k">def</span> <span class="nf">escape_path</span><span class="p">(</span><span class="n">word</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">word</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;$ &#39;</span><span class="p">,</span> <span class="s">&#39;$$ &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">,</span> <span class="s">&#39;$ &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;:&#39;</span><span class="p">,</span> <span class="s">&#39;$:&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Writer"><a class="viewcode-back" href="../../auto/ninjachef.ninja_syntax.html#ninjachef.ninja_syntax.Writer">[docs]</a><span class="k">class</span> <span class="nc">Writer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">78</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="n">output</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">width</span>
+
+<div class="viewcode-block" id="Writer.newline"><a class="viewcode-back" href="../../auto/ninjachef.ninja_syntax.html#ninjachef.ninja_syntax.Writer.newline">[docs]</a>    <span class="k">def</span> <span class="nf">newline</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Writer.comment"><a class="viewcode-back" href="../../auto/ninjachef.ninja_syntax.html#ninjachef.ninja_syntax.Writer.comment">[docs]</a>    <span class="k">def</span> <span class="nf">comment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">2</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;# &#39;</span> <span class="o">+</span> <span class="n">line</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Writer.variable"><a class="viewcode-back" href="../../auto/ninjachef.ninja_syntax.html#ninjachef.ninja_syntax.Writer.variable">[docs]</a>    <span class="k">def</span> <span class="nf">variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="s">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>  <span class="c"># Filter out empty strings.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_line</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s"> = </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">),</span> <span class="n">indent</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Writer.pool"><a class="viewcode-back" href="../../auto/ninjachef.ninja_syntax.html#ninjachef.ninja_syntax.Writer.pool">[docs]</a>    <span class="k">def</span> <span class="nf">pool</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">depth</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_line</span><span class="p">(</span><span class="s">&#39;pool </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s">&#39;depth&#39;</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Writer.rule"><a class="viewcode-back" href="../../auto/ninjachef.ninja_syntax.html#ninjachef.ninja_syntax.Writer.rule">[docs]</a>    <span class="k">def</span> <span class="nf">rule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">depfile</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+             <span class="n">generator</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">restat</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">rspfile</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+             <span class="n">rspfile_content</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">deps</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_line</span><span class="p">(</span><span class="s">&#39;rule </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s">&#39;command&#39;</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">description</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s">&#39;description&#39;</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">depfile</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s">&#39;depfile&#39;</span><span class="p">,</span> <span class="n">depfile</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">generator</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s">&#39;generator&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">pool</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s">&#39;pool&#39;</span><span class="p">,</span> <span class="n">pool</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">restat</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s">&#39;restat&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">rspfile</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s">&#39;rspfile&#39;</span><span class="p">,</span> <span class="n">rspfile</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">rspfile_content</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s">&#39;rspfile_content&#39;</span><span class="p">,</span> <span class="n">rspfile_content</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">deps</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s">&#39;deps&#39;</span><span class="p">,</span> <span class="n">deps</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Writer.build"><a class="viewcode-back" href="../../auto/ninjachef.ninja_syntax.html#ninjachef.ninja_syntax.Writer.build">[docs]</a>    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">rule</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">implicit</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">order_only</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+              <span class="n">variables</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="n">as_list</span><span class="p">(</span><span class="n">outputs</span><span class="p">)</span>
+        <span class="n">out_outputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">escape_path</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">outputs</span><span class="p">]</span>
+        <span class="n">all_inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">escape_path</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">as_list</span><span class="p">(</span><span class="n">inputs</span><span class="p">)]</span>
+
+        <span class="k">if</span> <span class="n">implicit</span><span class="p">:</span>
+            <span class="n">implicit</span> <span class="o">=</span> <span class="p">[</span><span class="n">escape_path</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">as_list</span><span class="p">(</span><span class="n">implicit</span><span class="p">)]</span>
+            <span class="n">all_inputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;|&#39;</span><span class="p">)</span>
+            <span class="n">all_inputs</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">implicit</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">order_only</span><span class="p">:</span>
+            <span class="n">order_only</span> <span class="o">=</span> <span class="p">[</span><span class="n">escape_path</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">as_list</span><span class="p">(</span><span class="n">order_only</span><span class="p">)]</span>
+            <span class="n">all_inputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;||&#39;</span><span class="p">)</span>
+            <span class="n">all_inputs</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">order_only</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_line</span><span class="p">(</span><span class="s">&#39;build </span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="s">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">out_outputs</span><span class="p">),</span>
+                                     <span class="s">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">rule</span><span class="p">]</span> <span class="o">+</span> <span class="n">all_inputs</span><span class="p">)))</span>
+
+        <span class="k">if</span> <span class="n">variables</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">variables</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="n">iterator</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">variables</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">iterator</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">variables</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">iterator</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">outputs</span>
+</div>
+<div class="viewcode-block" id="Writer.include"><a class="viewcode-back" href="../../auto/ninjachef.ninja_syntax.html#ninjachef.ninja_syntax.Writer.include">[docs]</a>    <span class="k">def</span> <span class="nf">include</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_line</span><span class="p">(</span><span class="s">&#39;include </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">path</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Writer.subninja"><a class="viewcode-back" href="../../auto/ninjachef.ninja_syntax.html#ninjachef.ninja_syntax.Writer.subninja">[docs]</a>    <span class="k">def</span> <span class="nf">subninja</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_line</span><span class="p">(</span><span class="s">&#39;subninja </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">path</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Writer.default"><a class="viewcode-back" href="../../auto/ninjachef.ninja_syntax.html#ninjachef.ninja_syntax.Writer.default">[docs]</a>    <span class="k">def</span> <span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">paths</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_line</span><span class="p">(</span><span class="s">&#39;default </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="s">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">as_list</span><span class="p">(</span><span class="n">paths</span><span class="p">)))</span>
+</div>
+    <span class="k">def</span> <span class="nf">_count_dollars_before_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns the number of &#39;$&#39; characters right in front of s[i].&quot;&quot;&quot;</span>
+        <span class="n">dollar_count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">dollar_index</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">while</span> <span class="n">dollar_index</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">s</span><span class="p">[</span><span class="n">dollar_index</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;$&#39;</span><span class="p">:</span>
+            <span class="n">dollar_count</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">dollar_index</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">dollar_count</span>
+
+    <span class="k">def</span> <span class="nf">_line</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Write &#39;text&#39; word-wrapped at self.width characters.&quot;&quot;&quot;</span>
+        <span class="n">leading_space</span> <span class="o">=</span> <span class="s">&#39;  &#39;</span> <span class="o">*</span> <span class="n">indent</span>
+        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">leading_space</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">:</span>
+            <span class="c"># The text is too wide; wrap if possible.</span>
+
+            <span class="c"># Find the rightmost space that would obey our width constraint and</span>
+            <span class="c"># that&#39;s not an escaped space.</span>
+            <span class="n">available_space</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">leading_space</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="s">&#39; $&#39;</span><span class="p">)</span>
+            <span class="n">space</span> <span class="o">=</span> <span class="n">available_space</span>
+            <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+                <span class="n">space</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">rfind</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">space</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">space</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_count_dollars_before_index</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">space</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+                    <span class="k">break</span>
+
+            <span class="k">if</span> <span class="n">space</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="c"># No such space; just use the first unescaped space we can find.</span>
+                <span class="n">space</span> <span class="o">=</span> <span class="n">available_space</span> <span class="o">-</span> <span class="mi">1</span>
+                <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+                    <span class="n">space</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">,</span> <span class="n">space</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">space</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_count_dollars_before_index</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">space</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+                        <span class="k">break</span>
+            <span class="k">if</span> <span class="n">space</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="c"># Give up on breaking.</span>
+                <span class="k">break</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">leading_space</span> <span class="o">+</span> <span class="n">text</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">space</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39; $</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">space</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span>
+
+            <span class="c"># Subsequent lines are continuations, so indent them.</span>
+            <span class="n">leading_space</span> <span class="o">=</span> <span class="s">&#39;  &#39;</span> <span class="o">*</span> <span class="p">(</span><span class="n">indent</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">leading_space</span> <span class="o">+</span> <span class="n">text</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Writer.close"><a class="viewcode-back" href="../../auto/ninjachef.ninja_syntax.html#ninjachef.ninja_syntax.Writer.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+</div></div>
+<div class="viewcode-block" id="as_list"><a class="viewcode-back" href="../../auto/ninjachef.ninja_syntax.html#ninjachef.ninja_syntax.as_list">[docs]</a><span class="k">def</span> <span class="nf">as_list</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">input</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">input</span>
+    <span class="k">return</span> <span class="p">[</span><span class="nb">input</span><span class="p">]</span>
+
+</div>
+<div class="viewcode-block" id="escape"><a class="viewcode-back" href="../../auto/ninjachef.ninja_syntax.html#ninjachef.ninja_syntax.escape">[docs]</a><span class="k">def</span> <span class="nf">escape</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Escape a string such that it can be embedded into a Ninja file without</span>
+<span class="sd">    further interpretation.&quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">string</span><span class="p">,</span> <span class="s">&#39;Ninja syntax does not allow newlines&#39;</span>
+    <span class="c"># We only have one special metacharacter: &#39;$&#39;.</span>
+    <span class="k">return</span> <span class="n">string</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;$&#39;</span><span class="p">,</span> <span class="s">&#39;$$&#39;</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="expand"><a class="viewcode-back" href="../../auto/ninjachef.ninja_syntax.html#ninjachef.ninja_syntax.expand">[docs]</a><span class="k">def</span> <span class="nf">expand</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="nb">vars</span><span class="p">,</span> <span class="n">local_vars</span><span class="o">=</span><span class="p">{}):</span>
+    <span class="sd">&quot;&quot;&quot;Expand a string containing $vars as Ninja would.</span>
+
+<span class="sd">    Note: doesn&#39;t handle the full Ninja variable syntax, but it&#39;s enough</span>
+<span class="sd">    to make configure.py&#39;s use of it work.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">exp</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+        <span class="n">var</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">var</span> <span class="o">==</span> <span class="s">&#39;$&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s">&#39;$&#39;</span>
+        <span class="k">return</span> <span class="n">local_vars</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="nb">vars</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">r&#39;\$(\$|\w*)&#39;</span><span class="p">,</span> <span class="n">exp</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, lucdanton.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

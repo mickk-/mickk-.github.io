@@ -1,0 +1,7 @@
+ninjachef.project module
+========================
+
+.. automodule:: ninjachef.project
+    :members:
+    :undoc-members:
+    :show-inheritance:

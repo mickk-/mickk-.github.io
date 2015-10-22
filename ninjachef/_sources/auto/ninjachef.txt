@@ -1,0 +1,26 @@
+ninjachef package
+=================
+
+Subpackages
+-----------
+
+.. toctree::
+
+    ninjachef.flavors
+    ninjachef.recipes
+
+Submodules
+----------
+
+.. toctree::
+
+   ninjachef.cookbook
+   ninjachef.ninja_syntax
+
+Module contents
+---------------
+
+.. automodule:: ninjachef
+    :members:
+    :undoc-members:
+    :show-inheritance:

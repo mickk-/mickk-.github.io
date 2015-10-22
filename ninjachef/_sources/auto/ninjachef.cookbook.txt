@@ -1,0 +1,7 @@
+ninjachef.cookbook module
+=========================
+
+.. automodule:: ninjachef.cookbook
+    :members:
+    :undoc-members:
+    :show-inheritance:

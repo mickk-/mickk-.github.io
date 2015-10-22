@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ninjachef.recipes &mdash; ninjachef 0.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="ninjachef 0.0.0 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for ninjachef.recipes</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="c">#TODO</span>
+<span class="n">CXX</span> <span class="o">=</span> <span class="s">&#39;g++&#39;</span>
+<span class="n">CXXFLAGS</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+<span class="n">SITECXXFLAGS</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+<span class="n">DEPS</span> <span class="o">=</span> <span class="s">&#39;gcc&#39;</span>
+
+<span class="n">PHONY</span>           <span class="o">=</span> <span class="s">&#39;phony&#39;</span>
+<span class="n">INSTALL_HEADERS</span> <span class="o">=</span> <span class="s">&#39;install-headers&#39;</span>
+<span class="n">COMPILE</span>         <span class="o">=</span> <span class="s">&#39;compile&#39;</span>
+<span class="n">LINK_EXE</span>        <span class="o">=</span> <span class="s">&#39;link-exe&#39;</span>
+<span class="n">LINK_LIB</span>        <span class="o">=</span> <span class="s">&#39;link-lib&#39;</span>
+<span class="n">TEST</span>            <span class="o">=</span> <span class="s">&#39;run-test&#39;</span>
+<span class="n">COPY</span>            <span class="o">=</span> <span class="s">&#39;copy&#39;</span>
+<span class="n">COPY_TO</span>         <span class="o">=</span> <span class="s">&#39;copy-to&#39;</span>
+
+<div class="viewcode-block" id="rules"><a class="viewcode-back" href="../../auto/ninjachef.recipes.html#ninjachef.recipes.rules">[docs]</a><span class="k">def</span> <span class="nf">rules</span><span class="p">(</span><span class="n">ninja</span><span class="p">):</span>
+    <span class="n">ninja</span><span class="o">.</span><span class="n">rule</span><span class="p">(</span><span class="n">COMPILE</span><span class="p">,</span>
+            <span class="n">command</span> <span class="o">=</span> <span class="n">CXX</span> <span class="o">+</span> <span class="s">&#39; -MMD -MF $out.d -c&#39;</span> <span class="o">+</span> <span class="n">CXXFLAGS</span> <span class="o">+</span> <span class="s">&#39; $flavorcxxflags&#39;</span> <span class="o">+</span> <span class="n">SITECXXFLAGS</span> <span class="o">+</span> <span class="s">&#39; $in -o $out&#39;</span><span class="p">,</span>
+            <span class="n">deps</span> <span class="o">=</span> <span class="n">DEPS</span><span class="p">,</span>
+            <span class="n">depfile</span> <span class="o">=</span> <span class="s">&#39;$out.d&#39;</span><span class="p">,</span>
+            <span class="n">description</span> <span class="o">=</span> <span class="s">&#39;Compiling $in&#39;</span><span class="p">)</span>
+    <span class="n">ninja</span><span class="o">.</span><span class="n">rule</span><span class="p">(</span><span class="n">COPY_TO</span><span class="p">,</span>
+            <span class="n">command</span><span class="o">=</span><span class="s">&#39;cp --parents $in $destination&#39;</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s">&#39;Copying to $destination&#39;</span><span class="p">)</span>
+    <span class="n">ninja</span><span class="o">.</span><span class="n">rule</span><span class="p">(</span><span class="n">COPY</span><span class="p">,</span>
+            <span class="n">command</span><span class="o">=</span><span class="s">&#39;cp $in $out&#39;</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s">&#39;Copying $in&#39;</span><span class="p">)</span>
+    <span class="n">ninja</span><span class="o">.</span><span class="n">rule</span><span class="p">(</span><span class="n">LINK_EXE</span><span class="p">,</span>
+            <span class="n">command</span><span class="o">=</span><span class="s">&#39;g++ -o $out $in&#39;</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s">&#39;Linking $out&#39;</span><span class="p">)</span>
+    <span class="n">ninja</span><span class="o">.</span><span class="n">rule</span><span class="p">(</span><span class="n">LINK_LIB</span><span class="p">,</span>
+            <span class="n">command</span><span class="o">=</span><span class="s">&#39;g++ -c -o $out $in&#39;</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s">&#39;Linking $out&#39;</span><span class="p">)</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, lucdanton.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

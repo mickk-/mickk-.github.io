@@ -1,0 +1,7 @@
+ninjachef.flavors.gcc module
+============================
+
+.. automodule:: ninjachef.flavors.gcc
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,0 +1,7 @@
+ninjachef.recipes.sandbox module
+================================
+
+.. automodule:: ninjachef.recipes.sandbox
+    :members:
+    :undoc-members:
+    :show-inheritance:

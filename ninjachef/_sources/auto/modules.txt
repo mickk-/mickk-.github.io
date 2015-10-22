@@ -1,0 +1,7 @@
+ninjachef
+=========
+
+.. toctree::
+   :maxdepth: 4
+
+   ninjachef

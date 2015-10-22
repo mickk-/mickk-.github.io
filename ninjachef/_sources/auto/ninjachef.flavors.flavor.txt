@@ -1,0 +1,7 @@
+ninjachef.flavors.flavor module
+===============================
+
+.. automodule:: ninjachef.flavors.flavor
+    :members:
+    :undoc-members:
+    :show-inheritance:

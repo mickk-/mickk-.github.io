@@ -1,0 +1,7 @@
+ninjachef.__main__ module
+=========================
+
+.. automodule:: ninjachef.__main__
+    :members:
+    :undoc-members:
+    :show-inheritance:

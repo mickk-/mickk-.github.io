@@ -1,0 +1,647 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ninjachef package &mdash; ninjachef 0.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="ninjachef 0.0.0 documentation" href="../index.html" />
+    <link rel="next" title="ninjachef.flavors package" href="ninjachef.flavors.html" />
+    <link rel="prev" title="Welcome to ninjachef’s documentation!" href="../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="ninjachef-package">
+<h1>ninjachef package<a class="headerlink" href="#ninjachef-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ninjachef.flavors.html">ninjachef.flavors package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ninjachef.flavors.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ninjachef.flavors.flavor.html">ninjachef.flavors.flavor module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ninjachef.flavors.gcc.html">ninjachef.flavors.gcc module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ninjachef.flavors.html#module-ninjachef.flavors">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ninjachef.recipes.html">ninjachef.recipes package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ninjachef.recipes.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ninjachef.recipes.recipe.html">ninjachef.recipes.recipe module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ninjachef.recipes.sandbox.html">ninjachef.recipes.sandbox module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ninjachef.recipes.html#module-ninjachef.recipes">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ninjachef.cookbook.html">ninjachef.cookbook module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ninjachef.ninja_syntax.html">ninjachef.ninja_syntax module</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="module-ninjachef">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-ninjachef" title="Permalink to this headline">¶</a></h2>
+<p>Describe projects and synthesize build files for the Ninja build system.</p>
+<p>This package makes it possible to describe the various files that make up
+a C++ software project. In turn, those descriptions can be collected to
+produce the Ninja build files for a project or projects.</p>
+<p>Importing <a class="reference internal" href="ninjachef.cookbook.html#module-ninjachef.cookbook" title="ninjachef.cookbook"><code class="xref py py-mod docutils literal"><span class="pre">ninjachef.cookbook</span></code></a> should be preferred when writing an
+ingredient file.</p>
+<dl class="class">
+<dt id="ninjachef.Deps">
+<em class="property">class </em><code class="descclassname">ninjachef.</code><code class="descname">Deps</code><span class="sig-paren">(</span><em>*deps</em>, <em>local=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ninjachef/_project.html#Deps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ninjachef.Deps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>A list of dependencies.</p>
+<dl class="attribute">
+<dt id="ninjachef.Deps.deps">
+<code class="descname">deps</code><span class="sig-paren">(</span><em>List[Union[str, Tuple[str, ...]]</em><span class="sig-paren">)</span><a class="headerlink" href="#ninjachef.Deps.deps" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ninjachef.Deps.local_deps">
+<code class="descname">local_deps</code><span class="sig-paren">(</span><em>List[Ingredient]</em><span class="sig-paren">)</span><a class="headerlink" href="#ninjachef.Deps.local_deps" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>*deps</strong> (<em>Tuple[Union[str, Tuple[str, ...], ...]</em>) &#8211; <p>A tuple of external
+dependencies. It will be up to the recipe to interpret and take the
+appropriate precautions for each dependency.</p>
+<p>Each individual dependency can take the form of a <code class="xref py py-class docutils literal"><span class="pre">str</span></code>
+(e.g. <code class="docutils literal"><span class="pre">'boost_system'</span></code>) or a <cite>Tuple[str, ...]</cite> (e.g. <code class="docutils literal"><span class="pre">('foo',</span>
+<span class="pre">'bar')</span></code>). With these examples, a recipe might choose to use the
+system-installed Boost.System library and the <cite>bar</cite> component of a
+ninjachef-aware <cite>foo</cite> project.</p>
+</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Keyword Arguments:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><p class="first"><strong>local</strong> (<em>Sequence[Ingredient]</em>) &#8211;
+A sequence of internal dependencies. Those
+must be other <a class="reference internal" href="#ninjachef.Ingredient" title="ninjachef.Ingredient"><code class="xref py py-class docutils literal"><span class="pre">Ingredients</span></code></a> defined in the same
+project. This typically happens for testsuites:</p>
+<div class="last highlight-python"><div class="highlight"><pre>self = Binary(…)
+test_files = Files(…)
+test = Binary(self.files | test_files,
+              main=…,
+              deps=Deps(local=[self]))
+</pre></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="ninjachef.Deps.__or__">
+<code class="descname">__or__</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ninjachef/_project.html#Deps.__or__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ninjachef.Deps.__or__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merge two lists of dependencies.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Deps</span><span class="p">(</span><span class="s">&#39;a&#39;</span><span class="p">)</span> <span class="o">|</span> <span class="n">Deps</span><span class="p">(</span><span class="s">&#39;b&#39;</span><span class="p">)</span> <span class="o">|</span> <span class="n">Deps</span><span class="p">((</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="n">deps</span><span class="p">))</span>
+<span class="go">[&#39;a&#39;, &#39;b&#39;, &quot;(&#39;a&#39;, &#39;b&#39;)&quot;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ninjachef.Files">
+<em class="property">class </em><code class="descclassname">ninjachef.</code><code class="descname">Files</code><span class="sig-paren">(</span><em>*paths</em>, <em>pattern=None</em>, <em>patterns=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ninjachef/_project.html#Files"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ninjachef.Files" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>A set of paths to files.</p>
+<p>A <a class="reference internal" href="#ninjachef.Files" title="ninjachef.Files"><code class="xref py py-class docutils literal"><span class="pre">Files</span></code></a> object can be created from either <code class="xref py py-class docutils literal"><span class="pre">str</span></code> paths (but
+not separate path fragments) or <code class="xref py py-class docutils literal"><span class="pre">PurePath</span></code> objects.</p>
+<dl class="docutils">
+<dt>Attribute:</dt>
+<dd>paths (Set[PurePath])</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>*paths</strong> (<em>Tuple[Union[str, PurePath], ...]</em>) &#8211; The paths to the files to
+refer to; or the paths to glob from (see keyword arguments
+<cite>pattern</cite>, <cite>patterns</cite>).</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Keyword Arguments:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><ul class="first last simple">
+<li><strong>pattern</strong> (<em>Optional[str]</em>) &#8211;
+A glob-style pattern which will be used with
+the specified <cite>paths</cite> to collect all matching files. If neither
+<cite>pattern</cite> nor <cite>patterns</cite> is provided, no globbing (or any
+file system operation) will be performed and the specified <cite>paths</cite>
+will be stored directly.</li>
+<li><strong>patterns</strong> (<em>Optional[Sequence[str]]</em>) &#8211;
+A sequence of glob-style patterns to
+use for matching, see <cite>pattern</cite>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="c"># Use the specified paths directly, no file system operation</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fs</span> <span class="o">=</span> <span class="n">Files</span><span class="p">(</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">fs</span><span class="o">.</span><span class="n">paths</span><span class="p">)</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># Will walk down a and b/c to collect all matching files</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Files</span><span class="p">(</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="n">PurePath</span><span class="p">(</span><span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">),</span> <span class="n">patterns</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;*.cxx&#39;</span><span class="p">,</span> <span class="s">&#39;*.cpp&#39;</span><span class="p">])</span>
+<span class="go">Files(...)</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="ninjachef.Files.__or__">
+<code class="descname">__or__</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ninjachef/_project.html#Files.__or__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ninjachef.Files.__or__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merge two sets of files.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">Files</span><span class="p">(</span><span class="s">&#39;a&#39;</span><span class="p">)</span> <span class="o">|</span> <span class="n">Files</span><span class="p">(</span><span class="s">&#39;b&#39;</span><span class="p">)</span> <span class="o">|</span> <span class="n">Files</span><span class="p">(</span><span class="n">PurePath</span><span class="p">(</span><span class="s">&#39;a&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">paths</span><span class="p">))</span>
+<span class="go">[&#39;a&#39;, &#39;b&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ninjachef.Ingredient">
+<em class="property">class </em><code class="descclassname">ninjachef.</code><code class="descname">Ingredient</code><a class="reference internal" href="../_modules/ninjachef/_project.html#Ingredient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ninjachef.Ingredient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>The base class for all the sorts of ingredients that can be used in
+describing a project.</p>
+<p>This is emphatically not an Abstract Base Class, and it is not meant to be
+extended or derived from. This base class is used internally and is
+documented for exposition purposes, in particular for recipe writers.</p>
+<p>The ninjachef ingredients are intended to form a closed world of relatively
+broad categories of things. In return, it makes it possible to define new
+recipes (which are consumers of <a class="reference internal" href="#ninjachef.Project" title="ninjachef.Project"><code class="xref py py-class docutils literal"><span class="pre">Projects</span></code></a>, and hence
+ingredients), even long after project descriptions have been written.</p>
+<dl class="staticmethod">
+<dt id="ninjachef.Ingredient.split">
+<em class="property">static </em><code class="descname">split</code><span class="sig-paren">(</span><em>cont</em>, <em>by=None</em>, <em>cls=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ninjachef/_project.html#Ingredient.split"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ninjachef.Ingredient.split" title="Permalink to this definition">¶</a></dt>
+<dd><p>Split a container of <a class="reference internal" href="#ninjachef.Ingredient" title="ninjachef.Ingredient"><code class="xref py py-class docutils literal"><span class="pre">Ingredients</span></code></a> into a
+triple of <a class="reference internal" href="#ninjachef.ProjectDeps" title="ninjachef.ProjectDeps"><code class="xref py py-class docutils literal"><span class="pre">ProjectDeps</span></code></a>, <a class="reference internal" href="#ninjachef.Headers" title="ninjachef.Headers"><code class="xref py py-class docutils literal"><span class="pre">Headers</span></code></a>, and <a class="reference internal" href="#ninjachef.Binary" title="ninjachef.Binary"><code class="xref py py-class docutils literal"><span class="pre">Binary</span></code></a>
+containers respectively.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>cont</strong> &#8211; The container to split. Must contain only <a class="reference internal" href="#ninjachef.Ingredient" title="ninjachef.Ingredient"><code class="xref py py-class docutils literal"><span class="pre">Ingredients</span></code></a> unless the <cite>by</cite> argument is specified. Can be an
+iterable if <cite>cls</cite> is specified, but not an iterator.</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><p>A triple of containers, each discriminating against a specific kind
+of <a class="reference internal" href="#ninjachef.Ingredient" title="ninjachef.Ingredient"><code class="xref py py-class docutils literal"><span class="pre">Ingredient</span></code></a>. In order: <a class="reference internal" href="#ninjachef.ProjectDeps" title="ninjachef.ProjectDeps"><code class="xref py py-class docutils literal"><span class="pre">ProjectDeps</span></code></a>,
+<a class="reference internal" href="#ninjachef.Headers" title="ninjachef.Headers"><code class="xref py py-class docutils literal"><span class="pre">Headers</span></code></a>, and <a class="reference internal" href="#ninjachef.Binary" title="ninjachef.Binary"><code class="xref py py-class docutils literal"><span class="pre">Binary</span></code></a>.</p>
+<p>The containers are the same as <cite>cont</cite> (e.g. a triple of <code class="xref py py-class docutils literal"><span class="pre">sets</span></code> for a <code class="xref py py-class docutils literal"><span class="pre">set</span></code> argument), unless <cite>cls</cite> is specified.</p>
+</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Keyword Arguments:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><ul class="first last">
+<li><p class="first"><strong>by</strong> (<em>Optional[Union[str, Callable[..., Ingredient]]]</em>) &#8211;
+A projection
+to single out an <a class="reference internal" href="#ninjachef.Ingredient" title="ninjachef.Ingredient"><code class="xref py py-class docutils literal"><span class="pre">Ingredient</span></code></a> out of a container
+element, which will be used for partitioning. If not specified,
+equivalent to using an identity function.</p>
+<p>If a <code class="xref py py-class docutils literal"><span class="pre">str</span></code> is specified (e.g. <code class="docutils literal"><span class="pre">'foo'</span></code>), equivalent to
+passing <code class="docutils literal"><span class="pre">by=lambda</span> <span class="pre">x:</span> <span class="pre">getattr(x,</span> <span class="pre">'foo')</span></code>. Otherwise, a
+callable is assumed and will be used on each element of the
+container.</p>
+<p>E.g. specifing <code class="docutils literal"><span class="pre">by=lambda</span> <span class="pre">x:</span> <span class="pre">x[1]</span></code> allows a container of
+<code class="docutils literal"><span class="pre">(name,</span> <span class="pre">ingr)</span></code> pairs to be split according to the second
+element of each pair. Note that the returned containers will
+still contain <code class="docutils literal"><span class="pre">(name,</span> <span class="pre">ingr)</span></code> pairs (of appropriate type).
+Compare to splitting a <code class="docutils literal"><span class="pre">map(lambda</span> <span class="pre">x:</span> <span class="pre">x[1],</span> <span class="pre">cont)</span></code>, which
+produces a triple of <a class="reference internal" href="#ninjachef.Ingredient" title="ninjachef.Ingredient"><code class="xref py py-class docutils literal"><span class="pre">Ingredient</span></code></a> containers.</p>
+</li>
+<li><p class="first"><strong>cls</strong> (<em>Optional[Type]</em>) &#8211;
+Explicit container type to use in the returned
+triple. This makes it possible to pass in an iterable instead of
+an actual container (e.g. a <code class="xref py py-class docutils literal"><span class="pre">dict_items</span></code>, when splitting
+a <code class="xref py py-class docutils literal"><span class="pre">dict</span></code>).</p>
+</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">e</span> <span class="o">=</span> <span class="n">Files</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ingrs</span> <span class="o">=</span> <span class="p">[</span><span class="n">Headers</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="n">ProjectDeps</span><span class="p">(),</span> <span class="n">Headers</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="n">Binary</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="n">Binary</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="n">Binary</span><span class="p">(</span><span class="n">e</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span><span class="p">,</span> <span class="n">hs</span><span class="p">,</span> <span class="n">bs</span> <span class="o">=</span> <span class="n">Ingredient</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">ingrs</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">hs</span><span class="p">)</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">bs</span><span class="p">)</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ninjachef.ProjectDeps">
+<em class="property">class </em><code class="descclassname">ninjachef.</code><code class="descname">ProjectDeps</code><span class="sig-paren">(</span><em>*deps</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ninjachef/_project.html#ProjectDeps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ninjachef.ProjectDeps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">ninjachef._project.Ingredient</span></code></p>
+<p>Project-wide external dependencies.</p>
+<dl class="attribute">
+<dt id="ninjachef.ProjectDeps.project_deps">
+<code class="descname">project_deps</code><a class="headerlink" href="#ninjachef.ProjectDeps.project_deps" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>Deps</em></p>
+<p>External dependencies, meaning that
+<code class="docutils literal"><span class="pre">project_deps.local_deps</span></code> is empty.</p>
+</dd></dl>
+
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>*deps</strong> (<em>Tuple[Union[str, Tuple[str, ...]], ...]</em>) &#8211; A tuple of external
+dependencies. See <a class="reference internal" href="#ninjachef.Deps" title="ninjachef.Deps"><code class="xref py py-class docutils literal"><span class="pre">Deps</span></code></a>.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="ninjachef.ProjectDeps.__or__">
+<code class="descname">__or__</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ninjachef/_project.html#ProjectDeps.__or__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ninjachef.ProjectDeps.__or__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merge two lists of external dependencies.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">ProjectDeps</span><span class="p">(</span><span class="s">&#39;a&#39;</span><span class="p">)</span> <span class="o">|</span> <span class="n">ProjectDeps</span><span class="p">(</span><span class="s">&#39;b&#39;</span><span class="p">)</span> <span class="o">|</span> <span class="n">ProjectDeps</span><span class="p">((</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span>
+<span class="go">ProjectDeps(&#39;a&#39;, &#39;b&#39;, (&#39;a&#39;, &#39;b&#39;))</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ninjachef.Headers">
+<em class="property">class </em><code class="descclassname">ninjachef.</code><code class="descname">Headers</code><span class="sig-paren">(</span><em>files</em>, <em>roots=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ninjachef/_project.html#Headers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ninjachef.Headers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">ninjachef._project.Ingredient</span></code></p>
+<p>Installable headers.</p>
+<p>This can be used by library projects (or library components within a
+project) to specify that a particular set of headers is installable, e.g.
+for development purposes.</p>
+<p>This should <em>not</em> be used to describe how e.g. C++ <code class="docutils literal"><span class="pre">#include</span></code> directives
+should be resolved, see <a class="reference internal" href="#ninjachef.Binary" title="ninjachef.Binary"><code class="xref py py-class docutils literal"><span class="pre">Binary</span></code></a> (in particular the
+<cite>includes</cite> keyword argument) instead for that purpose.</p>
+<dl class="attribute">
+<dt id="ninjachef.Headers.files">
+<code class="descname">files</code><span class="sig-paren">(</span><em>Files</em><span class="sig-paren">)</span><a class="headerlink" href="#ninjachef.Headers.files" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ninjachef.Headers.roots">
+<code class="descname">roots</code><span class="sig-paren">(</span><em>Set[PurePath]</em><span class="sig-paren">)</span><a class="headerlink" href="#ninjachef.Headers.roots" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>files</strong> (<a class="reference internal" href="ninjachef.cookbook.html#ninjachef.cookbook.Files" title="ninjachef.cookbook.Files"><em>Files</em></a>) &#8211; The set of headers that should be installed.</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Keyword Arguments:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><p class="first"><strong>roots</strong> (<em>Sequence[Union[str, PurePath]</em>) &#8211;
+a sequence of paths serving as
+candidate roots for the <cite>files</cite>. This allows the recipe to
+eventually install headers at the correct location. E.g. given the
+following:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">hs</span> <span class="o">=</span> <span class="n">Headers</span><span class="p">(</span><span class="n">Files</span><span class="p">(</span><span class="n">path</span><span class="p">(</span><span class="s">&#39;include&#39;</span><span class="p">,</span> <span class="s">&#39;location_0&#39;</span><span class="p">,</span> <span class="s">&#39;foo.hpp&#39;</span><span class="p">),</span>
+                   <span class="n">path</span><span class="p">(</span><span class="s">&#39;include&#39;</span><span class="p">,</span> <span class="s">&#39;location_a&#39;</span><span class="p">,</span> <span class="s">&#39;location_b&#39;</span><span class="p">,</span> <span class="s">&#39;bar&#39;</span><span class="p">,</span> <span class="s">&#39;qux.hpp&#39;</span><span class="p">)),</span>
+             <span class="n">roots</span><span class="o">=</span><span class="p">[</span><span class="n">path</span><span class="p">(</span><span class="s">&#39;include&#39;</span><span class="p">,</span> <span class="s">&#39;location_0&#39;</span><span class="p">),</span>
+                    <span class="n">path</span><span class="p">(</span><span class="s">&#39;include&#39;</span><span class="p">,</span> <span class="s">&#39;location_a&#39;</span><span class="p">,</span> <span class="s">&#39;location_b&#39;</span><span class="p">)])</span>
+</pre></div>
+</div>
+<p class="last">then a recipe will know to install both <code class="docutils literal"><span class="pre">foo.hpp</span></code> and
+<code class="docutils literal"><span class="pre">bar/qux.hpp</span></code> side-by-side at the same location (where exactly it
+will do so depends on the precise recipe).</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="ninjachef.Binary">
+<em class="property">class </em><code class="descclassname">ninjachef.</code><code class="descname">Binary</code><span class="sig-paren">(</span><em>files</em>, <em>main=None</em>, <em>includes=None</em>, <em>deps=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ninjachef/_project.html#Binary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ninjachef.Binary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">ninjachef._project.Ingredient</span></code></p>
+<p>Binary file.</p>
+<p>Represents a given set of files that together can be compiled into a binary
+file. If a <cite>main</cite> file is specified (see keyword argument <cite>main</cite>), the
+produced binary is assumed to be an executable. Otherwise, it will be
+assumed to be a library. A recipe may choose to override this behavior.</p>
+<dl class="attribute">
+<dt id="ninjachef.Binary.files">
+<code class="descname">files</code><a class="headerlink" href="#ninjachef.Binary.files" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>Files</em></p>
+<p>The files other than <cite>main</cite>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ninjachef.Binary.main">
+<code class="descname">main</code><a class="headerlink" href="#ninjachef.Binary.main" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>Optional[PurePath]</em></p>
+<p>The file containing the appropriate <code class="docutils literal"><span class="pre">main</span></code>
+function, if any.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ninjachef.Binary.includes">
+<code class="descname">includes</code><span class="sig-paren">(</span><em>Set[PurePath]</em><span class="sig-paren">)</span><a class="headerlink" href="#ninjachef.Binary.includes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ninjachef.Binary.deps">
+<code class="descname">deps</code><span class="sig-paren">(</span><em>Deps</em><span class="sig-paren">)</span><a class="headerlink" href="#ninjachef.Binary.deps" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ninjachef.Binary.defines">
+<code class="descname">defines</code><a class="headerlink" href="#ninjachef.Binary.defines" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>Set[str]</em></p>
+<p>A set of C or C++ defines that should be used when
+building this binary. This should be reserved for defines that are
+unconditionally set. Build-specific flags (e.g. <code class="docutils literal"><span class="pre">NDEBUG</span></code> for a
+release build) should be specified via the flavor.</p>
+</dd></dl>
+
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>files</strong> (<a class="reference internal" href="ninjachef.cookbook.html#ninjachef.cookbook.Files" title="ninjachef.cookbook.Files"><em>Files</em></a>) &#8211; <p>The set of files that result in a binary. If the keyword
+argument <cite>main</cite> is provided, its associated file will be ignored
+here. This is convenient for executable tests which might want to
+run their own <code class="docutils literal"><span class="pre">main</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre>self = Binary(Files(…),
+              main=path(&#39;source&#39;, &#39;application_main.cpp&#39;))
+test = Binary(self.files | Files(…),
+              main=path(&#39;test&#39;, &#39;test_main.cpp&#39;))
+</pre></div>
+</div>
+</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Keyword Arguments:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><ul class="first last simple">
+<li><strong>main</strong> (<em>Optional[Union[str, PurePath]]</em>) &#8211;
+An optional path to the file that
+contains the appropriate <code class="docutils literal"><span class="pre">main</span></code> function, if relevant.</li>
+<li><strong>includes</strong> (<em>Sequence[Union[str, PurePath]]</em>) &#8211;
+A sequence of paths
+(relative to the project root) which are needed to properly resolve
+C++ <code class="docutils literal"><span class="pre">#include</span></code> directives when it comes to the project-specific
+headers.</li>
+<li><strong>deps</strong> (<em>Deps</em>) &#8211;
+Binary-specific dependencies. If a dependency applies to
+all binaries in a given project, consider using a separate
+<a class="reference internal" href="#ninjachef.ProjectDeps" title="ninjachef.ProjectDeps"><code class="xref py py-class docutils literal"><span class="pre">ProjectDeps</span></code></a> component instead.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="exception">
+<dt id="ninjachef.IngredientError">
+<em class="property">exception </em><code class="descclassname">ninjachef.</code><code class="descname">IngredientError</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ninjachef/_project.html#IngredientError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ninjachef.IngredientError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">RuntimeError</span></code></p>
+<p>Error when analyzing an ingredient file.</p>
+<p>Raised when loading an ingredient file goes wrong. Should be chained with
+the actual exception that was raised during the import.</p>
+<dl class="attribute">
+<dt id="ninjachef.IngredientError.path">
+<code class="descname">path</code><a class="headerlink" href="#ninjachef.IngredientError.path" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>Path</em></p>
+<p>The path to the responsible ingredient file.</p>
+</dd></dl>
+
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> (<em>Union[str, Path]</em>) &#8211; Should be absolute for user-friendliness.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="ninjachef.Project">
+<em class="property">class </em><code class="descclassname">ninjachef.</code><code class="descname">Project</code><span class="sig-paren">(</span><em>path</em>, <em>descr</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ninjachef/_project.html#Project"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ninjachef.Project" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>The collected ninjachef-information of a project.</p>
+<p>Present a <a class="reference internal" href="ninjachef.cookbook.html#module-ninjachef.cookbook" title="ninjachef.cookbook"><code class="xref py py-mod docutils literal"><span class="pre">project</span> <span class="pre">description</span></code></a> in Python form.</p>
+<dl class="attribute">
+<dt id="ninjachef.Project.path">
+<code class="descname">path</code><a class="headerlink" href="#ninjachef.Project.path" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>PurePath</em></p>
+<p>The root path of the project, which serves as a base
+for <a class="reference internal" href="#ninjachef.Ingredient" title="ninjachef.Ingredient"><code class="xref py py-class docutils literal"><span class="pre">Ingredient</span></code></a> paths. It can be relative or absolute.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ninjachef.Project.deps">
+<code class="descname">deps</code><a class="headerlink" href="#ninjachef.Project.deps" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>Dict[str, Deps]</em></p>
+<p>The mapping of names to <a class="reference internal" href="#ninjachef.Deps" title="ninjachef.Deps"><code class="xref py py-class docutils literal"><span class="pre">Deps</span></code></a>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ninjachef.Project.headers">
+<code class="descname">headers</code><a class="headerlink" href="#ninjachef.Project.headers" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>Dict[str, Headers]</em></p>
+<p>The mapping of names to <a class="reference internal" href="#ninjachef.Headers" title="ninjachef.Headers"><code class="xref py py-class docutils literal"><span class="pre">Headers</span></code></a>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ninjachef.Project.binaries">
+<code class="descname">binaries</code><a class="headerlink" href="#ninjachef.Project.binaries" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>Dict[str, Binary]</em></p>
+<p>The mapping of names to <a class="reference internal" href="#ninjachef.Binary" title="ninjachef.Binary"><code class="xref py py-class docutils literal"><span class="pre">Binaries</span></code></a>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ninjachef.Project.descr">
+<code class="descname">descr</code><a class="headerlink" href="#ninjachef.Project.descr" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>Iterable[(str, Ingredient)]</em></p>
+<p>The mapping of names to
+<a class="reference internal" href="#ninjachef.Ingredient" title="ninjachef.Ingredient"><code class="xref py py-class docutils literal"><span class="pre">Ingredients</span></code></a>. Equivalent to an iterable
+containing all the entries of <cite>deps</cite>, <cite>headers</cite>, <cite>binaries</cite>.</p>
+</dd></dl>
+
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>path</strong> (<em>Union[str, PurePath]</em>) &#8211; Root path of the project.</li>
+<li><strong>descr</strong> (<em>Mapping[str, Ingredient]</em>) &#8211; Project components, in the form of a
+mapping of names to <a class="reference internal" href="#ninjachef.Ingredient" title="ninjachef.Ingredient"><code class="xref py py-class docutils literal"><span class="pre">Ingredients</span></code></a>.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal"><span class="pre">ValueError</span></code> &#8211;
+if <cite>descr</cite> does not map names to <a class="reference internal" href="#ninjachef.Ingredient" title="ninjachef.Ingredient"><code class="xref py py-class docutils literal"><span class="pre">Ingredients</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt>
+<code class="descname">descr</code></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="ninjachef.Project.read">
+<em class="property">classmethod </em><code class="descname">read</code><span class="sig-paren">(</span><em>path</em>, <em>file='ingredients.py'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ninjachef/_project.html#Project.read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ninjachef.Project.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Analyze a project to collect <a class="reference internal" href="#ninjachef.Ingredient" title="ninjachef.Ingredient"><code class="xref py py-class docutils literal"><span class="pre">Ingredient</span></code></a> information.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>path</strong> (<em>Union[str, PurePath]</em>) &#8211; The root path of the project. An
+ingredient file within that path will be looked up (see the
+<cite>file</cite> keyword argument) and is assumed to contain a description
+of the project (see <a class="reference internal" href="ninjachef.cookbook.html#module-ninjachef.cookbook" title="ninjachef.cookbook"><code class="xref py py-mod docutils literal"><span class="pre">ninjachef.cookbook</span></code></a>).</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Keyword Arguments:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><p class="first"><strong>file</strong> (<em>str</em>) &#8211;
+The name of the ingredient file.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first simple">
+<li><code class="xref py py-exc docutils literal"><span class="pre">OSError</span></code> &#8211;
+if reading the ingredient file fails.</li>
+<li><a class="reference internal" href="#ninjachef.IngredientError" title="ninjachef.IngredientError"><code class="xref py py-exc docutils literal"><span class="pre">IngredientError</span></code></a> &#8211;
+if importing the ingredient file otherwise fails.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A description of the project.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#ninjachef.Project" title="ninjachef.Project">Project</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">ninjachef package</a><ul>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-ninjachef">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../index.html" title="previous chapter">Welcome to ninjachef&#8217;s documentation!</a></li>
+      <li>Next: <a href="ninjachef.flavors.html" title="next chapter">ninjachef.flavors package</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/auto/ninjachef.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, lucdanton.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+      |
+      <a href="../_sources/auto/ninjachef.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

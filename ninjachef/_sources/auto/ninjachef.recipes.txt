@@ -1,0 +1,18 @@
+ninjachef.recipes package
+=========================
+
+Submodules
+----------
+
+.. toctree::
+
+   ninjachef.recipes.recipe
+   ninjachef.recipes.sandbox
+
+Module contents
+---------------
+
+.. automodule:: ninjachef.recipes
+    :members:
+    :undoc-members:
+    :show-inheritance:
