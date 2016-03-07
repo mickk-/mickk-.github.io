@@ -2,8 +2,9 @@
 layout: post
 title: Preliminaries
 series: Over-expressive Types
+slug: over-expressive-preliminaries
 categories: devlog
-topics: generic, concepts
+topics: generic concepts
 ---
 
 Did you know there are two features behind the C++11 `decltype` keyword[^1]? On the one hand you can
