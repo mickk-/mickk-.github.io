@@ -2,11 +2,12 @@
 safe: true
 
 # content
-keep_files: ["test.html", "ninjachef"]
+include: ["_modules", "_static"]
+exclude: ["Gemfile", "Gemfile.lock", "Session.vim"]
 show_drafts: null
 future: false
 lsi: false
 
 # rendering
-markdown: rdiscount
-highlighter: pygments
+markdown: kramdown
+highlighter: rouge
