@@ -6,8 +6,14 @@ include: ["_modules", "_static"]
 exclude: ["Gemfile", "Gemfile.lock", "Session.vim"]
 show_drafts: null
 future: false
+
+# presentation
+permalink: /:categories/:title
 lsi: false
 
-# rendering
+# conversion
 markdown: kramdown
+kramdown:
+    input: GFM
+    hard_wrap: false
 highlighter: rouge
