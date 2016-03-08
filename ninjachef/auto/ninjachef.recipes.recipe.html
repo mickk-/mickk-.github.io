@@ -93,13 +93,13 @@
 <dl class="class">
 <dt id="ninjachef.recipes.recipe.Recipe">
 <em class="property">class </em><code class="descclassname">ninjachef.recipes.recipe.</code><code class="descname">Recipe</code><a class="reference internal" href="../_modules/ninjachef/recipes/recipe.html#Recipe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ninjachef.recipes.recipe.Recipe" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">abc.ABC</span></code></p>
 <p>Abstract base class for recipes.</p>
 <p>This is intended as a convenience for recipe writers, so that they may
 verify their recipe is (superficially) correctly implemented.</p>
 <dl class="method">
 <dt id="ninjachef.recipes.recipe.Recipe.cook">
-<code class="descname">cook</code><span class="sig-paren">(</span><em>projs</em>, <em>flavors</em>, <em>default_target=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ninjachef/recipes/recipe.html#Recipe.cook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ninjachef.recipes.recipe.Recipe.cook" title="Permalink to this definition">¶</a></dt>
+<code class="descname">cook</code><span class="sig-paren">(</span><em>projs</em>, <em>flavors</em>, <em>ninja=None</em>, <em>*</em>, <em>default_target=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ninjachef/recipes/recipe.html#Recipe.cook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ninjachef.recipes.recipe.Recipe.cook" title="Permalink to this definition">¶</a></dt>
 <dd><p>Produce Ninja file directives.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -108,14 +108,23 @@ verify their recipe is (superficially) correctly implemented.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>projs</strong> (<em>Sequence[Project]</em>) &#8211; </li>
 <li><strong>flavors</strong> (<em>Sequence[Flavor]</em>) &#8211; </li>
+<li><strong>ninja</strong> (<em>Optional[Writer]</em>) &#8211; The <a class="reference internal" href="ninjachef.ninja_syntax.html#ninjachef.ninja_syntax.Writer" title="ninjachef.ninja_syntax.Writer"><code class="xref py py-class docutils literal"><span class="pre">Writer</span></code></a> to use when emitting
+directives. If unspecified, the directives will be emitted to a
+<code class="xref py py-class docutils literal"><span class="pre">str</span></code> instead.</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Keyword Arguments:</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><p class="first"><strong>default_target</strong> (<em>Union[None, str, Sequence[str]]</em>) &#8211;
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><ul class="first simple">
+<li><strong>default_target</strong> (<em>Union[None, str, Sequence[str]]</em>) &#8211;
 If present,
-default Ninja target or targets to set. A recipe may opt to not
-honor this request.</p>
+default Ninja target or targets to set. A recipe may opt not to
+honor this request.</li>
+<li><strong>**kwargs</strong> &#8211;
+Recipes may accept additional keyword arguments, for which
+behaviour is entirely recipe-specific. Non-supported arguments
+should be ignored by the recipe.</li>
+</ul>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first simple">
@@ -126,7 +135,12 @@ if a duplicate name was detected.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">str</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Either the <a class="reference internal" href="ninjachef.ninja_syntax.html#ninjachef.ninja_syntax.Writer" title="ninjachef.ninja_syntax.Writer"><code class="xref py py-class docutils literal"><span class="pre">Writer</span></code></a> that was specified
+(see <cite>ninja</cite>), or a <code class="xref py py-class docutils literal"><span class="pre">str</span></code> that holds the Ninja
+directives.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">Union[str, Writer]</p>
 </td>
 </tr>
 </tbody>
@@ -213,7 +227,7 @@ if the rule name is not supported</p>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2015, lucdanton.
+      &copy;2015, mickk.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>

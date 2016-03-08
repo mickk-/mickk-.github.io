@@ -48,6 +48,7 @@
 <span class="sd">    root</span>
 <span class="sd">    ├── sandbox</span>
 <span class="sd">    ├── foo</span>
+<span class="sd">    │   ├── ingredients.py</span>
 <span class="sd">    │   ├── include</span>
 <span class="sd">    │   │   ├── foo.hpp</span>
 <span class="sd">    │   │   └── …</span>
@@ -55,12 +56,15 @@
 <span class="sd">    │   │   ├── foo.cpp</span>
 <span class="sd">    │   │   └── …</span>
 <span class="sd">    │   └── test</span>
+<span class="sd">    │       ├── main.cpp</span>
 <span class="sd">    │       └── …</span>
 <span class="sd">    └── bar</span>
+<span class="sd">        ├── ingredients.py</span>
 <span class="sd">        ├── source</span>
 <span class="sd">        │   ├── main.cpp</span>
 <span class="sd">        │   └── …</span>
 <span class="sd">        └── test</span>
+<span class="sd">            ├── main.cpp</span>
 <span class="sd">            └── …</span>
 
 <span class="sd">This can be put to use via the following::</span>
@@ -84,7 +88,8 @@
 <span class="sd">For each `flavor`:</span>
 
 <span class="sd">    - library binaries are placed into ``sandbox/flavor/lib``</span>
-<span class="sd">    - executable binaries are placed into ``sandbox/flavor/bin/proj/``</span>
+<span class="sd">    - executable binaries are placed into ``sandbox/flavor/bin/proj``</span>
+<span class="sd">    - testsuite binaries are placed into ``sandbox/flavor/tests/proj``</span>
 <span class="sd">    - intermediate binaries are stowed inside ``sandbox/flavor/build/proj``</span>
 
 <span class="sd">Note that it is not necessary for ``sandbox`` to live within ``root``, it can be</span>
@@ -99,23 +104,29 @@
 <span class="sd">    │   │       ├── foo.hpp</span>
 <span class="sd">    │   │       └── …</span>
 <span class="sd">    │   └── gcc</span>
+<span class="sd">    │       ├── lib</span>
+<span class="sd">    │       │   └── libfoo.so</span>
 <span class="sd">    │       ├── bin</span>
+<span class="sd">    │       │   └── bar</span>
+<span class="sd">    │       │       └── bar</span>
+<span class="sd">    │       ├── tests</span>
 <span class="sd">    │       │   ├── foo</span>
 <span class="sd">    │       │   │   └── test</span>
 <span class="sd">    │       │   └── bar</span>
-<span class="sd">    │       │       ├── bar</span>
 <span class="sd">    │       │       └── test</span>
-<span class="sd">    │       ├── lib</span>
-<span class="sd">    │       │   └── libfoo.so</span>
 <span class="sd">    │       └── build</span>
 <span class="sd">    │           ├── foo</span>
 <span class="sd">    │           │   ├── source</span>
 <span class="sd">    │           │   │   ├── foo.o</span>
 <span class="sd">    │           │   │   └── …</span>
 <span class="sd">    │           │   └── test</span>
+<span class="sd">    │           │       ├── main.o</span>
 <span class="sd">    │           │       └── …</span>
 <span class="sd">    │           └── bar</span>
-<span class="sd">    │               └── source</span>
+<span class="sd">    │               ├── source</span>
+<span class="sd">    │               │   ├── main.o</span>
+<span class="sd">    │               │   └── …</span>
+<span class="sd">    │               └── test</span>
 <span class="sd">    │                   ├── main.o</span>
 <span class="sd">    │                   └── …</span>
 <span class="sd">    ├── foo</span>
@@ -129,9 +140,6 @@
 <span class="sd">    - it’s possible to work simultaneously on ``foo`` and ``bar`` even though</span>
 <span class="sd">      the latter depends on the former without having to install ``foo`` or</span>
 <span class="sd">      modify the system in any way</span>
-<span class="sd">    - any change to e.g. a specific header of ``foo`` will only trigger the</span>
-<span class="sd">      recompilation of those object files that depend on it inside both ``foo``</span>
-<span class="sd">      and ``bar``.</span>
 <span class="sd">    - any number of flavors (debug with compiler A, release with compiler A,</span>
 <span class="sd">      debug with compiler B, etc.) can live side-by-side</span>
 
@@ -146,7 +154,7 @@
 <span class="sd">    - mixing flavors can require some work, e.g. if one of the sand-boxed</span>
 <span class="sd">      projects require a different compiler than the rest</span>
 
-<span class="sd">Recipe behavior:</span>
+<span class="sd">Recipe behaviour:</span>
 
 <span class="sd">    - The root of a project is assumed to be the name of the project (e.g. a</span>
 <span class="sd">      project at ``path/to/foo`` will be named `foo`). This affects the `self`</span>
@@ -167,17 +175,29 @@
 <span class="sd">      As a consequence, if a sand-boxed project shares a name with a particular</span>
 <span class="sd">      library available on the system, it may easily end up shadowing it (for</span>
 <span class="sd">      better or for worse).</span>
+
+<span class="sd">Aliases:</span>
+<span class="sd">    - One per project for all its combined :class:`.Headers` components,</span>
+<span class="sd">      following the template `proj-headers` where `proj` is the project.</span>
+<span class="sd">    - One global `headers` for all project-specific header aliases.</span>
+<span class="sd">    - One per flavor for all non-testsuite components, named after the flavor.</span>
+<span class="sd">    - One per flavor for each :class:`.Testsuite` component, following the</span>
+<span class="sd">      template `run-flavor-proj-testsuite` where `flavor` is the flavor, `proj`</span>
+<span class="sd">      is the project, and `testsuite` is the component. In addition this alias</span>
+<span class="sd">      does not merely build the component but also runs the associated</span>
+<span class="sd">      executable or runner script (see :class:`.Testsuite`). Library testsuites</span>
+<span class="sd">      with no runner script will not be aliased.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">io</span>
 <span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">copy</span>
-<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span><span class="p">,</span> <span class="n">filterfalse</span><span class="p">,</span> <span class="n">groupby</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 
 <span class="kn">from</span> <span class="nn">.recipe</span> <span class="kn">import</span> <span class="n">Recipe</span><span class="p">,</span> <span class="n">CyclicDependencyError</span><span class="p">,</span> <span class="n">DuplicateNameError</span>
 <span class="kn">from</span> <span class="nn">..ninja_syntax</span> <span class="kn">import</span> <span class="n">Writer</span> <span class="k">as</span> <span class="n">Ninja</span>
-<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">Ingredient</span><span class="p">,</span> <span class="n">Binary</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">Ingredient</span><span class="p">,</span> <span class="n">Binary</span><span class="p">,</span> <span class="n">Testsuite</span>
 
 <span class="k">def</span> <span class="nf">_component_name</span><span class="p">(</span><span class="n">proj</span><span class="p">,</span> <span class="n">comp_name</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">comp_name</span> <span class="o">==</span> <span class="s">&#39;self&#39;</span><span class="p">:</span>
@@ -191,7 +211,6 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">dep</span>
 
-<span class="c"># We sort for the sake of humans, Ninja doesn&#39;t need it</span>
 <span class="k">def</span> <span class="nf">_toposorted</span><span class="p">(</span><span class="n">comps</span><span class="p">):</span>
     <span class="n">sandbox</span> <span class="o">=</span> <span class="p">{</span><span class="n">_norm_dep</span><span class="p">(</span><span class="n">comp</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">comp</span> <span class="ow">in</span> <span class="n">comps</span><span class="p">}</span>
     <span class="k">def</span> <span class="nf">any_in_sandbox</span><span class="p">(</span><span class="n">deps</span><span class="p">):</span>
@@ -200,7 +219,7 @@
     <span class="n">graph</span> <span class="o">=</span> <span class="p">{</span><span class="n">comp</span><span class="p">:</span> <span class="nb">set</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">_norm_dep</span><span class="p">,</span> <span class="n">comp</span><span class="o">.</span><span class="n">deps</span><span class="p">))</span> <span class="k">for</span> <span class="n">comp</span> <span class="ow">in</span> <span class="n">comps</span><span class="p">}</span>
     <span class="n">workset</span> <span class="o">=</span> <span class="p">{</span><span class="n">comp</span> <span class="k">for</span> <span class="n">comp</span><span class="p">,</span> <span class="n">deps</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">any_in_sandbox</span><span class="p">(</span><span class="n">deps</span><span class="p">)}</span>
     <span class="k">while</span> <span class="n">workset</span><span class="p">:</span>
-        <span class="k">yield</span> <span class="n">workset</span>
+        <span class="k">yield</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">workset</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">comp</span><span class="p">:</span> <span class="p">(</span><span class="n">comp</span><span class="o">.</span><span class="n">proj</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">comp</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
         <span class="c"># Update graph to remove yielded entries and to remove yielded entries from pending dependencies</span>
         <span class="n">graph</span> <span class="o">=</span> <span class="p">{</span>
             <span class="n">comp</span><span class="p">:</span> <span class="n">deps</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">comp</span><span class="p">:</span> <span class="p">(</span><span class="n">comp</span><span class="o">.</span><span class="n">proj</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">comp</span><span class="o">.</span><span class="n">name</span><span class="p">),</span> <span class="n">workset</span><span class="p">))</span>
@@ -270,11 +289,15 @@
 
             <span class="c"># We index by project and name to make it easy to lookup sandbox-local dependencies.</span>
             <span class="n">directory</span> <span class="o">=</span> <span class="p">{(</span><span class="n">comp</span><span class="o">.</span><span class="n">proj</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">comp</span><span class="o">.</span><span class="n">name</span><span class="p">):</span> <span class="n">comp</span> <span class="k">for</span> <span class="n">comp</span> <span class="ow">in</span> <span class="n">comps</span><span class="p">}</span>
-            <span class="n">reverse_directory</span> <span class="o">=</span> <span class="p">{</span><span class="n">comp</span><span class="o">.</span><span class="n">ingr</span><span class="p">:</span> <span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">comp</span> <span class="ow">in</span> <span class="n">directory</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
-            <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">reverse_directory</span><span class="p">),</span> <span class="s">&quot;ingredient mapping is not one-to-one&quot;</span>
+            <span class="n">reverse_directory</span> <span class="o">=</span> <span class="p">{</span><span class="n">comp</span><span class="o">.</span><span class="n">ingr</span><span class="p">:</span> <span class="n">comp</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">comp</span> <span class="ow">in</span> <span class="n">directory</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+            <span class="k">def</span> <span class="nf">dups</span><span class="p">(</span><span class="n">xs</span><span class="p">):</span>
+                <span class="n">seen</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+                <span class="k">return</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">xs</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">seen</span> <span class="ow">or</span> <span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">x</span><span class="p">)]</span>
+            <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">reverse_directory</span><span class="p">),</span> <span class="p">(</span><span class="s">&quot;ingredient mapping is not one-to-one&quot;</span><span class="p">,</span> <span class="n">dups</span><span class="p">(</span><span class="n">directory</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
 
             <span class="n">comps</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="n">_toposorted</span><span class="p">(</span><span class="n">comps</span><span class="p">)))</span>
 
+            <span class="bp">self</span><span class="o">.</span><span class="n">projs</span>                             <span class="o">=</span> <span class="n">projs</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">deps</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">binaries</span> <span class="o">=</span> <span class="n">Ingredient</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">comps</span><span class="p">,</span> <span class="n">by</span><span class="o">=</span><span class="s">&#39;ingr&#39;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">directory</span>                         <span class="o">=</span> <span class="n">directory</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">reverse_directory</span>                 <span class="o">=</span> <span class="n">reverse_directory</span>
@@ -294,7 +317,45 @@
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s">&quot;{cls}(root={self.root!r}, sandbox={self.sandbox!r})&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cls</span><span class="o">=</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_cook_headers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ninja</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">comp</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_rules</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ninja</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">flavors</span><span class="p">):</span>
+        <span class="n">section</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">section</span>
+
+        <span class="n">section</span><span class="p">(</span><span class="s">&#39;Rules&#39;</span><span class="p">)</span>
+        <span class="n">ninja</span><span class="o">.</span><span class="n">rule</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rules</span><span class="o">.</span><span class="n">copy_to</span><span class="p">,</span>
+                   <span class="n">command</span><span class="o">=</span><span class="s">&#39;cp --parents $in $destination&#39;</span><span class="p">,</span>
+                   <span class="n">description</span><span class="o">=</span><span class="s">&#39;Copying to $destination&#39;</span><span class="p">)</span>
+        <span class="n">ninja</span><span class="o">.</span><span class="n">rule</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rules</span><span class="o">.</span><span class="n">copy</span><span class="p">,</span>
+                   <span class="n">command</span><span class="o">=</span><span class="s">&#39;cp $in $out&#39;</span><span class="p">,</span>
+                   <span class="n">description</span><span class="o">=</span><span class="s">&#39;Copying $in&#39;</span><span class="p">)</span>
+        <span class="n">ninja</span><span class="o">.</span><span class="n">rule</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rules</span><span class="o">.</span><span class="n">run</span><span class="p">,</span>
+                   <span class="n">command</span><span class="o">=</span><span class="s">&#39;./$in $runflags&#39;</span><span class="p">,</span>
+                   <span class="n">description</span><span class="o">=</span><span class="s">&#39;Running $in&#39;</span><span class="p">,</span>
+                   <span class="n">pool</span><span class="o">=</span><span class="s">&#39;console&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">flavor</span> <span class="ow">in</span> <span class="n">flavors</span><span class="p">:</span>
+            <span class="n">section</span><span class="p">(</span><span class="n">flavor</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">flavor</span><span class="o">.</span><span class="n">ninja_rules</span><span class="p">(</span><span class="n">ninja</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+        <span class="n">ninja</span><span class="o">.</span><span class="n">newline</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_cook_headers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ninja</span><span class="p">,</span> <span class="n">env</span><span class="p">):</span>
+        <span class="n">section</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">section</span>
+
+        <span class="n">key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">comp</span><span class="p">:</span> <span class="n">comp</span><span class="o">.</span><span class="n">proj</span><span class="o">.</span><span class="n">name</span>
+        <span class="n">groups</span> <span class="o">=</span> <span class="n">groupby</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
+
+        <span class="n">section</span><span class="p">(</span><span class="s">&#39;Headers&#39;</span><span class="p">)</span>
+
+        <span class="n">header_targets</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">proj</span><span class="p">,</span> <span class="n">comps</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
+            <span class="n">section</span><span class="p">(</span><span class="n">proj</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="n">targets</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">comp</span> <span class="ow">in</span> <span class="n">comps</span><span class="p">:</span>
+                <span class="n">targets</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cook_headers_comp</span><span class="p">(</span><span class="n">ninja</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">comp</span><span class="p">))</span>
+                <span class="n">ninja</span><span class="o">.</span><span class="n">newline</span><span class="p">()</span>
+            <span class="n">header_targets</span><span class="p">[</span><span class="n">proj</span><span class="p">]</span> <span class="o">=</span> <span class="n">targets</span>
+
+        <span class="k">return</span> <span class="n">header_targets</span>
+
+    <span class="k">def</span> <span class="nf">_cook_headers_comp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ninja</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">comp</span><span class="p">):</span>
         <span class="n">proj</span>    <span class="o">=</span> <span class="n">comp</span><span class="o">.</span><span class="n">proj</span>
         <span class="n">headers</span> <span class="o">=</span> <span class="n">comp</span><span class="o">.</span><span class="n">ingr</span>
 
@@ -314,13 +375,51 @@
 
         <span class="n">headers</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">prepare_header</span><span class="p">,</span> <span class="n">headers</span><span class="o">.</span><span class="n">files</span><span class="o">.</span><span class="n">paths</span><span class="p">))</span>
 
-        <span class="k">for</span> <span class="n">source</span><span class="p">,</span> <span class="n">target</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">headers</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">source</span><span class="p">,</span> <span class="n">target</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">headers</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
             <span class="n">ninja</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">target</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">rules</span><span class="o">.</span><span class="n">copy</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">source</span><span class="p">))</span>
 
-        <span class="c"># TODO this likely doesn&#39;t work for multiple Headers components</span>
-        <span class="n">name</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s">&#39;-headers&#39;</span>
-        <span class="n">ninja</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rules</span><span class="o">.</span><span class="n">phony</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">headers</span><span class="p">)))</span>
-        <span class="k">return</span> <span class="p">{</span> <span class="n">name</span> <span class="p">}</span>
+        <span class="k">return</span> <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">headers</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_cook_binaries</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ninja</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">flavors</span><span class="p">):</span>
+        <span class="n">section</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">section</span>
+
+        <span class="k">def</span> <span class="nf">testsuite</span><span class="p">(</span><span class="n">comp</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">comp</span><span class="o">.</span><span class="n">ingr</span><span class="p">,</span> <span class="n">Testsuite</span><span class="p">)</span>
+
+        <span class="n">env</span><span class="o">.</span><span class="n">binary_targets</span> <span class="o">=</span> <span class="n">binary_targets</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="n">regular_targets</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="n">test_targets</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+        <span class="n">section</span><span class="p">(</span><span class="s">&#39;Binaries&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">flavor</span> <span class="ow">in</span> <span class="n">flavors</span><span class="p">:</span>
+            <span class="n">section</span><span class="p">(</span><span class="n">flavor</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">binary_targets</span><span class="p">[</span><span class="n">flavor</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>  <span class="o">=</span> <span class="n">targets</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">regular_targets</span><span class="p">[</span><span class="n">flavor</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">regulars</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">binary</span> <span class="ow">in</span> <span class="n">filterfalse</span><span class="p">(</span><span class="n">testsuite</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">binaries</span><span class="p">):</span>
+                <span class="n">target</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cook_binary</span><span class="p">(</span><span class="n">ninja</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">flavor</span><span class="p">,</span> <span class="n">binary</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">target</span><span class="p">:</span>
+                    <span class="n">targets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+                    <span class="n">regulars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+                <span class="n">ninja</span><span class="o">.</span><span class="n">newline</span><span class="p">()</span>
+
+        <span class="n">section</span><span class="p">(</span><span class="s">&#39;Testsuites&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">flavor</span> <span class="ow">in</span> <span class="n">flavors</span><span class="p">:</span>
+            <span class="n">section</span><span class="p">(</span><span class="n">flavor</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">targets</span> <span class="o">=</span> <span class="n">binary_targets</span><span class="p">[</span><span class="n">flavor</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+            <span class="n">test_targets</span><span class="p">[</span><span class="n">flavor</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">tests</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="k">for</span> <span class="n">binary</span> <span class="ow">in</span> <span class="nb">filter</span><span class="p">(</span><span class="n">testsuite</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">binaries</span><span class="p">):</span>
+                <span class="n">target</span><span class="p">,</span> <span class="n">main</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cook_binary</span><span class="p">(</span><span class="n">ninja</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">flavor</span><span class="p">,</span> <span class="n">binary</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">target</span><span class="p">:</span>
+                    <span class="n">targets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">binary</span><span class="o">.</span><span class="n">ingr</span><span class="o">.</span><span class="n">runner</span><span class="p">:</span>
+                        <span class="n">binary</span><span class="o">.</span><span class="n">runner_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">binary</span><span class="o">.</span><span class="n">proj</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">binary</span><span class="o">.</span><span class="n">ingr</span><span class="o">.</span><span class="n">runner</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">resolve</span><span class="p">())</span>
+                        <span class="n">tests</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">binary</span><span class="p">,</span> <span class="n">target</span><span class="p">))</span>
+                    <span class="k">elif</span> <span class="n">main</span><span class="p">:</span>
+                        <span class="n">tests</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">binary</span><span class="p">,</span> <span class="n">target</span><span class="p">))</span>
+                <span class="n">ninja</span><span class="o">.</span><span class="n">newline</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="n">regular_targets</span><span class="p">,</span> <span class="n">test_targets</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_cook_binary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ninja</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">flavor</span><span class="p">,</span> <span class="n">comp</span><span class="p">):</span>
         <span class="n">proj</span>   <span class="o">=</span> <span class="n">comp</span><span class="o">.</span><span class="n">proj</span>
@@ -333,6 +432,16 @@
 
         <span class="k">def</span> <span class="nf">object_file</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
             <span class="k">return</span> <span class="p">(</span><span class="n">rebased_proj</span> <span class="o">/</span> <span class="n">path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sandbox</span> <span class="o">/</span> <span class="n">flavor</span><span class="o">.</span><span class="n">name</span> <span class="o">/</span> <span class="s">&#39;build&#39;</span> <span class="o">/</span> <span class="n">proj</span><span class="o">.</span><span class="n">name</span> <span class="o">/</span> <span class="n">flavor</span><span class="o">.</span><span class="n">object_file</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
+
+        <span class="k">def</span> <span class="nf">target</span><span class="p">(</span><span class="n">binary</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">proj</span><span class="p">):</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="p">(</span><span class="n">flavor</span><span class="o">.</span><span class="n">exe_name</span> <span class="k">if</span> <span class="n">binary</span><span class="o">.</span><span class="n">main</span> <span class="k">else</span> <span class="n">flavor</span><span class="o">.</span><span class="n">lib_name</span><span class="p">)(</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">binary</span><span class="p">,</span> <span class="n">Testsuite</span><span class="p">):</span>
+                <span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sandbox</span> <span class="o">/</span> <span class="n">flavor</span><span class="o">.</span><span class="n">name</span> <span class="o">/</span> <span class="s">&#39;tests&#39;</span> <span class="o">/</span> <span class="n">proj</span>
+            <span class="k">elif</span> <span class="n">binary</span><span class="o">.</span><span class="n">main</span><span class="p">:</span>
+                <span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sandbox</span> <span class="o">/</span> <span class="n">flavor</span><span class="o">.</span><span class="n">name</span> <span class="o">/</span> <span class="s">&#39;bin&#39;</span> <span class="o">/</span> <span class="n">proj</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sandbox</span> <span class="o">/</span> <span class="n">flavor</span><span class="o">.</span><span class="n">name</span> <span class="o">/</span> <span class="s">&#39;lib&#39;</span>
+            <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">path</span> <span class="o">/</span> <span class="n">name</span><span class="p">)</span>
 
         <span class="n">sources</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">object_file</span><span class="p">,</span> <span class="n">chain</span><span class="p">(</span><span class="n">binary</span><span class="o">.</span><span class="n">files</span><span class="o">.</span><span class="n">paths</span><span class="p">,</span> <span class="p">[</span><span class="n">binary</span><span class="o">.</span><span class="n">main</span><span class="p">])</span> <span class="k">if</span> <span class="n">binary</span><span class="o">.</span><span class="n">main</span> <span class="k">else</span> <span class="n">binary</span><span class="o">.</span><span class="n">files</span><span class="o">.</span><span class="n">paths</span><span class="p">))</span>
 
@@ -350,57 +459,97 @@
             <span class="n">ninja</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">rule</span><span class="p">(</span><span class="s">&#39;compile&#39;</span><span class="p">,</span> <span class="n">flavor</span><span class="p">),</span> <span class="n">inputs</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">source</span><span class="p">),</span>
                         <span class="n">variables</span><span class="o">=</span><span class="n">flavor</span><span class="o">.</span><span class="n">variables</span><span class="p">(</span><span class="n">variables</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="n">component</span><span class="p">))</span>
 
-        <span class="k">def</span> <span class="nf">exe</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">proj</span><span class="o">=</span><span class="n">proj</span><span class="o">.</span><span class="n">name</span><span class="p">):</span>
-            <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sandbox</span> <span class="o">/</span> <span class="n">flavor</span><span class="o">.</span><span class="n">name</span> <span class="o">/</span> <span class="s">&#39;bin&#39;</span> <span class="o">/</span> <span class="n">proj</span> <span class="o">/</span> <span class="n">flavor</span><span class="o">.</span><span class="n">exe_name</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
-
-        <span class="k">def</span> <span class="nf">lib</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
-            <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sandbox</span> <span class="o">/</span> <span class="n">flavor</span><span class="o">.</span><span class="n">name</span> <span class="o">/</span> <span class="s">&#39;lib&#39;</span> <span class="o">/</span> <span class="n">flavor</span><span class="o">.</span><span class="n">lib_name</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
-
-        <span class="k">def</span> <span class="nf">target</span><span class="p">(</span><span class="n">binary</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">proj</span><span class="o">=</span><span class="n">proj</span><span class="o">.</span><span class="n">name</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">binary</span><span class="o">.</span><span class="n">main</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">exe</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">proj</span><span class="o">=</span><span class="n">proj</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">lib</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-
         <span class="n">link</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rule</span><span class="p">(</span><span class="s">&#39;link_exe&#39;</span><span class="p">,</span> <span class="n">flavor</span><span class="p">)</span> <span class="k">if</span> <span class="n">binary</span><span class="o">.</span><span class="n">main</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">rule</span><span class="p">(</span><span class="s">&#39;link_lib&#39;</span><span class="p">,</span> <span class="n">flavor</span><span class="p">)</span>
 
         <span class="n">variables</span><span class="p">[</span><span class="s">&#39;libs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">libs</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">sandbox_libs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">implicits</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">def</span> <span class="nf">local_dep</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">comp</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">comp</span><span class="o">.</span><span class="n">ingr</span><span class="p">,</span> <span class="n">Binary</span><span class="p">):</span>
+                <span class="n">target_dep</span> <span class="o">=</span> <span class="n">target</span><span class="p">(</span><span class="n">comp</span><span class="o">.</span><span class="n">ingr</span><span class="p">,</span> <span class="n">comp</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">comp</span><span class="o">.</span><span class="n">proj</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">target_dep</span> <span class="ow">in</span> <span class="n">env</span><span class="o">.</span><span class="n">binary_targets</span><span class="p">[</span><span class="n">flavor</span><span class="o">.</span><span class="n">name</span><span class="p">]:</span>
+                    <span class="n">libs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">comp</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                <span class="n">implicits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">target_dep</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">comp</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">env</span><span class="o">.</span><span class="n">header_targets</span><span class="p">:</span>
+                <span class="n">implicits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">comp</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s">&#39;-headers&#39;</span><span class="p">)</span>
+
         <span class="k">for</span> <span class="n">dep</span> <span class="ow">in</span> <span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">deps</span><span class="p">:</span> <span class="n">deps</span><span class="o">.</span><span class="n">project_deps</span><span class="o">.</span><span class="n">deps</span><span class="p">,</span> <span class="n">proj</span><span class="o">.</span><span class="n">deps</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span> <span class="o">+</span> <span class="p">[</span><span class="n">binary</span><span class="o">.</span><span class="n">deps</span><span class="o">.</span><span class="n">deps</span><span class="p">])):</span>
             <span class="n">dep</span> <span class="o">=</span> <span class="n">_norm_dep</span><span class="p">(</span><span class="n">dep</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">dep</span> <span class="ow">in</span> <span class="n">env</span><span class="o">.</span><span class="n">directory</span><span class="p">:</span>
                 <span class="n">comp</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">directory</span><span class="p">[</span><span class="n">dep</span><span class="p">]</span>
-                <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">comp</span><span class="o">.</span><span class="n">ingr</span><span class="p">,</span> <span class="n">Binary</span><span class="p">),</span> <span class="s">&quot;cannot handle non-binary dependency&quot;</span>
-                <span class="n">libs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">comp</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-                <span class="n">sandbox_libs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">target</span><span class="p">(</span><span class="n">comp</span><span class="o">.</span><span class="n">ingr</span><span class="p">,</span> <span class="n">comp</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">comp</span><span class="o">.</span><span class="n">proj</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+                <span class="n">local_dep</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">comp</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">libs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dep</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="k">for</span> <span class="n">dep</span> <span class="ow">in</span> <span class="n">binary</span><span class="o">.</span><span class="n">deps</span><span class="o">.</span><span class="n">local_deps</span><span class="p">:</span>
-            <span class="n">libs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">reverse_directory</span><span class="p">[</span><span class="n">dep</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
-            <span class="n">sandbox_libs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">target</span><span class="p">(</span><span class="n">dep</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">reverse_directory</span><span class="p">[</span><span class="n">dep</span><span class="p">][</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="n">comp</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">reverse_directory</span><span class="p">[</span><span class="n">dep</span><span class="p">]</span>
+            <span class="n">local_dep</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">comp</span><span class="p">)</span>
 
-        <span class="n">tgt</span> <span class="o">=</span> <span class="n">target</span><span class="p">(</span><span class="n">binary</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
-        <span class="n">ninja</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">tgt</span><span class="p">,</span> <span class="n">link</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">sources</span><span class="p">)),</span>
-                    <span class="n">implicit</span><span class="o">=</span><span class="n">sandbox_libs</span><span class="p">,</span>
+        <span class="n">tgt</span> <span class="o">=</span> <span class="n">target</span><span class="p">(</span><span class="n">binary</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">proj</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">ninja</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">tgt</span><span class="p">,</span> <span class="n">link</span> <span class="k">if</span> <span class="n">sources</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">rules</span><span class="o">.</span><span class="n">phony</span><span class="p">,</span>
+                    <span class="n">inputs</span><span class="o">=</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">sources</span><span class="p">)),</span>
+                    <span class="n">implicit</span><span class="o">=</span><span class="n">implicits</span><span class="p">,</span>
                     <span class="n">variables</span><span class="o">=</span><span class="n">flavor</span><span class="o">.</span><span class="n">variables</span><span class="p">(</span><span class="n">variables</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="n">component</span><span class="p">))</span>
-        <span class="k">return</span> <span class="p">{</span> <span class="n">flavor</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="p">[</span><span class="n">tgt</span><span class="p">]</span> <span class="p">}</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">tgt</span> <span class="k">if</span> <span class="n">sources</span> <span class="k">else</span> <span class="bp">None</span><span class="p">,</span> <span class="n">binary</span><span class="o">.</span><span class="n">main</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_cook_aliases</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ninja</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">flavors</span><span class="p">,</span> <span class="n">headers</span><span class="p">,</span> <span class="n">binaries</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_aliases</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ninja</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">flavors</span><span class="p">,</span> <span class="n">headers</span><span class="p">,</span> <span class="n">binaries</span><span class="p">,</span> <span class="n">tests</span><span class="p">):</span>
+        <span class="n">section</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">section</span>
+        <span class="n">phony</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rules</span><span class="o">.</span><span class="n">phony</span>
+
+        <span class="n">section</span><span class="p">(</span><span class="s">&#39;Aliases&#39;</span><span class="p">)</span>
+
+        <span class="n">header_aliases</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">targets</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">headers</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">name</span> <span class="o">+</span> <span class="s">&#39;-headers&#39;</span>
+            <span class="n">header_aliases</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">ninja</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">phony</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="nb">sorted</span><span class="p">(</span><span class="n">targets</span><span class="p">))</span>
+        <span class="n">ninja</span><span class="o">.</span><span class="n">newline</span><span class="p">()</span>
+
+        <span class="n">ninja</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="s">&#39;headers&#39;</span><span class="p">,</span> <span class="n">phony</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="nb">sorted</span><span class="p">(</span><span class="n">header_aliases</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">flavor</span> <span class="ow">in</span> <span class="n">flavors</span><span class="p">:</span>
-            <span class="n">ninja</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">flavor</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rules</span><span class="o">.</span><span class="n">phony</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">chain</span><span class="p">(</span><span class="n">headers</span><span class="p">,</span> <span class="n">binaries</span><span class="p">[</span><span class="n">flavor</span><span class="o">.</span><span class="n">name</span><span class="p">])))</span>
-            <span class="n">ninja</span><span class="o">.</span><span class="n">newline</span><span class="p">()</span>
+            <span class="n">ninja</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">flavor</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">phony</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;headers&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">binaries</span><span class="p">[</span><span class="n">flavor</span><span class="o">.</span><span class="n">name</span><span class="p">])</span>
+        <span class="n">ninja</span><span class="o">.</span><span class="n">newline</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">flavor</span> <span class="ow">in</span> <span class="n">flavors</span><span class="p">:</span>
+            <span class="n">all_tests</span> <span class="o">=</span> <span class="n">tests</span><span class="p">[</span><span class="n">flavor</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+            <span class="n">runners</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">testsuite</span><span class="p">,</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">all_tests</span><span class="p">:</span>
+                <span class="n">alias</span> <span class="o">=</span> <span class="s">&#39;-&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s">&#39;run&#39;</span><span class="p">,</span> <span class="n">flavor</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">testsuite</span><span class="o">.</span><span class="n">proj</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">testsuite</span><span class="o">.</span><span class="n">name</span><span class="p">])</span>
+                <span class="n">variables</span> <span class="o">=</span> <span class="n">flavor</span><span class="o">.</span><span class="n">runflag_variables</span><span class="p">(</span><span class="n">testsuite</span><span class="o">.</span><span class="n">ingr</span><span class="o">.</span><span class="n">runflags</span><span class="p">,</span>
+                                                     <span class="p">(</span><span class="n">testsuite</span><span class="o">.</span><span class="n">proj</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">testsuite</span><span class="o">.</span><span class="n">name</span><span class="p">),</span>
+                                                     <span class="n">merge</span><span class="o">=</span><span class="n">testsuite</span><span class="o">.</span><span class="n">ingr</span><span class="o">.</span><span class="n">runflag_merger</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">testsuite</span><span class="p">,</span> <span class="s">&#39;runner_path&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">testsuite</span><span class="o">.</span><span class="n">runner_path</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="s">&#39;runflags&#39;</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">:</span>
+                        <span class="n">variables</span><span class="p">[</span><span class="s">&#39;runflags&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">variables</span><span class="p">[</span><span class="s">&#39;runflags&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">target</span><span class="p">]</span>
+                    <span class="n">ninja</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">alias</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rules</span><span class="o">.</span><span class="n">run</span><span class="p">,</span>
+                                <span class="n">inputs</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">testsuite</span><span class="o">.</span><span class="n">runner_path</span><span class="p">),</span>
+                                <span class="n">implicit</span><span class="o">=</span><span class="n">target</span><span class="p">,</span>
+                                <span class="n">variables</span><span class="o">=</span><span class="n">variables</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">ninja</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">alias</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rules</span><span class="o">.</span><span class="n">run</span><span class="p">,</span>
+                                <span class="n">inputs</span><span class="o">=</span><span class="n">target</span><span class="p">,</span>
+                                <span class="n">variables</span><span class="o">=</span><span class="n">variables</span><span class="p">)</span>
+                <span class="n">runners</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">alias</span><span class="p">)</span>
+            <span class="n">ninja</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="s">&#39;-&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">flavor</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s">&#39;tests&#39;</span><span class="p">]),</span> <span class="n">phony</span><span class="p">,</span>
+                        <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;headers&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">runners</span><span class="p">)</span>
+        <span class="n">ninja</span><span class="o">.</span><span class="n">newline</span><span class="p">()</span>
 
 <div class="viewcode-block" id="Sandbox.rule"><a class="viewcode-back" href="../../../auto/ninjachef.recipes.sandbox.html#ninjachef.recipes.sandbox.Sandbox.rule">[docs]</a>    <span class="k">def</span> <span class="nf">rule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">flavor</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rules</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Rule {name!r} is not supported&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">flavor</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s">&#39;-&#39;</span> <span class="o">+</span> <span class="n">name</span>
+        <span class="k">return</span> <span class="s">&#39;-&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">flavor</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">name</span><span class="p">])</span>
 </div>
-<div class="viewcode-block" id="Sandbox.cook"><a class="viewcode-back" href="../../../auto/ninjachef.recipes.sandbox.html#ninjachef.recipes.sandbox.Sandbox.cook">[docs]</a>    <span class="k">def</span> <span class="nf">cook</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">projs</span><span class="p">,</span> <span class="n">flavors</span><span class="p">,</span> <span class="n">comments</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">default_targets</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="n">out</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">()</span>
-        <span class="n">ninja</span> <span class="o">=</span> <span class="n">Ninja</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
-        <span class="n">env</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_Env</span><span class="p">(</span><span class="n">projs</span><span class="p">)</span>
+<div class="viewcode-block" id="Sandbox.cook"><a class="viewcode-back" href="../../../auto/ninjachef.recipes.sandbox.html#ninjachef.recipes.sandbox.Sandbox.cook">[docs]</a>    <span class="k">def</span> <span class="nf">cook</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">projs</span><span class="p">,</span> <span class="n">flavors</span><span class="p">,</span> <span class="n">ninja</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">default_targets</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">comments</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">ninja</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">ninja</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">out</span>    <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">()</span>
+            <span class="n">ninja</span>  <span class="o">=</span> <span class="n">Ninja</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">out</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span>
+
+        <span class="n">env</span>     <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_Env</span><span class="p">(</span><span class="n">projs</span><span class="p">)</span>
         <span class="n">flavors</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">flavors</span><span class="p">)</span>
-        <span class="n">names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">flavors</span><span class="p">))</span>
+        <span class="n">names</span>   <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">flavors</span><span class="p">))</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">names</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">names</span><span class="p">)):</span>
             <span class="n">duplicates</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">Counter</span><span class="p">(</span><span class="n">names</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">c</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">]</span>
             <span class="k">raise</span> <span class="n">DuplicateNameError</span><span class="p">(</span><span class="n">duplicates</span><span class="p">)</span>
@@ -408,45 +557,22 @@
         <span class="k">def</span> <span class="nf">section</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">comments</span><span class="p">:</span>
                 <span class="n">guard</span> <span class="o">=</span> <span class="s">&#39;#&#39;</span> <span class="o">*</span> <span class="p">(</span><span class="mi">4</span> <span class="o">-</span> <span class="n">level</span><span class="p">)</span>
-                <span class="n">ninja</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&quot;{guard} {title}</span><span class="se">\n</span><span class="s">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="nb">locals</span><span class="p">()))</span>
+                <span class="n">ninja</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&quot;{guard} {title}</span><span class="se">\n</span><span class="s">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">guard</span><span class="o">=</span><span class="n">guard</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">))</span>
+        <span class="n">env</span><span class="o">.</span><span class="n">section</span> <span class="o">=</span> <span class="n">section</span>
 
-        <span class="k">def</span> <span class="nf">merge_update</span><span class="p">(</span><span class="n">dest</span><span class="p">,</span> <span class="n">source</span><span class="p">):</span>
-            <span class="n">dest</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">chain</span><span class="p">(</span><span class="n">source</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
-                              <span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">dest</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">+</span> <span class="n">source</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">source</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="o">&amp;</span> <span class="n">dest</span><span class="o">.</span><span class="n">keys</span><span class="p">())))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_rules</span><span class="p">(</span><span class="n">ninja</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">flavors</span><span class="p">)</span>
 
-        <span class="n">section</span><span class="p">(</span><span class="s">&#39;Rules&#39;</span><span class="p">)</span>
-        <span class="n">ninja</span><span class="o">.</span><span class="n">rule</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rules</span><span class="o">.</span><span class="n">copy_to</span><span class="p">,</span>
-                   <span class="n">command</span><span class="o">=</span><span class="s">&#39;cp --parents $in $destination&#39;</span><span class="p">,</span>
-                   <span class="n">description</span><span class="o">=</span><span class="s">&#39;Copying to $destination&#39;</span><span class="p">)</span>
-        <span class="n">ninja</span><span class="o">.</span><span class="n">rule</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rules</span><span class="o">.</span><span class="n">copy</span><span class="p">,</span>
-                   <span class="n">command</span><span class="o">=</span><span class="s">&#39;cp $in $out&#39;</span><span class="p">,</span>
-                   <span class="n">description</span><span class="o">=</span><span class="s">&#39;Copying $in&#39;</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">flavor</span> <span class="ow">in</span> <span class="n">flavors</span><span class="p">:</span>
-            <span class="n">section</span><span class="p">(</span><span class="n">flavor</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-            <span class="n">flavor</span><span class="o">.</span><span class="n">ninja_rules</span><span class="p">(</span><span class="n">ninja</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
-        <span class="n">ninja</span><span class="o">.</span><span class="n">newline</span><span class="p">()</span>
+        <span class="n">header_targets</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cook_headers</span><span class="p">(</span><span class="n">ninja</span><span class="p">,</span> <span class="n">env</span><span class="p">)</span>
+        <span class="n">env</span><span class="o">.</span><span class="n">header_targets</span> <span class="o">=</span> <span class="n">header_targets</span>
 
-        <span class="n">header_targets</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-        <span class="n">section</span><span class="p">(</span><span class="s">&#39;Headers&#39;</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">header</span> <span class="ow">in</span> <span class="n">env</span><span class="o">.</span><span class="n">headers</span><span class="p">:</span>
-            <span class="n">header_targets</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cook_headers</span><span class="p">(</span><span class="n">ninja</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">header</span><span class="p">))</span>
-            <span class="n">ninja</span><span class="o">.</span><span class="n">newline</span><span class="p">()</span>
+        <span class="n">binary_targets</span><span class="p">,</span> <span class="n">test_targets</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cook_binaries</span><span class="p">(</span><span class="n">ninja</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">flavors</span><span class="p">)</span>
 
-        <span class="n">binary_targets</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-        <span class="n">section</span><span class="p">(</span><span class="s">&#39;Binaries&#39;</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">flavor</span> <span class="ow">in</span> <span class="n">flavors</span><span class="p">:</span>
-            <span class="n">section</span><span class="p">(</span><span class="n">flavor</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">binary</span> <span class="ow">in</span> <span class="n">env</span><span class="o">.</span><span class="n">binaries</span><span class="p">:</span>
-                <span class="n">merge_update</span><span class="p">(</span><span class="n">binary_targets</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cook_binary</span><span class="p">(</span><span class="n">ninja</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">flavor</span><span class="p">,</span> <span class="n">binary</span><span class="p">))</span>
-                <span class="n">ninja</span><span class="o">.</span><span class="n">newline</span><span class="p">()</span>
-
-        <span class="n">section</span><span class="p">(</span><span class="s">&#39;Aliases&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_cook_aliases</span><span class="p">(</span><span class="n">ninja</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">flavors</span><span class="p">,</span> <span class="n">header_targets</span><span class="p">,</span> <span class="n">binary_targets</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_aliases</span><span class="p">(</span><span class="n">ninja</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">flavors</span><span class="p">,</span> <span class="n">header_targets</span><span class="p">,</span> <span class="n">binary_targets</span><span class="p">,</span> <span class="n">test_targets</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">default_targets</span><span class="p">:</span>
             <span class="n">ninja</span><span class="o">.</span><span class="n">default</span><span class="p">(</span><span class="n">default_targets</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">out</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span></div></div>
+        <span class="k">return</span> <span class="n">result</span><span class="p">()</span></div></div>
 </pre></div>
 
           </div>
@@ -482,7 +608,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2015, lucdanton.
+      &copy;2015, mickk.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>

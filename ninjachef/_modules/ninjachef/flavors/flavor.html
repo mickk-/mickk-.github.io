@@ -53,14 +53,18 @@
 <span class="sd">        name (str): The name of the flavor, to distinguish it from</span>
 <span class="sd">            other flavors.</span>
 
-<span class="sd">    This is intended as a convenience for flavor writers, so that they may</span>
-<span class="sd">    verify their flavor is (superficially) correctly implemented.</span>
+<span class="sd">        runflags (List[str]): Flavor-wide `runflags`, see :class:`.Testsuite`</span>
+<span class="sd">            for their purpose.</span>
+
+<span class="sd">    This base is intended as a convenience for documentation purposes as well as</span>
+<span class="sd">    to help flavor writers, so that they may verify their flavor is</span>
+<span class="sd">    (superficially) correctly implemented.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Flavor.copy"><a class="viewcode-back" href="../../../auto/ninjachef.flavors.flavor.html#ninjachef.flavors.flavor.Flavor.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Flavor.copy"><a class="viewcode-back" href="../../../auto/ninjachef.flavors.flavor.html#ninjachef.flavors.flavor.Flavor.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Deep-copy (aka clone) object.</span>
 
-<span class="sd">        Args:</span>
+<span class="sd">        Keyword Args:</span>
 <span class="sd">            name (Optional[str]): New flavor name to give to the copy.</span>
 
 <span class="sd">        Returns:</span>
@@ -99,7 +103,28 @@
 <span class="sd">                the name of one of its components.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">        Dict[str, str]: `variables` suitable for use with :meth:`.Writer.build`.</span>
+<span class="sd">            Dict[str, str]: `variables` suitable for use with</span>
+<span class="sd">                :meth:`.Writer.build`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</div>
+    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="Flavor.runflag_variables"><a class="viewcode-back" href="../../../auto/ninjachef.flavors.flavor.html#ninjachef.flavors.flavor.Flavor.runflag_variables">[docs]</a>    <span class="k">def</span> <span class="nf">runflag_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ingredient_side</span><span class="p">,</span> <span class="n">component</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">merge</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Prepare runflag variables. See :class:`.Testsuite`.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            ingredient_side (Sequence[str]): The ingredient-side runflags.</span>
+<span class="sd">            component (Tuple[str, str]): A tuple of the name of the project with</span>
+<span class="sd">                the name of one of its components.</span>
+
+<span class="sd">        Keyword Args:</span>
+<span class="sd">            merge (Callable[[Sequence[str], Sequence[str], Sequence[str],</span>
+<span class="sd">            Sequence[str]], List[str]]):</span>
+<span class="sd">                See :class:`.Testsuite`.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dict[str, str]: A `variables`-like dict suitable for use with</span>
+<span class="sd">                :meth:`.Writer.build`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span>
 </div>
@@ -150,7 +175,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2015, lucdanton.
+      &copy;2015, mickk.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>

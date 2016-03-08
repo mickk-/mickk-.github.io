@@ -44,7 +44,7 @@
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">PurePath</span><span class="p">,</span> <span class="n">Path</span>
 <span class="kn">from</span> <span class="nn">._tools</span> <span class="kn">import</span> <span class="n">cd</span>
 
-<div class="viewcode-block" id="Deps"><a class="viewcode-back" href="../../auto/ninjachef.cookbook.html#ninjachef.cookbook.Deps">[docs]</a><span class="k">class</span> <span class="nc">Deps</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="Deps"><a class="viewcode-back" href="../../auto/ninjachef.cookbook.html#ninjachef.Deps">[docs]</a><span class="k">class</span> <span class="nc">Deps</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A list of dependencies.</span>
 
 <span class="sd">    Attributes:</span>
@@ -82,7 +82,7 @@
         <span class="n">message</span> <span class="o">=</span> <span class="s">&#39;{{cls}}({args})&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="s">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;{deps}&#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">deps</span> <span class="k">else</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;local={self.local_deps}&#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">local_deps</span> <span class="k">else</span> <span class="s">&#39;&#39;</span><span class="p">])))</span>
         <span class="k">return</span> <span class="n">message</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cls</span><span class="o">=</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">deps</span><span class="o">=</span><span class="s">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">repr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">deps</span><span class="p">)))</span>
 
-<div class="viewcode-block" id="Deps.__or__"><a class="viewcode-back" href="../../auto/ninjachef.cookbook.html#ninjachef.cookbook.Deps.__or__">[docs]</a>    <span class="k">def</span> <span class="nf">__or__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<div class="viewcode-block" id="Deps.__or__"><a class="viewcode-back" href="../../auto/ninjachef.cookbook.html#ninjachef.Deps.__or__">[docs]</a>    <span class="k">def</span> <span class="nf">__or__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Merge two lists of dependencies.</span>
 
 <span class="sd">        Examples:</span>
@@ -96,7 +96,7 @@
         <span class="n">r</span><span class="o">.</span><span class="n">local_deps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">local_deps</span> <span class="o">+</span> <span class="n">other</span><span class="o">.</span><span class="n">local_deps</span>
         <span class="k">return</span> <span class="n">r</span>
 </div></div>
-<div class="viewcode-block" id="Files"><a class="viewcode-back" href="../../auto/ninjachef.cookbook.html#ninjachef.cookbook.Files">[docs]</a><span class="k">class</span> <span class="nc">Files</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="Files"><a class="viewcode-back" href="../../auto/ninjachef.cookbook.html#ninjachef.Files">[docs]</a><span class="k">class</span> <span class="nc">Files</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A set of paths to files.</span>
 
 <span class="sd">    A :class:`.Files` object can be created from either :class:`.str` paths (but</span>
@@ -135,7 +135,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">ps</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
 
-            <span class="n">patterns</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">patterns</span> <span class="ow">or</span> <span class="p">[])</span>
+            <span class="n">patterns</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">patterns</span><span class="p">)</span> <span class="k">if</span> <span class="n">patterns</span> <span class="k">else</span> <span class="p">[]</span>
             <span class="k">if</span> <span class="n">pattern</span><span class="p">:</span>
                 <span class="n">patterns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span>
 
@@ -148,7 +148,7 @@
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s">&#39;{cls}({paths})&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cls</span><span class="o">=</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">paths</span><span class="o">=</span><span class="s">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">repr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="p">)))</span>
 
-<div class="viewcode-block" id="Files.__or__"><a class="viewcode-back" href="../../auto/ninjachef.cookbook.html#ninjachef.cookbook.Files.__or__">[docs]</a>    <span class="k">def</span> <span class="nf">__or__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<div class="viewcode-block" id="Files.__or__"><a class="viewcode-back" href="../../auto/ninjachef.cookbook.html#ninjachef.Files.__or__">[docs]</a>    <span class="k">def</span> <span class="nf">__or__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Merge two sets of files.</span>
 
 <span class="sd">        Examples:</span>
@@ -161,7 +161,7 @@
         <span class="n">r</span><span class="o">.</span><span class="n">paths</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">paths</span> <span class="o">|</span> <span class="n">other</span><span class="o">.</span><span class="n">paths</span>
         <span class="k">return</span> <span class="n">r</span>
 </div></div>
-<div class="viewcode-block" id="Ingredient"><a class="viewcode-back" href="../../auto/ninjachef.html#ninjachef.cookbook.Ingredient">[docs]</a><span class="k">class</span> <span class="nc">Ingredient</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="Ingredient"><a class="viewcode-back" href="../../auto/ninjachef.html#ninjachef.Ingredient">[docs]</a><span class="k">class</span> <span class="nc">Ingredient</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;The base class for all the sorts of ingredients that can be used in</span>
 <span class="sd">    describing a project.</span>
 
@@ -176,7 +176,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="Ingredient.split"><a class="viewcode-back" href="../../auto/ninjachef.html#ninjachef.cookbook.Ingredient.split">[docs]</a>    <span class="k">def</span> <span class="nf">split</span><span class="p">(</span><span class="n">cont</span><span class="p">,</span> <span class="n">by</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">cls</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Ingredient.split"><a class="viewcode-back" href="../../auto/ninjachef.html#ninjachef.Ingredient.split">[docs]</a>    <span class="k">def</span> <span class="nf">split</span><span class="p">(</span><span class="n">cont</span><span class="p">,</span> <span class="n">by</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">cls</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Split a container of :class:`Ingredients &lt;.Ingredient&gt;` into a</span>
 <span class="sd">        triple of :class:`.ProjectDeps`, :class:`.Headers`, and :class:`.Binary`</span>
 <span class="sd">        containers respectively.</span>
@@ -240,7 +240,7 @@
             <span class="k">return</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">by</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">base</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">cls</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="n">inst</span><span class="p">(</span><span class="n">ProjectDeps</span><span class="p">),</span> <span class="n">cont</span><span class="p">)),</span> <span class="n">cls</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="n">inst</span><span class="p">(</span><span class="n">Headers</span><span class="p">),</span> <span class="n">cont</span><span class="p">)),</span> <span class="n">cls</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="n">inst</span><span class="p">(</span><span class="n">Binary</span><span class="p">),</span> <span class="n">cont</span><span class="p">))</span>
 </div></div>
-<div class="viewcode-block" id="ProjectDeps"><a class="viewcode-back" href="../../auto/ninjachef.cookbook.html#ninjachef.cookbook.ProjectDeps">[docs]</a><span class="k">class</span> <span class="nc">ProjectDeps</span><span class="p">(</span><span class="n">Ingredient</span><span class="p">):</span>
+<div class="viewcode-block" id="ProjectDeps"><a class="viewcode-back" href="../../auto/ninjachef.cookbook.html#ninjachef.ProjectDeps">[docs]</a><span class="k">class</span> <span class="nc">ProjectDeps</span><span class="p">(</span><span class="n">Ingredient</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Project-wide external dependencies.</span>
 
 <span class="sd">    Attributes:</span>
@@ -258,7 +258,7 @@
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s">&#39;{cls}({deps})&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cls</span><span class="o">=</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">deps</span><span class="o">=</span><span class="s">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">repr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">project_deps</span><span class="o">.</span><span class="n">deps</span><span class="p">)))</span>
 
-<div class="viewcode-block" id="ProjectDeps.__or__"><a class="viewcode-back" href="../../auto/ninjachef.cookbook.html#ninjachef.cookbook.ProjectDeps.__or__">[docs]</a>    <span class="k">def</span> <span class="nf">__or__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<div class="viewcode-block" id="ProjectDeps.__or__"><a class="viewcode-back" href="../../auto/ninjachef.cookbook.html#ninjachef.ProjectDeps.__or__">[docs]</a>    <span class="k">def</span> <span class="nf">__or__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Merge two lists of external dependencies.</span>
 
 <span class="sd">        Examples:</span>
@@ -271,7 +271,7 @@
         <span class="n">r</span><span class="o">.</span><span class="n">project_deps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">project_deps</span> <span class="o">|</span> <span class="n">other</span><span class="o">.</span><span class="n">project_deps</span>
         <span class="k">return</span> <span class="n">r</span>
 </div></div>
-<div class="viewcode-block" id="Headers"><a class="viewcode-back" href="../../auto/ninjachef.cookbook.html#ninjachef.cookbook.Headers">[docs]</a><span class="k">class</span> <span class="nc">Headers</span><span class="p">(</span><span class="n">Ingredient</span><span class="p">):</span>
+<div class="viewcode-block" id="Headers"><a class="viewcode-back" href="../../auto/ninjachef.cookbook.html#ninjachef.Headers">[docs]</a><span class="k">class</span> <span class="nc">Headers</span><span class="p">(</span><span class="n">Ingredient</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Installable headers.</span>
 
 <span class="sd">    This can be used by library projects (or library components within a</span>
@@ -306,14 +306,14 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">files</span><span class="p">,</span> <span class="n">roots</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">files</span> <span class="o">=</span> <span class="n">files</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">roots</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">PurePath</span><span class="p">,</span> <span class="n">roots</span> <span class="ow">or</span> <span class="nb">set</span><span class="p">()))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">files</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">files</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">roots</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">PurePath</span><span class="p">,</span> <span class="n">roots</span><span class="p">))</span> <span class="k">if</span> <span class="n">roots</span> <span class="k">else</span> <span class="nb">set</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">message</span> <span class="o">=</span> <span class="s">&#39;{cls}(files={self.files}, roots={self.roots})&#39;</span>
         <span class="k">return</span> <span class="n">message</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cls</span><span class="o">=</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Binary"><a class="viewcode-back" href="../../auto/ninjachef.cookbook.html#ninjachef.cookbook.Binary">[docs]</a><span class="k">class</span> <span class="nc">Binary</span><span class="p">(</span><span class="n">Ingredient</span><span class="p">):</span>
+<div class="viewcode-block" id="Binary"><a class="viewcode-back" href="../../auto/ninjachef.cookbook.html#ninjachef.Binary">[docs]</a><span class="k">class</span> <span class="nc">Binary</span><span class="p">(</span><span class="n">Ingredient</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Binary file.</span>
 
 <span class="sd">    Represents a given set of files that together can be compiled into a binary</span>
@@ -356,11 +356,9 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">files</span><span class="p">,</span> <span class="n">main</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">includes</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">deps</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="n">main</span> <span class="o">=</span> <span class="n">PurePath</span><span class="p">(</span><span class="n">main</span><span class="p">)</span> <span class="k">if</span> <span class="n">main</span> <span class="k">else</span> <span class="bp">None</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">files</span>    <span class="o">=</span> <span class="n">Files</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="nb">file</span> <span class="k">for</span> <span class="nb">file</span> <span class="ow">in</span> <span class="n">files</span><span class="o">.</span><span class="n">paths</span> <span class="k">if</span> <span class="nb">file</span> <span class="o">!=</span> <span class="n">main</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">main</span>     <span class="o">=</span> <span class="n">main</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">includes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">PurePath</span><span class="p">,</span> <span class="n">includes</span> <span class="ow">or</span> <span class="p">[]))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">main</span>     <span class="o">=</span> <span class="n">PurePath</span><span class="p">(</span><span class="n">main</span><span class="p">)</span> <span class="k">if</span> <span class="n">main</span> <span class="k">else</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">includes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">PurePath</span><span class="p">,</span> <span class="n">includes</span><span class="p">))</span> <span class="k">if</span> <span class="n">includes</span> <span class="k">else</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">deps</span>     <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">deps</span><span class="p">)</span> <span class="k">if</span> <span class="n">deps</span> <span class="k">else</span> <span class="n">Deps</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">defines</span>  <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
 
@@ -368,7 +366,65 @@
         <span class="n">message</span> <span class="o">=</span> <span class="s">&#39;{cls}({self.files}, main={self.main}, includes={self.includes}, deps={self.deps})&#39;</span>
         <span class="k">return</span> <span class="n">message</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cls</span><span class="o">=</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="IngredientError"><a class="viewcode-back" href="../../auto/ninjachef.html#ninjachef.cookbook.IngredientError">[docs]</a><span class="k">class</span> <span class="nc">IngredientError</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">):</span>
+<div class="viewcode-block" id="Testsuite"><a class="viewcode-back" href="../../auto/ninjachef.cookbook.html#ninjachef.Testsuite">[docs]</a><span class="k">class</span> <span class="nc">Testsuite</span><span class="p">(</span><span class="n">Binary</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A testsuite binary.</span>
+
+<span class="sd">    A refinement of :class:`.Binary` for files that compile into a testsuite.</span>
+<span class="sd">    This allows recipes to handle them separately.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        runner (Optional[PurePath]): An optional path to a runner script. If</span>
+<span class="sd">            specified, the runner script should be the target of the final Ninja</span>
+<span class="sd">            build statement associated to the :class:`.Testsuite` if possible.</span>
+<span class="sd">            Otherwise, if the :class:`.Testsuite` specifies a `main` file (see</span>
+<span class="sd">            :class:`.Binary`) the associated executable should be associated if</span>
+<span class="sd">            possible. In any other case behaviour is left up to the recipe.</span>
+
+<span class="sd">            When executed, a runner script receives the path to the associated</span>
+<span class="sd">            testsuite binary as first argument then the `runflags` as remaining</span>
+<span class="sd">            arguments, if any.</span>
+
+<span class="sd">        runflags (List[str]): Additional arguments for the runner script.</span>
+
+<span class="sd">        runflag_merger (Callable):</span>
+<span class="sd">            A function to merge runflags. Runflags can be specified from two</span>
+<span class="sd">            sides: ingredient-side (when constructing a :class:`.Testsuite`) and</span>
+<span class="sd">            flavor-side (when constructing or setting a :class:`.Flavor`). In</span>
+<span class="sd">            turn flavor-side runflags can be specified at several levels:</span>
+<span class="sd">            flavor-wide, project-wide, and at the level of the component. This</span>
+<span class="sd">            function mandates how all those flags are to be combined to yield</span>
+<span class="sd">            the final runflags for this testsuite.</span>
+
+<span class="sd">            The precise signature is as follows: ``Callable[[Sequence[str],</span>
+<span class="sd">            Sequence[str], Sequence[str], Sequence[str]], List[str]]``</span>
+
+<span class="sd">            The arguments correspond in order to first the ingredient-side</span>
+<span class="sd">            runflags (i.e. ``self.runflags``); then the flavor-wide,</span>
+<span class="sd">            project-wide, and component-specific runflags from the flavor.</span>
+
+<span class="sd">            The default is concatenation, i.e. ``self.runflag_merger([&#39;a&#39;], [],</span>
+<span class="sd">            [&#39;b&#39;], [&#39;c&#39;, &#39;d&#39; ]) == [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39; ])``.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        *args: Same arguments as would be passed to :class:`.Binary`.</span>
+
+<span class="sd">    Keyword Args:</span>
+<span class="sd">        runner (Optional[Union[str, PurePath]])</span>
+<span class="sd">        runflags (Optional[Sequence[str]])</span>
+<span class="sd">        runflag_merger (Optional[Callable])</span>
+<span class="sd">        **kwargs: Same keyword arguments as would be passed to :class:`.Binary`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">runner</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">runflags</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">runflag_merger</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">default_runflag_merger</span><span class="p">(</span><span class="n">ingredient_side</span><span class="p">,</span> <span class="n">flavor_wide</span><span class="p">,</span> <span class="n">project_wide</span><span class="p">,</span> <span class="n">component_wide</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">chain</span><span class="p">(</span><span class="n">ingredient_side</span><span class="p">,</span> <span class="n">flavor_wide</span><span class="p">,</span> <span class="n">project_wide</span><span class="p">,</span> <span class="n">component_wide</span><span class="p">))</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">runner</span>         <span class="o">=</span> <span class="n">PurePath</span><span class="p">(</span><span class="n">runner</span><span class="p">)</span> <span class="k">if</span> <span class="n">runner</span> <span class="k">else</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">runflags</span>       <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">runflags</span><span class="p">)</span> <span class="k">if</span> <span class="n">runflags</span> <span class="k">else</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">runflag_merger</span> <span class="o">=</span> <span class="n">runflag_merger</span> <span class="ow">or</span> <span class="n">default_runflag_merger</span>
+</div>
+<div class="viewcode-block" id="IngredientError"><a class="viewcode-back" href="../../auto/ninjachef.html#ninjachef.IngredientError">[docs]</a><span class="k">class</span> <span class="nc">IngredientError</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Error when analyzing an ingredient file.</span>
 
 <span class="sd">    Raised when loading an ingredient file goes wrong. Should be chained with</span>
@@ -385,7 +441,7 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="s">&#39;error while importing ingredient file {path!r}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="p">)))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">PurePath</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Project"><a class="viewcode-back" href="../../auto/ninjachef.html#ninjachef.cookbook.Project">[docs]</a><span class="k">class</span> <span class="nc">Project</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="Project"><a class="viewcode-back" href="../../auto/ninjachef.html#ninjachef.Project">[docs]</a><span class="k">class</span> <span class="nc">Project</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;The collected ninjachef-information of a project.</span>
 
 <span class="sd">    Present a :mod:`project description &lt;.cookbook&gt;` in Python form.</span>
@@ -439,7 +495,7 @@
         <span class="k">return</span> <span class="n">chain</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">deps</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">binaries</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
 
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="Project.read"><a class="viewcode-back" href="../../auto/ninjachef.html#ninjachef.cookbook.Project.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="nb">file</span><span class="o">=</span><span class="s">&#39;ingredients.py&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="Project.read"><a class="viewcode-back" href="../../auto/ninjachef.html#ninjachef.Project.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="nb">file</span><span class="o">=</span><span class="s">&#39;ingredients.py&#39;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Analyze a project to collect :class:`.Ingredient` information.</span>
 
 <span class="sd">        Args:</span>
@@ -461,7 +517,7 @@
 
         <span class="k">with</span> <span class="n">cd</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
             <span class="c"># load_module is deprecated in 3.4 but there is no suitable alternative yet</span>
-            <span class="n">loader</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">machinery</span><span class="o">.</span><span class="n">SourceFileLoader</span><span class="p">(</span><span class="n">PurePath</span><span class="p">(</span><span class="nb">file</span><span class="p">)</span><span class="o">.</span><span class="n">stem</span><span class="p">,</span> <span class="nb">file</span><span class="p">)</span>
+            <span class="n">loader</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">machinery</span><span class="o">.</span><span class="n">SourceFileLoader</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">PurePath</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="o">/</span> <span class="nb">file</span><span class="p">),</span> <span class="nb">file</span><span class="p">)</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">module</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">load_module</span><span class="p">()</span>
             <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
@@ -503,7 +559,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2015, lucdanton.
+      &copy;2015, mickk.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>

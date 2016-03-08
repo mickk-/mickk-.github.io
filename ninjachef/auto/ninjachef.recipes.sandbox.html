@@ -49,6 +49,7 @@ library <code class="docutils literal"><span class="pre">foo</span></code>:</p>
 <div class="highlight-python"><div class="highlight"><pre>root
 ├── sandbox
 ├── foo
+│   ├── ingredients.py
 │   ├── include
 │   │   ├── foo.hpp
 │   │   └── …
@@ -56,12 +57,15 @@ library <code class="docutils literal"><span class="pre">foo</span></code>:</p>
 │   │   ├── foo.cpp
 │   │   └── …
 │   └── test
+│       ├── main.cpp
 │       └── …
 └── bar
+    ├── ingredients.py
     ├── source
     │   ├── main.cpp
     │   └── …
     └── test
+        ├── main.cpp
         └── …
 </pre></div>
 </div>
@@ -89,7 +93,8 @@ structure (for a given <cite>proj</cite>):</p>
 <blockquote>
 <div><ul class="simple">
 <li>library binaries are placed into <code class="docutils literal"><span class="pre">sandbox/flavor/lib</span></code></li>
-<li>executable binaries are placed into <code class="docutils literal"><span class="pre">sandbox/flavor/bin/proj/</span></code></li>
+<li>executable binaries are placed into <code class="docutils literal"><span class="pre">sandbox/flavor/bin/proj</span></code></li>
+<li>testsuite binaries are placed into <code class="docutils literal"><span class="pre">sandbox/flavor/tests/proj</span></code></li>
 <li>intermediate binaries are stowed inside <code class="docutils literal"><span class="pre">sandbox/flavor/build/proj</span></code></li>
 </ul>
 </div></blockquote>
@@ -103,23 +108,29 @@ anywhere.</p>
 │   │       ├── foo.hpp
 │   │       └── …
 │   └── gcc
+│       ├── lib
+│       │   └── libfoo.so
 │       ├── bin
+│       │   └── bar
+│       │       └── bar
+│       ├── tests
 │       │   ├── foo
 │       │   │   └── test
 │       │   └── bar
-│       │       ├── bar
 │       │       └── test
-│       ├── lib
-│       │   └── libfoo.so
 │       └── build
 │           ├── foo
 │           │   ├── source
 │           │   │   ├── foo.o
 │           │   │   └── …
 │           │   └── test
+│           │       ├── main.o
 │           │       └── …
 │           └── bar
-│               └── source
+│               ├── source
+│               │   ├── main.o
+│               │   └── …
+│               └── test
 │                   ├── main.o
 │                   └── …
 ├── foo
@@ -135,9 +146,6 @@ anywhere.</p>
 <li>it’s possible to work simultaneously on <code class="docutils literal"><span class="pre">foo</span></code> and <code class="docutils literal"><span class="pre">bar</span></code> even though
 the latter depends on the former without having to install <code class="docutils literal"><span class="pre">foo</span></code> or
 modify the system in any way</li>
-<li>any change to e.g. a specific header of <code class="docutils literal"><span class="pre">foo</span></code> will only trigger the
-recompilation of those object files that depend on it inside both <code class="docutils literal"><span class="pre">foo</span></code>
-and <code class="docutils literal"><span class="pre">bar</span></code>.</li>
 <li>any number of flavors (debug with compiler A, release with compiler A,
 debug with compiler B, etc.) can live side-by-side</li>
 </ul>
@@ -155,7 +163,7 @@ Ninja build files inside</li>
 projects require a different compiler than the rest</li>
 </ul>
 </div></blockquote>
-<p>Recipe behavior:</p>
+<p>Recipe behaviour:</p>
 <blockquote>
 <div><ul>
 <li><p class="first">The root of a project is assumed to be the name of the project (e.g. a
@@ -178,6 +186,22 @@ better or for worse).</p>
 </li>
 </ul>
 </div></blockquote>
+<dl class="docutils">
+<dt>Aliases:</dt>
+<dd><ul class="first last simple">
+<li>One per project for all its combined <a class="reference internal" href="ninjachef.html#ninjachef.Headers" title="ninjachef.Headers"><code class="xref py py-class docutils literal"><span class="pre">Headers</span></code></a> components,
+following the template <cite>proj-headers</cite> where <cite>proj</cite> is the project.</li>
+<li>One global <cite>headers</cite> for all project-specific header aliases.</li>
+<li>One per flavor for all non-testsuite components, named after the flavor.</li>
+<li>One per flavor for each <a class="reference internal" href="ninjachef.html#ninjachef.Testsuite" title="ninjachef.Testsuite"><code class="xref py py-class docutils literal"><span class="pre">Testsuite</span></code></a> component, following the
+template <cite>run-flavor-proj-testsuite</cite> where <cite>flavor</cite> is the flavor, <cite>proj</cite>
+is the project, and <cite>testsuite</cite> is the component. In addition this alias
+does not merely build the component but also runs the associated
+executable or runner script (see <a class="reference internal" href="ninjachef.html#ninjachef.Testsuite" title="ninjachef.Testsuite"><code class="xref py py-class docutils literal"><span class="pre">Testsuite</span></code></a>). Library testsuites
+with no runner script will not be aliased.</li>
+</ul>
+</dd>
+</dl>
 <dl class="class">
 <dt id="ninjachef.recipes.sandbox.Sandbox">
 <em class="property">class </em><code class="descclassname">ninjachef.recipes.sandbox.</code><code class="descname">Sandbox</code><span class="sig-paren">(</span><em>root</em>, <em>sandbox</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ninjachef/recipes/sandbox.html#Sandbox"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ninjachef.recipes.sandbox.Sandbox" title="Permalink to this definition">¶</a></dt>
@@ -212,7 +236,7 @@ and can be absolute or relative.</li>
 </table>
 <dl class="method">
 <dt id="ninjachef.recipes.sandbox.Sandbox.cook">
-<code class="descname">cook</code><span class="sig-paren">(</span><em>projs</em>, <em>flavors</em>, <em>comments=True</em>, <em>default_targets=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ninjachef/recipes/sandbox.html#Sandbox.cook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ninjachef.recipes.sandbox.Sandbox.cook" title="Permalink to this definition">¶</a></dt>
+<code class="descname">cook</code><span class="sig-paren">(</span><em>projs</em>, <em>flavors</em>, <em>ninja=None</em>, <em>*</em>, <em>default_targets=None</em>, <em>comments=True</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ninjachef/recipes/sandbox.html#Sandbox.cook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ninjachef.recipes.sandbox.Sandbox.cook" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -267,7 +291,7 @@ and can be absolute or relative.</li>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2015, lucdanton.
+      &copy;2015, mickk.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>

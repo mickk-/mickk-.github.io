@@ -73,24 +73,27 @@
 <dd><p><em>Dict[Union[str, Tuple[str, ...]], Dict[str, Any]]</em></p>
 <p>A mapping of
 project- or component-specific rules. Rules take the form of a <code class="docutils literal"><span class="pre">{</span>
-<span class="pre">'defines':</span> <span class="pre">defs,</span> <span class="pre">'cflags':</span> <span class="pre">flags,</span> <span class="pre">'lflags':</span> <span class="pre">flags</span> <span class="pre">}</span></code> dictionary,
-where <code class="docutils literal"><span class="pre">defs</span></code> is a set of <code class="xref py py-class docutils literal"><span class="pre">str</span></code> and <code class="docutils literal"><span class="pre">flags</span></code> are lists of
-<code class="xref py py-class docutils literal"><span class="pre">str</span></code> just like keyword arguments <cite>cflags</cite> and <cite>lflags</cite>. It
-is possible to leave out empty entries, i.e. <code class="docutils literal"><span class="pre">{}</span></code> form valid
-rules.</p>
-<p>The keys in the mappings take the form of a <code class="xref py py-class docutils literal"><span class="pre">str</span></code>, when
+<span class="pre">'defines':</span> <span class="pre">defs,</span> <span class="pre">'cflags':</span> <span class="pre">flags,</span> <span class="pre">'lflags':</span> <span class="pre">flags,</span> <span class="pre">'runflags':</span> <span class="pre">flags</span>
+<span class="pre">}</span></code> dictionary, where <code class="docutils literal"><span class="pre">defs</span></code> is a set of <code class="xref py py-class docutils literal"><span class="pre">str</span></code> and
+<code class="docutils literal"><span class="pre">flags</span></code> are lists of <code class="xref py py-class docutils literal"><span class="pre">str</span></code> just like keyword arguments
+<cite>cflags</cite> and <cite>lflags</cite>. It is possible to leave out empty entries,
+i.e. <code class="docutils literal"><span class="pre">{}</span></code> form valid rules. See <a class="reference internal" href="ninjachef.html#ninjachef.Testsuite" title="ninjachef.Testsuite"><code class="xref py py-class docutils literal"><span class="pre">Testsuite</span></code></a> for the
+meaning of <code class="docutils literal"><span class="pre">runflags</span></code> and how multiple <code class="docutils literal"><span class="pre">runflags</span></code> are merged
+together.</p>
+<p>The keys in the mapping take the form of a <code class="xref py py-class docutils literal"><span class="pre">str</span></code>, when
 referring to a project, or of a tuple of <code class="xref py py-class docutils literal"><span class="pre">str</span></code> when
 referring to a more specific component. The tuple will be
 interpreted as it is for <a class="reference internal" href="ninjachef.cookbook.html#ninjachef.cookbook.Deps" title="ninjachef.cookbook.Deps"><code class="xref py py-class docutils literal"><span class="pre">Deps</span></code></a>.</p>
 <p>When a component is prepared with this flavor, the <cite>rules</cite> will be
 looked up to see if there are additional defines and flags specified
 either for the project the component belongs to or or for the
-component itself:</p>
+component itself. All applicable rules will be merged together. Example:</p>
 <div class="highlight-python"><div class="highlight"><pre>gcc = flavors.Gcc(…)
 # Project-specific
-gcc.rules[&#39;foo&#39;] = { &#39;defines&#39;: &#39;FOO&#39; }
+gcc.rules[&#39;foo&#39;] = {&#39;defines&#39;: {&#39;FOO&#39;}}
 # More finely-grained
-gcc.rules[(&#39;foo&#39;, &#39;bar&#39;)] = { &#39;defines&#39;: &#39;BAR&#39; }
+gcc.rules[(&#39;foo&#39;, &#39;bar&#39;)] = {&#39;defines&#39;: {&#39;BAR&#39;}}
+# both FOO and BAR will be defined during compilation of (foo, bar)
 </pre></div>
 </div>
 </dd></dl>
@@ -148,6 +151,11 @@ but not compilation.</li>
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="ninjachef.flavors.gcc.Gcc.runflag_variables">
+<code class="descname">runflag_variables</code><span class="sig-paren">(</span><em>ingredient_side</em>, <em>component</em>, <em>*</em>, <em>merge</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ninjachef/flavors/gcc.html#Gcc.runflag_variables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ninjachef.flavors.gcc.Gcc.runflag_variables" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="ninjachef.flavors.gcc.Gcc.variables">
 <code class="descname">variables</code><span class="sig-paren">(</span><em>variables</em>, <em>component</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ninjachef/flavors/gcc.html#Gcc.variables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ninjachef.flavors.gcc.Gcc.variables" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -199,7 +207,7 @@ but not compilation.</li>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2015, lucdanton.
+      &copy;2015, mickk.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>

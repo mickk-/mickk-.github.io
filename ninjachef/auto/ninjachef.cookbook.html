@@ -267,7 +267,7 @@ should be resolved, see <a class="reference internal" href="#ninjachef.cookbook.
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>files</strong> (<a class="reference internal" href="#ninjachef.cookbook.Files" title="ninjachef.cookbook.Files"><em>Files</em></a>) &#8211; The set of headers that should be installed.</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>files</strong> (<a class="reference internal" href="ninjachef.html#ninjachef.Files" title="ninjachef.Files"><em>Files</em></a>) &#8211; The set of headers that should be installed.</p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Keyword Arguments:</th></tr>
@@ -339,7 +339,7 @@ release build) should be specified via the flavor.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>files</strong> (<a class="reference internal" href="#ninjachef.cookbook.Files" title="ninjachef.cookbook.Files"><em>Files</em></a>) &#8211; <p>The set of files that result in a binary. If the keyword
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>files</strong> (<a class="reference internal" href="ninjachef.html#ninjachef.Files" title="ninjachef.Files"><em>Files</em></a>) &#8211; <p>The set of files that result in a binary. If the keyword
 argument <cite>main</cite> is provided, its associated file will be ignored
 here. This is convenient for executable tests which might want to
 run their own <code class="docutils literal"><span class="pre">main</span></code>:</p>
@@ -366,6 +366,76 @@ headers.</li>
 Binary-specific dependencies. If a dependency applies to
 all binaries in a given project, consider using a separate
 <a class="reference internal" href="#ninjachef.cookbook.ProjectDeps" title="ninjachef.cookbook.ProjectDeps"><code class="xref py py-class docutils literal"><span class="pre">ProjectDeps</span></code></a> component instead.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="ninjachef.cookbook.Testsuite">
+<em class="property">class </em><code class="descclassname">ninjachef.cookbook.</code><code class="descname">Testsuite</code><span class="sig-paren">(</span><em>*args</em>, <em>runner=None</em>, <em>runflags=None</em>, <em>runflag_merger=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ninjachef/_project.html#Testsuite"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ninjachef.cookbook.Testsuite" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">ninjachef._project.Binary</span></code></p>
+<p>A testsuite binary.</p>
+<p>A refinement of <a class="reference internal" href="#ninjachef.cookbook.Binary" title="ninjachef.cookbook.Binary"><code class="xref py py-class docutils literal"><span class="pre">Binary</span></code></a> for files that compile into a testsuite.
+This allows recipes to handle them separately.</p>
+<dl class="attribute">
+<dt id="ninjachef.cookbook.Testsuite.runner">
+<code class="descname">runner</code><a class="headerlink" href="#ninjachef.cookbook.Testsuite.runner" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>Optional[PurePath]</em></p>
+<p>An optional path to a runner script. If
+specified, the runner script should be the target of the final Ninja
+build statement associated to the <a class="reference internal" href="#ninjachef.cookbook.Testsuite" title="ninjachef.cookbook.Testsuite"><code class="xref py py-class docutils literal"><span class="pre">Testsuite</span></code></a> if possible.
+Otherwise, if the <a class="reference internal" href="#ninjachef.cookbook.Testsuite" title="ninjachef.cookbook.Testsuite"><code class="xref py py-class docutils literal"><span class="pre">Testsuite</span></code></a> specifies a <cite>main</cite> file (see
+<a class="reference internal" href="#ninjachef.cookbook.Binary" title="ninjachef.cookbook.Binary"><code class="xref py py-class docutils literal"><span class="pre">Binary</span></code></a>) the associated executable should be associated if
+possible. In any other case behaviour is left up to the recipe.</p>
+<p>When executed, a runner script receives the path to the associated
+testsuite binary as first argument then the <cite>runflags</cite> as remaining
+arguments, if any.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ninjachef.cookbook.Testsuite.runflags">
+<code class="descname">runflags</code><a class="headerlink" href="#ninjachef.cookbook.Testsuite.runflags" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>List[str]</em></p>
+<p>Additional arguments for the runner script.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ninjachef.cookbook.Testsuite.runflag_merger">
+<code class="descname">runflag_merger</code><a class="headerlink" href="#ninjachef.cookbook.Testsuite.runflag_merger" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>Callable</em></p>
+<p>A function to merge runflags. Runflags can be specified from two
+sides: ingredient-side (when constructing a <a class="reference internal" href="#ninjachef.cookbook.Testsuite" title="ninjachef.cookbook.Testsuite"><code class="xref py py-class docutils literal"><span class="pre">Testsuite</span></code></a>) and
+flavor-side (when constructing or setting a <a class="reference internal" href="ninjachef.flavors.flavor.html#ninjachef.flavors.flavor.Flavor" title="ninjachef.flavors.flavor.Flavor"><code class="xref py py-class docutils literal"><span class="pre">Flavor</span></code></a>). In
+turn flavor-side runflags can be specified at several levels:
+flavor-wide, project-wide, and at the level of the component. This
+function mandates how all those flags are to be combined to yield
+the final runflags for this testsuite.</p>
+<p>The precise signature is as follows: <code class="docutils literal"><span class="pre">Callable[[Sequence[str],</span>
+<span class="pre">Sequence[str],</span> <span class="pre">Sequence[str],</span> <span class="pre">Sequence[str]],</span> <span class="pre">List[str]]</span></code></p>
+<p>The arguments correspond in order to first the ingredient-side
+runflags (i.e. <code class="docutils literal"><span class="pre">self.runflags</span></code>); then the flavor-wide,
+project-wide, and component-specific runflags from the flavor.</p>
+<p>The default is concatenation, i.e. <code class="docutils literal"><span class="pre">self.runflag_merger(['a'],</span> <span class="pre">[],</span>
+<span class="pre">['b'],</span> <span class="pre">['c',</span> <span class="pre">'d'</span> <span class="pre">])</span> <span class="pre">==</span> <span class="pre">['a',</span> <span class="pre">'b',</span> <span class="pre">'c',</span> <span class="pre">'d'</span> <span class="pre">])</span></code>.</p>
+</dd></dl>
+
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>*args</strong> &#8211; Same arguments as would be passed to <a class="reference internal" href="#ninjachef.cookbook.Binary" title="ninjachef.cookbook.Binary"><code class="xref py py-class docutils literal"><span class="pre">Binary</span></code></a>.</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Keyword Arguments:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><ul class="first last simple">
+<li><strong>runner (Optional[Union[str, PurePath]])</strong></li>
+<li><strong>runflags (Optional[Sequence[str]])</strong></li>
+<li><strong>runflag_merger (Optional[Callable])</strong></li>
+<li><strong>**kwargs</strong> &#8211;
+Same keyword arguments as would be passed to <a class="reference internal" href="#ninjachef.cookbook.Binary" title="ninjachef.cookbook.Binary"><code class="xref py py-class docutils literal"><span class="pre">Binary</span></code></a>.</li>
 </ul>
 </td>
 </tr>
@@ -416,7 +486,7 @@ all binaries in a given project, consider using a separate
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2015, lucdanton.
+      &copy;2015, mickk.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
