@@ -4,7 +4,7 @@ safe: true
 # content
 include: ["_modules", "_static"]
 exclude: ["Gemfile", "Gemfile.lock", "Session.vim"]
-show_drafts: null
+show_drafts: false
 future: false
 
 # presentation
@@ -13,7 +13,10 @@ lsi: false
 
 # conversion
 markdown: kramdown
+highlighter: rouge
 kramdown:
     input: GFM
     hard_wrap: false
-highlighter: rouge
+    line_width: 120
+    syntax_highlighter: rouge
+    default_lang: cpp

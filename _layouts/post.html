@@ -1,17 +1,9 @@
-<!DOCTYPE html>
-<html>
+---
+layout: master
+---
 
-<head>
-    {% include metadata.html %}
-    <title>{{ page.title }}</title>
-</head>
-
-<body>
-    {% include series.html %}
-    <article>
-        <h2>{{ page.title }}</h2>
-        {{ content }}
-    </article>
-</body>
-
-</html>
+{% include series.html %}
+<article class='post'>
+    <h2 class='post-title'>{{ page.title }}</h2>
+    {{ content }}
+</article>

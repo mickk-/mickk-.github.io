@@ -1,5 +1,5 @@
 ---
-layout: home
+layout: master
 title: Landing page
 ---
 
@@ -11,3 +11,11 @@ struct foo {
     int j;
 };
 {% endhighlight %}
+
+<ul>
+{% for post in site.posts reversed %}
+    <li>
+        <a href="{{ post.url }}">{{ post.title }}</a>
+    </li>
+{% endfor %}
+</ul>
