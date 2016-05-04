@@ -12,11 +12,12 @@ I will be using a deliberately dumbed-down iterator concept to illustrate, in va
 It will be used to write the simplest, non-trivial function templates that can make use of that
 concept.
 
-A direct approach is to consider that concepts operate on (concrete) types. That is to say,
-the constraint `IteratorType<It>` is satisfied as long as `It` is a type that can be used as an
+A direct approach is to consider that concepts operate on (concrete) types. That is to say, the
+constraint `IteratorType<It>` is satisfied as long as `It` is a type that can be used as an
 iterator. In my opinion this is how concepts have historically been informally specified, going back
-to the days of [the SGI STL](https://www.sgi.com/tech/stl/). Consequently it appears it is also the
-most common way of writing and talking about concepts today.
+to the days of [the SGI STL](https://www.sgi.com/tech/stl/) (e.g. the [STL Trivial Iterator
+concept](https://www.sgi.com/tech/stl/trivial.html)). Consequently it appears it is also the most
+common way of writing and talking about concepts **today**.
 
 ```cpp
 template<typename It>

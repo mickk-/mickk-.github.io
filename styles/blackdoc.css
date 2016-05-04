@@ -30,7 +30,8 @@ ______ _            _   ______
  */
 
 html {
-  font-family: "PT Sans", Helvetica, Arial, sans-serif;
+  /* font-family: "PT Sans", Helvetica, Arial, sans-serif; */
+  font-family: 'Work Sans', Helvetica, Arial, sans-serif;
 }
 
 body {
@@ -39,12 +40,12 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'EB Garamond', serif;
+  /* font-family: 'EB Garamond', serif; */
   color: #aaa;
 }
 
 h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
-  font-family: 'EB Garamond', serif;
+  /* font-family: 'EB Garamond', serif; */
   color: #50585D;
   font-kerning: auto;
   font-feature-settings: "kern","liga","dlig","hlig","cswh";
@@ -63,7 +64,7 @@ a:hover {
 .btn {
   display: inline-block;
   padding: .25rem 1rem;
-  font-family: "PT Sans", sans-serif;
+  /* font-family: "PT Sans", sans-serif; */
   color: #ebcb8b;
   border: .1rem solid #32343c;
   border-radius: .1rem;
@@ -86,6 +87,10 @@ code {
   color: #dcdccc;
   white-space: pre;
   background-color: #222;
+}
+
+code, pre {
+    font-family: 'Inconsolata', ;
 }
 
 pre {
@@ -201,7 +206,7 @@ tbody tr:nth-child(odd) th {
 .sidebar-about h1 {
   color: #caad00;
   margin-top: 0;
-  font-family: 'Noto Serif', serif;
+  /* font-family: 'Noto Serif', serif; */
   font-size: 2.25rem;
 
 }
