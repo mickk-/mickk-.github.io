@@ -1,0 +1,8 @@
+/* groddy pure css horizontal separator */
+.footnotes::before {
+    content: " ";
+    display: block;
+    border-top: solid 1px #101010;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
