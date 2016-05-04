@@ -76,13 +76,21 @@ possible fix is to ditch the introduction syntax in favour of the more explicit:
 ```cpp
 template<typename It>
 iterator_reference_t<std::remove_reference_t<It>> the_simplest_forwarding_function(It&& it)
-    requires Iterator<std::remove_reference_t<It>>
+    requires IteratorType<std::remove_reference_t<It>>
 { /* same as before */ }
 ```
 
-This is what I meant when I said concepts for types are harder to use: because the concept itself
-focuses on concrete types, the relationship between the actual types in use in the program (i.e. the
-function template parameter `It`) and the concrete types of interest 'leaks' into the usage sites. I
-consider it problematic that it is the writer and users of `the_simplest_forwarding_function` that
-have to pay attention to this relationship since in a given program a concept is typically written
-once but used in multiple places.
+I am however very fond of introduction syntax as it cut down on a lot of noise and boilerplate. So
+I'd rather introduce a shortcut:
+
+```cpp
+template<typename It>
+concept bool IteratorTarget = IteratorType<std::remove_reference_t<It>>;
+
+IteratorTarget{It}
+iterator_reference_t<It> the_simplest_forwarding_function(It&& it);
+```
+
+This begs a question however: how much of an actual concept is `IteratorTarget`? Is it merely a
+device to reduce boilerplate, or can we really talk of types (such as `concrete_iterator&`) behind
+which an actually interesting concept is hiding?

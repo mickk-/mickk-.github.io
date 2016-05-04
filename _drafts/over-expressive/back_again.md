@@ -37,7 +37,7 @@ using finalexprtype = decltype( ++declexpr<exprtype>() );
 
 As signalled by the tell-tale use of expression-`decltype`, we have computed an expression-as-type
 yet again. It is a type equivalent to `declype( ++expr )` where `expr` is our starting expression.
-What we have demonstrated is a way to carry around expression simulacra in the guise of types.
+We have demonstrated is a way to carry around expression simulacra in the guise of types.
 
 Why does this matter? Let's take a look at `std::is_constructible_v`:
 
@@ -52,7 +52,6 @@ asks the question (where `valid_definition` is a made-up pseudo-operator):
 
 ```cpp
 constexpr bool answer = valid_definition {
-    // the answer we seek: is this variable definition valid?
     foo imaginary_variable(std::declval<bar>(), std::declval<baz>());
 };
 ```
@@ -65,12 +64,10 @@ parameter is an expression-as-type, as revealed by its semantics:
 ```cpp
 constexpr bool answer = std::is_assignable_v<foo, bar>;
 constexpr bool answer = valid_expression(
-    // the answer we seek: is this expression valid?
     std::declval<foo>() = std::declval<bar>()
 );
 ```
 
-Armed with what we know about expressions, types, and metafunctions we can know tackle an important
+Armed with what we know about expressions, types, and metafunctions we can now tackle an important
 question: what can C++ concepts apply to, and what *should* C++ concepts apply to? While it's
-obvious that concepts will be ranging over types most of the time, we now know that's not precise
-enough.
+obvious that concepts will be ranging over types most of the time, that's not precise enough.
