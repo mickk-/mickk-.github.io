@@ -3,6 +3,7 @@ layout: post
 title: Self-contained Ranges Post-mortem
 categories: devlog
 topics: ranges
+date: 2015-01-01
 ---
 
 In the first approach (of a second tentative), ranges are entirely

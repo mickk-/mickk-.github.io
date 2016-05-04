@@ -5,6 +5,7 @@ series: Over-expressive Types
 slug: over-expressive-preliminaries
 categories: devlog
 topics: generic concepts
+date: 2016-05-01
 ---
 
 Did you know there are two features behind the C++11 `decltype` keyword[^1]? On the one hand you can
@@ -36,15 +37,17 @@ xvalue expression `std::move(i)` yields us `int&&`.
 This adjustment that expression-`decltype` performs, and the situation we now find ourselves in,
 should give pause for reflection. Consider this program fragment:
 
-    int var1 = 0;
-    int& var2 = var1;
+```cpp
+int var1 = 0;
+int& var2 = var1;
 
-    using type1a = decltype( var1 );
-    using type1b = decltype( (var1) );
-    using type2a = decltype( var2 );
-    using type2b = decltype( (var2) );
+using type1a = decltype( var1 );
+using type1b = decltype( (var1) );
+using type2a = decltype( var2 );
+using type2b = decltype( (var2) );
 
-    std::vector<int> var3;
+std::vector<int> var3;
+```
 
 Here, the types `int` and `int&` make several appearances each, in different guises. Some of those
 repeated occurrences do not always mean the same thing, so we have to ask ourselves what could make
