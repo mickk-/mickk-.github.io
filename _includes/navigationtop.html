@@ -1,0 +1,50 @@
+<div class='infobox'>
+    <h1><a href='/'>{{site.title}}</a></h1>
+
+    {% if page.series %}
+    <p>Part of the <cite>{{ page.series }}</cite> series.</p>
+
+    <ol class='series-list'>
+        {% assign total = '0' %}
+        {% for post in site.posts reversed %}
+        {% if post.series == page.series %}
+            {% capture total %}{{ total | plus: '1' }}{% endcapture %}
+            <li>
+                {% if page.url == post.url %}
+                    {% assign count = total %}
+                    {% assign found = true %}
+                    {{ page.title }}
+                {% else %}
+                    {% if found != true %}
+                        {% assign seriesprev = {{post}} %}
+                    {% endif %}
+                    {% if found and seriesnext == nil %}
+                        {% assign seriesnext = {{post}} %}
+                    {% endif %}
+                    <a href={{post.url}}>{{ post.title }}</a>
+                {% endif %}
+            </li>
+        {% endif %}
+        {% endfor %}
+    </ol>
+
+    {% include seriesarrows.html %}
+    {% endif %}
+
+    <!-- <div id='button-box'> -->
+    <!--     <span id='button-prev'> -->
+    <!--         {% if page.previous %} -->
+    <!--             <a href={{page.previous.url}}>&larr; {{page.previous.title}}</a> -->
+    <!--         {% else %} -->
+    <!--             &larr; -->
+    <!--         {% endif %} -->
+    <!--     </span> -->
+    <!--     <span id='button-next'> -->
+    <!--         {% if page.next %} -->
+    <!--             <a href={{page.next.url}}>{{page.next.title}} &rarr;</a> -->
+    <!--         {% else %} -->
+    <!--             &rarr; -->
+    <!--         {% endif %} -->
+    <!--     </span> -->
+    <!-- </div> -->
+</div>

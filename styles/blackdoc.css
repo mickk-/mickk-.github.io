@@ -48,7 +48,7 @@ h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
   /* font-family: 'EB Garamond', serif; */
   color: #50585D;
   font-kerning: auto;
-  font-feature-settings: "kern","liga","dlig","hlig","cswh";
+  /* font-feature-settings: "kern","liga","dlig","hlig","cswh"; */
   font-synthesis: weight style;
 }
 
@@ -85,7 +85,7 @@ strong, b {
 code {
   /* color: #993030; */
   color: #dcdccc;
-  white-space: pre;
+  /* white-space: pre; */
   background-color: #222;
 }
 

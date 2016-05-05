@@ -1,3 +1,26 @@
+.infobox {
+    border: solid 1px #101010;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border-radius: 3px;
+}
+
+@media (min-width: 48em) {
+  .infobox {
+    font-size: 12px;
+  }
+}
+@media (min-width: 58em) {
+  .infobox {
+    font-size: 16px;
+  }
+}
+
+.infobox > h1 {
+    text-align: center;
+    margin: 0px;
+}
+
 /* groddy pure css horizontal separator */
 .footnotes::before {
     content: " ";
@@ -5,4 +28,17 @@
     border-top: solid 1px #101010;
     margin-top: 2rem;
     margin-bottom: 2rem;
+}
+
+#button-box {
+    overflow: hidden;
+    margin: 0.5rem;
+}
+
+#button-prev {
+    float: left;
+}
+
+#button-next {
+    float: right;
 }

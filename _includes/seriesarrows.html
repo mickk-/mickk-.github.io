@@ -1,0 +1,16 @@
+<div id='button-box'>
+    <span id='button-prev'>
+        {% if seriesprev %}
+            <a href={{seriesprev.url}}>&larr; {{seriesprev.title}}</a>
+        {% else %}
+            &larr;
+        {% endif %}
+    </span>
+    <span id='button-next'>
+        {% if seriesnext %}
+            <a href={{seriesnext.url}}>{{seriesnext.title}} &rarr;</a>
+        {% else %}
+            &rarr;
+        {% endif %}
+    </span>
+</div>

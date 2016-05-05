@@ -20,3 +20,6 @@ kramdown:
     line_width: 120
     syntax_highlighter: rouge
     default_lang: cpp
+
+# variables
+title: Devlog

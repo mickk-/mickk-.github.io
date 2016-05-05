@@ -2,8 +2,14 @@
 layout: master
 ---
 
-{% include series.html %}
+{% include navigationtop.html %}
 <article class='post'>
-    <h2 class='post-title'>{{ page.title }}</h2>
+    {% if page.series %}
+        <h2 class='post-title'>{{ page.series }}</h2>
+        <h3 class='post-title'>{{count}}. {{ page.title }}</h3>
+    {% else %}
+        <h2 class='post-title'>{{ page.title }}</h2>
+    {% endif %}
     {{ content }}
 </article>
+{% include navigationbot.html %}
