@@ -5,19 +5,20 @@ series: Over-expressive Types
 slug: concepts-for-types
 categories: devlog
 topics: generic concepts
-date: 2016-05-03
+date: 2016-05-04
 ---
 
-I will be using a deliberately dumbed-down iterator concept to illustrate, in various incarnations.
-It will be used to write the simplest, non-trivial function templates that can make use of that
-concept.
+In this post and the next I will be using a deliberately dumbed-down iterator concept for the
+purpose of illustration, one that only supports indirection (`*it`) and incrementing (`++it`) with
+no pre- or post-condition. Each implementation will be gauged by attempting to write the simplest,
+non-trivial function templates that can make use of that concept.
 
 A direct approach is to consider that concepts operate on (concrete) types. That is to say, the
 constraint `IteratorType<It>` is satisfied as long as `It` is a type that can be used as an
 iterator. In my opinion this is how concepts have historically been informally specified, going back
 to the days of [the SGI STL](https://www.sgi.com/tech/stl/) (e.g. the [STL Trivial Iterator
 concept](https://www.sgi.com/tech/stl/trivial.html)). Consequently it appears it is also the most
-common way of writing and talking about concepts **today**.
+common way of writing and talking about concepts today.
 
 ```cpp
 template<typename It>
@@ -92,5 +93,5 @@ iterator_reference_t<It> the_simplest_forwarding_function(It&& it);
 ```
 
 This begs a question however: how much of an actual concept is `IteratorTarget`? Is it merely a
-device to reduce boilerplate, or can we really talk of types (such as `concrete_iterator&`) behind
-which an actually interesting concept is hiding?
+device to reduce boilerplate? Is it `concrete_iterator&` itself that is interesting, or is it the
+relation between `concrete_iterator`, the `IteratorType` concept, and C++ syntax?

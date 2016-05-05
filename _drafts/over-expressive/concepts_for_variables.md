@@ -5,7 +5,7 @@ series: Over-expressive Types
 slug: concepts-for-variables
 categories: devlog
 topics: generic concepts
-date: 2016-05-04
+date: 2016-05-05
 ---
 
 Let's approach the situation from the opposite angle. Rather than starting at concepts, let's start
@@ -24,10 +24,10 @@ auto it = …;
 *it;
 ```
 
-Very crucially however, we could have defined our initial variable as `auto& it = …;` (initializer
-permitting) or `auto&& it = …;` and our program would not be substantially different. This is in
-essence the difference between `the_simplest_function_by_val`, `the_simplest_function_by_ref`, and
-`the_simplest_forwarding_function`.
+Crucially we can immediately observe that we could have defined our initial variable as `auto& it =
+…;` (initializer permitting) or `auto&& it = …;` and our program would not be substantially
+different. This is in essence the difference between `the_simplest_function_by_val`,
+`the_simplest_function_by_ref`, and `the_simplest_forwarding_function`.
 
 In other words, when it comes to specifying close-fitting constraints to our program it turns out
 that the *declared type* of `it` is not as important as how it is used as a *variable*. E.g. when
@@ -46,9 +46,9 @@ using iterator_reference_t = typename std::iterator_traits<unqualified_t<It>>::r
 
 template<typename It>
 concept bool IteratorVar = requires {
-    typename auto;
+    typename iterator_reference_t<It>;
 } && requires(It it) {
-    { *std::as_const(it) } -> auto;
+    { *std::as_const(it) } -> iterator_reference_t<It>;
     ++it;
 }
 
@@ -79,11 +79,11 @@ auto the_simplest_function_by_ref(It& as_a_ref_param);
 // similarly for the_simplest_forwarding function
 ```
 
-That's actually a bit imprecise as the actual variable of interest has type `It&` whereas the
-constraint is performed against variables of type `It`. As things are though both `IteratorVar<It>`
-and `Iterator<It&>` compute identical answer. Whether that should be or not (and thus whether
-`IteratorTarget` is useful or not) leads us to a potentially interesting tangent, so I'll leave it
-at that for today[^1].
+That's technically a bit imprecise as the actual variable of interest has type `It&` whereas the
+constraint is performed against a variable of type `It`. However as things are though both
+`IteratorVar<It>` and `IteratorVar<It&>` compute identical answer. Whether that should be or not
+(and thus whether `IteratorTarget` is useful or not) leads us to a potentially interesting tangent,
+so I'll leave it at that for today[^1].
 
   [^1]:
     The difference in constraints between:
@@ -111,8 +111,8 @@ this insight to be revolutionary and I don't consider concepts-for-variables to 
 alternative to concepts-for-types either.
 
 As I am currently experimenting with concepts there are select occasions that still call for a
-concept-for-types. Really, just like how it makes sense for `is_constructible_v` to operate on a
-declared type for its first parameter, while it makes sense for `is_assignable_v` to operate on an
+concept-for-types. Just like how it makes sense for `is_constructible_v` to operate on a declared
+type for its first parameter, while it makes sense for `is_assignable_v` to operate on an
 expression-as-type instead.
 
 Above all, this is all new and experimental considering C++ concepts are barely fresh off the

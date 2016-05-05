@@ -5,11 +5,11 @@ series: Over-expressive Types
 slug: over-expressive-back-again
 categories: devlog
 topics: generic concepts
-date: 2016-05-02
+date: 2016-05-03
 ---
 
-Interestingly we can reverse the mapping introduced by expression-`decltype`, going instead from
-types to expressions:
+Whereas expression-`decltype` introduces a mapping from expressions to types, it turns out we can
+inverse it to instead go from types to expressions:
 
 ```cpp
 template<typename ExprType> ExprType   declexpr();
@@ -27,17 +27,16 @@ using exprtype = decltype( (expr) );
 ```
 
 In turn we can convert this expression-as-type back again to the expression `declexpr<exprtype>()`.
-However it should be noted that since `declexpr` is *declared* but not *defined* (since it is hard
-to produce an actual value of arbitrary type out of thin air) we can only use it in limited ways.
-For instance:
+However since `declexpr` is declared but not defined (since it is hard to produce an actual value of
+arbitrary type out of thin air) we can only use it in limited ways. For instance:
 
 ```cpp
 using finalexprtype = decltype( ++declexpr<exprtype>() );
 ```
 
-As signalled by the tell-tale use of expression-`decltype`, we have computed an expression-as-type
-yet again. It is a type equivalent to `declype( ++expr )` where `expr` is our starting expression.
-We have demonstrated is a way to carry around expression simulacra in the guise of types.
+We have computed an expression-as-type yet again. It is a type equivalent to `decltype( ++expr )`
+where `expr` is our starting expression. In other words we have demonstrated a way to carry around
+expressions in the guise of types.
 
 Why does this matter? Let's take a look at `std::is_constructible_v`:
 
@@ -45,9 +44,9 @@ Why does this matter? Let's take a look at `std::is_constructible_v`:
 constexpr bool answer = std::is_constructible_v<foo, bar, baz>;
 ```
 
-What we have here is a function from types to `bool`. Remarkably the types it accept take different
-forms: the very first parameter is the *declared* type to an imaginary variable while the following
-types are *expressions-as-types* for imaginary initializers. In other words, the previous snippet
+What we have here is a function from types to `bool`. Remarkably the types it accepts are of
+different kinds: the very first parameter is the *declared* type of an imaginary variable while the
+following parameters are *expressions-as-types* for imaginary initializers. the previous snippet
 asks the question (where `valid_definition` is a made-up pseudo-operator):
 
 ```cpp
@@ -63,6 +62,7 @@ parameter is an expression-as-type, as revealed by its semantics:
 
 ```cpp
 constexpr bool answer = std::is_assignable_v<foo, bar>;
+// same as
 constexpr bool answer = valid_expression(
     std::declval<foo>() = std::declval<bar>()
 );

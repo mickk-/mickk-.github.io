@@ -1,11 +1,11 @@
 ---
 layout: post
-title: Preliminaries
+title: A decltype reminder
 series: Over-expressive Types
-slug: over-expressive-preliminaries
+slug: over-expressive-decltype
 categories: devlog
 topics: generic concepts
-date: 2016-05-01
+date: 2016-05-02
 ---
 
 Did you know there are two features behind the C++11 `decltype` keyword[^1]? On the one hand you can
@@ -15,13 +15,20 @@ question](http://stackoverflow.com/questions/3097779/decltype-and-parentheses) s
 two features can report seemingly different things. Throughout this series I'll make sure to always
 explicitly specify which `decltype` variant I'm referring to.
 
-  [^1]: C++14 also adds `decltype(auto)`, bringing the count to three--but that is something
-    altogether different.
+  [^1]:
+    C++14 also adds `decltype(auto)`, bringing the count to three--but that is something altogether
+    different.
 
 Let's now dig deeper. As it turns out, expression-`decltype` does a very important thing: it
 'adjusts' the type it reports. Without going into too much technicalities, you can make the case
-that all the following C++ expressions have type `int` (where `int i;` is in scope): `0`, `i`,
-`*&i`, `std::move(i)`. And yet expression-`decltype` reports these varied answers:
+that all the following C++ expressions have type `int` (where `int i;` is in scope):
+
+  - `0`
+  - `i`
+  - `*&i`
+  - `std::move(i)`
+
+And yet expression-`decltype` reports these varied answers:
 
 | expression | `decltype( (expression) )`[^2]
 | `0` | `int`
@@ -58,5 +65,6 @@ Those wanting more after this brief overview may find comprehensive information 
 [on Stack
 Overflow](http://stackoverflow.com/questions/17241614/in-c-what-expressions-yield-a-reference-type-when-decltype-is-applied-to-them).
 
-  [^2]: We're putting the expression within parentheses to make extra sure we're not accidentally
+  [^2]:
+    We're putting the expression within parentheses to make extra sure we're not accidentally
     using entity-`decltype`.
