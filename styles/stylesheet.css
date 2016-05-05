@@ -21,6 +21,11 @@
     margin: 0px;
 }
 
+#about {
+    margin: 0;
+    font-size: 80%;
+}
+
 /* groddy pure css horizontal separator */
 .footnotes::before {
     content: " ";
