@@ -1,0 +1,44 @@
+.. highlight:: cpp
+.. default-role:: any
+.. namespace:: boost
+
+A Sphinx re-write of Boost.Range's `Single Pass Range <spr_>`_, slightly adapted.
+
+.. _spr: http://www.boost.org/doc/libs/1_60_0/libs/range/doc/html/range/concepts/single_pass_range.html
+
+Single Pass Range
+=================
+
+.. concept:: template<typename Rng> SinglePassRange
+
+   A range ``Rng`` where ``range_iterator_t<X>`` is a model of `SinglePassIterator`.
+
+   :notation:
+      :``Rng rng``: a model
+
+   :associated types:
+      :``range_iterator_t<Rng>``: The type of iterator used to iterate through a range's
+        elements. The iterator's value type is expected to be the range's value type. A conversion
+        from the iterator type to the ``const`` iterator type must exist.
+
+      :``range_iterator_t<Rng const>``: A type of iterator that may be used to examine, but not
+        to modify, a range's elements.
+
+   :associated expressions:
+      :``begin(rng)``: Returns an iterator pointing to the first element in the range.
+
+         :postcondition: ``begin(rng)`` is either dereferenceable or past-the-end. It is
+            past-the-end if and only if ``distance(rng) == 0``.
+      :``end(rng)``: Returns an iterator pointing one past the last element in the range.
+
+         :postcondition: ``end(rng)`` is past-the-end.
+
+   :complexity guarantees:
+      ``end(rng)`` is at most amortized linear time, ``begin(rng)`` is amortized constant time. For
+      most practical purposes, one can expect both to be amortized constant time.
+
+   :invariants:
+      :valid range: ``[begin(rng), end(rng))`` is a valid range, that is, ``end(rng)`` is reachable
+         from ``begin(rng)`` in a finite number of increments.
+      :completeness: An algorithm that iterates through the range ``[begin(rng), end(rng))`` will
+         pass through every element of ``rng``.
