@@ -2,7 +2,7 @@
 safe: true
 
 # content
-include: ["_modules", "_static"]
+include: ["_modules", "_sources", "_static"]
 exclude: ["Gemfile", "Gemfile.lock", "Session.vim"]
 show_drafts: false
 future: false
