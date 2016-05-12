@@ -6,18 +6,57 @@ title: Devlog
 <h1>{{site.title}}</h1>
 
 <div class='posts'>
-    <ul>
-        {% for post in site.posts %}
-        <li>
-            <h5 class='post-title'><a href='{{ post.url }}'>{{ post.title }}</a></h5>
+    {% for post in site.posts %}
+    {% assign current_series = post.series %}
+    {% assign next_series = post.previous.series %}
+
+    {% if forloop.first %}
+        <h3>{{current_series}}</h3>
+        <span class='post-date'>{{ post.date | date_to_string }}</span>
+        {% if post.previous and current_series == next_series %}
+            {% assign ordered = true %}
+            <ol>
+        {% else %}
+            {% assign ordered = false %}
+            <ul>
+        {% endif %}
+    {% endif %}
+
+    <li>
+        <h5 class='post-title'><a href='{{ post.url }}'>{{ post.title }}</a></h5>
+    </li>
+
+    {% if forloop.last %}
+        {% if ordered %}
+            </ol>
+        {% else %}
+            </ul>
+        {% endif %}
+    {% else %}
+        {% if current_series != next_series %}
+            {% if ordered %}
+                </ol>
+            {% else %}
+                </ul>
+            {% endif %}
+
+            <h3>{{next_series}}</h3>
             <span class='post-date'>{{ post.date | date_to_string }}</span>
-        </li>
-        {% endfor %}
-    </ul>
+            {% if post.previous.previous and next_series == post.previous.previous.series %}
+                {% assign ordered = true %}
+                <ol>
+            {% else %}
+                {% assign ordered = false %}
+                <ul>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+    {% endfor %}
 </div>
 
-<!-- <hr /> -->
+<hr />
 
-<!-- <div id='about'> -->
-<!--     <a href='/about'>About this site.</a> -->
-<!-- </div> -->
+<div id='about'>
+    <!-- <a href='/about'>About this site.</a> -->
+    This site is made with <a href='https://jekyllrb.com'>Jekyll</a> and uses a modified <a href='http://karloespiritu.com/blackdoc'>BlackDoc</a> theme.
+</div>

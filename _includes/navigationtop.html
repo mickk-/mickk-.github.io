@@ -6,7 +6,7 @@
 
     <ol class='series-list'>
         {% assign total = '0' %}
-        {% for post in site.posts reversed %}
+        {% for post in site.posts %}
         {% if post.series == page.series %}
             {% capture total %}{{ total | plus: '1' }}{% endcapture %}
             <li>
