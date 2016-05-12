@@ -2,16 +2,15 @@
 layout: post
 title: A decltype reminder
 series: Over-expressive Types
-slug: over-expressive-decltype
-categories: devlog
+categories: devlog over-expressive-types
 topics: generic concepts
-date: 2016-05-02
+date: 2016-05-12
 ---
 
 Did you know there are two features behind the C++11 `decltype` keyword[^1]? On the one hand you can
 use `decltype` to query the type of an *entity*, and on the other hand you can use it to query the
 type of an *expression*. [This Stack Overflow
-question](http://stackoverflow.com/questions/3097779/decltype-and-parentheses) showcases how those
+question](http://stackoverflow.com/questions/3097779/decltype-and-parentheses) showcases how these
 two features can report seemingly different things. Throughout this series I'll make sure to always
 explicitly specify which `decltype` variant I'm referring to.
 

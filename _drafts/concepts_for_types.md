@@ -2,10 +2,9 @@
 layout: post
 title: Concepts for types
 series: Over-expressive Types
-slug: concepts-for-types
-categories: devlog
+categories: devlog over-expressive-types
 topics: generic concepts
-date: 2016-05-04
+date: 2016-05-10
 ---
 
 In this post and the next I will be using a deliberately dumbed-down iterator concept for the
@@ -81,17 +80,5 @@ iterator_reference_t<std::remove_reference_t<It>> the_simplest_forwarding_functi
 { /* same as before */ }
 ```
 
-I am however very fond of introduction syntax as it cut down on a lot of noise and boilerplate. So
-I'd rather introduce a shortcut:
-
-```cpp
-template<typename It>
-concept bool IteratorTarget = IteratorType<std::remove_reference_t<It>>;
-
-IteratorTarget{It}
-iterator_reference_t<It> the_simplest_forwarding_function(It&& it);
-```
-
-This begs a question however: how much of an actual concept is `IteratorTarget`? Is it merely a
-device to reduce boilerplate? Is it `concrete_iterator&` itself that is interesting, or is it the
-relation between `concrete_iterator`, the `IteratorType` concept, and C++ syntax?
+I am however very fond of introduction syntax as it cuts down on a lot of noise and boilerplate, so
+I find this very unsatisfactory.

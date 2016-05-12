@@ -2,10 +2,9 @@
 layout: post
 title: Concepts for variables
 series: Over-expressive Types
-slug: concepts-for-variables
-categories: devlog
+categories: devlog over-expressive-types
 topics: generic concepts
-date: 2016-05-05
+date: 2016-05-09
 ---
 
 Let's approach the situation from the opposite angle. Rather than starting at concepts, let's start
@@ -61,29 +60,31 @@ struct the_simplest_data {
 };
 
 IteratorVar{It}
-auto the_simplest_function_by_val(It as_a_value_param);
+iterator_reference_t<It> the_simplest_function_by_val(It as_a_value_param);
 
 IteratorTarget{It}
-auto the_simplest_function_by_ref(It& as_a_ref_param);
+iterator_reference_t<It> the_simplest_function_by_ref(It& as_a_ref_param);
 
 IteratorTarget{It}
-auto the_simplest_forwarding_function(It&& as_a_forwarding_param);
+iterator_reference_t<It> the_simplest_forwarding_function(It&& as_a_forwarding_param);
 ```
 
-In fact, we could entirely dispense with `IteratorTarget`:
+We introduce `IteratorTarget` to avoid repeating the same mistake as before, making sure the
+reference-taking functions check for `IteratorVar<It&>` and not `IteratorVar<It>` (the forwarding
+function takes `It&&`, but once a reference variable is bound it does not matter any more whether
+they are an lvalue or rvalue reference variable). But on second thought, we could dispense with it:
 
 ```cpp
 IteratorVar{It}
-auto the_simplest_function_by_ref(It& as_a_ref_param);
+iterator_reference_t<It> the_simplest_function_by_ref(It& as_a_ref_param);
 
 // similarly for the_simplest_forwarding function
 ```
 
-That's technically a bit imprecise as the actual variable of interest has type `It&` whereas the
-constraint is performed against a variable of type `It`. However as things are though both
-`IteratorVar<It>` and `IteratorVar<It&>` compute identical answer. Whether that should be or not
-(and thus whether `IteratorTarget` is useful or not) leads us to a potentially interesting tangent,
-so I'll leave it at that for today[^1].
+As mentionted that's technically a bit imprecise. However as things are both `IteratorVar<It>` and
+`IteratorVar<It&>` compute identical answer. Whether that should be or not (and thus whether
+`IteratorTarget` is useful or not) leads us to a potentially interesting tangent, so I'll leave it
+at that for today[^1].
 
   [^1]:
     The difference in constraints between:
@@ -107,10 +108,17 @@ A final word and disclaimer
 ===========================
 
 There is, all told, not much of a difference between the two alternatives. I really don't intend
-this insight to be revolutionary and I don't consider concepts-for-variables to be a superior
-alternative to concepts-for-types either.
+this insight to be revolutionary and I don't consider concepts-for-variables to be an altogether
+superior alternative to concepts-for-types either. It's mostly a game of moving and hiding some
+complexity regarding reference- and cv-qualifiers around, but arguably the net sum of complexity is
+the same.
 
-As I am currently experimenting with concepts there are select occasions that still call for a
+The benefit, if any, is who's in charge of that complexity. I claim that in the case of
+`IteratorType`, the complexity is pushed on the use sites whereas for `IteratorVar` it's pushed on
+the concept writer. That matters to me since I consider that a useful concept is one that is defined
+once, and used in multiple places.
+
+As I am currently experimenting with concepts there are still select occasions that call for a
 concept-for-types. Just like how it makes sense for `is_constructible_v` to operate on a declared
 type for its first parameter, while it makes sense for `is_assignable_v` to operate on an
 expression-as-type instead.

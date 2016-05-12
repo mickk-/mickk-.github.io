@@ -2,14 +2,13 @@
 layout: post
 title: From types to expressions back again
 series: Over-expressive Types
-slug: over-expressive-back-again
-categories: devlog
+categories: devlog over-expressive-types
 topics: generic concepts
-date: 2016-05-03
+date: 2016-05-11
 ---
 
-Whereas expression-`decltype` introduces a mapping from expressions to types, it turns out we can
-inverse it to instead go from types to expressions:
+Considering expression-`decltype` introduces a mapping from expressions to types, let's try
+inversing it to instead go from types to expressions:
 
 ```cpp
 template<typename ExprType> ExprType   declexpr();
@@ -44,8 +43,8 @@ Why does this matter? Let's take a look at `std::is_constructible_v`:
 constexpr bool answer = std::is_constructible_v<foo, bar, baz>;
 ```
 
-What we have here is a function from types to `bool`. Remarkably the types it accepts are of
-different kinds: the very first parameter is the *declared* type of an imaginary variable while the
+What we have here is a function from types to `bool`. Remarkably the types it accepts have different
+natures: the very first parameter is the *declared* type of an imaginary variable while the
 following parameters are *expressions-as-types* for imaginary initializers. the previous snippet
 asks the question (where `valid_definition` is a made-up pseudo-operator):
 
@@ -70,4 +69,5 @@ constexpr bool answer = valid_expression(
 
 Armed with what we know about expressions, types, and metafunctions we can now tackle an important
 question: what can C++ concepts apply to, and what *should* C++ concepts apply to? While it's
-obvious that concepts will be ranging over types most of the time, that's not precise enough.
+obvious that concepts will be ranging over types most of the time, we have to ponder about the
+nature of those types.
