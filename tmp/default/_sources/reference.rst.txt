@@ -1,0 +1,128 @@
+Reference
+=========
+
+.. toctree::
+    :maxdepth: 2
+
+    concepts
+    operations
+    sources
+    consumers
+    transformations
+    compositions
+    arrangements
+    common
+
+    annex
+
+How to read the reference
+-------------------------
+
+.. _range-function:
+
+Range function
+^^^^^^^^^^^^^^
+
+A *range function* is a particular kind of :ref:`function` which produces a model of `Range`. In particular, many range
+functions produce :ref:`simple models <simple-model>` in which case the simple model will be named e.g. `concat_range`
+for the result of a call to `concat`. 
+
+.. rubric:: Storing & context members
+
+`Range` simple models store and expose their public data in their ``context``, documenting them as the *simple context
+members*::
+
+    auto res = range::interval(0, 6);
+    // names of data members documented by interval
+    assert( res.context.from == 0 );
+    assert( res.context.to   == 6 );
+
+Typically the resulting range is built using the various arguments to the function. When those arguments are directly
+stored in the result (e.g. as is often done with :ref:`simple models <simple-model>`), the following convention is
+normally used:
+
+- non-range arguments (e.g. functors) are :ref:`forward stored <forward-storing>`
+- range arguments are decayed
+
+This results in the following behaviour (using `filter` as an example)::
+
+    auto pred = ...;
+    auto rng  = ...;
+
+    {
+        // merely alias pred
+        auto result = range::filter(pred, rng);
+        assert( &result.filtering_predicate == &pred );
+        assert( &result.filtered_range      != &rng );
+    }
+
+    {
+        // use own copy of pred
+        auto result = range::filter(annex::decay(pred), rng);
+        assert( &result.filtering_predicate != &pred );
+        assert( &result.filtered_range      != &rng );
+    }
+
+.. rubric:: Constraints
+
+It's the combined constraints on the :ref:`simple-model` and its associated :ref:`range-function` that describe when a
+call is valid. Taking `reverse` as an example:
+
+    `DoubleEndedContext{Ctx} reverse_range`
+
+    `MoveConstructible{Rng} constexpr reverse_range\<context_t\<Rng\>\> reverse::operator()(Rng rng) const <reverse::operator()()>`
+
+Then ``range::reverse(arg)`` is valid as long as:
+
+- the *rng* parameter is constructible from *arg*
+- *rng* models `MoveConstructible`
+- `context_t\<Rng\>` models `DoubleEndedContext`
+
+.. rubric:: Capabities
+
+The :ref:`range-properties` of the result of the range function are documented under the 'Models:' entry, sometimes in
+the form of a table.
+
+Sometimes a range may provide additional functionality beyond that required by the concepts it models. This is
+documented under the 'Additional context capabilities:' or 'Additional range capabilities:' entry, as appropriate.
+
+.. rubric:: Call complexity
+
+When range functions perform the duties of constructing a range (:ref:`simple-model` or otherwise), they may require
+additional complexity beyond that of forwarding or moving their parameters into the result. Typically, they may need to
+compute appropriate starting and ending positions. This additional complexity is documented under the 'Additional
+construction complexity:' entry.
+
+.. rubric:: Equivalents
+
+Some range functions document their equivalents in terms of different range abstractions, sometimes as found in other
+languages (see :doc:`motivation`):
+
+- hand-written C++ ``for`` loops
+- D ranges
+- Rust iterators
+- Haskell lists (or occasionally certain list-like type classes)
+- Python iterators
+- C# enumerators
+
+They are described in pseudo-code according to the following:
+
+- the hand-written loops consume the elements by passing them to an illustrative ``use`` function
+- the Rust examples may need additional functionality provided by the third-party `itertools`_ crate in
+  which case this will be shown by the following import:
+
+      .. code-block:: rust
+
+          use itertools::Itertools;
+
+- the Python examples assume that the standard :py:mod:`itertools` module is in scope as if introduced by the following
+  import:
+
+      .. code-block:: python
+
+          import itertools
+
+- the equivalents are typically used on illustrative arguments ``xs``, ``ys``, and so on corresponding to the `Range`
+  parameters of the range function
+
+.. _itertools: https://docs.rs/itertools/

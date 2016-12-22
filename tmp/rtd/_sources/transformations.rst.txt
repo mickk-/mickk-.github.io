@@ -1,0 +1,29 @@
+Transformations
+===============
+
+An individual range can be transformed to give rise to a new range. For instance, ``auto reversed = reverse(rng);``
+produces a range *reversed* which elements are in reverse order of that of *rng*.
+
+map
+~~~
+.. include:: /autodoc/transformation/map.txt
+
+filter
+~~~~~~
+.. include:: /autodoc/transformation/filter.txt
+
+stride
+~~~~~~
+.. include:: /autodoc/transformation/stride.txt
+
+reverse
+~~~~~~~
+.. include:: /autodoc/transformation/reverse.txt
+
+group
+~~~~~
+.. include:: /autodoc/transformation/group.txt
+
+box
+~~~
+.. include:: /autodoc/transformation/box.txt

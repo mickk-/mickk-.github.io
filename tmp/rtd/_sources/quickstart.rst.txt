@@ -1,0 +1,54 @@
+Quickstart
+==========
+
+Creating and using simple ranges
+--------------------------------
+
+This library and its contents should look familiar to most users who have used range abstractions in other languages. If
+that is the case browsing the :doc:`sources` may prove instructive. Otherwise, :var:`interval` is a simple enough source
+range to serve as a starting point: it is related to the mathematical notion of a half-open interval of values.
+
+Together with `loop`, it's possible to write this simple program::
+
+    #include <iostream>
+
+    #include <annex/range/source/interval.hpp>
+
+    namespace range = annex::range;
+
+    template<typename Rng>
+    void hello_range_world(Rng rng)
+    {
+        for(auto&& elem: range::loop(std::move(rng))) {
+            std::cout << elem << ' ';
+        }
+        std::cout << '\n';
+    }
+
+    int main()
+    {
+        // prints the line: 0 1 2 3 4 5
+        hello_range_world(range::interval(0, 6));
+    }
+
+:doc:`consumers` provide more elaborate ways of using ranges.
+
+Transforming, composing, and arranging ranges
+---------------------------------------------
+
+Next up :doc:`transformations` can be used to produce a different range out of a pre-existing one::
+
+    // 5 4 3 2 1 0
+    hello_range_world(range::reverse(range::interval(0, 6)));
+
+:doc:`compositions` accept multiple ranges to create a different one::
+
+    // 0 1 2 3 4 5 4 3 2 1 0
+    hello_range_world(range::concat(range::interval(0, 6), range::reverse(range::interval(0, 5))));
+
+:doc:`arrangements` are similar to compositions in that they also create a range out of a several others, but they
+operate instead on ranges of ranges::
+
+    auto r = range::make_array(range::interval(0, 6), range::interval(0, 3));
+    // 0 1 2 3 4 5 0 1 2
+    hello_range_world(range::flatten(std::move(r)));

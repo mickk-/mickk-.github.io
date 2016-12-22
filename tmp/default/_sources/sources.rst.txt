@@ -1,0 +1,69 @@
+Sources
+=======
+
+Source range :ref:`functions <function>` are provided to produce `Range` models. Typical source range functions create a
+given range from certain parameters (e.g. `interval` for half-open intervals) or can adapt pre-existing code. For
+instance `container` makes it possible to 'turn' a container such as `std::vector\<T\>` into a model of `Range`.
+
+Fundamental sources
+-------------------
+
+nullable
+~~~~~~~~
+.. include:: /autodoc/source/nullable.txt
+
+generate
+~~~~~~~~
+.. include:: /autodoc/source/generate.txt
+
+interval
+~~~~~~~~
+.. include:: /autodoc/source/interval.txt
+
+iterator_interval & as_range
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. include:: /autodoc/base/iterator_interval.txt
+
+repeat
+~~~~~~
+.. include:: /autodoc/source/repeat.txt
+
+replicate
+~~~~~~~~~
+.. include:: /autodoc/source/replicate.txt
+
+coro
+~~~~
+.. include:: /autodoc/source/boost_coroutine.txt
+
+Container sources
+-----------------
+
+indexable
+~~~~~~~~~
+.. include:: /autodoc/source/indexable.txt
+
+container
+~~~~~~~~~
+.. include:: /autodoc/source/container.txt
+
+I/O sources
+-----------
+
+.. enum-struct:: close_option
+
+    .. cpp:enumerator:: leave_open
+    .. cpp:enumerator:: close_at_end
+
+    Whether a stream should be closed once the range runs out.
+
+    .. note::
+        Programs often benefit from prompt disposal of I/O resources.
+
+istream
+~~~~~~~
+.. include:: /autodoc/source/istream.txt
+
+lines
+~~~~~
+.. include:: /autodoc/source/lines.txt

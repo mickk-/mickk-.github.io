@@ -1,0 +1,25 @@
+annex-range
+===========
+
+Contents:
+
+.. toctree::
+    :maxdepth: 2
+
+    quickstart
+    motivation
+    scope
+    reference
+    open_questions
+
+.. toctree::
+    :hidden:
+
+    glossary
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`search`
+* :doc:`glossary`

@@ -1,0 +1,425 @@
+Concepts
+========
+
+Associated types
+----------------
+
+.. |context_t|      replace:: `context_t\<Ctx\> <context_t>`
+.. |position_t|     replace:: `position_t\<Ctx\> <position_t>`
+.. |sentinel_t|     replace:: `sentinel_t\<Ctx\> <sentinel_t>`
+.. |peek_element_t| replace:: `peek_element_t\<Ctx\> <peek_element_t>`
+.. |element_t|      replace:: `element_t\<Ctx\> <element_t>`
+.. |difference_t|   replace:: `difference_t\<Ctx\> <difference_t>`
+
+.. type:: Type{Rng} context_t
+
+    The decayed type of the *context* member of a `Range`.
+
+.. type:: Type{Ctx} position_t
+
+    The ``position_type`` member type of `Ctx`.
+
+.. type:: Type{Ctx} sentinel_t
+
+    The ``sentinel_type`` member type of `Ctx` if it exists, otherwise equivalent to |position_t|.
+
+.. type:: Type{Ctx} peek_element_t = result_of::peek_at<Ctx&, position_t<Ctx>>
+
+    The result type of `peek_at` applied on a context and positions appropriate for `Ctx`.
+
+.. type:: Type{Ctx} element_t = result_of::at<Ctx&, position_t<Ctx>>
+
+    The element type of a `Context`.
+
+.. type:: Type{Ctx} difference_t = std::decay_t<result_of::difference<Ctx&, position_t<Ctx>, sentinel_t<Ctx>>>
+
+    .. warning:: |experimental-feature|
+
+    The difference type of a `RandomAccessContext`.
+
+Taxonomy of ranges
+------------------
+
+.. concept:: Variable{Rng} Range
+
+    .. warning:: |experimental-feature|
+
+    :notation:
+      ::
+
+          Rng rng;
+
+    A range contains all the necessary information to iterate over some notional sequence of elements. 'Notional' here
+    means that the elements need not be actual C++ references or objects living in the program, but may instead be
+    computed on demand.
+
+    A range is a triple of a context, an inclusive lower bound position, and an exclusive upper bound position. They all
+    together form a bounded range context where the positions are associated with their context (see :ref:`copy-save`).
+    They are respectively accessible as ``rng.context``, ``rng.from``, and ``rng.to``. Furthermore, a range must be
+    decomposable as a triple meaning that all three members may be accessed in one go::
+
+        auto&& [ctx, low, high] = rng;
+        assert( &ctx  == &rng.context );
+        assert( &low  == &rng.from    );
+        assert( &high == &rng.to      );
+
+    The `context_t`, `position_t`, and `sentinel_t` associated types can be used to query the respective types of these
+    members.
+
+    The range context is that information that is position-independent but nonetheless necessary to carry out the range
+    operations. In turn the range positions need only store position-specific information. For instance, a range over a
+    strided sequence of ``int``\s in memory could be represented as such::
+
+        // implementation of range operations omitted
+        struct strided_memory_range {
+            struct context_type {
+                std::ptrdiff_t stride;
+
+                struct position_type {
+                    int* value;
+                };
+            };
+
+            using position_type = context_type::position_type;
+
+            context_type context { 1 };
+            position_type from {}, to {};
+        };
+
+        int data[] = { 0, 1, 2, 3, 4, 5, 6, 7 };
+        auto r = strided_memory_range { { 2 }, { std::begin(data) }, { std::end(data) } };
+
+    All positions share the same stride, so it is best stored inside the context. Whereas what distinguishes a position
+    from any other is what particular ``int`` they refer to (or whether they are the special past-the-end value).
+    Provided that appropriate range operations are implemented for ``strided_memory_range``, then in this example *r*
+    would be standing for the notional sequence of integers :math:`\left\{ 0, 2, 4, 6 \right\}`.
+
+    :requirements:
+      `Rng` must provide a ``position_type`` to enable the `position_t` associated type that is appropriate for the
+      *from* member, and may optionally provide a ``sentinel_type`` associated type if *to* has a different type.
+
+      The *context* member must implement range operations appropriate for the *from* and *to* positions. In other
+      words, `context_t\<Rng\> <context_t>` must be a model of `Context` or one of its refinements
+      (`DoubleEndedContext`, `BidirectionalContext`, or `RandomAccessContext`) and `position_t\<Rng\> <position_t>` must
+      be equivalent to `position_t\<context_t\<Rng\>\> <position_t>` (likewise for `sentinel_t\<Rng\> <sentinel_t>` and
+      `sentinel_t\<context_t\<Rng\>\> <sentinel_t>`).
+
+      Since *from* and *to* define a half-open interval of elements, only the positions up to but not equal to *to*
+      (with respect to `equal_pos`, see `Context`) satisfy the preconditions for `peek_at`, `at`, and `incr`. In other
+      words and as with iterators, *to* is considered to be the past-the-end position and is not required to have an
+      associated element.
+    :associated types:
+      `context_t`, `position_t`, `sentinel_t`
+
+.. concept:: Variable{Ctx} Context
+
+    :notation:
+      ::
+
+          Ctx ctx;
+          position_t<Ctx> from;
+          position_t<Ctx> const cfrom; sentinel_t<Ctx> const cto;
+
+    A range context. All the position-independent information together with the operations necessary to represent a
+    notional sequence.
+
+    :requirements:
+      `Ctx` must provide a ``position_type`` member type to comply with `position_t`, and may optionally provide a
+      ``sentinel_type`` member type.
+
+      |position_t| and |sentinel_t| must model `Movable`. The range context and positions must follow the :ref:`range
+      copying and moving rules <copy-save>` and implement the :ref:`range operations <operations>` with constant time
+      complexity with respect to the number of elements of the sequence:
+
+       - `equal_pos(ctx, cfrom, cfrom) <equal_pos>`
+       - `equal_pos(ctx, cfrom, cto) <equal_pos>`
+       - `equal_pos(ctx, cto, cto) <equal_pos>`
+       - `at(ctx, cfrom) <at>`
+       - `peek_at(ctx, cfrom) <peek_at>`, which must be convertible to `meta::as_const\<element_t\<Ctx\>\> <element_t>`
+       - `incr(ctx, from) <incr>`
+
+      Whenever equality of positions is mentioned, this is with respect to the context-aware, ternary `equal_pos`
+      operation. |position_t| and |sentinel_t| are not required to be `EqualityComparable`, and if they are equality
+      comparison is not required to agree with `equal_pos`.
+
+      .. note::
+          Elements may indifferently be references or objects.
+    :associated types:
+      `position_t`, `sentinel_t`
+
+      `peek_element_t`: the result type of `peek_at` given appropriate context and positions
+
+      `element_t`: the result type of `at` given appropriate context and positions
+
+.. concept:: Context{Ctx} DoubleEndedContext
+
+    .. warning::
+        |experimental-design|
+
+    :notation:
+      ::
+
+          Ctx ctx;
+          sentinel_t<Ctx> to;
+          position_t<Ctx> const cfrom; sentinel_t<Ctx> const cto;
+
+    A `Context` which can be read from both ends.
+
+    :requirements:
+      The range context and positions must implement :ref:`double-ended range operations <double-ended-operations>` with
+      constant time complexity with respect to the number of elements of the sequence:
+
+       - `peek_before(ctx, cto) <peek_before>` with type |peek_element_t|
+       - `before(ctx, cto) <before>` with type |element_t|
+       - `decr(ctx, to) <decr>`
+
+      .. note::
+          Both `Context` and `DoubleEndedContext` allow for |position_t| and |sentinel_t| to be different types. This
+          means that `before(ctx, to) <before>` is not equivalent to `at(ctx, prev(ctx, to)) <at>` in the general case.
+          Using `peek_at`, `at`, and `incr` on |sentinel_t| positions is not defined for `Context` and
+          `DoubleEndedContext` (and similarly `peek_before`, `before`, and `decr` on |position_t| positions).
+
+          `BidirectionalContext` and its refinements provide these guarantees.
+
+.. concept:: DoubleEndedContext{Ctx} BidirectionalContext
+
+    :notation:
+      ::
+
+          Ctx ctx;
+          position_t<Ctx> pos;
+
+    A `DoubleEndedContext` which |position_t| and |sentinel_t| positions are the same `Copyable` type (also see:
+    :ref:`copy-save`). Additionally the following is guaranteed:
+
+     - `at(ctx, pos) <at>` is equivalent to `before(ctx, next(ctx, pos)) <before>`
+     - `before(ctx, pos) <before>` is equivalent to `at(ctx, prev(ctx, pos)) <at>`
+
+    There is a similar relationship between `peek_at` and `peek_before`.
+
+.. concept:: BidirectionalContext{Ctx} RandomAccessContext
+
+    :notation:
+      ::
+
+          Ctx ctx;
+          position_t<Ctx> a, b;
+          difference_t<Ctx> const offset;
+
+    A `BidirectionalContext` which positions can be stepped multiple positions forwards or backwards at a time.
+
+    :requirements:
+      The range context and positions must implement :ref:`random-access range operations <random-access-operations>`
+      with constant time complexity with respect to the number of elements of the sequence:
+
+       - `step(ctx, a, offset) <step>`
+       - `difference(ctx, a, b) <difference>`
+
+      `step(ctx, a, offset) <step>` must accept |difference_t| offset arguments as long as they don't result in
+      attempting to step *a* beyond bounds. Put another way, if *from* and *to* are the bounds of the range (see
+      `Range`) then *offset* must lie within `[difference(ctx, from, a), difference(ctx, a, to)] <difference>`.
+
+      For all positions the following is guaranteed:
+
+       - `step(ctx, a, difference_t\<Ctx\> { 1 }) <step>` is equivalent to `incr(ctx, a) <incr>`
+       - `step(ctx, a, difference_t\<Ctx\> { -1 }) <step>` is equivalent to `decr(ctx, a) <incr>`
+       - `difference(ctx, a, a) == difference_t\<Ctx\> { 0 } <difference>`
+       - `difference(ctx, a, b) == -difference(ctx, b, a) <difference>`
+
+      Given ``difference_t<Ctx> const n = difference(ctx, a, b);``, the following is guaranteed:
+
+       - `step(ctx, a, difference_t { 0 }) <step>` does not move *a*
+       - `step(ctx, a, n) <step>` would make *a* equal to *b*
+       - `step(ctx, b, -n) <step>` would make *b* equal to *a*
+    :associated types:
+      `difference_t`: the decayed result type of `difference`, must be a model of `SignedIntegral`
+
+.. concept:: Variables{... Rngs} Ranges = (... && Range<Rngs>)
+
+    A variadic variant of `Range`.
+
+.. _copy-save:
+
+Ranges and copying/moving
+-------------------------
+
+.. _copy-save-pass:
+
+Positions
+^^^^^^^^^
+
+Since positions should only store as much information as necessary to uniquely stand for a particular notional element
+(or the past-the-end value), it is required that copying, moving, or assigning to a position be a constant time
+operation with respect to the number of elements of the sequence.
+
+Additionally, while range positions are required to be `Movable`, they should model `Copyable` carefully and only when
+it makes sense. Consider the following::
+
+    // assumed to have length at least 2
+    auto&& [ctx, pos, to] = rng;
+    // copy a position
+    auto remember = pos;
+    incr(ctx, pos);
+    auto&& read_at_1 = peek_at(ctx, pos);
+    auto&& read_at_0 = peek_at(ctx, remember);
+
+In this fragment the element at offset 1 is read before the element at offset 0. There are ranges for which this doesn't
+make sense, e.g. many cases involving I/O such as reading from a socket. In these cases it is not possible to draw the
+second element without reading or skipping over the first, after which it is often not available for reading anymore.
+
+Hence positions should only ever be `Copyable` if they provide a multi-pass guarantee that would make the above fragment
+valid and sensible. Conversely positions that are `Movable` but not `Copyable` are known as single pass, and are
+associated with a particular context. Note that this gives the justification as to why a `BidirectionalContext` must
+provide `Copyable` positions: decrementing a position that was previously incremented is equivalent to returning it to
+its former state::
+
+    auto&& [ctx, from, to] = rng;
+
+    // (1)
+    {
+        auto pos = from;
+        incr(ctx, pos);
+        auto&& read_at_1 = peek_at(ctx, pos);
+        decr(ctx, pos); // (2)
+        auto&& read_at_0 = peek_at(ctx, pos);
+    }
+
+    // same as (1)
+    {
+        auto pos = from;
+        auto remember = pos;
+        incr(ctx, pos);
+        auto&& read_at_1 = peek_at(ctx, pos);
+        pos = remember; // same as (2)
+        auto&& read_at_0 = peek_at(ctx, pos);
+    }
+
+.. note::
+    `at` and `before` are potentially destructive reads and the multi-pass guarantee does not change that. The guarantee
+    provides that `at` or `before` may be called multiple times on the same notional element via different access
+    'paths' (i.e. without regard as to how the positions are computed), but not that their results will be stable.
+
+This is similar to the distinction between an `InputIterator` and a `ForwardIterator`. An `InputIterator` does not
+follow regular `Copyable` semantics as two or more copies of a given iterator are not equivalent: as soon as a copy is
+read from, the others are invalidated for the purposes of iterator operations. This amounts to burdening the user with
+handling move semantics by hand (since iterators predate the language-level move semantics of C++11) and is notoriously
+error-prone. While C++11 moves are not entirely checked by the compiler and still leave room for use-after-move bugs,
+making copies by accident is harder.
+
+.. _copy-save-context:
+
+Contexts and ranges
+^^^^^^^^^^^^^^^^^^^
+
+Since a context stores whichever position-agnostic, auxiliary information is necessary for the purpose of representing a
+notional sequence, there is no complexity requirement on its `save`, copy, move, or assignment operations.
+
+.. rubric:: Moving
+
+A context should only model `Movable` if the result of a move remains usable with any and all of its original associated
+positions. In other words, moving a context must not invalidate positions::
+
+    auto&& [ctx, from, to] = rng;
+    assert( !equal_pos(ctx, from, to) );
+
+    auto&& read_a = peek_at(ctx, from);
+
+    auto target = std::move(ctx);
+
+    // re-use from and to positions
+    assert( !equal_pos(target, from, to) );
+
+    // must have identical results to read_a
+    auto&& read_b = peek_at(target, from);
+
+.. rubric:: Saving
+
+.. warning::
+    |experimental-design|
+
+Certain contexts may support saving, where a 'snapshot' of a given iteration is taken such that it can be iterated
+separately. This is done with the `save` operation::
+
+    // iteration state for some notional sequence
+    auto&& [ctx, from, to] = rng;
+
+    // separate state for an identical sequence
+    auto&& [copy, low, high] = save(ctx, from, to);
+
+The original positions should be used with the original context while the saved positions should be used with the saved
+context. Operations on either the original range or the copy should not affect the other.
+
+There is a dedicated concept for contexts which support saving:
+
+.. concept:: Context{Ctx} Saveable
+
+    :notation:
+      ::
+
+          meta::as_const<Ctx> ctx;
+          position_t<Ctx> const from;
+          sentinel_t<Ctx> const to;
+
+    A context which supports saving. A context can be saved with any number of its associated positions.
+
+    :associated expressions:
+      `save(ctx, from) <save>`
+
+      `save(ctx, to) <save>`
+
+.. rubric:: Copying
+
+If a range has both `Copyable` context and positions, then copying should be equivalent to saving::
+
+    auto&& [ctx, from, to] = rng;
+
+    // (1) saving
+    {
+        auto&& [saved, low, high] = save(ctx, from, to);
+    }
+
+    // (2) copying, same effects as (1)
+    {
+        auto copied = ctx;
+        auto low  = from;
+        auto high = to;
+    }
+
+The same applies if the `Range` itself is `Copyable`::
+
+    // (3) copying again, same as (2)
+    {
+        auto [copied, low, righ] = rng;
+    }
+
+Lastly, a context with `Copyable` positions must only be `Copyable` if its positions can be used with any copy of the
+context::
+
+    auto&& [ctx, from, to] = rng;
+    assert( !equal_pos(ctx, from, to) );
+
+    auto copy = ctx;
+
+    // must be valid
+    at(ctx, from);
+
+    // must also be valid
+    at(copy, from);
+
+In other words the positions must truly store position-specific information only, and should be indistinguishable by the
+contexts. Otherwise, the context can still implement `save` specifically while remaining single-pass.
+
+.. _range-properties:
+
+Range properties
+----------------
+
+Altogether a `Range` has the following properties:
+
+- its element types, given by `peek_element_t` and `element_t` respectively---ranges for which those types coincide can
+  be described using just one element type
+- its traversal (the most refined concept its `Context` models)
+- whether it is multi-pass or not (see :ref:`Copying positions <copy-save-pass>`)
+- whether its context is saveable or not (see :ref:`Saving contexts <copy-save-context>`)
+
+Those same properties can be used for describing the context of a range, too.

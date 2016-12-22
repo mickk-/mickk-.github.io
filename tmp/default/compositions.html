@@ -1,0 +1,485 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Compositions &#8212; annex-range 0.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="annex-range 0.1.0 documentation" href="index.html" />
+    <link rel="up" title="Reference" href="reference.html" />
+    <link rel="next" title="Arrangements" href="arrangements.html" />
+    <link rel="prev" title="Transformations" href="transformations.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="arrangements.html" title="Arrangements"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="transformations.html" title="Transformations"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">annex-range 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="reference.html" accesskey="U">Reference</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="compositions">
+<h1>Compositions<a class="headerlink" href="#compositions" title="Permalink to this headline">¶</a></h1>
+<p>A fixed and finite number of ranges can be composed together to form a new range. This is to be contrasted with
+<a class="reference internal" href="arrangements.html"><span class="doc">Arrangements</span></a>, where a variable and not necessarily finite number of ranges gives rise to a new range. Some forms
+of composition have an arrangement counterpart.</p>
+<div class="section" id="concat">
+<h2>concat<a class="headerlink" href="#concat" title="Permalink to this headline">¶</a></h2>
+<dl class="type">
+<dt>
+Contexts{...<code class="descname">Ctxs</code>}</dt>
+<dt id="_CPPv2IDpEX8ContextsIsp4CtxsEEN5annex5range12concat_rangeE">
+<em class="property">using </em><code class="descclassname"></code><code class="descname">concat_range</code> = bounded_context&lt;concat_context&lt;<a class="reference internal" href="#_CPPv2IDpEX8ContextsIsp4CtxsEEN5annex5range12concat_rangeE" title="annex::range::concat_range::Ctxs">Ctxs</a>...&gt;&gt;<a class="headerlink" href="#_CPPv2IDpEX8ContextsIsp4CtxsEEN5annex5range12concat_rangeE" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Additional requirements:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><p class="first">There are common types for the element types, i.e. the following must be valid:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">peek_t</span>    <span class="o">=</span> <span class="n">common_type_t</span><span class="o">&lt;</span><span class="n">peek_element_t</span><span class="o">&lt;</span><span class="n">Ctxs</span><span class="o">&gt;</span><span class="p">...</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">element_t</span> <span class="o">=</span> <span class="n">common_type_t</span><span class="o">&lt;</span><span class="n">element_t</span><span class="o">&lt;</span><span class="n">Ctxs</span><span class="o">&gt;</span><span class="p">...</span><span class="o">&gt;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p class="last"><code class="docutils literal"><span class="pre">peek_t</span></code> must be convertible to <code class="docutils literal"><span class="pre">element_t</span> <span class="pre">const&amp;</span></code>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="var">
+<dt id="_CPPv2N5annex5range6concatE">
+<span id="annex::range::concat__functors::concatCR"></span><em class="property">constexpr</em> functors::concat <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">concat</code><a class="headerlink" href="#_CPPv2N5annex5range6concatE" title="Permalink to this definition">¶</a></dt>
+<dd><p>In <code class="file docutils literal"><span class="pre">annex/range/composition/concat.hpp</span></code>.</p>
+<p>This constant is a <a class="reference internal" href="reference.html#range-function"><span class="std std-ref">Range function</span></a> with one or more associated <a class="reference internal" href="annex.html#simple-model"><span class="std std-ref">simple
+models</span></a>:</p>
+<blockquote>
+<div><a class="reference internal" href="#_CPPv2IDpEX8ContextsIsp4CtxsEEN5annex5range12concat_rangeE" title="annex::range::concat_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Contexts{...</span> <span class="pre">Ctxs}</span> <span class="pre">concat_range</span></code></a></div></blockquote>
+<dl class="function">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2IDpEX5TypesIsp2XsEEN5annex18MoveConstructiblesE" title="annex::MoveConstructibles">MoveConstructibles</a>{...<code class="descname">Rngs</code>}</dt>
+<dt id="_CPPv2IDpEX18MoveConstructiblesIsp4RngsEEN5annex5range6concatclEDp4Rngs">
+<em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2IDpEX8ContextsIsp4CtxsEEN5annex5range12concat_rangeE" title="annex::range::concat_range">concat_range</a>&lt;<a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3RngEEN5annex5range9context_tE" title="annex::range::context_t">context_t</a>&lt;<a class="reference internal" href="#_CPPv2IDpEX18MoveConstructiblesIsp4RngsEEN5annex5range6concatclEDp4Rngs" title="annex::range::concat::operator()::Rngs">Rngs</a>&gt;...&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2IDpEX18MoveConstructiblesIsp4RngsEEN5annex5range6concatclEDp4Rngs" title="annex::range::concat::operator()::Rngs">Rngs</a>... <em>rngs</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2IDpEX18MoveConstructiblesIsp4RngsEEN5annex5range6concatclEDp4Rngs" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Notation:</th><td class="field-body"><div class="first last highlight-c++"><div class="highlight"><pre><span></span><span class="k">using</span><span class="p">...</span> <span class="n">Ctxs</span> <span class="o">=</span> <span class="n">context_t</span><span class="o">&lt;</span><span class="n">Rngs</span><span class="o">&gt;</span><span class="p">...;</span>
+
+<span class="k">auto</span><span class="o">&amp;</span><span class="p">...</span> <span class="n">ctxs</span> <span class="o">=</span> <span class="n">rngs</span><span class="p">.</span><span class="n">context</span><span class="p">...;</span>
+</pre></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Successive composition of ranges. E.g. the result of <code class="docutils literal"><span class="pre">concat(a,</span> <span class="pre">b,</span> <span class="pre">c)</span></code> ranges over the elements of first
+<em>a</em>, then <em>b</em>, and finally <em>c</em> in order.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><a class="reference internal" href="arrangements.html#_CPPv2N5annex5range7flattenE" title="annex::range::flatten"><code class="xref cpp cpp-any docutils literal"><span class="pre">flatten</span></code></a></dt>
+<dd><a class="reference internal" href="arrangements.html"><span class="doc">Arrangement</span></a> counterpart</dd>
+</dl>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Equivalents:</th><td class="field-body"><table border="1" class="first docutils">
+<colgroup>
+<col width="12%" />
+<col width="88%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Loops</td>
+<td><p class="first">Vertical or successive composition:</p>
+<div class="last highlight-c++"><div class="highlight"><pre><span></span><span class="k">for</span><span class="p">(</span><span class="k">auto</span><span class="o">&amp;&amp;</span> <span class="nl">x</span><span class="p">:</span> <span class="n">xs</span><span class="p">)</span> <span class="n">use</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+<span class="k">for</span><span class="p">(</span><span class="k">auto</span><span class="o">&amp;&amp;</span> <span class="nl">y</span><span class="p">:</span> <span class="n">ys</span><span class="p">)</span> <span class="n">use</span><span class="p">(</span><span class="n">y</span><span class="p">);</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>D</td>
+<td><div class="first last highlight-D"><div class="highlight"><pre><span></span><span class="n">chain</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>Rust</td>
+<td><div class="first last highlight-rust"><div class="highlight"><pre><span></span><span class="n">xs</span><span class="p">.</span><span class="n">chain</span><span class="p">(</span><span class="n">ys</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>Haskell</td>
+<td><div class="first last highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">xs</span> <span class="o">++</span> <span class="n">ys</span>
+<span class="c1">-- classy alternative</span>
+<span class="nf">xs</span> <span class="o">&lt;|&gt;</span> <span class="n">ys</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>Python</td>
+<td><div class="first last highlight-python"><div class="highlight"><pre><span></span><span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>C#</td>
+<td><div class="first last highlight-c#"><div class="highlight"><pre><span></span><span class="n">xs</span><span class="p">.</span><span class="n">Concat</span><span class="p">(</span><span class="n">ys</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Models:</th><td class="field-body"><p class="first"><a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a> with the following <a class="reference internal" href="concepts.html#range-properties"><span class="std std-ref">properties</span></a>:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="12%" />
+<col width="88%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Element
+types</td>
+<td><code class="xref cpp cpp-any docutils literal"><span class="pre">common_type_t&lt;peek_element_t&lt;Ctxs&gt;...&gt;</span></code> and
+<code class="xref cpp cpp-any docutils literal"><span class="pre">common_type_t&lt;element_t&lt;Ctxs&gt;...&gt;</span></code></td>
+</tr>
+<tr class="row-even"><td>Traversal</td>
+<td><a class="reference internal" href="concepts.html#_CPPv2I0EX20BidirectionalContextI3CtxEEN5annex5range19RandomAccessContextE" title="annex::range::RandomAccessContext"><code class="xref cpp cpp-any docutils literal"><span class="pre">RandomAccessContext</span></code></a> if <code class="docutils literal"><span class="pre">(...</span> <span class="pre">&amp;&amp;</span> <span class="pre">RandomAccessContext&lt;Ctxs&gt;)</span></code> and
+if there is a common difference type, else
+<a class="reference internal" href="concepts.html#_CPPv2I0EX18DoubleEndedContextI3CtxEEN5annex5range20BidirectionalContextE" title="annex::range::BidirectionalContext"><code class="xref cpp cpp-any docutils literal"><span class="pre">BidirectionalContext</span></code></a> if <code class="docutils literal"><span class="pre">(...</span> <span class="pre">&amp;&amp;</span> <span class="pre">BidirectionalContext&lt;Ctxs&gt;)</span></code></td>
+</tr>
+<tr class="row-odd"><td>Multi-pass</td>
+<td>when bidirectional or better</td>
+</tr>
+<tr class="row-even"><td>Saveable</td>
+<td>if <code class="docutils literal"><span class="pre">(...</span> <span class="pre">&amp;&amp;</span> <span class="pre">Saveable&lt;Ctxs&gt;)</span></code></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Additional construction complexity:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><p class="first">Linear time with respect to the total number of elements across all <em>ctxs</em>.</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Simple context members:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><p class="first last"><code class="docutils literal"><span class="pre">concatenated_contexts</span></code>: <code class="docutils literal"><span class="pre">tuple(std::move(ctxs)...)</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex17MoveConstructibleE" title="annex::MoveConstructible">MoveConstructible</a>{<code class="descname">Rng</code>}</dt>
+<dt id="_CPPv2I0EX17MoveConstructibleI3RngEEN5annex5range6concatclE3Rng">
+<em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I0EX17MoveConstructibleI3RngEEN5annex5range6concatclE3Rng" title="annex::range::concat::operator()::Rng">Rng</a> <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I0EX17MoveConstructibleI3RngEEN5annex5range6concatclE3Rng" title="annex::range::concat::operator()::Rng">Rng</a> <em>rng</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2I0EX17MoveConstructibleI3RngEEN5annex5range6concatclE3Rng" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unary special case.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rng</strong> &#8211; <a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="zip">
+<h2>zip<a class="headerlink" href="#zip" title="Permalink to this headline">¶</a></h2>
+<dl class="type">
+<dt>
+Contexts{...<code class="descname">Ctxs</code>}</dt>
+<dt id="_CPPv2IDpEX8ContextsIsp4CtxsEEN5annex5range9zip_rangeE">
+<em class="property">using </em><code class="descclassname"></code><code class="descname">zip_range</code> = bounded_context&lt;zip_context&lt;<a class="reference internal" href="#_CPPv2IDpEX8ContextsIsp4CtxsEEN5annex5range9zip_rangeE" title="annex::range::zip_range::Ctxs">Ctxs</a>...&gt;&gt;<a class="headerlink" href="#_CPPv2IDpEX8ContextsIsp4CtxsEEN5annex5range9zip_rangeE" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Additional requirements:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><a class="reference internal" href="annex.html#_CPPv2IDpEX5TypesIsp4PackEEN5annex12NonEmptyPackE" title="annex::NonEmptyPack"><code class="xref cpp cpp-any docutils literal"><span class="pre">NonEmptyPack&lt;Ctxs...&gt;</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="var">
+<dt id="_CPPv2N5annex5range3zipE">
+<span id="annex::range::zip__functors::zipCR"></span><em class="property">constexpr</em> functors::zip <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">zip</code><a class="headerlink" href="#_CPPv2N5annex5range3zipE" title="Permalink to this definition">¶</a></dt>
+<dd><p>In <code class="file docutils literal"><span class="pre">annex/range/composition/zip.hpp</span></code>.</p>
+<p>This constant is a <a class="reference internal" href="reference.html#range-function"><span class="std std-ref">Range function</span></a> with one or more associated <a class="reference internal" href="annex.html#simple-model"><span class="std std-ref">simple
+models</span></a>:</p>
+<blockquote>
+<div><a class="reference internal" href="#_CPPv2IDpEX8ContextsIsp4CtxsEEN5annex5range9zip_rangeE" title="annex::range::zip_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Contexts{...</span> <span class="pre">Ctxs}</span> <span class="pre">zip_range</span></code></a></div></blockquote>
+<dl class="function">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2IDpEX5TypesIsp2XsEEN5annex18MoveConstructiblesE" title="annex::MoveConstructibles">MoveConstructibles</a>{...<code class="descname">Rngs</code>}</dt>
+<dt id="_CPPv2IDpEX18MoveConstructiblesIsp4RngsEENK5annex5range3zipclEDp4Rngs">
+<em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2IDpEX8ContextsIsp4CtxsEEN5annex5range9zip_rangeE" title="annex::range::zip_range">zip_range</a>&lt;<a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3RngEEN5annex5range9context_tE" title="annex::range::context_t">context_t</a>&lt;<a class="reference internal" href="#_CPPv2IDpEX18MoveConstructiblesIsp4RngsEENK5annex5range3zipclEDp4Rngs" title="annex::range::zip::operator()::Rngs">Rngs</a>&gt;...&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2IDpEX18MoveConstructiblesIsp4RngsEENK5annex5range3zipclEDp4Rngs" title="annex::range::zip::operator()::Rngs">Rngs</a>... <em>rngs</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2IDpEX18MoveConstructiblesIsp4RngsEENK5annex5range3zipclEDp4Rngs" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Notation:</th><td class="field-body"><div class="first last highlight-c++"><div class="highlight"><pre><span></span><span class="k">using</span><span class="p">...</span> <span class="n">Ctxs</span> <span class="o">=</span> <span class="n">context_t</span><span class="o">&lt;</span><span class="n">Rngs</span><span class="o">&gt;</span><span class="p">...;</span>
+
+<span class="k">auto</span><span class="o">&amp;</span><span class="p">...</span> <span class="n">ctxs</span> <span class="o">=</span> <span class="n">rngs</span><span class="p">.</span><span class="n">context</span><span class="p">...;</span>
+</pre></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Side-by-side composition of ranges. E.g. the result of <code class="docutils literal"><span class="pre">zip(a,</span> <span class="pre">b,</span> <span class="pre">c)</span></code> first yields the tuple <code class="docutils literal"><span class="pre">{</span> <span class="pre">a0,</span> <span class="pre">b0,</span> <span class="pre">c0</span>
+<span class="pre">}</span></code> made up of the respective first elements of <em>a</em>, <em>b</em>, and <em>c</em>; then the tuple <code class="docutils literal"><span class="pre">{</span> <span class="pre">a1,</span> <span class="pre">b1,</span> <span class="pre">c1</span> <span class="pre">}</span></code> and
+so on.</p>
+<p>The resulting range will be as long as the shortest argument range amongst <em>rngs</em>.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt>TBD</dt>
+<dd><a class="reference internal" href="arrangements.html"><span class="doc">Arrangement</span></a> counterpart</dd>
+</dl>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Equivalents:</th><td class="field-body"><table border="1" class="first docutils">
+<colgroup>
+<col width="12%" />
+<col width="88%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Loops</td>
+<td><p class="first">Lock-step looping:</p>
+<div class="last highlight-c++"><div class="highlight"><pre><span></span><span class="k">auto</span> <span class="n">xit</span>  <span class="o">=</span> <span class="n">begin</span><span class="p">(</span><span class="n">xs</span><span class="p">);</span>
+<span class="k">auto</span> <span class="n">xend</span> <span class="o">=</span> <span class="n">end</span><span class="p">(</span><span class="n">xs</span><span class="p">);</span>
+<span class="k">auto</span> <span class="n">yit</span>  <span class="o">=</span> <span class="n">begin</span><span class="p">(</span><span class="n">ys</span><span class="p">);</span>
+<span class="k">auto</span> <span class="n">yend</span> <span class="o">=</span> <span class="n">end</span><span class="p">(</span><span class="n">ys</span><span class="p">);</span>
+<span class="k">for</span><span class="p">(;</span> <span class="p">(</span><span class="n">xit</span> <span class="o">!=</span> <span class="n">xend</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">yit</span> <span class="o">!=</span> <span class="n">yend</span><span class="p">);</span> <span class="o">++</span><span class="n">xit</span><span class="p">,</span> <span class="o">++</span><span class="n">yit</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">use</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">tie</span><span class="p">(</span><span class="o">*</span><span class="n">xit</span><span class="p">,</span> <span class="o">*</span><span class="n">yit</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>D</td>
+<td><div class="first last highlight-D"><div class="highlight"><pre><span></span><span class="n">zip</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>Rust</td>
+<td><div class="first last highlight-rust"><div class="highlight"><pre><span></span><span class="n">xs</span><span class="p">.</span><span class="n">zip</span><span class="p">(</span><span class="n">ys</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>Haskell</td>
+<td><div class="first last highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">zip</span> <span class="n">xs</span> <span class="n">ys</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>Python</td>
+<td><div class="first last highlight-python"><div class="highlight"><pre><span></span><span class="nb">zip</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>C#</td>
+<td><div class="first last highlight-c#"><div class="highlight"><pre><span></span><span class="n">xs</span><span class="p">.</span><span class="n">Zip</span><span class="p">(</span><span class="n">ys</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="p">})</span>
+</pre></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Models:</th><td class="field-body"><p class="first"><a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a> with the following <a class="reference internal" href="concepts.html#range-properties"><span class="std std-ref">properties</span></a>:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="12%" />
+<col width="88%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Element
+types</td>
+<td><code class="xref cpp cpp-any docutils literal"><span class="pre">std::tuple&lt;peek_element_t&lt;Ctxs&gt;...&gt;</span></code> and
+<code class="xref cpp cpp-any docutils literal"><span class="pre">std::tuple&lt;element_t&lt;Ctxs&gt;...&gt;</span></code></td>
+</tr>
+<tr class="row-even"><td>Traversal</td>
+<td><a class="reference internal" href="concepts.html#_CPPv2I0EX20BidirectionalContextI3CtxEEN5annex5range19RandomAccessContextE" title="annex::range::RandomAccessContext"><code class="xref cpp cpp-any docutils literal"><span class="pre">RandomAccessContext</span></code></a> if <code class="docutils literal"><span class="pre">(...</span> <span class="pre">&amp;&amp;</span> <span class="pre">RandomAccessContext&lt;Ctxs&gt;)</span></code>, else
+<a class="reference internal" href="concepts.html#_CPPv2I0EX18DoubleEndedContextI3CtxEEN5annex5range20BidirectionalContextE" title="annex::range::BidirectionalContext"><code class="xref cpp cpp-any docutils literal"><span class="pre">BidirectionalContext</span></code></a> if <code class="docutils literal"><span class="pre">(...</span> <span class="pre">&amp;&amp;</span> <span class="pre">BidirectionalContext&lt;Ctxs&gt;)</span></code></td>
+</tr>
+<tr class="row-odd"><td>Multi-pass</td>
+<td>if the respective positions of the argument ranges are as well</td>
+</tr>
+<tr class="row-even"><td>Saveable</td>
+<td>if <code class="docutils literal"><span class="pre">(...</span> <span class="pre">&amp;&amp;</span> <span class="pre">Saveable&lt;Ctxs&gt;)</span></code></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Additional construction complexity:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><p class="first">Linear time with respect to the total number of elements across all <em>ctxs</em> if and only if <code class="docutils literal"><span class="pre">(...</span> <span class="pre">&amp;&amp;</span>
+<span class="pre">BidirectionalContext&lt;Ctxs&gt;)</span></code>, constant time otherwise.</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Simple context members:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><p class="first last"><code class="docutils literal"><span class="pre">zipped_contexts</span></code>: <code class="docutils literal"><span class="pre">tuple(std::move(ctxs)...)</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex17MoveConstructibleE" title="annex::MoveConstructible">MoveConstructible</a>{<code class="descname">Rng</code>}</dt>
+<dt id="_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range3zipclE3Rng">
+<em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range3zipclE3Rng" title="annex::range::zip::operator()::Rng">Rng</a> <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range3zipclE3Rng" title="annex::range::zip::operator()::Rng">Rng</a> <em>rng</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range3zipclE3Rng" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unary special case.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rng</strong> &#8211; <a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="motivation.html">Motivation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scope.html">Scope</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="reference.html">Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="concepts.html">Concepts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operations.html">Operations &amp; functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sources.html">Sources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="consumers.html">Consumers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transformations.html">Transformations</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Compositions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#concat">concat</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#zip">zip</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="arrangements.html">Arrangements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common.html">Common</a></li>
+<li class="toctree-l2"><a class="reference internal" href="annex.html">Annex quick reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference.html#how-to-read-the-reference">How to read the reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="open_questions.html">Open questions</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="transformations.html"
+                        title="previous chapter">Transformations</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="arrangements.html"
+                        title="next chapter">Arrangements</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/compositions.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="arrangements.html" title="Arrangements"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="transformations.html" title="Transformations"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">annex-range 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="reference.html" >Reference</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, mickk.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5a0.
+    </div>
+  </body>
+</html>

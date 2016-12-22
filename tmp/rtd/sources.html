@@ -1,0 +1,1728 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Sources &mdash; annex-range 0.1.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="annex-range 0.1.0 documentation" href="index.html"/>
+        <link rel="up" title="Reference" href="reference.html"/>
+        <link rel="next" title="Consumers" href="consumers.html"/>
+        <link rel="prev" title="Operations &amp; functions" href="operations.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> annex-range
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="motivation.html">Motivation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scope.html">Scope</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="reference.html">Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="concepts.html">Concepts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operations.html">Operations &amp; functions</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Sources</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#fundamental-sources">Fundamental sources</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nullable">nullable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#generate">generate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#interval">interval</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#iterator-interval-as-range">iterator_interval &amp; as_range</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#repeat">repeat</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#replicate">replicate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#coro">coro</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#container-sources">Container sources</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#indexable">indexable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#container">container</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#i-o-sources">I/O sources</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#istream">istream</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lines">lines</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="consumers.html">Consumers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transformations.html">Transformations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="compositions.html">Compositions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arrangements.html">Arrangements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common.html">Common</a></li>
+<li class="toctree-l2"><a class="reference internal" href="annex.html">Annex quick reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference.html#how-to-read-the-reference">How to read the reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="open_questions.html">Open questions</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">annex-range</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+        <li><a href="reference.html">Reference</a> &raquo;</li>
+      
+    <li>Sources</li>
+    <li class="wy-breadcrumbs-aside">
+      
+          
+          <a href="_sources/sources.rst.txt" rel="nofollow"> View page source</a>
+        
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="sources">
+<h1>Sources<a class="headerlink" href="#sources" title="Permalink to this headline">¶</a></h1>
+<p>Source range <a class="reference internal" href="annex.html#function"><span class="std std-ref">functions</span></a> are provided to produce <a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a> models. Typical source range functions create a
+given range from certain parameters (e.g. <a class="reference internal" href="#_CPPv2N5annex5range8intervalE" title="annex::range::interval"><code class="xref cpp cpp-any docutils literal"><span class="pre">interval</span></code></a> for half-open intervals) or can adapt pre-existing code. For
+instance <a class="reference internal" href="#_CPPv2N5annex5range9containerE" title="annex::range::container"><code class="xref cpp cpp-any docutils literal"><span class="pre">container</span></code></a> makes it possible to &#8216;turn&#8217; a container such as <code class="xref cpp cpp-any docutils literal"><span class="pre">std::vector&lt;T&gt;</span></code> into a model of <a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a>.</p>
+<div class="section" id="fundamental-sources">
+<h2>Fundamental sources<a class="headerlink" href="#fundamental-sources" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="nullable">
+<h3>nullable<a class="headerlink" href="#nullable" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex8NullableE" title="annex::Nullable">Nullable</a>{<code class="descname">Null</code>}</dt>
+<dt id="_CPPv2I0EX8NullableI4NullEEN5annex5range14nullable_rangeE">
+<em class="property">using </em><code class="descclassname"></code><code class="descname">nullable_range</code> = bounded_context&lt;nullable_context&lt;<a class="reference internal" href="#_CPPv2I0EX8NullableI4NullEEN5annex5range14nullable_rangeE" title="annex::range::nullable_range::Null">Null</a>&gt;&gt;<a class="headerlink" href="#_CPPv2I0EX8NullableI4NullEEN5annex5range14nullable_rangeE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="var">
+<dt id="_CPPv2N5annex5range8nullableE">
+<span id="annex::range::nullable__functors::nullableCR"></span><em class="property">constexpr</em> functors::nullable <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">nullable</code><a class="headerlink" href="#_CPPv2N5annex5range8nullableE" title="Permalink to this definition">¶</a></dt>
+<dd><p>In <code class="file docutils literal"><span class="pre">annex/range/source/nullable.hpp</span></code>.</p>
+<p>This constant is a <a class="reference internal" href="reference.html#range-function"><span class="std std-ref">Range function</span></a> with one or more associated <a class="reference internal" href="annex.html#simple-model"><span class="std std-ref">simple
+models</span></a>:</p>
+<blockquote>
+<div><a class="reference internal" href="#_CPPv2I0EX8NullableI4NullEEN5annex5range14nullable_rangeE" title="annex::range::nullable_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Nullable{Null}</span> <span class="pre">nullable_range</span></code></a></div></blockquote>
+<dl class="function">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex15ForwardableTypeE" title="annex::ForwardableType">ForwardableType</a>{<code class="descname">Null</code>}</dt>
+<dt id="_CPPv2I0EX15ForwardableTypeI4NullEENK5annex5range8nullableclERR4Null">
+<em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I0EX8NullableI4NullEEN5annex5range14nullable_rangeE" title="annex::range::nullable_range">nullable_range</a>&lt;<a class="reference internal" href="#_CPPv2I0EX15ForwardableTypeI4NullEENK5annex5range8nullableclERR4Null" title="annex::range::nullable::operator()::Null">Null</a>&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I0EX15ForwardableTypeI4NullEENK5annex5range8nullableclERR4Null" title="annex::range::nullable::operator()::Null">Null</a> &amp;&amp;<em>null</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I0EX15ForwardableTypeI4NullEENK5annex5range8nullableclERR4Null" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adapt <em>null</em> into a range of zero-or-one element. Iterating over the result will put <code class="docutils literal"><span class="pre">source_nullable</span></code> into
+its null state.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Models:</th><td class="field-body"><p class="first"><a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a> with the following <a class="reference internal" href="concepts.html#range-properties"><span class="std std-ref">properties</span></a>:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="12%" />
+<col width="88%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Element
+types</td>
+<td><a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI3VarEEN5annex22nullable_dereference_tE" title="annex::nullable_dereference_t"><code class="xref cpp cpp-any docutils literal"><span class="pre">nullable_dereference_t&lt;Null</span> <span class="pre">const&amp;&gt;</span></code></a> and
+<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI3VarEEN5annex22nullable_dereference_tE" title="annex::nullable_dereference_t"><code class="xref cpp cpp-any docutils literal"><span class="pre">nullable_dereference_t&lt;Null&gt;</span></code></a></td>
+</tr>
+<tr class="row-even"><td>Traversal</td>
+<td><a class="reference internal" href="concepts.html#_CPPv2I0EX20BidirectionalContextI3CtxEEN5annex5range19RandomAccessContextE" title="annex::range::RandomAccessContext"><code class="xref cpp cpp-any docutils literal"><span class="pre">RandomAccessContext</span></code></a></td>
+</tr>
+<tr class="row-odd"><td>Multi-pass</td>
+<td>yes</td>
+</tr>
+<tr class="row-even"><td>Saveable</td>
+<td>if <code class="docutils literal"><span class="pre">source_nullable</span></code> models <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex17CopyConstructibleE" title="annex::CopyConstructible"><code class="xref cpp cpp-any docutils literal"><span class="pre">CopyConstructible</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Additional construction complexity:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><p class="first">None.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Simple context members:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><p class="first last"><code class="docutils literal"><span class="pre">source_nullable</span></code>: <em>null</em></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="generate">
+<h3>generate<a class="headerlink" href="#generate" title="Permalink to this headline">¶</a></h3>
+<dl class="var">
+<dt id="_CPPv2N5annex5range16default_generateE">
+<span id="annex::range::default_generate__default_generate_policy"></span><em class="property">constexpr</em> default_generate_policy <code class="descclassname"></code><code class="descname">default_generate</code><a class="headerlink" href="#_CPPv2N5annex5range16default_generateE" title="Permalink to this definition">¶</a></dt>
+<dd><p>The default, strict policy for <a class="reference internal" href="#_CPPv2N5annex5range8generateE" title="annex::range::generate"><code class="xref cpp cpp-any docutils literal"><span class="pre">generate</span></code></a>.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="_CPPv2N5annex5range16relaxed_generateE">
+<span id="annex::range::relaxed_generate__relaxed_generate_policy"></span><em class="property">constexpr</em> relaxed_generate_policy <code class="descclassname"></code><code class="descname">relaxed_generate</code><a class="headerlink" href="#_CPPv2N5annex5range16relaxed_generateE" title="Permalink to this definition">¶</a></dt>
+<dd><p>The relaxed policy for <a class="reference internal" href="#_CPPv2N5annex5range8generateE" title="annex::range::generate"><code class="xref cpp cpp-any docutils literal"><span class="pre">generate</span></code></a>. Potentially unsafe, see <a class="reference internal" href="#_CPPv2I_8Variable_15ForwardableTypeENK5annex5range8generateclE6PolicyRR7Functor" title="annex::range::generate::operator()"><code class="xref cpp cpp-any docutils literal"><span class="pre">generate::operator()()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="type">
+<dt>
+template&lt;<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a> <code class="descclassname"></code><code class="descname">Functor</code>, typename <code class="descname">Policy</code> = default_generate_policy&gt;</dt>
+<dt id="_CPPv2I_8Variable0EN5annex5range14generate_rangeE">
+<em class="property">using </em><code class="descclassname"></code><code class="descname">generate_range</code> = bounded_context&lt;generate_context&lt;<a class="reference internal" href="#_CPPv2I_8Variable0EN5annex5range14generate_rangeE" title="annex::range::generate_range::Functor">Functor</a>, <a class="reference internal" href="#_CPPv2I_8Variable0EN5annex5range14generate_rangeE" title="annex::range::generate_range::Policy">Policy</a>&gt;&gt;<a class="headerlink" href="#_CPPv2I_8Variable0EN5annex5range14generate_rangeE" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Additional requirements:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><a class="reference internal" href="annex.html#_CPPv2I_8VariableDpEN5annex9InvokableE" title="annex::Invokable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Invokable&lt;Functor&amp;&gt;</span></code></a>, <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex8NullableE" title="annex::Nullable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Nullable&lt;result&lt;Functor&amp;&gt;&gt;</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="var">
+<dt id="_CPPv2N5annex5range8generateE">
+<span id="annex::range::generate__functors::generateCR"></span><em class="property">constexpr</em> functors::generate <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">generate</code><a class="headerlink" href="#_CPPv2N5annex5range8generateE" title="Permalink to this definition">¶</a></dt>
+<dd><p>In <code class="file docutils literal"><span class="pre">annex/range/source/generate.hpp</span></code>.</p>
+<p>This constant is a <a class="reference internal" href="reference.html#range-function"><span class="std std-ref">Range function</span></a> with one or more associated <a class="reference internal" href="annex.html#simple-model"><span class="std std-ref">simple
+models</span></a>:</p>
+<blockquote>
+<div><a class="reference internal" href="#_CPPv2I_8Variable0EN5annex5range14generate_rangeE" title="annex::range::generate_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">template&lt;Variable</span> <span class="pre">Functor,</span> <span class="pre">typename</span> <span class="pre">Policy</span> <span class="pre">=</span> <span class="pre">default_generate_policy&gt;</span> <span class="pre">generate_range</span></code></a></div></blockquote>
+<dl class="function">
+<dt>
+template&lt;<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a> <code class="descclassname"></code><code class="descname">Policy</code>, <a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex15ForwardableTypeE" title="annex::ForwardableType">ForwardableType</a> <code class="descclassname"></code><code class="descname">Functor</code>&gt;</dt>
+<dt id="_CPPv2I_8Variable_15ForwardableTypeENK5annex5range8generateclE6PolicyRR7Functor">
+<em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I_8Variable0EN5annex5range14generate_rangeE" title="annex::range::generate_range">generate_range</a>&lt;<a class="reference internal" href="#_CPPv2I_8Variable_15ForwardableTypeENK5annex5range8generateclE6PolicyRR7Functor" title="annex::range::generate::operator()::Functor">Functor</a>, <a class="reference internal" href="#_CPPv2I_8Variable_15ForwardableTypeENK5annex5range8generateclE6PolicyRR7Functor" title="annex::range::generate::operator()::Policy">Policy</a>&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I_8Variable_15ForwardableTypeENK5annex5range8generateclE6PolicyRR7Functor" title="annex::range::generate::operator()::Policy">Policy</a> <em>policy</em>, <a class="reference internal" href="#_CPPv2I_8Variable_15ForwardableTypeENK5annex5range8generateclE6PolicyRR7Functor" title="annex::range::generate::operator()::Functor">Functor</a> &amp;&amp;<em>functor</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I_8Variable_15ForwardableTypeENK5annex5range8generateclE6PolicyRR7Functor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a range over the <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex8NullableE" title="annex::Nullable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Nullable</span></code></a> values repeatedly produced by <em>functor</em>, up to the first null
+value (exclusive).</p>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p>The <a class="reference internal" href="#_CPPv2N5annex5range16default_generateE" title="annex::range::default_generate"><code class="xref cpp cpp-any docutils literal"><span class="pre">default_generate</span></code></a> policy is safe by default, but disables copies. While <a class="reference internal" href="#_CPPv2I_8Variable_15ForwardableTypeENK5annex5range8generateclE6PolicyRR7Functor" title="annex::range::generate::operator()::Functor"><code class="xref cpp cpp-any docutils literal"><span class="pre">Functor</span></code></a> may be copyable,
+it is not possible to check without user intervention whether copying correctly preserves range state.
+The user can assert that <a class="reference internal" href="#_CPPv2I_8Variable_15ForwardableTypeENK5annex5range8generateclE6PolicyRR7Functor" title="annex::range::generate::operator()::Functor"><code class="xref cpp cpp-any docutils literal"><span class="pre">Functor</span></code></a> copies do provide this guarantee by specifying the
+<a class="reference internal" href="#_CPPv2N5annex5range16relaxed_generateE" title="annex::range::relaxed_generate"><code class="xref cpp cpp-any docutils literal"><span class="pre">relaxed_generate</span></code></a> policy.</p>
+<p>The following demonstrates the potential pitfall when proper care is not taken:</p>
+<div class="last highlight-c++"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">shared_state</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">auto</span> <span class="n">func</span> <span class="o">=</span> <span class="p">[</span><span class="o">&amp;</span><span class="n">shared_state</span><span class="p">]</span> <span class="p">{</span> <span class="k">return</span> <span class="n">shared_state</span> <span class="o">&lt;</span> <span class="mi">6</span> <span class="o">?</span> <span class="n">make_optional</span><span class="p">(</span><span class="n">shared_state</span><span class="o">++</span><span class="p">)</span> <span class="o">:</span> <span class="n">nothing</span><span class="p">;</span> <span class="p">};</span>
+<span class="k">auto</span> <span class="n">r</span> <span class="o">=</span> <span class="n">generate</span><span class="p">(</span><span class="n">relaxed_generate</span><span class="p">,</span> <span class="n">func</span><span class="p">);</span>
+
+<span class="c1">// func is copyable, so r is as well</span>
+<span class="k">auto</span> <span class="n">s</span> <span class="o">=</span> <span class="n">r</span><span class="p">;</span>
+
+<span class="c1">// since all copies of func close over the one and only shared_state variable,</span>
+<span class="c1">// consuming r wrongfully affects s at a distance!</span>
+<span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="nl">ignore</span><span class="p">:</span> <span class="n">in_place</span><span class="p">(</span><span class="n">r</span><span class="p">))</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="p">(</span><span class="n">ignore</span><span class="p">);</span>
+
+<span class="c1">// now s is empty even though it has not been ranged over yet</span>
+</pre></div>
+</div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>policy</strong> &#8211; a policy object, either <a class="reference internal" href="#_CPPv2N5annex5range16default_generateE" title="annex::range::default_generate"><code class="xref cpp cpp-any docutils literal"><span class="pre">default_generate</span></code></a> or <a class="reference internal" href="#_CPPv2N5annex5range16relaxed_generateE" title="annex::range::relaxed_generate"><code class="xref cpp cpp-any docutils literal"><span class="pre">relaxed_generate</span></code></a></li>
+<li><strong>functor</strong> &#8211; a function object satisfying both <a class="reference internal" href="annex.html#_CPPv2I_8VariableDpEN5annex9InvokableE" title="annex::Invokable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Invokable&lt;Functor&amp;&gt;</span></code></a> and
+<a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex8NullableE" title="annex::Nullable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Nullable&lt;result&lt;Functor&amp;&gt;&gt;</span></code></a></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Models:</th><td class="field-body"><p class="first"><a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a> with the following <a class="reference internal" href="concepts.html#range-properties"><span class="std std-ref">properties</span></a>:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="12%" />
+<col width="88%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Element
+types</td>
+<td><a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI3VarEEN5annex22nullable_dereference_tE" title="annex::nullable_dereference_t"><code class="xref cpp cpp-any docutils literal"><span class="pre">nullable_dereference_t&lt;result&lt;Functor&amp;&gt;</span> <span class="pre">const&amp;&gt;</span></code></a> and
+<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI3VarEEN5annex18nullable_element_tE" title="annex::nullable_element_t"><code class="xref cpp cpp-any docutils literal"><span class="pre">nullable_element_t&lt;result&lt;Functor&amp;&gt;&gt;</span></code></a></td>
+</tr>
+<tr class="row-even"><td>Traversal</td>
+<td><a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3CtxEEN5annex5range7ContextE" title="annex::range::Context"><code class="xref cpp cpp-any docutils literal"><span class="pre">Context</span></code></a></td>
+</tr>
+<tr class="row-odd"><td>Multi-pass</td>
+<td>no</td>
+</tr>
+<tr class="row-even"><td>Saveable</td>
+<td>if the specified policy is <a class="reference internal" href="#_CPPv2N5annex5range16relaxed_generateE" title="annex::range::relaxed_generate"><code class="xref cpp cpp-any docutils literal"><span class="pre">relaxed_generate</span></code></a> and <code class="docutils literal"><span class="pre">generating_functor</span></code> models
+<a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex17CopyConstructibleE" title="annex::CopyConstructible"><code class="xref cpp cpp-any docutils literal"><span class="pre">CopyConstructible</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Additional construction complexity:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><p class="first">One <em>functor</em> invocation.</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Simple context members:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><p class="first last"><code class="docutils literal"><span class="pre">generating_functor</span></code>: <em>functor</em></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex15ForwardableTypeE" title="annex::ForwardableType">ForwardableType</a>{<code class="descname">Functor</code>}</dt>
+<dt id="_CPPv2I0EX15ForwardableTypeI7FunctorEENK5annex5range8generateclERR7Functor">
+<em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I_8Variable0EN5annex5range14generate_rangeE" title="annex::range::generate_range">generate_range</a>&lt;<a class="reference internal" href="#_CPPv2I0EX15ForwardableTypeI7FunctorEENK5annex5range8generateclERR7Functor" title="annex::range::generate::operator()::Functor">Functor</a>&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I0EX15ForwardableTypeI7FunctorEENK5annex5range8generateclERR7Functor" title="annex::range::generate::operator()::Functor">Functor</a> &amp;&amp;<em>functor</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I0EX15ForwardableTypeI7FunctorEENK5annex5range8generateclERR7Functor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Equivalent to <a class="reference internal" href="#_CPPv2I0EX15ForwardableTypeI7FunctorEENK5annex5range8generateclERR7Functor" title="annex::range::generate::operator()"><code class="xref cpp cpp-any docutils literal"><span class="pre">operator()(default_generate,</span> <span class="pre">std::forward&lt;Functor&gt;(functor))</span></code></a>.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="interval">
+<h3>interval<a class="headerlink" href="#interval" title="Permalink to this headline">¶</a></h3>
+<dl class="concept">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a>{<code class="descname">Var</code>}</dt>
+<dt id="_CPPv2I0EX8VariableI3VarEEN5annex5range13IncrementableE">
+<em class="property">concept </em>bool <code class="descclassname"></code><code class="descname">Incrementable</code><a class="headerlink" href="#_CPPv2I0EX8VariableI3VarEEN5annex5range13IncrementableE" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Notation:</th><td class="field-body"><div class="first last highlight-c++"><div class="highlight"><pre><span></span><span class="n">Var</span> <span class="n">x</span><span class="p">;</span>
+</pre></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<p>A variable which can be incremented.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Associated expressions:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><code class="docutils literal"><span class="pre">++x</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="concept">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a>{<code class="descname">Var</code>}</dt>
+<dt id="_CPPv2I0EX8VariableI3VarEEN5annex5range13DecrementableE">
+<em class="property">concept </em>bool <code class="descclassname"></code><code class="descname">Decrementable</code><a class="headerlink" href="#_CPPv2I0EX8VariableI3VarEEN5annex5range13DecrementableE" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Notation:</th><td class="field-body"><div class="first last highlight-c++"><div class="highlight"><pre><span></span><span class="n">Var</span> <span class="n">x</span><span class="p">;</span>
+</pre></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<p>A variable which can be incremented.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Associated expressions:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><code class="docutils literal"><span class="pre">--x</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="concept">
+<dt>
+template&lt;<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a> <code class="descclassname"></code><code class="descname">Var</code>, <a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a> <code class="descclassname"></code><code class="descname">Stride</code> = Var&gt;</dt>
+<dt id="_CPPv2I_8Variable_8VariableEN5annex5range10ArithmeticE">
+<em class="property">concept </em>bool <code class="descclassname"></code><code class="descname">Arithmetic</code><a class="headerlink" href="#_CPPv2I_8Variable_8VariableEN5annex5range10ArithmeticE" title="Permalink to this definition">¶</a></dt>
+<dd><p>A variable which behaves close enough to an <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex8IntegralE" title="annex::Integral"><code class="xref cpp cpp-any docutils literal"><span class="pre">Integral</span></code></a> type with respect to copying, equality testing, addition,
+and subtraction.</p>
+<p>Refines <a class="reference internal" href="#_CPPv2I0EX8VariableI3VarEEN5annex5range13IncrementableE" title="annex::range::Incrementable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Incrementable</span></code></a>, <a class="reference internal" href="#_CPPv2I0EX8VariableI3VarEEN5annex5range13DecrementableE" title="annex::range::Decrementable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Decrementable</span></code></a>, <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex8CopyableE" title="annex::Copyable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Copyable</span></code></a>, <a class="reference internal" href="annex.html#_CPPv2I_8Variable_8VariableEN5annex18EqualityComparableE" title="annex::EqualityComparable"><code class="xref cpp cpp-any docutils literal"><span class="pre">EqualityComparable</span></code></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Notation:</th><td class="field-body"><div class="first highlight-c++"><div class="highlight"><pre><span></span><span class="n">Var</span> <span class="n">arith</span><span class="p">;</span>
+<span class="n">as_const</span><span class="o">&lt;</span><span class="n">Var</span><span class="o">&gt;</span> <span class="n">carith</span><span class="p">;</span>
+<span class="n">as_const</span><span class="o">&lt;</span><span class="n">Stride</span><span class="o">&gt;</span> <span class="n">stride</span><span class="p">;</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Associated expressions:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><p class="first"><code class="docutils literal"><span class="pre">{</span> <span class="pre">carith</span> <span class="pre">+</span> <span class="pre">carith</span> <span class="pre">}</span> <span class="pre">-&gt;</span> <span class="pre">Var</span></code>: addition</p>
+<p><code class="docutils literal"><span class="pre">{</span> <span class="pre">carith</span> <span class="pre">-</span> <span class="pre">carith</span> <span class="pre">}</span> <span class="pre">-&gt;</span> <span class="pre">Var</span></code>: subtraction</p>
+<p class="last"><code class="docutils literal"><span class="pre">arith</span> <span class="pre">+=</span> <span class="pre">stride</span></code>: offset</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="type">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a>{<code class="descname">Element</code>}</dt>
+<dt id="_CPPv2I0EX8VariableI7ElementEEN5annex5range14interval_rangeE">
+<em class="property">using </em><code class="descclassname"></code><code class="descname">interval_range</code> = bounded_context&lt;interval_context&lt;<a class="reference internal" href="#_CPPv2I0EX8VariableI7ElementEEN5annex5range14interval_rangeE" title="annex::range::interval_range::Element">Element</a>&gt;&gt;<a class="headerlink" href="#_CPPv2I0EX8VariableI7ElementEEN5annex5range14interval_rangeE" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Additional requirements:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex8CopyableE" title="annex::Copyable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Copyable&lt;Element&gt;</span></code></a>, <a class="reference internal" href="#_CPPv2I0EX8VariableI3VarEEN5annex5range13IncrementableE" title="annex::range::Incrementable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Incrementable&lt;Element&gt;</span></code></a>,
+<a class="reference internal" href="annex.html#_CPPv2I_8Variable_8VariableEN5annex18EqualityComparableE" title="annex::EqualityComparable"><code class="xref cpp cpp-any docutils literal"><span class="pre">EqualityComparable&lt;Element&gt;</span></code></a>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="type">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2IDpEX5TypesIsp2XsEEN5annex9VariablesE" title="annex::Variables">Variables</a>{<code class="descname">Element</code>, <code class="descname">Stride</code>}</dt>
+<dt id="_CPPv2I00EX9VariablesI7Element6StrideEEN5annex5range22strided_interval_rangeE">
+<em class="property">using </em><code class="descclassname"></code><code class="descname">strided_interval_range</code><a class="headerlink" href="#_CPPv2I00EX9VariablesI7Element6StrideEEN5annex5range22strided_interval_rangeE" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Additional requirements:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex8CopyableE" title="annex::Copyable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Copyable&lt;Element&gt;</span></code></a>, <a class="reference internal" href="#_CPPv2I_8Variable_8VariableEN5annex5range10ArithmeticE" title="annex::range::Arithmetic"><code class="xref cpp cpp-any docutils literal"><span class="pre">Arithmetic&lt;Element,</span> <span class="pre">Stride&gt;</span></code></a>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="var">
+<dt id="_CPPv2N5annex5range8intervalE">
+<span id="annex::range::interval__functors::intervalCR"></span><em class="property">constexpr</em> functors::interval <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">interval</code><a class="headerlink" href="#_CPPv2N5annex5range8intervalE" title="Permalink to this definition">¶</a></dt>
+<dd><p>In <code class="file docutils literal"><span class="pre">annex/range/source/interval.hpp</span></code>.</p>
+<p>This constant is a <a class="reference internal" href="reference.html#range-function"><span class="std std-ref">Range function</span></a> with one or more associated <a class="reference internal" href="annex.html#simple-model"><span class="std std-ref">simple
+models</span></a>:</p>
+<blockquote>
+<div><p><a class="reference internal" href="#_CPPv2I0EX8VariableI7ElementEEN5annex5range14interval_rangeE" title="annex::range::interval_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Variable{Element}</span> <span class="pre">interval_range</span></code></a></p>
+<p><a class="reference internal" href="#_CPPv2I00EX9VariablesI7Element6StrideEEN5annex5range22strided_interval_rangeE" title="annex::range::strided_interval_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Variables{Element,</span> <span class="pre">Stride}</span> <span class="pre">strided_interval_range</span></code></a></p>
+</div></blockquote>
+<dl class="function">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex17MoveConstructibleE" title="annex::MoveConstructible">MoveConstructible</a>{<code class="descname">Element</code>}</dt>
+<dt id="_CPPv2I0EX17MoveConstructibleI7ElementEENK5annex5range8intervalclE7Element7Element">
+<em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I0EX8VariableI7ElementEEN5annex5range14interval_rangeE" title="annex::range::interval_range">interval_range</a>&lt;<a class="reference internal" href="#_CPPv2I0EX17MoveConstructibleI7ElementEENK5annex5range8intervalclE7Element7Element" title="annex::range::interval::operator()::Element">Element</a>&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I0EX17MoveConstructibleI7ElementEENK5annex5range8intervalclE7Element7Element" title="annex::range::interval::operator()::Element">Element</a> <em>from</em>, <a class="reference internal" href="#_CPPv2I0EX17MoveConstructibleI7ElementEENK5annex5range8intervalclE7Element7Element" title="annex::range::interval::operator()::Element">Element</a> <em>to</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I0EX17MoveConstructibleI7ElementEENK5annex5range8intervalclE7Element7Element" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a half-open interval of <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex8CopyableE" title="annex::Copyable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Copyable</span></code></a>, <a class="reference internal" href="#_CPPv2I0EX8VariableI3VarEEN5annex5range13IncrementableE" title="annex::range::Incrementable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Incrementable</span></code></a>, <a class="reference internal" href="annex.html#_CPPv2I_8Variable_8VariableEN5annex18EqualityComparableE" title="annex::EqualityComparable"><code class="xref cpp cpp-any docutils literal"><span class="pre">EqualityComparable</span></code></a> values.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">While intervals of iterators are supported to an extent, <a class="reference internal" href="#_CPPv2N5annex5range17iterator_intervalE" title="annex::range::iterator_interval"><code class="xref cpp cpp-any docutils literal"><span class="pre">iterator_interval</span></code></a> may be a more suitable
+alternative especially for a range over iterated/pointed-to values.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>from</strong> &#8211; the starting value of the half-open interval (inclusive)</li>
+<li><strong>to</strong> &#8211; the final value of the half-open interval (exclusive)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Models:</th><td class="field-body"><p class="first"><a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a> with the following <a class="reference internal" href="concepts.html#range-properties"><span class="std std-ref">properties</span></a>:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="12%" />
+<col width="88%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Element
+types</td>
+<td><a class="reference internal" href="#_CPPv2I0EX17MoveConstructibleI7ElementEENK5annex5range8intervalclE7Element7Element" title="annex::range::interval::operator()::Element"><code class="xref cpp cpp-any docutils literal"><span class="pre">Element</span> <span class="pre">const&amp;</span></code></a> and
+<a class="reference internal" href="#_CPPv2I0EX17MoveConstructibleI7ElementEENK5annex5range8intervalclE7Element7Element" title="annex::range::interval::operator()::Element"><code class="xref cpp cpp-any docutils literal"><span class="pre">Element</span></code></a></td>
+</tr>
+<tr class="row-even"><td>Traversal</td>
+<td><a class="reference internal" href="concepts.html#_CPPv2I0EX20BidirectionalContextI3CtxEEN5annex5range19RandomAccessContextE" title="annex::range::RandomAccessContext"><code class="xref cpp cpp-any docutils literal"><span class="pre">RandomAccessContext</span></code></a> if <a class="reference internal" href="#_CPPv2I_8Variable_8VariableEN5annex5range10ArithmeticE" title="annex::range::Arithmetic"><code class="xref cpp cpp-any docutils literal"><span class="pre">Arithmetic&lt;Element&gt;</span></code></a>,
+else <a class="reference internal" href="concepts.html#_CPPv2I0EX18DoubleEndedContextI3CtxEEN5annex5range20BidirectionalContextE" title="annex::range::BidirectionalContext"><code class="xref cpp cpp-any docutils literal"><span class="pre">BidirectionalContext</span></code></a> if <a class="reference internal" href="#_CPPv2I0EX17MoveConstructibleI7ElementEENK5annex5range8intervalclE7Element7Element" title="annex::range::interval::operator()::Element"><code class="xref cpp cpp-any docutils literal"><span class="pre">Element</span></code></a> models <a class="reference internal" href="#_CPPv2I0EX8VariableI3VarEEN5annex5range13DecrementableE" title="annex::range::Decrementable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Decrementable</span></code></a></td>
+</tr>
+<tr class="row-odd"><td>Multi-pass</td>
+<td>yes</td>
+</tr>
+<tr class="row-even"><td>Saveable</td>
+<td>yes</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Additional construction complexity:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><p class="first">None.</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Simple context members:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><p class="first last">None.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2IDpEX5TypesIsp2XsEEN5annex18MoveConstructiblesE" title="annex::MoveConstructibles">MoveConstructibles</a>{<code class="descname">Element</code>, <code class="descname">Stride</code>}</dt>
+<dt id="_CPPv2I00EX18MoveConstructiblesI7Element6StrideEENK5annex5range8intervalclE7Element7Element6Stride">
+<em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I00EX9VariablesI7Element6StrideEEN5annex5range22strided_interval_rangeE" title="annex::range::strided_interval_range">strided_interval_range</a>&lt;<a class="reference internal" href="#_CPPv2I00EX18MoveConstructiblesI7Element6StrideEENK5annex5range8intervalclE7Element7Element6Stride" title="annex::range::interval::operator()::Element">Element</a>, <a class="reference internal" href="#_CPPv2I00EX18MoveConstructiblesI7Element6StrideEENK5annex5range8intervalclE7Element7Element6Stride" title="annex::range::interval::operator()::Stride">Stride</a>&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I00EX18MoveConstructiblesI7Element6StrideEENK5annex5range8intervalclE7Element7Element6Stride" title="annex::range::interval::operator()::Element">Element</a> <em>from</em>, <a class="reference internal" href="#_CPPv2I00EX18MoveConstructiblesI7Element6StrideEENK5annex5range8intervalclE7Element7Element6Stride" title="annex::range::interval::operator()::Element">Element</a> <em>to</em>, <a class="reference internal" href="#_CPPv2I00EX18MoveConstructiblesI7Element6StrideEENK5annex5range8intervalclE7Element7Element6Stride" title="annex::range::interval::operator()::Stride">Stride</a> <em>stride</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I00EX18MoveConstructiblesI7Element6StrideEENK5annex5range8intervalclE7Element7Element6Stride" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a half-open interval of strided values (i.e. satisfying <a class="reference internal" href="#_CPPv2I_8Variable_8VariableEN5annex5range10ArithmeticE" title="annex::range::Arithmetic"><code class="xref cpp cpp-any docutils literal"><span class="pre">Arithmetic&lt;Element,</span> <span class="pre">Stride&gt;</span></code></a>).
+Successive values will be separated by <em>stride</em>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>from</strong> &#8211; the starting value of the half-open interval (inclusive)</li>
+<li><strong>to</strong> &#8211; an upper-bound for the half-open interval (exclusive)</li>
+<li><strong>stride</strong> &#8211; the stride between successive range values</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Models:</th><td class="field-body"><p class="first"><a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex8CopyableE" title="annex::Copyable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Copyable</span></code></a> <a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a> with a <a class="reference internal" href="concepts.html#_CPPv2I0EX20BidirectionalContextI3CtxEEN5annex5range19RandomAccessContextE" title="annex::range::RandomAccessContext"><code class="xref cpp cpp-any docutils literal"><span class="pre">RandomAccessContext</span></code></a> over <a class="reference internal" href="#_CPPv2I00EX18MoveConstructiblesI7Element6StrideEENK5annex5range8intervalclE7Element7Element6Stride" title="annex::range::interval::operator()::Element"><code class="xref cpp cpp-any docutils literal"><span class="pre">Element</span> <span class="pre">const&amp;</span></code></a> and <a class="reference internal" href="#_CPPv2I00EX18MoveConstructiblesI7Element6StrideEENK5annex5range8intervalclE7Element7Element6Stride" title="annex::range::interval::operator()::Element"><code class="xref cpp cpp-any docutils literal"><span class="pre">Element</span></code></a>
+elements</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Additional construction complexity:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><p class="first">None.</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Simple context members:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><p class="first last"><code class="docutils literal"><span class="pre">stride</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="var">
+<dt>
+template&lt;type <code class="descclassname"></code><code class="descname">Numeric</code>&gt;</dt>
+<dt id="_CPPv2I_4typeEN5annex5range8integersE">
+<em class="property">constexpr</em> functors::integers <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">integers</code><a class="headerlink" href="#_CPPv2I_4typeEN5annex5range8integersE" title="Permalink to this definition">¶</a></dt>
+<dd><p>In <code class="file docutils literal"><span class="pre">annex/range/source/interval.hpp</span></code>.</p>
+<p>Shorthand for creating an <a class="reference internal" href="#_CPPv2N5annex5range8intervalE" title="annex::range::interval"><code class="xref cpp cpp-any docutils literal"><span class="pre">interval</span></code></a> over all the integer values of a given numeric type, starting from
+zero up to but not including the largest integer value of that type.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Template Parameters:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><strong>Numeric</strong> &#8211; numeric type to draw values from, must satisfy the constraints of <a class="reference internal" href="#_CPPv2I0EX17MoveConstructibleI7ElementEENK5annex5range8intervalclE7Element7Element" title="annex::range::interval::operator()"><code class="xref cpp cpp-any docutils literal"><span class="pre">interval::operator()()</span></code></a></td>
+</tr>
+</tbody>
+</table>
+<p>This constant is a <a class="reference internal" href="reference.html#range-function"><span class="std std-ref">Range function</span></a>.</p>
+<dl class="function">
+<dt id="_CPPv2NK5annex5range8integersclEv">
+<span id="annex::range::integers::call-operatorCCE"></span><em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I0EX8VariableI7ElementEEN5annex5range14interval_rangeE" title="annex::range::interval_range">interval_range</a>&lt;<a class="reference internal" href="#_CPPv2I_4typeEN5annex5range8integersE" title="annex::range::integers::Numeric">Numeric</a>&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK5annex5range8integersclEv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Equivalent to <a class="reference internal" href="#_CPPv2I0EX17MoveConstructibleI7ElementEENK5annex5range8intervalclE7Element7Element" title="annex::range::interval::operator()"><code class="xref cpp cpp-any docutils literal"><span class="pre">interval(static_cast&lt;Numeric&gt;(0),</span> <span class="pre">std::numeric_limits&lt;Numeric&gt;::max())</span></code></a>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="var">
+<dt id="_CPPv2N5annex5range4intsE">
+<span id="annex::range::ints__autoCR"></span><em class="property">constexpr</em> auto <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">ints</code> = integers&lt;int&gt;<a class="headerlink" href="#_CPPv2N5annex5range4intsE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="iterator-interval-as-range">
+<h3>iterator_interval &amp; as_range<a class="headerlink" href="#iterator-interval-as-range" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex13InputIteratorE" title="annex::InputIterator">InputIterator</a>{<code class="descname">It</code>}</dt>
+<dt id="_CPPv2I0EX13InputIteratorI2ItEEN5annex5range23iterator_interval_rangeE">
+<em class="property">using </em><code class="descclassname"></code><code class="descname">iterator_interval_range</code> = bounded_context&lt;iterator_interval_context&lt;<a class="reference internal" href="#_CPPv2I0EX13InputIteratorI2ItEEN5annex5range23iterator_interval_rangeE" title="annex::range::iterator_interval_range::It">It</a>&gt;&gt;<a class="headerlink" href="#_CPPv2I0EX13InputIteratorI2ItEEN5annex5range23iterator_interval_rangeE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="var">
+<dt id="_CPPv2N5annex5range17iterator_intervalE">
+<span id="annex::range::iterator_interval__functors::iterator_intervalCR"></span><em class="property">constexpr</em> functors::iterator_interval <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">iterator_interval</code><a class="headerlink" href="#_CPPv2N5annex5range17iterator_intervalE" title="Permalink to this definition">¶</a></dt>
+<dd><p>In <code class="file docutils literal"><span class="pre">annex/range/range.hpp</span></code>.</p>
+<p>This constant is a <a class="reference internal" href="reference.html#range-function"><span class="std std-ref">Range function</span></a> with one or more associated <a class="reference internal" href="annex.html#simple-model"><span class="std std-ref">simple
+models</span></a>:</p>
+<blockquote>
+<div><a class="reference internal" href="#_CPPv2I0EX13InputIteratorI2ItEEN5annex5range23iterator_interval_rangeE" title="annex::range::iterator_interval_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">InputIterator{It}</span> <span class="pre">iterator_interval_range</span></code></a></div></blockquote>
+<dl class="function">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex13InputIteratorE" title="annex::InputIterator">InputIterator</a>{<code class="descname">It</code>}</dt>
+<dt id="_CPPv2I0EX13InputIteratorI2ItEENK5annex5range17iterator_intervalclE2It2It">
+<em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I0EX13InputIteratorI2ItEEN5annex5range23iterator_interval_rangeE" title="annex::range::iterator_interval_range">iterator_interval_range</a>&lt;<a class="reference internal" href="#_CPPv2I0EX13InputIteratorI2ItEENK5annex5range17iterator_intervalclE2It2It" title="annex::range::iterator_interval::operator()::It">It</a>&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I0EX13InputIteratorI2ItEENK5annex5range17iterator_intervalclE2It2It" title="annex::range::iterator_interval::operator()::It">It</a> <em>from</em>, <a class="reference internal" href="#_CPPv2I0EX13InputIteratorI2ItEENK5annex5range17iterator_intervalclE2It2It" title="annex::range::iterator_interval::operator()::It">It</a> <em>to</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I0EX13InputIteratorI2ItEENK5annex5range17iterator_intervalclE2It2It" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a range over the values specified by a half-open interval of iterators.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>from</strong> &#8211; starting <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex13InputIteratorE" title="annex::InputIterator"><code class="xref cpp cpp-any docutils literal"><span class="pre">InputIterator</span></code></a> value of the half-open interval (inclusive)</li>
+<li><strong>to</strong> &#8211; final <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex13InputIteratorE" title="annex::InputIterator"><code class="xref cpp cpp-any docutils literal"><span class="pre">InputIterator</span></code></a> value of the half-open interval (exclusive)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Models:</th><td class="field-body"><p class="first"><a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a> with the following <a class="reference internal" href="concepts.html#range-properties"><span class="std std-ref">properties</span></a>:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="12%" />
+<col width="88%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Element
+types</td>
+<td><code class="xref cpp cpp-any docutils literal"><span class="pre">typename</span> <span class="pre">std::iterator_traits&lt;It&gt;::reference</span></code></td>
+</tr>
+<tr class="row-even"><td>Traversal</td>
+<td><a class="reference internal" href="concepts.html#_CPPv2I0EX20BidirectionalContextI3CtxEEN5annex5range19RandomAccessContextE" title="annex::range::RandomAccessContext"><code class="xref cpp cpp-any docutils literal"><span class="pre">RandomAccessContext</span></code></a> if <a class="reference internal" href="#_CPPv2I0EX13InputIteratorI2ItEENK5annex5range17iterator_intervalclE2It2It" title="annex::range::iterator_interval::operator()::It"><code class="xref cpp cpp-any docutils literal"><span class="pre">It</span></code></a> models <a class="reference internal" href="annex.html#_CPPv2I0EX21BidirectionalIteratorI2ItEEN5annex20RandomAccessIteratorE" title="annex::RandomAccessIterator"><code class="xref cpp cpp-any docutils literal"><span class="pre">RandomAccessIterator</span></code></a>,
+else <a class="reference internal" href="concepts.html#_CPPv2I0EX18DoubleEndedContextI3CtxEEN5annex5range20BidirectionalContextE" title="annex::range::BidirectionalContext"><code class="xref cpp cpp-any docutils literal"><span class="pre">BidirectionalContext</span></code></a> if it models <a class="reference internal" href="annex.html#_CPPv2I0EX15ForwardIteratorI2ItEEN5annex21BidirectionalIteratorE" title="annex::BidirectionalIterator"><code class="xref cpp cpp-any docutils literal"><span class="pre">BidirectionalIterator</span></code></a></td>
+</tr>
+<tr class="row-odd"><td>Multi-pass</td>
+<td>if <a class="reference internal" href="#_CPPv2I0EX13InputIteratorI2ItEENK5annex5range17iterator_intervalclE2It2It" title="annex::range::iterator_interval::operator()::It"><code class="xref cpp cpp-any docutils literal"><span class="pre">It</span></code></a> models <a class="reference internal" href="annex.html#_CPPv2I0EX13InputIteratorI2ItEEN5annex15ForwardIteratorE" title="annex::ForwardIterator"><code class="xref cpp cpp-any docutils literal"><span class="pre">ForwardIterator</span></code></a></td>
+</tr>
+<tr class="row-even"><td>Saveable</td>
+<td>if <a class="reference internal" href="#_CPPv2I0EX13InputIteratorI2ItEENK5annex5range17iterator_intervalclE2It2It" title="annex::range::iterator_interval::operator()::It"><code class="xref cpp cpp-any docutils literal"><span class="pre">It</span></code></a> models <a class="reference internal" href="annex.html#_CPPv2I0EX13InputIteratorI2ItEEN5annex15ForwardIteratorE" title="annex::ForwardIterator"><code class="xref cpp cpp-any docutils literal"><span class="pre">ForwardIterator</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Additional construction complexity:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><p class="first last">None.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex8IterableE" title="annex::Iterable">Iterable</a>{<code class="descname">Iter</code>}</dt>
+<dt id="_CPPv2I0EX8IterableI4IterEENK5annex5range17iterator_intervalclER4Iter">
+<em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I0EX13InputIteratorI2ItEEN5annex5range23iterator_interval_rangeE" title="annex::range::iterator_interval_range">iterator_interval_range</a>&lt;result_of::begin&lt;<a class="reference internal" href="#_CPPv2I0EX8IterableI4IterEENK5annex5range17iterator_intervalclER4Iter" title="annex::range::iterator_interval::operator()::Iter">Iter</a>&amp;&gt;&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I0EX8IterableI4IterEENK5annex5range17iterator_intervalclER4Iter" title="annex::range::iterator_interval::operator()::Iter">Iter</a> &amp;<em>iter</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I0EX8IterableI4IterEENK5annex5range17iterator_intervalclER4Iter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a view over <em>iter</em>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Since this creates a view, <em>iter</em> must outlive the resulting range. For an alternative where the resulting
+range incorporates the <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex8IterableE" title="annex::Iterable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Iterable</span></code></a> value, see <a class="reference internal" href="#_CPPv2N5annex5range9containerE" title="annex::range::container"><code class="xref cpp cpp-any docutils literal"><span class="pre">container</span></code></a> or <a class="reference internal" href="#_CPPv2N5annex5range9indexableE" title="annex::range::indexable"><code class="xref cpp cpp-any docutils literal"><span class="pre">indexable</span></code></a>.</p>
+</div>
+<p>Equivalent to <a class="reference internal" href="#_CPPv2I0EX8IterableI4IterEENK5annex5range17iterator_intervalclER4Iter" title="annex::range::iterator_interval::operator()"><code class="xref cpp cpp-any docutils literal"><span class="pre">operator()(ops::begin(iter),</span> <span class="pre">ops::end(iter))</span></code></a>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="var">
+<dt id="_CPPv2N5annex5range8as_rangeE">
+<span id="annex::range::as_range__functors::as_rangeCR"></span><em class="property">constexpr</em> functors::as_range <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">as_range</code><a class="headerlink" href="#_CPPv2N5annex5range8as_rangeE" title="Permalink to this definition">¶</a></dt>
+<dd><p>In <code class="file docutils literal"><span class="pre">annex/range/range.hpp</span></code>.</p>
+<p>This constant is a <a class="reference internal" href="reference.html#range-function"><span class="std std-ref">Range function</span></a>.</p>
+<p>A smart conterpart of <a class="reference internal" href="#_CPPv2N5annex5range17iterator_intervalE" title="annex::range::iterator_interval"><code class="xref cpp cpp-any docutils literal"><span class="pre">iterator_interval</span></code></a> which accepts an <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex8IterableE" title="annex::Iterable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Iterable</span></code></a> or <a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a> argument. Useful in
+generic code which wishes to handle both families of concepts uniformly.</p>
+<dl class="function">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI3VarEEN5annex12StorableTypeE" title="annex::StorableType">StorableType</a>{<code class="descname">Rng</code>}</dt>
+<dt id="_CPPv2I0EX12StorableTypeI3RngEENK5annex5range8as_rangeclERR3Rng">
+<em class="property">constexpr</em> std::decay_t&lt;<a class="reference internal" href="#_CPPv2I0EX12StorableTypeI3RngEENK5annex5range8as_rangeclERR3Rng" title="annex::range::as_range::operator()::Rng">Rng</a>&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I0EX12StorableTypeI3RngEENK5annex5range8as_rangeclERR3Rng" title="annex::range::as_range::operator()::Rng">Rng</a> &amp;&amp;<em>rng</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I0EX12StorableTypeI3RngEENK5annex5range8as_rangeclERR3Rng" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decays or saves <em>rng</em>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rng</strong> &#8211; <a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a>, which must have a <a class="reference internal" href="concepts.html#_CPPv2I0EX7ContextI3CtxEEN5annex5range8SaveableE" title="annex::range::Saveable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Saveable</span></code></a> context if the argument is an lvalue</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex8IterableE" title="annex::Iterable">Iterable</a>{<code class="descname">Iter</code>}</dt>
+<dt id="_CPPv2I0EX8IterableI4IterEENK5annex5range8as_rangeclER4Iter">
+<em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I0EX13InputIteratorI2ItEEN5annex5range23iterator_interval_rangeE" title="annex::range::iterator_interval_range">iterator_interval_range</a>&lt;result_of::begin&lt;<a class="reference internal" href="#_CPPv2I0EX8IterableI4IterEENK5annex5range8as_rangeclER4Iter" title="annex::range::as_range::operator()::Iter">Iter</a>&amp;&gt;&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I0EX8IterableI4IterEENK5annex5range8as_rangeclER4Iter" title="annex::range::as_range::operator()::Iter">Iter</a> &amp;<em>iter</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I0EX8IterableI4IterEENK5annex5range8as_rangeclER4Iter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Equivalent to <a class="reference internal" href="#_CPPv2I0EX13InputIteratorI2ItEENK5annex5range17iterator_intervalclE2It2It" title="annex::range::iterator_interval::operator()"><code class="xref cpp cpp-any docutils literal"><span class="pre">iterator_interval(iter)</span></code></a>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2I0EN5annex4TypeE" title="annex::Type">Type</a>{<code class="descname">IterOrRng</code>}</dt>
+<dt id="_CPPv2I0EX4TypeI9IterOrRngEEN5annex5range10as_range_tE">
+<em class="property">using </em><code class="descclassname"></code><code class="descname">as_range_t</code> = result_of::as_range&lt;<a class="reference internal" href="#_CPPv2I0EX4TypeI9IterOrRngEEN5annex5range10as_range_tE" title="annex::range::as_range_t::IterOrRng">IterOrRng</a>&gt;<a class="headerlink" href="#_CPPv2I0EX4TypeI9IterOrRngEEN5annex5range10as_range_tE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="concept">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a>{<code class="descname">Var</code>}</dt>
+<dt id="_CPPv2I0EX8VariableI3VarEEN5annex5range7AsRangeE">
+<em class="property">concept </em>bool <code class="descclassname"></code><code class="descname">AsRange</code><a class="headerlink" href="#_CPPv2I0EX8VariableI3VarEEN5annex5range7AsRangeE" title="Permalink to this definition">¶</a></dt>
+<dd><div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This library feature is much more experimental than the rest, and is considered incomplete or unsatisfactory. It is
+likely to be subject to significant changes or dropped altogether.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Notation:</th><td class="field-body"><div class="first last highlight-c++"><div class="highlight"><pre><span></span><span class="n">Var</span> <span class="n">var</span><span class="p">;</span>
+</pre></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<p>A variable which can be forwarded as an argument to <a class="reference internal" href="#_CPPv2N5annex5range8as_rangeE" title="annex::range::as_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">as_range</span></code></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Associated expressions:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><code class="docutils literal"><span class="pre">as_range(std::forward&lt;Var&gt;(var))</span></code></td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Associated types:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><a class="reference internal" href="#_CPPv2I0EX4TypeI9IterOrRngEEN5annex5range10as_range_tE" title="annex::range::as_range_t"><code class="xref cpp cpp-any docutils literal"><span class="pre">as_range_t</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="repeat">
+<h3>repeat<a class="headerlink" href="#repeat" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a>{<code class="descname">Item</code>}</dt>
+<dt id="_CPPv2I0EX8VariableI4ItemEEN5annex5range12repeat_rangeE">
+<em class="property">using </em><code class="descclassname"></code><code class="descname">repeat_range</code> = bouded_context&lt;repeat_context&lt;<a class="reference internal" href="#_CPPv2I0EX8VariableI4ItemEEN5annex5range12repeat_rangeE" title="annex::range::repeat_range::Item">Item</a>&gt;&gt;<a class="headerlink" href="#_CPPv2I0EX8VariableI4ItemEEN5annex5range12repeat_rangeE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="var">
+<dt id="_CPPv2N5annex5range6repeatE">
+<span id="annex::range::repeat__functors::repeatCR"></span><em class="property">constexpr</em> functors::repeat <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">repeat</code><a class="headerlink" href="#_CPPv2N5annex5range6repeatE" title="Permalink to this definition">¶</a></dt>
+<dd><p>In <code class="file docutils literal"><span class="pre">annex/range/source/repeat.hpp</span></code>.</p>
+<p>This constant is a <a class="reference internal" href="reference.html#range-function"><span class="std std-ref">Range function</span></a> with one or more associated <a class="reference internal" href="annex.html#simple-model"><span class="std std-ref">simple
+models</span></a>:</p>
+<blockquote>
+<div><a class="reference internal" href="#_CPPv2I0EX8VariableI4ItemEEN5annex5range12repeat_rangeE" title="annex::range::repeat_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Variable{Item}</span> <span class="pre">repeat_range</span></code></a></div></blockquote>
+<dl class="function">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex15ForwardableTypeE" title="annex::ForwardableType">ForwardableType</a>{<code class="descname">Item</code>}</dt>
+<dt id="_CPPv2I0EX15ForwardableTypeI4ItemEENK5annex5range6repeatclERR4Item">
+<em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I0EX8VariableI4ItemEEN5annex5range12repeat_rangeE" title="annex::range::repeat_range">repeat_range</a>&lt;<a class="reference internal" href="#_CPPv2I0EX15ForwardableTypeI4ItemEENK5annex5range6repeatclERR4Item" title="annex::range::repeat::operator()::Item">Item</a>&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I0EX15ForwardableTypeI4ItemEENK5annex5range6repeatclERR4Item" title="annex::range::repeat::operator()::Item">Item</a> &amp;&amp;<em>item</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I0EX15ForwardableTypeI4ItemEENK5annex5range6repeatclERR4Item" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a never-ending range over a particular, repeated value.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><code class="docutils literal"><span class="pre">source_item</span></code> is ranged over mutably. As a result, mutating the element at one position affects all
+other positions.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Not actually never-ending.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Models:</th><td class="field-body"><p class="first"><a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a> with the following <a class="reference internal" href="concepts.html#range-properties"><span class="std std-ref">properties</span></a>:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="12%" />
+<col width="88%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Element
+types</td>
+<td><a class="reference internal" href="#_CPPv2I0EX15ForwardableTypeI4ItemEENK5annex5range6repeatclERR4Item" title="annex::range::repeat::operator()::Item"><code class="xref cpp cpp-any docutils literal"><span class="pre">Item</span> <span class="pre">const&amp;</span></code></a> and
+<a class="reference internal" href="#_CPPv2I0EX15ForwardableTypeI4ItemEENK5annex5range6repeatclERR4Item" title="annex::range::repeat::operator()::Item"><code class="xref cpp cpp-any docutils literal"><span class="pre">Item&amp;</span></code></a></td>
+</tr>
+<tr class="row-even"><td>Traversal</td>
+<td><a class="reference internal" href="concepts.html#_CPPv2I0EX18DoubleEndedContextI3CtxEEN5annex5range20BidirectionalContextE" title="annex::range::BidirectionalContext"><code class="xref cpp cpp-any docutils literal"><span class="pre">BidirectionalContext</span></code></a></td>
+</tr>
+<tr class="row-odd"><td>Multi-pass</td>
+<td>yes</td>
+</tr>
+<tr class="row-even"><td>Saveable</td>
+<td>if <a class="reference internal" href="#_CPPv2I0EX15ForwardableTypeI4ItemEENK5annex5range6repeatclERR4Item" title="annex::range::repeat::operator()::Item"><code class="xref cpp cpp-any docutils literal"><span class="pre">Item</span></code></a> models <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex17CopyConstructibleE" title="annex::CopyConstructible"><code class="xref cpp cpp-any docutils literal"><span class="pre">CopyConstructible</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Additional construction complexity:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><p class="first">None.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Simple context members:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><p class="first last"><code class="docutils literal"><span class="pre">source_item</span></code>: <em>item</em></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="var">
+<dt id="_CPPv2N5annex5range11make_repeatE">
+<span id="annex::range::make_repeat__functors::make_repeatCR"></span><em class="property">constexpr</em> functors::make_repeat <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">make_repeat</code><a class="headerlink" href="#_CPPv2N5annex5range11make_repeatE" title="Permalink to this definition">¶</a></dt>
+<dd><p>In <code class="file docutils literal"><span class="pre">annex/range/source/repeat.hpp</span></code>.</p>
+<p>This constant is a <a class="reference internal" href="reference.html#range-function"><span class="std std-ref">Range function</span></a>.</p>
+<dl class="function">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI3VarEEN5annex12StorableTypeE" title="annex::StorableType">StorableType</a>{<code class="descname">Item</code>}</dt>
+<dt id="_CPPv2I0EX12StorableTypeI4ItemEENK5annex5range11make_repeatclERR4Item">
+<em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I0EX8VariableI4ItemEEN5annex5range12repeat_rangeE" title="annex::range::repeat_range">repeat_range</a>&lt;std::decay_t&lt;<a class="reference internal" href="#_CPPv2I0EX12StorableTypeI4ItemEENK5annex5range11make_repeatclERR4Item" title="annex::range::make_repeat::operator()::Item">Item</a>&gt;&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I0EX12StorableTypeI4ItemEENK5annex5range11make_repeatclERR4Item" title="annex::range::make_repeat::operator()::Item">Item</a> &amp;&amp;<em>item</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I0EX12StorableTypeI4ItemEENK5annex5range11make_repeatclERR4Item" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <a class="reference internal" href="#_CPPv2N5annex5range6repeatE" title="annex::range::repeat"><code class="xref cpp cpp-any docutils literal"><span class="pre">repeat</span></code></a> variant which instead decays <em>item</em>.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="replicate">
+<h3>replicate<a class="headerlink" href="#replicate" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt>
+template&lt;<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a> <code class="descclassname"></code><code class="descname">Item</code>, <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex8IntegralE" title="annex::Integral">Integral</a> <code class="descclassname"></code><code class="descname">Int</code>&gt;</dt>
+<dt id="_CPPv2I_8Variable_8IntegralEN5annex5range15replicate_rangeE">
+<em class="property">using </em><code class="descclassname"></code><code class="descname">replicate_range</code> = bounded_context&lt;replicate_context&lt;<a class="reference internal" href="#_CPPv2I_8Variable_8IntegralEN5annex5range15replicate_rangeE" title="annex::range::replicate_range::Item">Item</a>, <a class="reference internal" href="#_CPPv2I_8Variable_8IntegralEN5annex5range15replicate_rangeE" title="annex::range::replicate_range::Int">Int</a>&gt;&gt;<a class="headerlink" href="#_CPPv2I_8Variable_8IntegralEN5annex5range15replicate_rangeE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="var">
+<dt id="_CPPv2N5annex5range9replicateE">
+<span id="annex::range::replicate__functors::replicateCR"></span><em class="property">constexpr</em> functors::replicate <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">replicate</code><a class="headerlink" href="#_CPPv2N5annex5range9replicateE" title="Permalink to this definition">¶</a></dt>
+<dd><p>In <code class="file docutils literal"><span class="pre">annex/range/source/replicate.hpp</span></code>.</p>
+<p>This constant is a <a class="reference internal" href="reference.html#range-function"><span class="std std-ref">Range function</span></a> with one or more associated <a class="reference internal" href="annex.html#simple-model"><span class="std std-ref">simple
+models</span></a>:</p>
+<blockquote>
+<div><a class="reference internal" href="#_CPPv2I_8Variable_8IntegralEN5annex5range15replicate_rangeE" title="annex::range::replicate_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">template&lt;Variable</span> <span class="pre">Item,</span> <span class="pre">Integral</span> <span class="pre">Int&gt;</span> <span class="pre">replicate_range</span></code></a></div></blockquote>
+<dl class="function">
+<dt>
+template&lt;<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex15ForwardableTypeE" title="annex::ForwardableType">ForwardableType</a> <code class="descclassname"></code><code class="descname">Item</code>, <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex8IntegralE" title="annex::Integral">Integral</a> <code class="descclassname"></code><code class="descname">Int</code>&gt;</dt>
+<dt id="_CPPv2I_15ForwardableType_8IntegralENK5annex5range9replicateclERR4Item3Int">
+<em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I_8Variable_8IntegralEN5annex5range15replicate_rangeE" title="annex::range::replicate_range">replicate_range</a>&lt;<a class="reference internal" href="#_CPPv2I_15ForwardableType_8IntegralENK5annex5range9replicateclERR4Item3Int" title="annex::range::replicate::operator()::Item">Item</a>, <a class="reference internal" href="#_CPPv2I_15ForwardableType_8IntegralENK5annex5range9replicateclERR4Item3Int" title="annex::range::replicate::operator()::Int">Int</a>&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I_15ForwardableType_8IntegralENK5annex5range9replicateclERR4Item3Int" title="annex::range::replicate::operator()::Item">Item</a> &amp;&amp;<em>item</em>, <a class="reference internal" href="#_CPPv2I_15ForwardableType_8IntegralENK5annex5range9replicateclERR4Item3Int" title="annex::range::replicate::operator()::Int">Int</a> <em>count</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I_15ForwardableType_8IntegralENK5annex5range9replicateclERR4Item3Int" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a <em>count</em>-long range of a particular, repeated value.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><code class="docutils literal"><span class="pre">source_item</span></code> is ranged over mutably. As a result, mutating the element at one position affects all
+other positions.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Models:</th><td class="field-body"><p class="first"><a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a> with the following <a class="reference internal" href="concepts.html#range-properties"><span class="std std-ref">properties</span></a>:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="12%" />
+<col width="88%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Element
+types</td>
+<td><a class="reference internal" href="#_CPPv2I_15ForwardableType_8IntegralENK5annex5range9replicateclERR4Item3Int" title="annex::range::replicate::operator()::Item"><code class="xref cpp cpp-any docutils literal"><span class="pre">Item</span> <span class="pre">const&amp;</span></code></a> and
+<a class="reference internal" href="#_CPPv2I_15ForwardableType_8IntegralENK5annex5range9replicateclERR4Item3Int" title="annex::range::replicate::operator()::Item"><code class="xref cpp cpp-any docutils literal"><span class="pre">Item&amp;</span></code></a></td>
+</tr>
+<tr class="row-even"><td>Traversal</td>
+<td><a class="reference internal" href="concepts.html#_CPPv2I0EX20BidirectionalContextI3CtxEEN5annex5range19RandomAccessContextE" title="annex::range::RandomAccessContext"><code class="xref cpp cpp-any docutils literal"><span class="pre">RandomAccessContext</span></code></a></td>
+</tr>
+<tr class="row-odd"><td>Multi-pass</td>
+<td>yes</td>
+</tr>
+<tr class="row-even"><td>Saveable</td>
+<td>if <a class="reference internal" href="#_CPPv2I_15ForwardableType_8IntegralENK5annex5range9replicateclERR4Item3Int" title="annex::range::replicate::operator()::Item"><code class="xref cpp cpp-any docutils literal"><span class="pre">Item</span></code></a> models <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex17CopyConstructibleE" title="annex::CopyConstructible"><code class="xref cpp cpp-any docutils literal"><span class="pre">CopyConstructible</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Additional construction complexity:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><p class="first">None.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Simple context parameters:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><p class="first last"><code class="docutils literal"><span class="pre">source_item</span></code>: <em>item</em></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="var">
+<dt id="_CPPv2N5annex5range14make_replicateE">
+<span id="annex::range::make_replicate__functors::make_replicateCR"></span><em class="property">constexpr</em> functors::make_replicate <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">make_replicate</code><a class="headerlink" href="#_CPPv2N5annex5range14make_replicateE" title="Permalink to this definition">¶</a></dt>
+<dd><p>In <code class="file docutils literal"><span class="pre">annex/range/source/replicate.hpp</span></code>.</p>
+<p>This constant is a <a class="reference internal" href="reference.html#range-function"><span class="std std-ref">Range function</span></a>.</p>
+<dl class="function">
+<dt>
+template&lt;<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI3VarEEN5annex12StorableTypeE" title="annex::StorableType">StorableType</a> <code class="descclassname"></code><code class="descname">Item</code>, <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex8IntegralE" title="annex::Integral">Integral</a> <code class="descclassname"></code><code class="descname">Int</code>&gt;</dt>
+<dt id="_CPPv2I_12StorableType_8IntegralENK5annex5range14make_replicateclERR4Item3Int">
+<em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I_8Variable_8IntegralEN5annex5range15replicate_rangeE" title="annex::range::replicate_range">replicate_range</a>&lt;std::decay_t&lt;<a class="reference internal" href="#_CPPv2I_12StorableType_8IntegralENK5annex5range14make_replicateclERR4Item3Int" title="annex::range::make_replicate::operator()::Item">Item</a>&gt;, <a class="reference internal" href="#_CPPv2I_12StorableType_8IntegralENK5annex5range14make_replicateclERR4Item3Int" title="annex::range::make_replicate::operator()::Int">Int</a>&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I_12StorableType_8IntegralENK5annex5range14make_replicateclERR4Item3Int" title="annex::range::make_replicate::operator()::Item">Item</a> &amp;&amp;<em>item</em>, <a class="reference internal" href="#_CPPv2I_12StorableType_8IntegralENK5annex5range14make_replicateclERR4Item3Int" title="annex::range::make_replicate::operator()::Int">Int</a> <em>count</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I_12StorableType_8IntegralENK5annex5range14make_replicateclERR4Item3Int" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <a class="reference internal" href="#_CPPv2N5annex5range9replicateE" title="annex::range::replicate"><code class="xref cpp cpp-any docutils literal"><span class="pre">replicate</span></code></a> variant which instead decays <em>item</em>.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="coro">
+<h3>coro<a class="headerlink" href="#coro" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2I0EN5annex4TypeE" title="annex::Type">Type</a>{<code class="descname">Value</code>}</dt>
+<dt id="_CPPv2I0EX4TypeI5ValueEEN5annex5range7yield_tE">
+<em class="property">using </em><code class="descclassname"></code><code class="descname">yield_t</code><a class="headerlink" href="#_CPPv2I0EX4TypeI5ValueEEN5annex5range7yield_tE" title="Permalink to this definition">¶</a></dt>
+<dd><p>The parameter type of a coroutine function which yields successive values:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="k">auto</span> <span class="n">to_5</span> <span class="o">=</span> <span class="p">[](</span><span class="n">yield_t</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">yield</span><span class="p">)</span> <span class="p">{</span>
+   <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">!=</span> <span class="mi">6</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+       <span class="n">yield</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+   <span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="type">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a>{<code class="descname">Value</code>}</dt>
+<dt id="_CPPv2I0EX8VariableI5ValueEEN5annex5range15coroutine_rangeE">
+<em class="property">using </em><code class="descclassname"></code><code class="descname">coroutine_range</code> = bounded_context&lt;coroutine_context&lt;<a class="reference internal" href="#_CPPv2I0EX8VariableI5ValueEEN5annex5range15coroutine_rangeE" title="annex::range::coroutine_range::Value">Value</a>&gt;&gt;<a class="headerlink" href="#_CPPv2I0EX8VariableI5ValueEEN5annex5range15coroutine_rangeE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="var">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a>{<code class="descname">Value</code>}</dt>
+<dt id="_CPPv2I0EX8VariableI5ValueEEN5annex5range4coroE">
+<em class="property">constexpr</em> functors::coro <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">coro</code><a class="headerlink" href="#_CPPv2I0EX8VariableI5ValueEEN5annex5range4coroE" title="Permalink to this definition">¶</a></dt>
+<dd><p>In <code class="file docutils literal"><span class="pre">annex/range/source/boost_coroutine.hpp</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Template Parameters:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><strong>Value</strong> &#8211; type of the values that the resulting range will produce</td>
+</tr>
+</tbody>
+</table>
+<p>This constant is a <a class="reference internal" href="reference.html#range-function"><span class="std std-ref">Range function</span></a> with one or more associated <a class="reference internal" href="annex.html#simple-model"><span class="std std-ref">simple
+models</span></a>:</p>
+<blockquote>
+<div><a class="reference internal" href="#_CPPv2I0EX8VariableI5ValueEEN5annex5range15coroutine_rangeE" title="annex::range::coroutine_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Variable{Value}</span> <span class="pre">coroutine_range</span></code></a></div></blockquote>
+<dl class="function">
+<dt id="_CPPv2NK5annex5range4coroclEN5boost11coroutines29coroutineI5ValueE9pull_typeE">
+<span id="annex::range::coro::call-operator__boost::coroutines2::coroutine:Value:::pull_typeC"></span><a class="reference internal" href="#_CPPv2I0EX8VariableI5ValueEEN5annex5range15coroutine_rangeE" title="annex::range::coroutine_range">coroutine_range</a>&lt;<a class="reference internal" href="#_CPPv2I0EX8VariableI5ValueEEN5annex5range4coroE" title="annex::range::coro::Value">Value</a>&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><em class="property">typename</em> boost::coroutines2::coroutine&lt;<a class="reference internal" href="#_CPPv2I0EX8VariableI5ValueEEN5annex5range4coroE" title="annex::range::coro::Value">Value</a>&gt;::pull_type <em>coroutine</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK5annex5range4coroclEN5boost11coroutines29coroutineI5ValueE9pull_typeE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adapt <em>coroutine</em> into a range.</p>
+<p>This is especially convenient for <a class="reference internal" href="motivation.html#external-iteration"><span class="std std-ref">turning internal iteration into external iteration</span></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>coroutine</strong> &#8211; coroutine object which values will be ranged over.</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Models:</th><td class="field-body"><p class="first"><a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a> with the following <a class="reference internal" href="concepts.html#range-properties"><span class="std std-ref">properties</span></a>:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="12%" />
+<col width="88%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Element
+types</td>
+<td><a class="reference internal" href="#_CPPv2I0EX8VariableI5ValueEEN5annex5range4coroE" title="annex::range::coro::Value"><code class="xref cpp cpp-any docutils literal"><span class="pre">Value</span> <span class="pre">const&amp;</span></code></a> and <a class="reference internal" href="#_CPPv2I0EX8VariableI5ValueEEN5annex5range4coroE" title="annex::range::coro::Value"><code class="xref cpp cpp-any docutils literal"><span class="pre">Value</span></code></a></td>
+</tr>
+<tr class="row-even"><td>Traversal</td>
+<td><a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3CtxEEN5annex5range7ContextE" title="annex::range::Context"><code class="xref cpp cpp-any docutils literal"><span class="pre">Context</span></code></a></td>
+</tr>
+<tr class="row-odd"><td>Multi-pass</td>
+<td>no</td>
+</tr>
+<tr class="row-even"><td>Saveable</td>
+<td>no</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Additional construction complexity:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><p class="first">One <em>coroutine</em> invocation.</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Simple context members:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><p class="first last"><code class="docutils literal"><span class="pre">source_coroutine</span></code>: <em>coroutine</em></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI3VarEEN5annex12StorableTypeE" title="annex::StorableType">StorableType</a>{<code class="descname">Functor</code>}</dt>
+<dt id="_CPPv2I0EX12StorableTypeI7FunctorEENK5annex5range4coroclERR7Functor">
+<a class="reference internal" href="#_CPPv2I0EX8VariableI5ValueEEN5annex5range15coroutine_rangeE" title="annex::range::coroutine_range">coroutine_range</a>&lt;<a class="reference internal" href="#_CPPv2I0EX8VariableI5ValueEEN5annex5range4coroE" title="annex::range::coro::Value">Value</a>&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I0EX12StorableTypeI7FunctorEENK5annex5range4coroclERR7Functor" title="annex::range::coro::operator()::Functor">Functor</a> &amp;&amp;<em>functor</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I0EX12StorableTypeI7FunctorEENK5annex5range4coroclERR7Functor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct an asymmetric Boost.Coroutine coroutine object from <em>functor</em>, to be adapted into a range. Also see
+the coroutine overload.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>functor</strong> &#8211; <a class="reference internal" href="annex.html#_CPPv2I_8VariableDpEN5annex9InvokableE" title="annex::Invokable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Invokable&lt;Functor&amp;,</span> <span class="pre">yield_t&lt;Value&gt;&gt;</span></code></a> functor which
+will be used as the coroutine function to the resulting coroutine.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="container-sources">
+<h2>Container sources<a class="headerlink" href="#container-sources" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="indexable">
+<h3>indexable<a class="headerlink" href="#indexable" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2I0EN5annex4TypeE" title="annex::Type">Type</a>{<code class="descname">Idx</code>}</dt>
+<dt id="_CPPv2I0EX4TypeI3IdxEEN5annex5range18indexable_offset_tE">
+<em class="property">using </em><code class="descclassname"></code><code class="descname">indexable_offset_t</code><a class="headerlink" href="#_CPPv2I0EX4TypeI3IdxEEN5annex5range18indexable_offset_tE" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Notation:</th><td class="field-body"><div class="first last highlight-c++"><div class="highlight"><pre><span></span><span class="n">Idx</span><span class="o">&amp;</span> <span class="n">idx</span><span class="p">;</span>
+<span class="n">as_const</span><span class="o">&lt;</span><span class="n">indexable_offset_t</span><span class="o">&lt;</span><span class="n">Idx</span><span class="o">&gt;&gt;</span> <span class="n">offset</span><span class="p">;</span>
+</pre></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<p>A type which is appropriate for offsetting into <a class="reference internal" href="#_CPPv2I0EX4TypeI3IdxEEN5annex5range18indexable_offset_tE" title="annex::range::indexable_offset_t::Idx"><code class="xref cpp cpp-any docutils literal"><span class="pre">Idx</span></code></a>, i.e. for which <code class="docutils literal"><span class="pre">idx[offset]</span></code> is valid.</p>
+<p>If <code class="docutils literal"><span class="pre">unqualified_t&lt;Idx&gt;</span></code> defines a <code class="docutils literal"><span class="pre">difference_type</span></code> member type and it can be used for offsetting into
+<code class="docutils literal"><span class="pre">Idx</span></code>, it is that type.</p>
+<p>Otherwise if <code class="xref cpp cpp-any docutils literal"><span class="pre">std::ptrdiff_t</span></code> can be used for offsetting into <a class="reference internal" href="#_CPPv2I0EX4TypeI3IdxEEN5annex5range18indexable_offset_tE" title="annex::range::indexable_offset_t::Idx"><code class="xref cpp cpp-any docutils literal"><span class="pre">Idx</span></code></a>, it is that type.</p>
+<p>Otherwise the type is ill-formed.</p>
+</dd></dl>
+
+<dl class="type">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2I0EN5annex4TypeE" title="annex::Type">Type</a>{<code class="descname">Idx</code>}</dt>
+<dt id="_CPPv2I0EX4TypeI3IdxEEN5annex5range19indexable_element_tE">
+<em class="property">using </em><code class="descclassname"></code><code class="descname">indexable_element_t</code><a class="headerlink" href="#_CPPv2I0EX4TypeI3IdxEEN5annex5range19indexable_element_tE" title="Permalink to this definition">¶</a></dt>
+<dd><p>The element type of an <a class="reference internal" href="#_CPPv2I0EX8VariableI3IdxEEN5annex5range9IndexableE" title="annex::range::Indexable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Indexable</span></code></a>, i.e. the result type of indexing into that type.</p>
+</dd></dl>
+
+<dl class="concept">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a>{<code class="descname">Idx</code>}</dt>
+<dt id="_CPPv2I0EX8VariableI3IdxEEN5annex5range9IndexableE">
+<em class="property">concept </em>bool <code class="descclassname"></code><code class="descname">Indexable</code><a class="headerlink" href="#_CPPv2I0EX8VariableI3IdxEEN5annex5range9IndexableE" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Notation:</th><td class="field-body"><div class="first last highlight-c++"><div class="highlight"><pre><span></span><span class="n">Idx</span> <span class="n">idx</span><span class="p">;</span>
+<span class="n">as_const</span><span class="o">&lt;</span><span class="n">Idx</span><span class="o">&gt;</span> <span class="n">cidx</span>
+<span class="n">as_const</span><span class="o">&lt;</span><span class="n">indexable_offset_t</span><span class="o">&lt;</span><span class="n">Idx</span><span class="o">&gt;&gt;</span> <span class="n">offset</span><span class="p">;</span>
+</pre></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<p>A variable which has a size and can be indexed.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Associated types and expressions:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><p class="first"><code class="docutils literal"><span class="pre">ops::size(cidx)</span></code>: <a class="reference internal" href="#_CPPv2I0EX4TypeI3IdxEEN5annex5range18indexable_offset_tE" title="annex::range::indexable_offset_t"><code class="xref cpp cpp-any docutils literal"><span class="pre">indexable_offset_t&lt;Idx&gt;</span></code></a></p>
+<p><code class="docutils literal"><span class="pre">idx[offset]</span></code>: <a class="reference internal" href="#_CPPv2I0EX4TypeI3IdxEEN5annex5range19indexable_element_tE" title="annex::range::indexable_element_t"><code class="xref cpp cpp-any docutils literal"><span class="pre">indexable_element_t&lt;Idx&gt;</span></code></a></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Requirements:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#_CPPv2I0EX4TypeI3IdxEEN5annex5range18indexable_offset_tE" title="annex::range::indexable_offset_t"><code class="xref cpp cpp-any docutils literal"><span class="pre">indexable_offset_t&lt;Idx&gt;</span></code></a> must model <code class="xref cpp cpp-any docutils literal"><span class="pre">DefaultConstructible</span></code> and <code class="docutils literal"><span class="pre">idx[offset]</span></code> must be
+valid for any <em>offset</em> in <code class="docutils literal"><span class="pre">[indexable_offset_t&lt;Idx&gt;</span> <span class="pre">{},</span> <span class="pre">ops::size(idx))</span></code>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="type">
+<dt>
+<a class="reference internal" href="#_CPPv2I0EX8VariableI3IdxEEN5annex5range9IndexableE" title="annex::range::Indexable">Indexable</a>{<code class="descname">Idx</code>}</dt>
+<dt id="_CPPv2I0EX9IndexableI3IdxEEN5annex5range15indexable_rangeE">
+<em class="property">using </em><code class="descclassname"></code><code class="descname">indexable_range</code> = bounded_context&lt;indexable_context&lt;<a class="reference internal" href="#_CPPv2I0EX9IndexableI3IdxEEN5annex5range15indexable_rangeE" title="annex::range::indexable_range::Idx">Idx</a>&gt;&gt;<a class="headerlink" href="#_CPPv2I0EX9IndexableI3IdxEEN5annex5range15indexable_rangeE" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Additional requirements:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><a class="reference internal" href="#_CPPv2I0EX4TypeI3IdxEEN5annex5range18indexable_offset_tE" title="annex::range::indexable_offset_t"><code class="xref cpp cpp-any docutils literal"><span class="pre">indexable_offset_t&lt;Idx&gt;</span></code></a> must be a model of <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex14SignedIntegralE" title="annex::SignedIntegral"><code class="xref cpp cpp-any docutils literal"><span class="pre">SignedIntegral</span></code></a>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="var">
+<dt id="_CPPv2N5annex5range9indexableE">
+<span id="annex::range::indexable__functors::indexableCR"></span><em class="property">constexpr</em> functors::indexable <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">indexable</code><a class="headerlink" href="#_CPPv2N5annex5range9indexableE" title="Permalink to this definition">¶</a></dt>
+<dd><p>In <code class="file docutils literal"><span class="pre">annex/range/source/indexable.hpp</span></code>.</p>
+<p>This constant is a <a class="reference internal" href="reference.html#range-function"><span class="std std-ref">Range function</span></a> with one or more associated <a class="reference internal" href="annex.html#simple-model"><span class="std std-ref">simple
+models</span></a>:</p>
+<blockquote>
+<div><a class="reference internal" href="#_CPPv2I0EX9IndexableI3IdxEEN5annex5range15indexable_rangeE" title="annex::range::indexable_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Indexable{Idx}</span> <span class="pre">indexable_range</span></code></a></div></blockquote>
+<dl class="function">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI3VarEEN5annex12StorableTypeE" title="annex::StorableType">StorableType</a>{<code class="descname">Idx</code>}</dt>
+<dt id="_CPPv2I0EX12StorableTypeI3IdxEENK5annex5range9indexableclERR3Idx">
+<em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I0EX9IndexableI3IdxEEN5annex5range15indexable_rangeE" title="annex::range::indexable_range">indexable_range</a>&lt;unqualified_t&lt;<a class="reference internal" href="#_CPPv2I0EX12StorableTypeI3IdxEENK5annex5range9indexableclERR3Idx" title="annex::range::indexable::operator()::Idx">Idx</a>&gt;&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I0EX12StorableTypeI3IdxEENK5annex5range9indexableclERR3Idx" title="annex::range::indexable::operator()::Idx">Idx</a> &amp;&amp;<em>idx</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I0EX12StorableTypeI3IdxEENK5annex5range9indexableclERR3Idx" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a range over the <a class="reference internal" href="#_CPPv2I0EX4TypeI3IdxEEN5annex5range19indexable_element_tE" title="annex::range::indexable_element_t"><code class="xref cpp cpp-any docutils literal"><span class="pre">indexable_element_t&lt;unqualified_t&lt;Idx&gt;&amp;&gt;</span></code></a> elements of
+<em>idx</em>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><em>idx</em> will be copied or moved and made part of the resulting range, to provide backing for the elements.
+If only a view into the indexable is needed, <a class="reference internal" href="#_CPPv2N5annex5range8as_rangeE" title="annex::range::as_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">as_range</span></code></a> should be used instead.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Models:</th><td class="field-body"><p class="first"><a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a> with the following <a class="reference internal" href="concepts.html#range-properties"><span class="std std-ref">properties</span></a>:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="12%" />
+<col width="88%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Element
+types</td>
+<td><a class="reference internal" href="#_CPPv2I0EX4TypeI3IdxEEN5annex5range19indexable_element_tE" title="annex::range::indexable_element_t"><code class="xref cpp cpp-any docutils literal"><span class="pre">indexable_element_t&lt;Idx</span> <span class="pre">const&amp;&gt;</span></code></a> and
+<a class="reference internal" href="#_CPPv2I0EX4TypeI3IdxEEN5annex5range19indexable_element_tE" title="annex::range::indexable_element_t"><code class="xref cpp cpp-any docutils literal"><span class="pre">indexable_element_t&lt;Idx&amp;&gt;</span></code></a></td>
+</tr>
+<tr class="row-even"><td>Traversal</td>
+<td><a class="reference internal" href="concepts.html#_CPPv2I0EX20BidirectionalContextI3CtxEEN5annex5range19RandomAccessContextE" title="annex::range::RandomAccessContext"><code class="xref cpp cpp-any docutils literal"><span class="pre">RandomAccessContext</span></code></a></td>
+</tr>
+<tr class="row-odd"><td>Multi-pass</td>
+<td>yes</td>
+</tr>
+<tr class="row-even"><td>Saveable</td>
+<td>if <code class="docutils literal"><span class="pre">source_indexable</span></code> is <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex17CopyConstructibleE" title="annex::CopyConstructible"><code class="xref cpp cpp-any docutils literal"><span class="pre">CopyConstructible</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Additional construction complexity:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><p class="first">One <code class="xref cpp cpp-any docutils literal"><span class="pre">ops::size(idx)</span></code> call.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Simple context members:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><p class="first last"><code class="docutils literal"><span class="pre">source_indexable</span></code>: <em>idx</em></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="var">
+<dt id="_CPPv2N5annex5range10make_arrayE">
+<span id="annex::range::make_array__functors::make_arrayCR"></span><em class="property">constexpr</em> functors::make_array <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">make_array</code><a class="headerlink" href="#_CPPv2N5annex5range10make_arrayE" title="Permalink to this definition">¶</a></dt>
+<dd><p>In <code class="file docutils literal"><span class="pre">annex/range/source/indexable.hpp</span></code>.</p>
+<p>This constant is a <a class="reference internal" href="reference.html#range-function"><span class="std std-ref">Range function</span></a>.</p>
+<dl class="function">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2IDpEN5annex5TypesE" title="annex::Types">Types</a>{...<code class="descname">Args</code>}</dt>
+<dt id="_CPPv2IDpEX5TypesIsp4ArgsEENK5annex5range10make_arrayclEDpRR4Args">
+<em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I0EX9IndexableI3IdxEEN5annex5range15indexable_rangeE" title="annex::range::indexable_range">indexable_range</a>&lt;std::array&lt;std::decay_t&lt;common_type_t&lt;<a class="reference internal" href="#_CPPv2IDpEX5TypesIsp4ArgsEENK5annex5range10make_arrayclEDpRR4Args" title="annex::range::make_array::operator()::Args">Args</a>...&gt;&gt;, sizeof...(Args)&gt;&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2IDpEX5TypesIsp4ArgsEENK5annex5range10make_arrayclEDpRR4Args" title="annex::range::make_array::operator()::Args">Args</a>&amp;&amp;... <em>args</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2IDpEX5TypesIsp4ArgsEENK5annex5range10make_arrayclEDpRR4Args" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a range over elements with a common type, to be stored in a backing array. See <a class="reference internal" href="#_CPPv2N5annex5range9indexableE" title="annex::range::indexable"><code class="xref cpp cpp-any docutils literal"><span class="pre">indexable</span></code></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>args</strong> &#8211; a pack of arguments with a <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex17MoveConstructibleE" title="annex::MoveConstructible"><code class="xref cpp cpp-any docutils literal"><span class="pre">MoveConstructible</span></code></a> decayed common type</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="var">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a>{<code class="descname">Element</code>}</dt>
+<dt id="_CPPv2I0EX8VariableI7ElementEEN5annex5range13make_array_ofE">
+<em class="property">constexpr</em> functors::make_array_of&lt;<a class="reference internal" href="#_CPPv2I0EX8VariableI7ElementEEN5annex5range13make_array_ofE" title="annex::range::make_array_of::Element">Element</a>&gt; <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">make_array_of</code><a class="headerlink" href="#_CPPv2I0EX8VariableI7ElementEEN5annex5range13make_array_ofE" title="Permalink to this definition">¶</a></dt>
+<dd><p>In <code class="file docutils literal"><span class="pre">annex/range/source/indexable.hpp</span></code>.</p>
+<p>A variant of <a class="reference internal" href="#_CPPv2N5annex5range10make_arrayE" title="annex::range::make_array"><code class="xref cpp cpp-any docutils literal"><span class="pre">make_array</span></code></a> with an explicit array element type.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Template Parameters:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><strong>Element</strong> &#8211; the element type of the resulting array</td>
+</tr>
+</tbody>
+</table>
+<p>This constant is a <a class="reference internal" href="reference.html#range-function"><span class="std std-ref">Range function</span></a>.</p>
+<dl class="function">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2IDpEN5annex5TypesE" title="annex::Types">Types</a>{...<code class="descname">Args</code>}</dt>
+<dt id="_CPPv2IDpEX5TypesIsp4ArgsEENK5annex5range13make_array_ofclEDpRR4Args">
+<em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I0EX9IndexableI3IdxEEN5annex5range15indexable_rangeE" title="annex::range::indexable_range">indexable_range</a>&lt;std::array&lt;<a class="reference internal" href="#_CPPv2I0EX8VariableI7ElementEEN5annex5range13make_array_ofE" title="annex::range::make_array_of::Element">Element</a>, sizeof...(Args)&gt;&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2IDpEX5TypesIsp4ArgsEENK5annex5range13make_array_ofclEDpRR4Args" title="annex::range::make_array_of::operator()::Args">Args</a>&amp;&amp;... <em>args</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2IDpEX5TypesIsp4ArgsEENK5annex5range13make_array_ofclEDpRR4Args" title="Permalink to this definition">¶</a></dt>
+<dd><p>A relaxed <a class="reference internal" href="#_CPPv2IDpEX5TypesIsp4ArgsEENK5annex5range10make_arrayclEDpRR4Args" title="annex::range::make_array::operator()"><code class="xref cpp cpp-any docutils literal"><span class="pre">make_array::operator()()</span></code></a>, with no need for a common type.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>args</strong> &#8211; a pack of arguments, each convertible to <a class="reference internal" href="#_CPPv2I0EX8VariableI7ElementEEN5annex5range13make_array_ofE" title="annex::range::make_array_of::Element"><code class="xref cpp cpp-any docutils literal"><span class="pre">Element</span></code></a>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="container">
+<h3>container<a class="headerlink" href="#container" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex8IterableE" title="annex::Iterable">Iterable</a>{<code class="descname">Iter</code>}</dt>
+<dt id="_CPPv2I0EX8IterableI4IterEEN5annex5range22container_range_sourceE">
+<em class="property">using </em><code class="descclassname"></code><code class="descname">container_range_source</code><a class="headerlink" href="#_CPPv2I0EX8IterableI4IterEEN5annex5range22container_range_sourceE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="type">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex8IterableE" title="annex::Iterable">Iterable</a>{<code class="descname">Iter</code>}</dt>
+<dt id="_CPPv2I0EX8IterableI4IterEEN5annex5range15container_rangeE">
+<em class="property">using </em><code class="descclassname"></code><code class="descname">container_range</code><a class="headerlink" href="#_CPPv2I0EX8IterableI4IterEEN5annex5range15container_rangeE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="var">
+<dt id="_CPPv2N5annex5range9containerE">
+<span id="annex::range::container__functors::containerCR"></span><em class="property">constexpr</em> functors::container <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">container</code><a class="headerlink" href="#_CPPv2N5annex5range9containerE" title="Permalink to this definition">¶</a></dt>
+<dd><p>In <code class="file docutils literal"><span class="pre">annex/range/source/container.hpp</span></code>.</p>
+<p>This constant is a <a class="reference internal" href="reference.html#range-function"><span class="std std-ref">Range function</span></a> with one or more associated <a class="reference internal" href="annex.html#simple-model"><span class="std std-ref">simple
+models</span></a>:</p>
+<blockquote>
+<div><a class="reference internal" href="#_CPPv2I0EX8IterableI4IterEEN5annex5range15container_rangeE" title="annex::range::container_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Iterable{Iter}</span> <span class="pre">container_range</span></code></a></div></blockquote>
+<dl class="function">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI3VarEEN5annex12StorableTypeE" title="annex::StorableType">StorableType</a>{<code class="descname">Iter</code>}</dt>
+<dt id="_CPPv2I0EX12StorableTypeI4IterEENK5annex5range9containerclERR4Iter">
+<em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I0EX8IterableI4IterEEN5annex5range15container_rangeE" title="annex::range::container_range">container_range</a>&lt;std::decay_t&lt;<a class="reference internal" href="#_CPPv2I0EX12StorableTypeI4IterEENK5annex5range9containerclERR4Iter" title="annex::range::container::operator()::Iter">Iter</a>&gt;&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I0EX12StorableTypeI4IterEENK5annex5range9containerclERR4Iter" title="annex::range::container::operator()::Iter">Iter</a> &amp;&amp;<em>iter</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I0EX12StorableTypeI4IterEENK5annex5range9containerclERR4Iter" title="Permalink to this definition">¶</a></dt>
+<dd><div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This library feature is much more experimental than the rest, and is considered incomplete or unsatisfactory. It is
+likely to be subject to significant changes or dropped altogether.</p>
+</div>
+<p>Create a range over the elements of <em>iter</em>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><em>iter</em> will be copied or moved and made part of the resulting range, to provide backing for the elements.
+If only a view into <em>iter</em> is needed, <a class="reference internal" href="#_CPPv2N5annex5range8as_rangeE" title="annex::range::as_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">as_range</span></code></a> should be used instead.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>The resulting range is <a class="reference internal" href="concepts.html#copy-save"><span class="std std-ref">rooted</span></a> and neither <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex8CopyableE" title="annex::Copyable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Copyable</span></code></a> nor <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex7MovableE" title="annex::Movable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Movable</span></code></a>. Its positions are only valid
+for the particular object they were created from.</p>
+<p class="last">As a possible alternative, <a class="reference internal" href="#_CPPv2N5annex5range9indexableE" title="annex::range::indexable"><code class="xref cpp cpp-any docutils literal"><span class="pre">indexable</span></code></a> provides similar functionality albeit for containers which can be
+indexed (e.g. arrays), and is not rooted.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Models:</th><td class="field-body"><p class="first"><a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a> with the following <a class="reference internal" href="concepts.html#range-properties"><span class="std std-ref">properties</span></a>:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="12%" />
+<col width="88%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Element
+types</td>
+<td><code class="xref cpp cpp-any docutils literal"><span class="pre">typename</span> <span class="pre">std::iterator_traits&lt;iterable_iterator_t&lt;Iter&gt;&gt;::reference</span></code></td>
+</tr>
+<tr class="row-even"><td>Traversal</td>
+<td><a class="reference internal" href="concepts.html#_CPPv2I0EX20BidirectionalContextI3CtxEEN5annex5range19RandomAccessContextE" title="annex::range::RandomAccessContext"><code class="xref cpp cpp-any docutils literal"><span class="pre">RandomAccessContext</span></code></a> if the container iterators model <a class="reference internal" href="annex.html#_CPPv2I0EX21BidirectionalIteratorI2ItEEN5annex20RandomAccessIteratorE" title="annex::RandomAccessIterator"><code class="xref cpp cpp-any docutils literal"><span class="pre">RandomAccessIterator</span></code></a>,
+else <a class="reference internal" href="concepts.html#_CPPv2I0EX18DoubleEndedContextI3CtxEEN5annex5range20BidirectionalContextE" title="annex::range::BidirectionalContext"><code class="xref cpp cpp-any docutils literal"><span class="pre">BidirectionalContext</span></code></a> if they model <a class="reference internal" href="annex.html#_CPPv2I0EX15ForwardIteratorI2ItEEN5annex21BidirectionalIteratorE" title="annex::BidirectionalIterator"><code class="xref cpp cpp-any docutils literal"><span class="pre">BidirectionalIterator</span></code></a></td>
+</tr>
+<tr class="row-odd"><td>Multi-pass</td>
+<td>if the container iterators model <a class="reference internal" href="annex.html#_CPPv2I0EX13InputIteratorI2ItEEN5annex15ForwardIteratorE" title="annex::ForwardIterator"><code class="xref cpp cpp-any docutils literal"><span class="pre">ForwardIterator</span></code></a></td>
+</tr>
+<tr class="row-even"><td>Saveable</td>
+<td>no</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Additional construction complexity:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><p class="first">One <code class="docutils literal"><span class="pre">ops::begin(iter)</span></code> and one <code class="docutils literal"><span class="pre">ops::end(iter)</span></code> call.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Simple context members:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><p class="first"><code class="docutils literal"><span class="pre">source_container</span></code>: <em>iter</em></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Additional range capabilities:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><dl class="first last docutils">
+<dt><code class="docutils literal"><span class="pre">constexpr</span> <span class="pre">container_range&lt;Iter&gt;</span> <span class="pre">copy()</span> <span class="pre">const&amp;</span> <span class="pre">requires</span> <span class="pre">CopyConstructible&lt;Iter&gt;</span></code>:</dt>
+<dd><p class="first">Named copy constructor.</p>
+<p>Create a fresh <a class="reference internal" href="#_CPPv2I0EX8IterableI4IterEEN5annex5range15container_rangeE" title="annex::range::container_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">container_range&lt;Iter&gt;</span></code></a> copy of <code class="docutils literal"><span class="pre">*this</span></code>, with its own backing
+container. Constant time complexity if <a class="reference internal" href="#_CPPv2I0EX12StorableTypeI4IterEENK5annex5range9containerclERR4Iter" title="annex::range::container::operator()::Iter"><code class="xref cpp cpp-any docutils literal"><span class="pre">Iter</span></code></a> provides random-access iterators, linear otherwise.</p>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This functionality is not provided as a copy constructor since the fresh range must use its own
+positions. See <a class="reference internal" href="concepts.html#copy-save"><span class="std std-ref">Ranges and copying/moving</span></a>.</p>
+</div>
+</dd>
+<dt><code class="docutils literal"><span class="pre">constexpr</span> <span class="pre">container_range&lt;Iter&gt;</span> <span class="pre">move()</span> <span class="pre">&amp;</span> <span class="pre">requires</span> <span class="pre">MoveConstructible&lt;Iter&gt;</span></code>:</dt>
+<dd><p class="first">Named move constructor. A moving variant of <code class="docutils literal"><span class="pre">copy()</span></code>.</p>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This functionality is not provided as a move constructor since the fresh range must use its own
+positions. See <a class="reference internal" href="concepts.html#copy-save"><span class="std std-ref">Ranges and copying/moving</span></a>.</p>
+</div>
+</dd>
+<dt><code class="docutils literal"><span class="pre">constexpr</span> <span class="pre">container_range_source&lt;Iter&gt;</span> <span class="pre">transfer()</span> <span class="pre">const&amp;</span> <span class="pre">requires</span> <span class="pre">CopyConstructible&lt;Iter&gt;</span></code>:</dt>
+<dd><p class="first">A variant of <code class="docutils literal"><span class="pre">copy()</span></code> that makes it possible to return a <a class="reference internal" href="#_CPPv2I0EX8IterableI4IterEEN5annex5range15container_rangeE" title="annex::range::container_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">container_range&lt;Iter&gt;</span></code></a>, as it is constructible from <a class="reference internal" href="#_CPPv2I0EX8IterableI4IterEEN5annex5range22container_range_sourceE" title="annex::range::container_range_source"><code class="xref cpp cpp-any docutils literal"><span class="pre">container_range_source&lt;Iter&gt;</span></code></a>:</p>
+<div class="last highlight-c++"><div class="highlight"><pre><span></span><span class="k">auto</span> <span class="nf">example</span><span class="p">(</span><span class="n">container_range</span><span class="o">&lt;</span><span class="n">some_iterable</span><span class="o">&gt;</span> <span class="n">arg</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// not possible as container_range&lt;some_iterable&gt; is not move constructible:</span>
+    <span class="c1">//     return arg.move();</span>
+    <span class="c1">// instead:</span>
+    <span class="k">return</span> <span class="n">container_range</span> <span class="p">{</span> <span class="n">arg</span><span class="p">.</span><span class="n">transfer</span><span class="p">()</span> <span class="p">};</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal"><span class="pre">constexpr</span> <span class="pre">container_range_source&lt;Iter&gt;</span> <span class="pre">transfer()</span> <span class="pre">&amp;&amp;</span> <span class="pre">requires</span> <span class="pre">MoveConstructible&lt;Iter&gt;</span></code>:</dt>
+<dd><p class="first last">Moving variant of <code class="docutils literal"><span class="pre">transfer()</span></code>.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="i-o-sources">
+<h2>I/O sources<a class="headerlink" href="#i-o-sources" title="Permalink to this headline">¶</a></h2>
+<dl class="enum-struct">
+<dt id="_CPPv2N5annex5range12close_optionE">
+<em class="property">enum struct </em><code class="descclassname"></code><code class="descname">close_option</code><a class="headerlink" href="#_CPPv2N5annex5range12close_optionE" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="enumerator">
+<dt id="_CPPv2N5annex5range12close_option10leave_openE">
+<em class="property">enumerator </em><code class="descclassname"></code><code class="descname">leave_open</code><a class="headerlink" href="#_CPPv2N5annex5range12close_option10leave_openE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv2N5annex5range12close_option12close_at_endE">
+<em class="property">enumerator </em><code class="descclassname"></code><code class="descname">close_at_end</code><a class="headerlink" href="#_CPPv2N5annex5range12close_option12close_at_endE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Whether a stream should be closed once the range runs out.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Programs often benefit from prompt disposal of I/O resources.</p>
+</div>
+</dd></dl>
+
+<div class="section" id="istream">
+<h3>istream<a class="headerlink" href="#istream" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2IDpEX5TypesIsp2XsEEN5annex9VariablesE" title="annex::Variables">Variables</a>{<code class="descname">Item</code>, <code class="descname">Stream</code>}</dt>
+<dt id="_CPPv2I00EX9VariablesI4Item6StreamEEN5annex5range13istream_rangeE">
+<em class="property">using </em><code class="descclassname"></code><code class="descname">istream_range</code><a class="headerlink" href="#_CPPv2I00EX9VariablesI4Item6StreamEEN5annex5range13istream_rangeE" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Additional requirements:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><a class="reference internal" href="annex.html#_CPPv2I_8Variable0EN5annex17StreamExtractableE" title="annex::StreamExtractable"><code class="xref cpp cpp-any docutils literal"><span class="pre">StreamExtractable&lt;Item,</span> <span class="pre">Stream&gt;</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="var">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a>{<code class="descname">Item</code>}</dt>
+<dt id="_CPPv2I0EX8VariableI4ItemEEN5annex5range7istreamE">
+<em class="property">constexpr</em> functors::istream <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">istream</code><a class="headerlink" href="#_CPPv2I0EX8VariableI4ItemEEN5annex5range7istreamE" title="Permalink to this definition">¶</a></dt>
+<dd><p>In <code class="file docutils literal"><span class="pre">annex/range/source/istream.hpp</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Template Parameters:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><strong>Item</strong> &#8211; type of the values which will be extracted from the stream</td>
+</tr>
+</tbody>
+</table>
+<p>This constant is a <a class="reference internal" href="reference.html#range-function"><span class="std std-ref">Range function</span></a> which
+produces a <a class="reference internal" href="#_CPPv2I_8Variable0EN5annex5range14generate_rangeE" title="annex::range::generate_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">generate_range</span></code></a>:</p>
+<blockquote>
+<div><a class="reference internal" href="#_CPPv2I00EX9VariablesI4Item6StreamEEN5annex5range13istream_rangeE" title="annex::range::istream_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Variables{Item,</span> <span class="pre">Stream}</span> <span class="pre">istream_range</span></code></a></div></blockquote>
+<dl class="function">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex15ForwardableTypeE" title="annex::ForwardableType">ForwardableType</a>{<code class="descname">Stream</code>}</dt>
+<dt id="_CPPv2I0EX15ForwardableTypeI6StreamEENK5annex5range7istreamclE12close_optionRR6Stream">
+<em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I00EX9VariablesI4Item6StreamEEN5annex5range13istream_rangeE" title="annex::range::istream_range">istream_range</a>&lt;<a class="reference internal" href="#_CPPv2I0EX8VariableI4ItemEEN5annex5range7istreamE" title="annex::range::istream::Item">Item</a>, <a class="reference internal" href="#_CPPv2I0EX15ForwardableTypeI6StreamEENK5annex5range7istreamclE12close_optionRR6Stream" title="annex::range::istream::operator()::Stream">Stream</a>&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2N5annex5range12close_optionE" title="annex::range::close_option">close_option</a> <em>at_end</em>, <a class="reference internal" href="#_CPPv2I0EX15ForwardableTypeI6StreamEENK5annex5range7istreamclE12close_optionRR6Stream" title="annex::range::istream::operator()::Stream">Stream</a> &amp;&amp;<em>stream</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I0EX15ForwardableTypeI6StreamEENK5annex5range7istreamclE12close_optionRR6Stream" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a range of values by successively <a class="reference internal" href="annex.html#_CPPv2I_8Variable0EN5annex17StreamExtractableE" title="annex::StreamExtractable"><code class="xref cpp cpp-any docutils literal"><span class="pre">extracting</span></code></a> from <em>stream</em>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>at_end</strong> &#8211; Whether the <code class="docutils literal"><span class="pre">source_stream</span></code> will be closed once the range runs out. Only affects streams that can be
+closed (e.g. <code class="xref cpp cpp-any docutils literal"><span class="pre">std::fstream</span></code>).</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Models:</th><td class="field-body"><p class="first"><a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a> with the following <a class="reference internal" href="concepts.html#range-properties"><span class="std std-ref">properties</span></a>:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="12%" />
+<col width="88%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Element
+types</td>
+<td><a class="reference internal" href="#_CPPv2I0EX8VariableI4ItemEEN5annex5range7istreamE" title="annex::range::istream::Item"><code class="xref cpp cpp-any docutils literal"><span class="pre">Item</span> <span class="pre">const&amp;</span></code></a> and
+<a class="reference internal" href="#_CPPv2I0EX8VariableI4ItemEEN5annex5range7istreamE" title="annex::range::istream::Item"><code class="xref cpp cpp-any docutils literal"><span class="pre">Item</span></code></a></td>
+</tr>
+<tr class="row-even"><td>Traversal</td>
+<td><a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3CtxEEN5annex5range7ContextE" title="annex::range::Context"><code class="xref cpp cpp-any docutils literal"><span class="pre">Context</span></code></a></td>
+</tr>
+<tr class="row-odd"><td>Multi-pass</td>
+<td>no</td>
+</tr>
+<tr class="row-even"><td>Saveable</td>
+<td>no</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Additional construction complexity:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><p class="first">One extraction.</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Generator members:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><p class="first last"><code class="docutils literal"><span class="pre">source_stream</span></code>: <em>stream</em>, <code class="docutils literal"><span class="pre">at_end</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+template&lt;typename <code class="descname">Stream</code>&gt;</dt>
+<dt id="_CPPv2I0ENK5annex5range7istreamclERR6Stream">
+<em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I00EX9VariablesI4Item6StreamEEN5annex5range13istream_rangeE" title="annex::range::istream_range">istream_range</a>&lt;<a class="reference internal" href="#_CPPv2I0EX8VariableI4ItemEEN5annex5range7istreamE" title="annex::range::istream::Item">Item</a>, <a class="reference internal" href="#_CPPv2I0ENK5annex5range7istreamclERR6Stream" title="annex::range::istream::operator()::Stream">Stream</a>&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I0ENK5annex5range7istreamclERR6Stream" title="annex::range::istream::operator()::Stream">Stream</a> &amp;&amp;<em>stream</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I0ENK5annex5range7istreamclERR6Stream" title="Permalink to this definition">¶</a></dt>
+<dd><p>Equivalent to <a class="reference internal" href="#_CPPv2I0ENK5annex5range7istreamclERR6Stream" title="annex::range::istream::operator()"><code class="xref cpp cpp-any docutils literal"><span class="pre">operator()(close_option::close_at_end,</span> <span class="pre">std::forward&lt;Stream&gt;(stream))</span></code></a>.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="lines">
+<h3>lines<a class="headerlink" href="#lines" title="Permalink to this headline">¶</a></h3>
+<dl class="concept">
+<dt>
+template&lt;<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a> <code class="descclassname"></code><code class="descname">String</code>, <a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a> <code class="descclassname"></code><code class="descname">Stream</code> = std::ostream&amp;&gt;</dt>
+<dt id="_CPPv2I_8Variable_8VariableEN5annex5range7GetlineE">
+<em class="property">concept </em>bool <code class="descclassname"></code><code class="descname">Getline</code><a class="headerlink" href="#_CPPv2I_8Variable_8VariableEN5annex5range7GetlineE" title="Permalink to this definition">¶</a></dt>
+<dd><p>A variable which can be <code class="docutils literal"><span class="pre">getline</span></code>&#8216;d.</p>
+</dd></dl>
+
+<dl class="type">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2IDpEX5TypesIsp2XsEEN5annex9VariablesE" title="annex::Variables">Variables</a>{<code class="descname">Stream</code>, <code class="descname">String</code>}</dt>
+<dt id="_CPPv2I00EX9VariablesI6Stream6StringEEN5annex5range10line_rangeE">
+<em class="property">using </em><code class="descclassname"></code><code class="descname">line_range</code><a class="headerlink" href="#_CPPv2I00EX9VariablesI6Stream6StringEEN5annex5range10line_rangeE" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Additional requirements:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><a class="reference internal" href="#_CPPv2I_8Variable_8VariableEN5annex5range7GetlineE" title="annex::range::Getline"><code class="xref cpp cpp-any docutils literal"><span class="pre">Getline&lt;Stream,</span> <span class="pre">String&gt;</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="var">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a>{<code class="descname">String</code>}</dt>
+<dt id="_CPPv2I0EX8VariableI6StringEEN5annex5range8lines_ofE">
+<em class="property">constexpr</em> functors::lines_of <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">lines_of</code><a class="headerlink" href="#_CPPv2I0EX8VariableI6StringEEN5annex5range8lines_ofE" title="Permalink to this definition">¶</a></dt>
+<dd><p>In <code class="file docutils literal"><span class="pre">annex/range/source/lines.hpp</span></code>.</p>
+<p>This constant is a <a class="reference internal" href="reference.html#range-function"><span class="std std-ref">Range function</span></a> which
+produces a <a class="reference internal" href="#_CPPv2I_8Variable0EN5annex5range14generate_rangeE" title="annex::range::generate_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">generate_range</span></code></a>:</p>
+<blockquote>
+<div><a class="reference internal" href="#_CPPv2I00EX9VariablesI6Stream6StringEEN5annex5range10line_rangeE" title="annex::range::line_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Variables{Stream,</span> <span class="pre">String}</span> <span class="pre">line_range</span></code></a></div></blockquote>
+<dl class="function">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex15ForwardableTypeE" title="annex::ForwardableType">ForwardableType</a>{<code class="descname">Stream</code>}</dt>
+<dt id="_CPPv2I0EX15ForwardableTypeI6StreamEENK5annex5range8lines_ofclE12close_optionRR6Stream">
+<em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I00EX9VariablesI6Stream6StringEEN5annex5range10line_rangeE" title="annex::range::line_range">line_range</a>&lt;<a class="reference internal" href="#_CPPv2I0EX15ForwardableTypeI6StreamEENK5annex5range8lines_ofclE12close_optionRR6Stream" title="annex::range::lines_of::operator()::Stream">Stream</a>, <a class="reference internal" href="#_CPPv2I0EX8VariableI6StringEEN5annex5range8lines_ofE" title="annex::range::lines_of::String">String</a>&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2N5annex5range12close_optionE" title="annex::range::close_option">close_option</a> <em>at_end</em>, <a class="reference internal" href="#_CPPv2I0EX15ForwardableTypeI6StreamEENK5annex5range8lines_ofclE12close_optionRR6Stream" title="annex::range::lines_of::operator()::Stream">Stream</a> &amp;&amp;<em>stream</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I0EX15ForwardableTypeI6StreamEENK5annex5range8lines_ofclE12close_optionRR6Stream" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a range of the successive lines (each as a <a class="reference internal" href="#_CPPv2I0EX8VariableI6StringEEN5annex5range8lines_ofE" title="annex::range::lines_of::String"><code class="xref cpp cpp-any docutils literal"><span class="pre">String</span></code></a>) from <em>stream</em>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>at_end</strong> &#8211; Whether the <code class="docutils literal"><span class="pre">source_stream</span></code> will be closed once the range runs out. Only affects streams that can be
+closed (e.g. <code class="xref cpp cpp-any docutils literal"><span class="pre">std::fstream</span></code>).</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Models:</th><td class="field-body"><p class="first"><a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a> with the following <a class="reference internal" href="concepts.html#range-properties"><span class="std std-ref">properties</span></a>:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="12%" />
+<col width="88%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Element
+types</td>
+<td><a class="reference internal" href="#_CPPv2I0EX8VariableI6StringEEN5annex5range8lines_ofE" title="annex::range::lines_of::String"><code class="xref cpp cpp-any docutils literal"><span class="pre">String</span> <span class="pre">const&amp;</span></code></a> and
+<a class="reference internal" href="#_CPPv2I0EX8VariableI6StringEEN5annex5range8lines_ofE" title="annex::range::lines_of::String"><code class="xref cpp cpp-any docutils literal"><span class="pre">String</span></code></a></td>
+</tr>
+<tr class="row-even"><td>Traversal</td>
+<td><a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3CtxEEN5annex5range7ContextE" title="annex::range::Context"><code class="xref cpp cpp-any docutils literal"><span class="pre">Context</span></code></a></td>
+</tr>
+<tr class="row-odd"><td>Multi-pass</td>
+<td>no</td>
+</tr>
+<tr class="row-even"><td>Saveable</td>
+<td>no</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Additional construction complexity:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><p class="first">One <code class="docutils literal"><span class="pre">getline</span></code> call.</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Generator members:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><p class="first last"><code class="docutils literal"><span class="pre">source_stream</span></code>: <em>stream</em>, <code class="docutils literal"><span class="pre">at_end</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex15ForwardableTypeE" title="annex::ForwardableType">ForwardableType</a>{<code class="descname">Stream</code>}</dt>
+<dt id="_CPPv2I0EX15ForwardableTypeI6StreamEENK5annex5range8lines_ofclERR6Stream">
+<em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I00EX9VariablesI6Stream6StringEEN5annex5range10line_rangeE" title="annex::range::line_range">line_range</a>&lt;<a class="reference internal" href="#_CPPv2I0EX15ForwardableTypeI6StreamEENK5annex5range8lines_ofclE12close_optionRR6Stream" title="annex::range::lines_of::operator()::Stream">Stream</a>, <a class="reference internal" href="#_CPPv2I0EX8VariableI6StringEEN5annex5range8lines_ofE" title="annex::range::lines_of::String">String</a>&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I0EX15ForwardableTypeI6StreamEENK5annex5range8lines_ofclE12close_optionRR6Stream" title="annex::range::lines_of::operator()::Stream">Stream</a> &amp;&amp;<em>stream</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I0EX15ForwardableTypeI6StreamEENK5annex5range8lines_ofclERR6Stream" title="Permalink to this definition">¶</a></dt>
+<dd><p>Equivalent to <a class="reference internal" href="#_CPPv2I0EX15ForwardableTypeI6StreamEENK5annex5range8lines_ofclE12close_optionRR6Stream" title="annex::range::lines_of::operator()"><code class="xref cpp cpp-any docutils literal"><span class="pre">operator()(close_option::close_at_end,</span> <span class="pre">std::forward&lt;Stream&gt;(stream))</span></code></a>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="var">
+<dt id="_CPPv2N5annex5range5linesE">
+<span id="annex::range::lines__functors::linesCR"></span><em class="property">constexpr</em> functors::lines <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">lines</code> = lines_of&lt;std::string&gt;<a class="headerlink" href="#_CPPv2N5annex5range5linesE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shorthand for working with <code class="xref cpp cpp-any docutils literal"><span class="pre">std::string</span></code>.</p>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="consumers.html" class="btn btn-neutral float-right" title="Consumers" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="operations.html" class="btn btn-neutral" title="Operations &amp; functions" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, mickk.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

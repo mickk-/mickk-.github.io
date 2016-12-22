@@ -1,0 +1,14 @@
+Compositions
+============
+
+A fixed and finite number of ranges can be composed together to form a new range. This is to be contrasted with
+:doc:`arrangements`, where a variable and not necessarily finite number of ranges gives rise to a new range. Some forms
+of composition have an arrangement counterpart.
+
+concat
+~~~~~~
+.. include:: /autodoc/composition/concat.txt
+
+zip
+~~~
+.. include:: /autodoc/composition/zip.txt

@@ -1,0 +1,772 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Operations &amp; functions &#8212; annex-range 0.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="annex-range 0.1.0 documentation" href="index.html" />
+    <link rel="up" title="Reference" href="reference.html" />
+    <link rel="next" title="Sources" href="sources.html" />
+    <link rel="prev" title="Concepts" href="concepts.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="sources.html" title="Sources"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="concepts.html" title="Concepts"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">annex-range 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="reference.html" accesskey="U">Reference</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="operations-functions">
+<h1>Operations &amp; functions<a class="headerlink" href="#operations-functions" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="operations">
+<h2>Operations<a class="headerlink" href="#operations" title="Permalink to this headline">¶</a></h2>
+<p>Operations are the fundamental functionality that models of <a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3CtxEEN5annex5range7ContextE" title="annex::range::Context"><code class="xref cpp cpp-any docutils literal"><span class="pre">Context</span></code></a> and its refinements must implement. Unless
+otherwise specified, each operation has constant-time complexity with respect to the number of notional elements of the
+underlying range.</p>
+<p class="rubric">Strict and lax ranges</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This library feature is much more experimental than the rest, and is considered incomplete or unsatisfactory. It is
+likely to be subject to significant changes or dropped altogether.</p>
+</div>
+<p>Ranges which fulfil all complexity requirements are known as <em>strict</em> ranges, while ranges which
+only fulfil these requirements in an amortised manner are known as <em>lax</em> ranges.</p>
+<p class="rubric" id="id1"><a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3CtxEEN5annex5range7ContextE" title="annex::range::Context"><code class="xref cpp cpp-any docutils literal"><span class="pre">Context</span></code></a> operations</p>
+<dl class="var">
+<dt id="_CPPv2N5annex5range9equal_posE">
+<span id="annex::range::equal_pos__functors::equal_posCR"></span><em class="property">constexpr</em> functors::equal_pos <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">equal_pos</code><a class="headerlink" href="#_CPPv2N5annex5range9equal_posE" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="function">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2IDpEN5annex5TypesE" title="annex::Types">Types</a>{<code class="descname">Ctx</code>, <code class="descname">Pos</code>, <code class="descname">Sent</code>}</dt>
+<dt id="_CPPv2I000EX5TypesI3Ctx3Pos4SentEENK5annex5range9equal_posclER3CtxR3PosR4Sent">
+<em class="property">constexpr</em> bool <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I000EX5TypesI3Ctx3Pos4SentEENK5annex5range9equal_posclER3CtxR3PosR4Sent" title="annex::range::equal_pos::operator()::Ctx">Ctx</a> &amp;<em>ctx</em>, <a class="reference internal" href="#_CPPv2I000EX5TypesI3Ctx3Pos4SentEENK5annex5range9equal_posclER3CtxR3PosR4Sent" title="annex::range::equal_pos::operator()::Pos">Pos</a> <em class="property">const</em> &amp;<em>pos</em>, <a class="reference internal" href="#_CPPv2I000EX5TypesI3Ctx3Pos4SentEENK5annex5range9equal_posclER3CtxR3PosR4Sent" title="annex::range::equal_pos::operator()::Sent">Sent</a> <em class="property">const</em> &amp;<em>sent</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I000EX5TypesI3Ctx3Pos4SentEENK5annex5range9equal_posclER3CtxR3PosR4Sent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if <em>pos</em> and <em>sent</em> stand for the same notional element, or if both are past-the-end.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="var">
+<dt id="_CPPv2N5annex5range7peek_atE">
+<span id="annex::range::peek_at__functors::peek_atCR"></span><em class="property">constexpr</em> functors::peek_at <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">peek_at</code><a class="headerlink" href="#_CPPv2N5annex5range7peek_atE" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="function">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2IDpEN5annex5TypesE" title="annex::Types">Types</a>{<code class="descname">Ctx</code>, <code class="descname">Pos</code>}</dt>
+<dt id="_CPPv2I00EX5TypesI3Ctx3PosEENK5annex5range7peek_atclER3CtxR3Pos">
+<em class="property">constexpr</em> auto <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I00EX5TypesI3Ctx3PosEENK5annex5range7peek_atclER3CtxR3Pos" title="annex::range::peek_at::operator()::Ctx">Ctx</a> &amp;<em>ctx</em>, <a class="reference internal" href="#_CPPv2I00EX5TypesI3Ctx3PosEENK5annex5range7peek_atclER3CtxR3Pos" title="annex::range::peek_at::operator()::Pos">Pos</a> <em class="property">const</em> &amp;<em>pos</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I00EX5TypesI3Ctx3PosEENK5annex5range7peek_atclER3CtxR3Pos" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-destructively read element at <em>pos</em>. Repeated peeks at the same position must have identical results,
+unless separated by a potentially destructive read.</p>
+<p><a class="reference internal" href="#_CPPv2N5annex5range7peek_atE" title="annex::range::peek_at"><code class="xref cpp cpp-any docutils literal"><span class="pre">peek_at</span></code></a> and <a class="reference internal" href="#_CPPv2N5annex5range11peek_beforeE" title="annex::range::peek_before"><code class="xref cpp cpp-any docutils literal"><span class="pre">peek_before</span></code></a> are the non-destructive reads, while <a class="reference internal" href="#_CPPv2N5annex5range2atE" title="annex::range::at"><code class="xref cpp cpp-any docutils literal"><span class="pre">at</span></code></a> and <a class="reference internal" href="#_CPPv2N5annex5range6beforeE" title="annex::range::before"><code class="xref cpp cpp-any docutils literal"><span class="pre">before</span></code></a> are the
+potentially destructive variants.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Preconditions:</th><td class="field-body"><em>pos</em> must not be past-the-end.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="var">
+<dt id="_CPPv2N5annex5range2atE">
+<span id="annex::range::at__functors::atCR"></span><em class="property">constexpr</em> functors::at <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">at</code><a class="headerlink" href="#_CPPv2N5annex5range2atE" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="function">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2IDpEN5annex5TypesE" title="annex::Types">Types</a>{<code class="descname">Ctx</code>, <code class="descname">Pos</code>}</dt>
+<dt id="_CPPv2I00EX5TypesI3Ctx3PosEENK5annex5range2atclER3CtxR3Pos">
+<em class="property">constexpr</em> auto <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I00EX5TypesI3Ctx3PosEENK5annex5range2atclER3CtxR3Pos" title="annex::range::at::operator()::Ctx">Ctx</a> &amp;<em>ctx</em>, <a class="reference internal" href="#_CPPv2I00EX5TypesI3Ctx3PosEENK5annex5range2atclER3CtxR3Pos" title="annex::range::at::operator()::Pos">Pos</a> <em class="property">const</em> &amp;<em>pos</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I00EX5TypesI3Ctx3PosEENK5annex5range2atclER3CtxR3Pos" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read element at <em>pos</em>. This is a potentially destructive operation, meaning that reads beyond the first may
+yield a different result (e.g. a moved-from value). Nonetheless all reads must result in defined behavior as
+long as preconditions are satisfied.</p>
+<p><a class="reference internal" href="#_CPPv2N5annex5range7peek_atE" title="annex::range::peek_at"><code class="xref cpp cpp-any docutils literal"><span class="pre">peek_at</span></code></a> and <a class="reference internal" href="#_CPPv2N5annex5range11peek_beforeE" title="annex::range::peek_before"><code class="xref cpp cpp-any docutils literal"><span class="pre">peek_before</span></code></a> are the non-destructive reads, while <a class="reference internal" href="#_CPPv2N5annex5range2atE" title="annex::range::at"><code class="xref cpp cpp-any docutils literal"><span class="pre">at</span></code></a> and <a class="reference internal" href="#_CPPv2N5annex5range6beforeE" title="annex::range::before"><code class="xref cpp cpp-any docutils literal"><span class="pre">before</span></code></a> are the
+potentially destructive variants.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Preconditions:</th><td class="field-body"><em>pos</em> must not be past-the-end.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="var">
+<dt id="_CPPv2N5annex5range4incrE">
+<span id="annex::range::incr__functors::incrCR"></span><em class="property">constexpr</em> functors::incr <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">incr</code><a class="headerlink" href="#_CPPv2N5annex5range4incrE" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="function">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2IDpEN5annex5TypesE" title="annex::Types">Types</a>{<code class="descname">Ctx</code>, <code class="descname">Pos</code>}</dt>
+<dt id="_CPPv2I00EX5TypesI3Ctx3PosEENK5annex5range4incrclER3CtxR3Pos">
+<em class="property">constexpr</em> void <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I00EX5TypesI3Ctx3PosEENK5annex5range4incrclER3CtxR3Pos" title="annex::range::incr::operator()::Ctx">Ctx</a> &amp;<em>ctx</em>, <a class="reference internal" href="#_CPPv2I00EX5TypesI3Ctx3PosEENK5annex5range4incrclER3CtxR3Pos" title="annex::range::incr::operator()::Pos">Pos</a> &amp;<em>pos</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I00EX5TypesI3Ctx3PosEENK5annex5range4incrclER3CtxR3Pos" title="Permalink to this definition">¶</a></dt>
+<dd><p>Increment <em>pos</em>.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><a class="reference internal" href="#_CPPv2N5annex5range4nextE" title="annex::range::next"><code class="xref cpp cpp-any docutils literal"><span class="pre">next</span></code></a></dt>
+<dd>the non-mutating counterpart</dd>
+</dl>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Preconditions:</th><td class="field-body"><em>pos</em> must not be past-the-end.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<p class="rubric" id="double-ended-operations"><a class="reference internal" href="concepts.html#_CPPv2I0EX7ContextI3CtxEEN5annex5range18DoubleEndedContextE" title="annex::range::DoubleEndedContext"><code class="xref cpp cpp-any docutils literal"><span class="pre">DoubleEndedContext</span></code></a> operations</p>
+<dl class="var">
+<dt id="_CPPv2N5annex5range11peek_beforeE">
+<span id="annex::range::peek_before__functors::peek_beforeCR"></span><em class="property">constexpr</em> functors::peek_before <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">peek_before</code><a class="headerlink" href="#_CPPv2N5annex5range11peek_beforeE" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="function">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2IDpEN5annex5TypesE" title="annex::Types">Types</a>{<code class="descname">Ctx</code>, <code class="descname">Sent</code>}</dt>
+<dt id="_CPPv2I00EX5TypesI3Ctx4SentEENK5annex5range11peek_beforeclER3CtxR4Sent">
+<em class="property">constexpr</em> auto <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I00EX5TypesI3Ctx4SentEENK5annex5range11peek_beforeclER3CtxR4Sent" title="annex::range::peek_before::operator()::Ctx">Ctx</a> &amp;<em>ctx</em>, <a class="reference internal" href="#_CPPv2I00EX5TypesI3Ctx4SentEENK5annex5range11peek_beforeclER3CtxR4Sent" title="annex::range::peek_before::operator()::Sent">Sent</a> <em class="property">const</em> &amp;<em>sent</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I00EX5TypesI3Ctx4SentEENK5annex5range11peek_beforeclER3CtxR4Sent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-destructively read element before <em>sent</em>. Repeated peeks at the same position must have
+identical results, unless separated by a potentially destructive read.</p>
+<p><a class="reference internal" href="#_CPPv2N5annex5range7peek_atE" title="annex::range::peek_at"><code class="xref cpp cpp-any docutils literal"><span class="pre">peek_at</span></code></a> and <a class="reference internal" href="#_CPPv2N5annex5range11peek_beforeE" title="annex::range::peek_before"><code class="xref cpp cpp-any docutils literal"><span class="pre">peek_before</span></code></a> are the non-destructive reads, while <a class="reference internal" href="#_CPPv2N5annex5range2atE" title="annex::range::at"><code class="xref cpp cpp-any docutils literal"><span class="pre">at</span></code></a> and <a class="reference internal" href="#_CPPv2N5annex5range6beforeE" title="annex::range::before"><code class="xref cpp cpp-any docutils literal"><span class="pre">before</span></code></a> are the
+potentially destructive variants.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Preconditions:</th><td class="field-body">There must be a valid position before <em>sent</em> (see <a class="reference internal" href="#_CPPv2N5annex5range4decrE" title="annex::range::decr"><code class="xref cpp cpp-any docutils literal"><span class="pre">decr</span></code></a>).</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="var">
+<dt id="_CPPv2N5annex5range6beforeE">
+<span id="annex::range::before__functors::beforeCR"></span><em class="property">constexpr</em> functors::before <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">before</code><a class="headerlink" href="#_CPPv2N5annex5range6beforeE" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="function">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2IDpEN5annex5TypesE" title="annex::Types">Types</a>{<code class="descname">Ctx</code>, <code class="descname">Sent</code>}</dt>
+<dt id="_CPPv2I00EX5TypesI3Ctx4SentEENK5annex5range6beforeclER3CtxR4Sent">
+<em class="property">constexpr</em> auto <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I00EX5TypesI3Ctx4SentEENK5annex5range6beforeclER3CtxR4Sent" title="annex::range::before::operator()::Ctx">Ctx</a> &amp;<em>ctx</em>, <a class="reference internal" href="#_CPPv2I00EX5TypesI3Ctx4SentEENK5annex5range6beforeclER3CtxR4Sent" title="annex::range::before::operator()::Sent">Sent</a> <em class="property">const</em> &amp;<em>sent</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I00EX5TypesI3Ctx4SentEENK5annex5range6beforeclER3CtxR4Sent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read the element before <em>sent</em>. This is a potentially destructive operation, meaning that reads
+beyond the first may yield a different result (e.g. a moved-from value). Nonetheless all reads must result in
+defined behavior as long as preconditions are satisfied.</p>
+<p><a class="reference internal" href="#_CPPv2N5annex5range7peek_atE" title="annex::range::peek_at"><code class="xref cpp cpp-any docutils literal"><span class="pre">peek_at</span></code></a> and <a class="reference internal" href="#_CPPv2N5annex5range11peek_beforeE" title="annex::range::peek_before"><code class="xref cpp cpp-any docutils literal"><span class="pre">peek_before</span></code></a> are the non-destructive reads, while <a class="reference internal" href="#_CPPv2N5annex5range2atE" title="annex::range::at"><code class="xref cpp cpp-any docutils literal"><span class="pre">at</span></code></a> and <a class="reference internal" href="#_CPPv2N5annex5range6beforeE" title="annex::range::before"><code class="xref cpp cpp-any docutils literal"><span class="pre">before</span></code></a> are the
+potentially destructive variants.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Preconditions:</th><td class="field-body">There must be a valid position before <em>sent</em> (see <a class="reference internal" href="#_CPPv2N5annex5range4decrE" title="annex::range::decr"><code class="xref cpp cpp-any docutils literal"><span class="pre">decr</span></code></a>).</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="var">
+<dt id="_CPPv2N5annex5range4decrE">
+<span id="annex::range::decr__functors::decrCR"></span><em class="property">constexpr</em> functors::decr <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">decr</code><a class="headerlink" href="#_CPPv2N5annex5range4decrE" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="function">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2IDpEN5annex5TypesE" title="annex::Types">Types</a>{<code class="descname">Ctx</code>, <code class="descname">Sent</code>}</dt>
+<dt id="_CPPv2I00EX5TypesI3Ctx4SentEENK5annex5range4decrclER3CtxR4Sent">
+<em class="property">constexpr</em> void <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I00EX5TypesI3Ctx4SentEENK5annex5range4decrclER3CtxR4Sent" title="annex::range::decr::operator()::Ctx">Ctx</a> &amp;<em>ctx</em>, <a class="reference internal" href="#_CPPv2I00EX5TypesI3Ctx4SentEENK5annex5range4decrclER3CtxR4Sent" title="annex::range::decr::operator()::Sent">Sent</a> &amp;<em>sent</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I00EX5TypesI3Ctx4SentEENK5annex5range4decrclER3CtxR4Sent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decrement <em>sent</em>. Where a <a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Rng</span> <span class="pre">rng;</span></code></a> defines a <code class="docutils literal"><span class="pre">[rng.from,</span> <span class="pre">rng.to)</span></code> half-open interval, all positions
+except <code class="docutils literal"><span class="pre">rng.from</span></code> are guaranteed to have a predecessor.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><a class="reference internal" href="#_CPPv2N5annex5range4prevE" title="annex::range::prev"><code class="xref cpp cpp-any docutils literal"><span class="pre">prev</span></code></a></dt>
+<dd>the non-mutating counterpart</dd>
+</dl>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Preconditions:</th><td class="field-body">There must be a valid position before <em>sent</em>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<p class="rubric" id="random-access-operations"><a class="reference internal" href="concepts.html#_CPPv2I0EX20BidirectionalContextI3CtxEEN5annex5range19RandomAccessContextE" title="annex::range::RandomAccessContext"><code class="xref cpp cpp-any docutils literal"><span class="pre">RandomAccessContext</span></code></a> operations</p>
+<dl class="var">
+<dt id="_CPPv2N5annex5range4stepE">
+<span id="annex::range::step__functors::stepCR"></span><em class="property">constexpr</em> functors::step <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">step</code><a class="headerlink" href="#_CPPv2N5annex5range4stepE" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="function">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2IDpEN5annex5TypesE" title="annex::Types">Types</a>{<code class="descname">Ctx</code>, <code class="descname">Pos</code>, <code class="descname">Offset</code>}</dt>
+<dt id="_CPPv2I000EX5TypesI3Ctx3Pos6OffsetEENK5annex5range4stepclER3CtxR3PosR6Offset">
+<em class="property">constexpr</em> void <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I000EX5TypesI3Ctx3Pos6OffsetEENK5annex5range4stepclER3CtxR3PosR6Offset" title="annex::range::step::operator()::Ctx">Ctx</a> &amp;<em>ctx</em>, <a class="reference internal" href="#_CPPv2I000EX5TypesI3Ctx3Pos6OffsetEENK5annex5range4stepclER3CtxR3PosR6Offset" title="annex::range::step::operator()::Pos">Pos</a> &amp;<em>pos</em>, <a class="reference internal" href="#_CPPv2I000EX5TypesI3Ctx3Pos6OffsetEENK5annex5range4stepclER3CtxR3PosR6Offset" title="annex::range::step::operator()::Offset">Offset</a> <em class="property">const</em> &amp;<em>offset</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I000EX5TypesI3Ctx3Pos6OffsetEENK5annex5range4stepclER3CtxR3PosR6Offset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Step <em>pos</em> forwards or backwards <em>offset</em> times.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><a class="reference internal" href="#_CPPv2N5annex5range6offsetE" title="annex::range::offset"><code class="xref cpp cpp-any docutils literal"><span class="pre">offset</span></code></a></dt>
+<dd>the non-mutating counterpart</dd>
+</dl>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Preconditions:</th><td class="field-body"><em>offset</em> must lead to a result which lies within <code class="docutils literal"><span class="pre">[rng.to,</span> <span class="pre">rng.from]</span></code> with respect to the underlying
+<a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Rng</span> <span class="pre">rng;</span></code></a>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="var">
+<dt id="_CPPv2N5annex5range10differenceE">
+<span id="annex::range::difference__functors::differenceCR"></span><em class="property">constexpr</em> functors::difference <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">difference</code><a class="headerlink" href="#_CPPv2N5annex5range10differenceE" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="function">
+<dt>
+<a class="reference internal" href="annex.html#_CPPv2IDpEN5annex5TypesE" title="annex::Types">Types</a>{<code class="descname">Ctx</code>, <code class="descname">Pos</code>}</dt>
+<dt id="_CPPv2I00EX5TypesI3Ctx3PosEENK5annex5range10differenceclER3CtxR3PosR3Pos">
+<em class="property">constexpr</em> auto <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I00EX5TypesI3Ctx3PosEENK5annex5range10differenceclER3CtxR3PosR3Pos" title="annex::range::difference::operator()::Ctx">Ctx</a> &amp;<em>ctx</em>, <a class="reference internal" href="#_CPPv2I00EX5TypesI3Ctx3PosEENK5annex5range10differenceclER3CtxR3PosR3Pos" title="annex::range::difference::operator()::Pos">Pos</a> <em class="property">const</em> &amp;<em>a</em>, <a class="reference internal" href="#_CPPv2I00EX5TypesI3Ctx3PosEENK5annex5range10differenceclER3CtxR3PosR3Pos" title="annex::range::difference::operator()::Pos">Pos</a> <em class="property">const</em> &amp;<em>b</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I00EX5TypesI3Ctx3PosEENK5annex5range10differenceclER3CtxR3PosR3Pos" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the difference between <em>a</em> and <em>b</em>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<p class="rubric"><a class="reference internal" href="concepts.html#_CPPv2I0EX7ContextI3CtxEEN5annex5range8SaveableE" title="annex::range::Saveable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Saveable</span></code></a> operation</p>
+<dl class="var">
+<dt id="_CPPv2N5annex5range4saveE">
+<span id="annex::range::save__functors::saveCR"></span><em class="property">constexpr</em> functors::save <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">save</code><a class="headerlink" href="#_CPPv2N5annex5range4saveE" title="Permalink to this definition">¶</a></dt>
+<dd><div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This library feature is much more experimental than the rest, and is considered incomplete or unsatisfactory. It is
+likely to be subject to significant changes or dropped altogether.</p>
+</div>
+<dl class="function">
+<dt>
+template&lt;typename <code class="descname">Ctx</code>, typename ...<code class="descname">Pos</code>&gt;</dt>
+<dt id="_CPPv2I0DpENK5annex5range4saveclER3CtxDpR3Pos">
+<em class="property">constexpr</em> auto <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I0DpENK5annex5range4saveclER3CtxDpR3Pos" title="annex::range::save::operator()::Ctx">Ctx</a> <em class="property">const</em> &amp;<em>ctx</em>, <a class="reference internal" href="#_CPPv2I0DpENK5annex5range4saveclER3CtxDpR3Pos" title="annex::range::save::operator()::Pos">Pos</a> <em class="property">const</em>&amp;... <em>pos</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I0DpENK5annex5range4saveclER3CtxDpR3Pos" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save current iteration state as given by <em>ctx</em> and <em>pos...</em>. The result is a <code class="xref cpp cpp-any docutils literal"><span class="pre">Decomposable</span></code> variable mirroring
+the arguments:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="k">auto</span> <span class="p">[</span><span class="n">saved_ctx</span><span class="p">,</span> <span class="n">saved_a</span><span class="p">,</span> <span class="n">saved_b</span><span class="p">,</span> <span class="p">...]</span> <span class="o">=</span> <span class="n">save</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="p">...);</span>
+</pre></div>
+</div>
+<p>Using and operating over the original or the resulting context together with their respective associated
+positions should not affect the other. The fresh positions are to be used with the fresh context (this is
+relaxed for <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex8CopyableE" title="annex::Copyable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Copyable</span></code></a> positions, see <a class="reference internal" href="concepts.html#copy-save"><span class="std std-ref">Ranges and copying/moving</span></a>).</p>
+<p>A position can be saved at most once at a time unless it is <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex8CopyableE" title="annex::Copyable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Copyable</span></code></a>:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="c1">// only valid if a can be copied</span>
+<span class="k">auto</span> <span class="p">[</span><span class="n">saved_ctx</span><span class="p">,</span> <span class="n">saved_a1</span><span class="p">,</span> <span class="n">saved_a2</span><span class="p">]</span> <span class="o">=</span> <span class="n">save</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In the case of a context and associated positions which all model <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex8CopyableE" title="annex::Copyable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Copyable</span></code></a>, saving is equivalent to copying.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Complexity:</th><td class="field-body">There is no complexity requirement on this operation.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
+<p>These functions are provided for convenience and are not implemented by ranges.</p>
+<p id="bounds-checked">Some functions are <em>bounds-checked</em>, meaning that in addition to the range context argument necessary for range
+operations they additionally accept position arguments to prevent precondition violations (e.g. to avoid incrementing a
+position beyond the past-the-end position). Alternatively, the range context and the bounding positions can be passed
+together as a range argument:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="k">auto</span> <span class="n">rng</span> <span class="o">=</span> <span class="p">...;</span>
+<span class="k">auto</span><span class="o">&amp;</span> <span class="p">[</span><span class="n">ctx</span><span class="p">,</span> <span class="n">from</span><span class="p">,</span> <span class="n">to</span><span class="p">]</span> <span class="o">=</span> <span class="n">rng</span><span class="p">;</span>
+
+<span class="k">auto</span> <span class="n">length</span> <span class="o">=</span> <span class="n">distance</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">from</span><span class="p">,</span> <span class="n">to</span><span class="p">);</span>
+
+<span class="c1">// equivalent to the above</span>
+<span class="k">auto</span> <span class="n">length</span> <span class="o">=</span> <span class="n">distance</span><span class="p">(</span><span class="n">rng</span><span class="p">);</span>
+</pre></div>
+</div>
+<p class="rubric">Non-mutating variants</p>
+<p>The fundamental operations to move positions around work by mutating their position argument. They each have a
+non-mutating counterpart, with similar guarantees and preconditions:</p>
+<dl class="var">
+<dt id="_CPPv2N5annex5range4nextE">
+<span id="annex::range::next__functors::nextCR"></span><em class="property">constexpr</em> functors::next <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">next</code><a class="headerlink" href="#_CPPv2N5annex5range4nextE" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="function">
+<dt>
+template&lt;ContextType <code class="descclassname"></code><code class="descname">Ctx</code>, <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex17MoveConstructibleE" title="annex::MoveConstructible">MoveConstructible</a> <code class="descclassname"></code><code class="descname">Pos</code>&gt;</dt>
+<dt id="_CPPv2I_11ContextType_17MoveConstructibleENK5annex5range4nextclER3Ctx3Pos">
+<em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I_11ContextType_17MoveConstructibleENK5annex5range4nextclER3Ctx3Pos" title="annex::range::next::operator()::Pos">Pos</a> <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I_11ContextType_17MoveConstructibleENK5annex5range4nextclER3Ctx3Pos" title="annex::range::next::operator()::Ctx">Ctx</a> &amp;<em>ctx</em>, <a class="reference internal" href="#_CPPv2I_11ContextType_17MoveConstructibleENK5annex5range4nextclER3Ctx3Pos" title="annex::range::next::operator()::Pos">Pos</a> <em>pos</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I_11ContextType_17MoveConstructibleENK5annex5range4nextclER3Ctx3Pos" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-mutating counterpart of <a class="reference internal" href="#_CPPv2N5annex5range4incrE" title="annex::range::incr"><code class="xref cpp cpp-any docutils literal"><span class="pre">incr</span></code></a>.</p>
+<p>Equivalent to:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="n">incr</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">pos</span><span class="p">);</span>
+<span class="k">return</span> <span class="n">pos</span><span class="p">;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="var">
+<dt id="_CPPv2N5annex5range4prevE">
+<span id="annex::range::prev__functors::prevCR"></span><em class="property">constexpr</em> functors::prev <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">prev</code><a class="headerlink" href="#_CPPv2N5annex5range4prevE" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="function">
+<dt>
+template&lt;ContextType <code class="descclassname"></code><code class="descname">Ctx</code>, <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex17MoveConstructibleE" title="annex::MoveConstructible">MoveConstructible</a> <code class="descclassname"></code><code class="descname">Pos</code>&gt;</dt>
+<dt id="_CPPv2I_11ContextType_17MoveConstructibleENK5annex5range4prevclER3Ctx3Pos">
+<em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I_11ContextType_17MoveConstructibleENK5annex5range4prevclER3Ctx3Pos" title="annex::range::prev::operator()::Pos">Pos</a> <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I_11ContextType_17MoveConstructibleENK5annex5range4prevclER3Ctx3Pos" title="annex::range::prev::operator()::Ctx">Ctx</a> &amp;<em>ctx</em>, <a class="reference internal" href="#_CPPv2I_11ContextType_17MoveConstructibleENK5annex5range4prevclER3Ctx3Pos" title="annex::range::prev::operator()::Pos">Pos</a> <em>pos</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I_11ContextType_17MoveConstructibleENK5annex5range4prevclER3Ctx3Pos" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-mutating counterpart of <a class="reference internal" href="#_CPPv2N5annex5range4decrE" title="annex::range::decr"><code class="xref cpp cpp-any docutils literal"><span class="pre">decr</span></code></a>.</p>
+<p>Equivalent to:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="n">prev</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">pos</span><span class="p">);</span>
+<span class="k">return</span> <span class="n">pos</span><span class="p">;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="var">
+<dt id="_CPPv2N5annex5range6offsetE">
+<span id="annex::range::offset__functors::offsetCR"></span><em class="property">constexpr</em> functors::offset <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">offset</code><a class="headerlink" href="#_CPPv2N5annex5range6offsetE" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="function">
+<dt>
+template&lt;ContextType <code class="descclassname"></code><code class="descname">Ctx</code>, <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex17MoveConstructibleE" title="annex::MoveConstructible">MoveConstructible</a> <code class="descclassname"></code><code class="descname">Pos</code>, typename <code class="descname">Offset</code>&gt;</dt>
+<dt id="_CPPv2I_11ContextType_17MoveConstructible0ENK5annex5range6offsetclER3Ctx3PosR6Offset">
+<em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I_11ContextType_17MoveConstructible0ENK5annex5range6offsetclER3Ctx3PosR6Offset" title="annex::range::offset::operator()::Pos">Pos</a> <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I_11ContextType_17MoveConstructible0ENK5annex5range6offsetclER3Ctx3PosR6Offset" title="annex::range::offset::operator()::Ctx">Ctx</a> &amp;<em>ctx</em>, <a class="reference internal" href="#_CPPv2I_11ContextType_17MoveConstructible0ENK5annex5range6offsetclER3Ctx3PosR6Offset" title="annex::range::offset::operator()::Pos">Pos</a> <em>pos</em>, <a class="reference internal" href="#_CPPv2I_11ContextType_17MoveConstructible0ENK5annex5range6offsetclER3Ctx3PosR6Offset" title="annex::range::offset::operator()::Offset">Offset</a> <em class="property">const</em> &amp;<em>offset</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I_11ContextType_17MoveConstructible0ENK5annex5range6offsetclER3Ctx3PosR6Offset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-mutating counterpart of <a class="reference internal" href="#_CPPv2N5annex5range4stepE" title="annex::range::step"><code class="xref cpp cpp-any docutils literal"><span class="pre">step</span></code></a>.</p>
+<p>Equivalent to:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="n">step</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">offset</span><span class="p">);</span>
+<span class="k">return</span> <span class="n">pos</span><span class="p">;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<p class="rubric">Traversal-agnostic functions</p>
+<dl class="var">
+<dt id="_CPPv2N5annex5range8distanceE">
+<span id="annex::range::distance__functors::distanceCR"></span><em class="property">constexpr</em> functors::distance <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">distance</code><a class="headerlink" href="#_CPPv2N5annex5range8distanceE" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="function">
+<dt>
+ContextType{<code class="descname">Ctx</code>}</dt>
+<dt id="_CPPv2I0EX11ContextTypeI3CtxEENK5annex5range8distanceclER3Ctx10position_tI3CtxER10sentinel_tI3CtxE">
+<em class="property">constexpr</em> std::ptrdiff_t <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I0EX11ContextTypeI3CtxEENK5annex5range8distanceclER3Ctx10position_tI3CtxER10sentinel_tI3CtxE" title="annex::range::distance::operator()::Ctx">Ctx</a> &amp;<em>ctx</em>, <a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3CtxEEN5annex5range10position_tE" title="annex::range::position_t">position_t</a>&lt;<a class="reference internal" href="#_CPPv2I0EX11ContextTypeI3CtxEENK5annex5range8distanceclER3Ctx10position_tI3CtxER10sentinel_tI3CtxE" title="annex::range::distance::operator()::Ctx">Ctx</a>&gt; <em>from</em>, <a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3CtxEEN5annex5range10sentinel_tE" title="annex::range::sentinel_t">sentinel_t</a>&lt;<a class="reference internal" href="#_CPPv2I0EX11ContextTypeI3CtxEENK5annex5range8distanceclER3Ctx10position_tI3CtxER10sentinel_tI3CtxE" title="annex::range::distance::operator()::Ctx">Ctx</a>&gt; <em class="property">const</em> &amp;<em>to</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I0EX11ContextTypeI3CtxEENK5annex5range8distanceclER3Ctx10position_tI3CtxER10sentinel_tI3CtxE" title="Permalink to this definition">¶</a></dt>
+<dt>
+RandomAccessContextType{<code class="descname">Ctx</code>}</dt>
+<dt id="_CPPv2I0EX23RandomAccessContextTypeI3CtxEENK5annex5range8distanceclER3CtxR10position_tI3CtxER10position_tI3CtxE">
+<em class="property">constexpr</em> <a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3CtxEEN5annex5range12difference_tE" title="annex::range::difference_t">difference_t</a>&lt;<a class="reference internal" href="#_CPPv2I0EX23RandomAccessContextTypeI3CtxEENK5annex5range8distanceclER3CtxR10position_tI3CtxER10position_tI3CtxE" title="annex::range::distance::operator()::Ctx">Ctx</a>&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I0EX23RandomAccessContextTypeI3CtxEENK5annex5range8distanceclER3CtxR10position_tI3CtxER10position_tI3CtxE" title="annex::range::distance::operator()::Ctx">Ctx</a> &amp;<em>ctx</em>, <a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3CtxEEN5annex5range10position_tE" title="annex::range::position_t">position_t</a>&lt;<a class="reference internal" href="#_CPPv2I0EX23RandomAccessContextTypeI3CtxEENK5annex5range8distanceclER3CtxR10position_tI3CtxER10position_tI3CtxE" title="annex::range::distance::operator()::Ctx">Ctx</a>&gt; <em class="property">const</em> &amp;<em>from</em>, <a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3CtxEEN5annex5range10position_tE" title="annex::range::position_t">position_t</a>&lt;<a class="reference internal" href="#_CPPv2I0EX23RandomAccessContextTypeI3CtxEENK5annex5range8distanceclER3CtxR10position_tI3CtxER10position_tI3CtxE" title="annex::range::distance::operator()::Ctx">Ctx</a>&gt; <em class="property">const</em> &amp;<em>to</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I0EX23RandomAccessContextTypeI3CtxEENK5annex5range8distanceclER3CtxR10position_tI3CtxER10position_tI3CtxE" title="Permalink to this definition">¶</a></dt>
+<dt>
+RangeType{<code class="descname">Rng</code>}</dt>
+<dt id="_CPPv2I0EX9RangeTypeI3RngEENK5annex5range8distanceclER3Rng">
+<em class="property">constexpr</em> auto <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I0EX9RangeTypeI3RngEENK5annex5range8distanceclER3Rng" title="annex::range::distance::operator()::Rng">Rng</a> &amp;<em>rng</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I0EX9RangeTypeI3RngEENK5annex5range8distanceclER3Rng" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is a <a class="reference internal" href="#bounds-checked">bounds-checked</a> function.</p>
+<p>Compute the distance between <em>from</em> and <em>to</em>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Complexity:</th><td class="field-body">constant time for a <code class="xref cpp cpp-any docutils literal"><span class="pre">RandomAccessContextType</span></code>, linear time with respect to the distance between the
+positions otherwise</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Preconditions:</th><td class="field-body"><em>from</em> must precede <em>to</em>, or the context must model <code class="xref cpp cpp-any docutils literal"><span class="pre">RandomAccessContextType</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="var">
+<dt id="_CPPv2N5annex5range6incr_nE">
+<span id="annex::range::incr_n__functors::incr_nCR"></span><em class="property">constexpr</em> functors::incr_n <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">incr_n</code><a class="headerlink" href="#_CPPv2N5annex5range6incr_nE" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="function">
+<dt>
+template&lt;ContextType <code class="descclassname"></code><code class="descname">Ctx</code>, typename <code class="descname">Sent</code>, <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex14SignedIntegralE" title="annex::SignedIntegral">SignedIntegral</a> <code class="descclassname"></code><code class="descname">Steps</code>&gt;</dt>
+<dt id="_CPPv2I_11ContextType0_14SignedIntegralENK5annex5range6incr_nclER3CtxR10position_tI3CtxER4SentR10position_tI3CtxE5Steps">
+<em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I_11ContextType0_14SignedIntegralENK5annex5range6incr_nclER3CtxR10position_tI3CtxER4SentR10position_tI3CtxE5Steps" title="annex::range::incr_n::operator()::Steps">Steps</a> <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I_11ContextType0_14SignedIntegralENK5annex5range6incr_nclER3CtxR10position_tI3CtxER4SentR10position_tI3CtxE5Steps" title="annex::range::incr_n::operator()::Ctx">Ctx</a> &amp;<em>ctx</em>, <a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3CtxEEN5annex5range10position_tE" title="annex::range::position_t">position_t</a>&lt;<a class="reference internal" href="#_CPPv2I_11ContextType0_14SignedIntegralENK5annex5range6incr_nclER3CtxR10position_tI3CtxER4SentR10position_tI3CtxE5Steps" title="annex::range::incr_n::operator()::Ctx">Ctx</a>&gt; <em class="property">const</em> &amp;<em>from</em>, <a class="reference internal" href="#_CPPv2I_11ContextType0_14SignedIntegralENK5annex5range6incr_nclER3CtxR10position_tI3CtxER4SentR10position_tI3CtxE5Steps" title="annex::range::incr_n::operator()::Sent">Sent</a> <em class="property">const</em> &amp;<em>to</em>, <a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3CtxEEN5annex5range10position_tE" title="annex::range::position_t">position_t</a>&lt;<a class="reference internal" href="#_CPPv2I_11ContextType0_14SignedIntegralENK5annex5range6incr_nclER3CtxR10position_tI3CtxER4SentR10position_tI3CtxE5Steps" title="annex::range::incr_n::operator()::Ctx">Ctx</a>&gt; &amp;<em>pos</em>, <a class="reference internal" href="#_CPPv2I_11ContextType0_14SignedIntegralENK5annex5range6incr_nclER3CtxR10position_tI3CtxER4SentR10position_tI3CtxE5Steps" title="annex::range::incr_n::operator()::Steps">Steps</a> <em>steps</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I_11ContextType0_14SignedIntegralENK5annex5range6incr_nclER3CtxR10position_tI3CtxER4SentR10position_tI3CtxE5Steps" title="Permalink to this definition">¶</a></dt>
+<dt>
+RandomAccessContextType{<code class="descname">Ctx</code>}</dt>
+<dt id="_CPPv2I0EX23RandomAccessContextTypeI3CtxEENK5annex5range6incr_nclER3CtxR10position_tI3CtxER10position_tI3CtxER10position_tI3CtxER12difference_tI3CtxE">
+<em class="property">constexpr</em> <a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3CtxEEN5annex5range12difference_tE" title="annex::range::difference_t">difference_t</a>&lt;<a class="reference internal" href="#_CPPv2I0EX23RandomAccessContextTypeI3CtxEENK5annex5range6incr_nclER3CtxR10position_tI3CtxER10position_tI3CtxER10position_tI3CtxER12difference_tI3CtxE" title="annex::range::incr_n::operator()::Ctx">Ctx</a>&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I0EX23RandomAccessContextTypeI3CtxEENK5annex5range6incr_nclER3CtxR10position_tI3CtxER10position_tI3CtxER10position_tI3CtxER12difference_tI3CtxE" title="annex::range::incr_n::operator()::Ctx">Ctx</a> &amp;<em>ctx</em>, <a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3CtxEEN5annex5range10position_tE" title="annex::range::position_t">position_t</a>&lt;<a class="reference internal" href="#_CPPv2I0EX23RandomAccessContextTypeI3CtxEENK5annex5range6incr_nclER3CtxR10position_tI3CtxER10position_tI3CtxER10position_tI3CtxER12difference_tI3CtxE" title="annex::range::incr_n::operator()::Ctx">Ctx</a>&gt; <em class="property">const</em> &amp;<em>from</em>, <a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3CtxEEN5annex5range10position_tE" title="annex::range::position_t">position_t</a>&lt;<a class="reference internal" href="#_CPPv2I0EX23RandomAccessContextTypeI3CtxEENK5annex5range6incr_nclER3CtxR10position_tI3CtxER10position_tI3CtxER10position_tI3CtxER12difference_tI3CtxE" title="annex::range::incr_n::operator()::Ctx">Ctx</a>&gt; <em class="property">const</em> &amp;<em>to</em>, <a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3CtxEEN5annex5range10position_tE" title="annex::range::position_t">position_t</a>&lt;<a class="reference internal" href="#_CPPv2I0EX23RandomAccessContextTypeI3CtxEENK5annex5range6incr_nclER3CtxR10position_tI3CtxER10position_tI3CtxER10position_tI3CtxER12difference_tI3CtxE" title="annex::range::incr_n::operator()::Ctx">Ctx</a>&gt; &amp;<em>pos</em>, <a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3CtxEEN5annex5range12difference_tE" title="annex::range::difference_t">difference_t</a>&lt;<a class="reference internal" href="#_CPPv2I0EX23RandomAccessContextTypeI3CtxEENK5annex5range6incr_nclER3CtxR10position_tI3CtxER10position_tI3CtxER10position_tI3CtxER12difference_tI3CtxE" title="annex::range::incr_n::operator()::Ctx">Ctx</a>&gt; <em class="property">const</em> &amp;<em>steps</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I0EX23RandomAccessContextTypeI3CtxEENK5annex5range6incr_nclER3CtxR10position_tI3CtxER10position_tI3CtxER10position_tI3CtxER12difference_tI3CtxE" title="Permalink to this definition">¶</a></dt>
+<dt>
+template&lt;RangeType <code class="descclassname"></code><code class="descname">Rng</code>, typename <code class="descname">Steps</code>&gt;</dt>
+<dt id="_CPPv2I_9RangeType0ENK5annex5range6incr_nclER3RngR10position_tI3RngERR5Steps">
+<em class="property">constexpr</em> auto <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I_9RangeType0ENK5annex5range6incr_nclER3RngR10position_tI3RngERR5Steps" title="annex::range::incr_n::operator()::Rng">Rng</a> &amp;<em>rng</em>, <a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3CtxEEN5annex5range10position_tE" title="annex::range::position_t">position_t</a>&lt;<a class="reference internal" href="#_CPPv2I_9RangeType0ENK5annex5range6incr_nclER3RngR10position_tI3RngERR5Steps" title="annex::range::incr_n::operator()::Rng">Rng</a>&gt; &amp;<em>pos</em>, <a class="reference internal" href="#_CPPv2I_9RangeType0ENK5annex5range6incr_nclER3RngR10position_tI3RngERR5Steps" title="annex::range::incr_n::operator()::Steps">Steps</a> &amp;&amp;<em>steps</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I_9RangeType0ENK5annex5range6incr_nclER3RngR10position_tI3RngERR5Steps" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#bounds-checked"><span class="std std-ref">Bounds-checked</span></a> iterated incrementation or decrementation.</p>
+<p>If <em>steps</em> is non-negative, equivalent to calling <a class="reference internal" href="#_CPPv2N5annex5range4incrE" title="annex::range::incr"><code class="xref cpp cpp-any docutils literal"><span class="pre">incr(ctx,</span> <span class="pre">pos)</span></code></a> up to <em>steps</em>-times except that
+<em>pos</em> will not be incremented beyond <em>to</em>.</p>
+<p>If <em>steps</em> is negative and <code class="xref cpp cpp-any docutils literal"><span class="pre">Ctx</span></code> models <code class="xref cpp cpp-any docutils literal"><span class="pre">BidirectionalContextType</span></code>, equivalent to calling <a class="reference internal" href="#_CPPv2N5annex5range4decrE" title="annex::range::decr"><code class="xref cpp cpp-any docutils literal"><span class="pre">decr(ctx,</span> <span class="pre">pos)</span></code></a> up to <span class="math">\(|steps|\)</span>-times except that <em>pos</em> will not be decremented before <em>from</em>. No effect
+otherwise.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><a class="reference internal" href="#_CPPv2N5annex5range6next_nE" title="annex::range::next_n"><code class="xref cpp cpp-any docutils literal"><span class="pre">next_n</span></code></a></dt>
+<dd>the non-mutating counterpart</dd>
+<dt><a class="reference internal" href="#_CPPv2N5annex5range16unchecked_incr_nE" title="annex::range::unchecked_incr_n"><code class="xref cpp cpp-any docutils literal"><span class="pre">unchecked_incr_n</span></code></a>, <a class="reference internal" href="#_CPPv2N5annex5range16unchecked_next_nE" title="annex::range::unchecked_next_n"><code class="xref cpp cpp-any docutils literal"><span class="pre">unchecked_next_n</span></code></a></dt>
+<dd>the counterparts that don&#8217;t perform bounds-checking</dd>
+<dt><a class="reference internal" href="transformations.html#_CPPv2N5annex5range6strideE" title="annex::range::stride"><code class="xref cpp cpp-any docutils literal"><span class="pre">stride</span></code></a></dt>
+<dd>iterated application of <a class="reference internal" href="#_CPPv2N5annex5range6incr_nE" title="annex::range::incr_n"><code class="xref cpp cpp-any docutils literal"><span class="pre">incr_n</span></code></a> and <a class="reference internal" href="#_CPPv2N5annex5range6decr_nE" title="annex::range::decr_n"><code class="xref cpp cpp-any docutils literal"><span class="pre">decr_n</span></code></a> with a given stride of steps.</dd>
+</dl>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Complexity:</th><td class="field-body">constant time for a <code class="xref cpp cpp-any docutils literal"><span class="pre">RandomAccessContextType</span></code>, linear time with respect to <em>steps</em> otherwise</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><strong>to</strong> &#8211; a position or sentinel of <em>ctx</em> serving as an upper bound to <em>pos</em></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The remaining steps that were not performed, i.e. <code class="docutils literal"><span class="pre">steps</span> <span class="pre">-</span> <span class="pre">distance(ctx,</span> <span class="pre">initial_pos,</span> <span class="pre">pos)</span></code> (or <code class="docutils literal"><span class="pre">steps</span> <span class="pre">+</span>
+<span class="pre">distance(ctx,</span> <span class="pre">pos,</span> <span class="pre">intial_pos)</span></code> if <em>steps</em> is negative and the context is not random-access) where
+<em>initial_pos</em> would be the notional value that <em>pos</em> had before effects were performed.<p>Note that the result is less than or equal to <em>steps</em> in absolute value, reaching 0 if and only if all
+steps were performed.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="var">
+<dt id="_CPPv2N5annex5range6decr_nE">
+<span id="annex::range::decr_n__functors::decr_nCR"></span><em class="property">constexpr</em> functors::decr_n <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">decr_n</code><a class="headerlink" href="#_CPPv2N5annex5range6decr_nE" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="function">
+<dt>
+template&lt;DoubleEndedContextType <code class="descclassname"></code><code class="descname">Ctx</code>, typename <code class="descname">Pos</code>, <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex14SignedIntegralE" title="annex::SignedIntegral">SignedIntegral</a> <code class="descclassname"></code><code class="descname">Steps</code>&gt;</dt>
+<dt id="_CPPv2I_22DoubleEndedContextType0_14SignedIntegralENK5annex5range6decr_nclER3CtxR3PosR10sentinel_tI3CtxER10sentinel_tI3CtxE5Steps">
+<em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I_22DoubleEndedContextType0_14SignedIntegralENK5annex5range6decr_nclER3CtxR3PosR10sentinel_tI3CtxER10sentinel_tI3CtxE5Steps" title="annex::range::decr_n::operator()::Steps">Steps</a> <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I_22DoubleEndedContextType0_14SignedIntegralENK5annex5range6decr_nclER3CtxR3PosR10sentinel_tI3CtxER10sentinel_tI3CtxE5Steps" title="annex::range::decr_n::operator()::Ctx">Ctx</a> &amp;<em>ctx</em>, <a class="reference internal" href="#_CPPv2I_22DoubleEndedContextType0_14SignedIntegralENK5annex5range6decr_nclER3CtxR3PosR10sentinel_tI3CtxER10sentinel_tI3CtxE5Steps" title="annex::range::decr_n::operator()::Pos">Pos</a> <em class="property">const</em> &amp;<em>from</em>, <a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3CtxEEN5annex5range10sentinel_tE" title="annex::range::sentinel_t">sentinel_t</a>&lt;<a class="reference internal" href="#_CPPv2I_22DoubleEndedContextType0_14SignedIntegralENK5annex5range6decr_nclER3CtxR3PosR10sentinel_tI3CtxER10sentinel_tI3CtxE5Steps" title="annex::range::decr_n::operator()::Ctx">Ctx</a>&gt; <em class="property">const</em> &amp;<em>to</em>, <a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3CtxEEN5annex5range10sentinel_tE" title="annex::range::sentinel_t">sentinel_t</a>&lt;<a class="reference internal" href="#_CPPv2I_22DoubleEndedContextType0_14SignedIntegralENK5annex5range6decr_nclER3CtxR3PosR10sentinel_tI3CtxER10sentinel_tI3CtxE5Steps" title="annex::range::decr_n::operator()::Ctx">Ctx</a>&gt; &amp;<em>pos</em>, <a class="reference internal" href="#_CPPv2I_22DoubleEndedContextType0_14SignedIntegralENK5annex5range6decr_nclER3CtxR3PosR10sentinel_tI3CtxER10sentinel_tI3CtxE5Steps" title="annex::range::decr_n::operator()::Steps">Steps</a> <em>steps</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I_22DoubleEndedContextType0_14SignedIntegralENK5annex5range6decr_nclER3CtxR3PosR10sentinel_tI3CtxER10sentinel_tI3CtxE5Steps" title="Permalink to this definition">¶</a></dt>
+<dt>
+RandomAccessContextType{<code class="descname">Ctx</code>}</dt>
+<dt id="_CPPv2I0EX23RandomAccessContextTypeI3CtxEENK5annex5range6decr_nclER3CtxR10position_tI3CtxER10position_tI3CtxER10position_tI3CtxER12difference_tI3CtxE">
+<em class="property">constexpr</em> <a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3CtxEEN5annex5range12difference_tE" title="annex::range::difference_t">difference_t</a>&lt;<a class="reference internal" href="#_CPPv2I0EX23RandomAccessContextTypeI3CtxEENK5annex5range6decr_nclER3CtxR10position_tI3CtxER10position_tI3CtxER10position_tI3CtxER12difference_tI3CtxE" title="annex::range::decr_n::operator()::Ctx">Ctx</a>&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I0EX23RandomAccessContextTypeI3CtxEENK5annex5range6decr_nclER3CtxR10position_tI3CtxER10position_tI3CtxER10position_tI3CtxER12difference_tI3CtxE" title="annex::range::decr_n::operator()::Ctx">Ctx</a> &amp;<em>ctx</em>, <a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3CtxEEN5annex5range10position_tE" title="annex::range::position_t">position_t</a>&lt;<a class="reference internal" href="#_CPPv2I0EX23RandomAccessContextTypeI3CtxEENK5annex5range6decr_nclER3CtxR10position_tI3CtxER10position_tI3CtxER10position_tI3CtxER12difference_tI3CtxE" title="annex::range::decr_n::operator()::Ctx">Ctx</a>&gt; <em class="property">const</em> &amp;<em>from</em>, <a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3CtxEEN5annex5range10position_tE" title="annex::range::position_t">position_t</a>&lt;<a class="reference internal" href="#_CPPv2I0EX23RandomAccessContextTypeI3CtxEENK5annex5range6decr_nclER3CtxR10position_tI3CtxER10position_tI3CtxER10position_tI3CtxER12difference_tI3CtxE" title="annex::range::decr_n::operator()::Ctx">Ctx</a>&gt; <em class="property">const</em> &amp;<em>to</em>, <a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3CtxEEN5annex5range10position_tE" title="annex::range::position_t">position_t</a>&lt;<a class="reference internal" href="#_CPPv2I0EX23RandomAccessContextTypeI3CtxEENK5annex5range6decr_nclER3CtxR10position_tI3CtxER10position_tI3CtxER10position_tI3CtxER12difference_tI3CtxE" title="annex::range::decr_n::operator()::Ctx">Ctx</a>&gt; &amp;<em>pos</em>, <a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3CtxEEN5annex5range12difference_tE" title="annex::range::difference_t">difference_t</a>&lt;<a class="reference internal" href="#_CPPv2I0EX23RandomAccessContextTypeI3CtxEENK5annex5range6decr_nclER3CtxR10position_tI3CtxER10position_tI3CtxER10position_tI3CtxER12difference_tI3CtxE" title="annex::range::decr_n::operator()::Ctx">Ctx</a>&gt; <em class="property">const</em> &amp;<em>steps</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I0EX23RandomAccessContextTypeI3CtxEENK5annex5range6decr_nclER3CtxR10position_tI3CtxER10position_tI3CtxER10position_tI3CtxER12difference_tI3CtxE" title="Permalink to this definition">¶</a></dt>
+<dt>
+template&lt;RangeType <code class="descclassname"></code><code class="descname">Rng</code>, typename <code class="descname">Steps</code>&gt;</dt>
+<dt id="_CPPv2I_9RangeType0ENK5annex5range6decr_nclER3RngR10sentinel_tI3RngERR5Steps">
+<em class="property">constexpr</em> auto <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I_9RangeType0ENK5annex5range6decr_nclER3RngR10sentinel_tI3RngERR5Steps" title="annex::range::decr_n::operator()::Rng">Rng</a> &amp;<em>rng</em>, <a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3CtxEEN5annex5range10sentinel_tE" title="annex::range::sentinel_t">sentinel_t</a>&lt;<a class="reference internal" href="#_CPPv2I_9RangeType0ENK5annex5range6decr_nclER3RngR10sentinel_tI3RngERR5Steps" title="annex::range::decr_n::operator()::Rng">Rng</a>&gt; &amp;<em>pos</em>, <a class="reference internal" href="#_CPPv2I_9RangeType0ENK5annex5range6decr_nclER3RngR10sentinel_tI3RngERR5Steps" title="annex::range::decr_n::operator()::Steps">Steps</a> &amp;&amp;<em>steps</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I_9RangeType0ENK5annex5range6decr_nclER3RngR10sentinel_tI3RngERR5Steps" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#bounds-checked"><span class="std std-ref">Bounds-checked</span></a> iterated decrementation or incrementation.</p>
+<p>If <em>steps</em> is non-negative, equivalent to calling <a class="reference internal" href="#_CPPv2N5annex5range4decrE" title="annex::range::decr"><code class="xref cpp cpp-any docutils literal"><span class="pre">decr(ctx,</span> <span class="pre">pos)</span></code></a> up to <em>steps</em>-times except that
+<em>pos</em> will not be decremented before <em>from</em>.</p>
+<p>If <em>steps</em> is negative and <code class="xref cpp cpp-any docutils literal"><span class="pre">Ctx</span></code> models <code class="xref cpp cpp-any docutils literal"><span class="pre">BidirectionalContextType</span></code>, equivalent to calling <a class="reference internal" href="#_CPPv2N5annex5range4incrE" title="annex::range::incr"><code class="xref cpp cpp-any docutils literal"><span class="pre">incr(ctx,</span> <span class="pre">pos)</span></code></a> up to <span class="math">\(|steps|\)</span>-times except that <em>pos</em> will not be incremented beyond <em>to</em>. No effect
+otherwise.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><a class="reference internal" href="#_CPPv2N5annex5range6prev_nE" title="annex::range::prev_n"><code class="xref cpp cpp-any docutils literal"><span class="pre">prev_n</span></code></a></dt>
+<dd>the non-mutating counterpart</dd>
+<dt><a class="reference internal" href="#_CPPv2N5annex5range16unchecked_decr_nE" title="annex::range::unchecked_decr_n"><code class="xref cpp cpp-any docutils literal"><span class="pre">unchecked_decr_n</span></code></a>, <a class="reference internal" href="#_CPPv2N5annex5range16unchecked_prev_nE" title="annex::range::unchecked_prev_n"><code class="xref cpp cpp-any docutils literal"><span class="pre">unchecked_prev_n</span></code></a></dt>
+<dd>the counterparts that don&#8217;t perform bounds-checking</dd>
+<dt><a class="reference internal" href="transformations.html#_CPPv2N5annex5range6strideE" title="annex::range::stride"><code class="xref cpp cpp-any docutils literal"><span class="pre">stride</span></code></a></dt>
+<dd>iterated application of <a class="reference internal" href="#_CPPv2N5annex5range6incr_nE" title="annex::range::incr_n"><code class="xref cpp cpp-any docutils literal"><span class="pre">incr_n</span></code></a> and <a class="reference internal" href="#_CPPv2N5annex5range6decr_nE" title="annex::range::decr_n"><code class="xref cpp cpp-any docutils literal"><span class="pre">decr_n</span></code></a> with a given stride of steps.</dd>
+</dl>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Complexity:</th><td class="field-body">constant time for a <code class="xref cpp cpp-any docutils literal"><span class="pre">RandomAccessContextType</span></code>, linear time with respect to <em>steps</em> otherwise</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><strong>from</strong> &#8211; a position or sentinel of <em>ctx</em> serving as a lower bound to <em>pos</em></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The remaining steps that were not performed, i.e. <code class="docutils literal"><span class="pre">steps</span> <span class="pre">-</span> <span class="pre">distance(ctx,</span> <span class="pre">pos,</span> <span class="pre">initial_pos)</span></code> (or <code class="docutils literal"><span class="pre">steps</span> <span class="pre">+</span>
+<span class="pre">distance(ctx,</span> <span class="pre">initial_pos,</span> <span class="pre">pos)</span></code> if <em>steps</em> is negative and the context is not random-access) where
+<em>initial_pos</em> would be the notional value that <em>pos</em> had before effects were performed.<p>Note that the result is less than or equal to <em>steps</em> in absolute value, reaching 0 if and only if all
+steps were performed.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="var">
+<dt id="_CPPv2N5annex5range6next_nE">
+<span id="annex::range::next_n__functors::next_nCR"></span><em class="property">constexpr</em> functors::next_n <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">next_n</code><a class="headerlink" href="#_CPPv2N5annex5range6next_nE" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="function">
+<dt>
+template&lt;typename <code class="descname">Ctx</code>, <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex17MoveConstructibleE" title="annex::MoveConstructible">MoveConstructible</a> <code class="descclassname"></code><code class="descname">Pos</code>, typename <code class="descname">Sent</code>, typename <code class="descname">Steps</code>&gt;</dt>
+<dt id="_CPPv2I0_17MoveConstructible00ENK5annex5range6next_nclER3CtxR3PosR4Sent3PosRR5Steps">
+<em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I0_17MoveConstructible00ENK5annex5range6next_nclER3CtxR3PosR4Sent3PosRR5Steps" title="annex::range::next_n::operator()::Pos">Pos</a> <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I0_17MoveConstructible00ENK5annex5range6next_nclER3CtxR3PosR4Sent3PosRR5Steps" title="annex::range::next_n::operator()::Ctx">Ctx</a> &amp;<em>ctx</em>, <a class="reference internal" href="#_CPPv2I0_17MoveConstructible00ENK5annex5range6next_nclER3CtxR3PosR4Sent3PosRR5Steps" title="annex::range::next_n::operator()::Pos">Pos</a> <em class="property">const</em> &amp;<em>from</em>, <a class="reference internal" href="#_CPPv2I0_17MoveConstructible00ENK5annex5range6next_nclER3CtxR3PosR4Sent3PosRR5Steps" title="annex::range::next_n::operator()::Sent">Sent</a> <em class="property">const</em> &amp;<em>to</em>, <a class="reference internal" href="#_CPPv2I0_17MoveConstructible00ENK5annex5range6next_nclER3CtxR3PosR4Sent3PosRR5Steps" title="annex::range::next_n::operator()::Pos">Pos</a> <em>pos</em>, <a class="reference internal" href="#_CPPv2I0_17MoveConstructible00ENK5annex5range6next_nclER3CtxR3PosR4Sent3PosRR5Steps" title="annex::range::next_n::operator()::Steps">Steps</a> &amp;&amp;<em>steps</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I0_17MoveConstructible00ENK5annex5range6next_nclER3CtxR3PosR4Sent3PosRR5Steps" title="Permalink to this definition">¶</a></dt>
+<dt>
+template&lt;RangeType <code class="descclassname"></code><code class="descname">Rng</code>, typename <code class="descname">Steps</code>&gt;</dt>
+<dt id="_CPPv2I_9RangeType0ENK5annex5range6next_nclER3Rng10position_tI3RngERR5Steps">
+<em class="property">constexpr</em> Pos <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I_9RangeType0ENK5annex5range6next_nclER3Rng10position_tI3RngERR5Steps" title="annex::range::next_n::operator()::Rng">Rng</a> &amp;<em>rng</em>, <a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3CtxEEN5annex5range10position_tE" title="annex::range::position_t">position_t</a>&lt;<a class="reference internal" href="#_CPPv2I_9RangeType0ENK5annex5range6next_nclER3Rng10position_tI3RngERR5Steps" title="annex::range::next_n::operator()::Rng">Rng</a>&gt; <em>pos</em>, <a class="reference internal" href="#_CPPv2I_9RangeType0ENK5annex5range6next_nclER3Rng10position_tI3RngERR5Steps" title="annex::range::next_n::operator()::Steps">Steps</a> &amp;&amp;<em>steps</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I_9RangeType0ENK5annex5range6next_nclER3Rng10position_tI3RngERR5Steps" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is a <a class="reference internal" href="#bounds-checked">bounds-checked</a> function.</p>
+<p>Non-mutating counterpart of <a class="reference internal" href="#_CPPv2N5annex5range6incr_nE" title="annex::range::incr_n"><code class="xref cpp cpp-any docutils literal"><span class="pre">incr_n</span></code></a>.</p>
+<p>Equivalent to:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="n">incr_n</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">from</span><span class="p">,</span> <span class="n">to</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">forward</span><span class="o">&lt;</span><span class="n">Steps</span><span class="o">&gt;</span><span class="p">(</span><span class="n">steps</span><span class="p">));</span>
+<span class="k">return</span> <span class="n">pos</span><span class="p">;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="var">
+<dt id="_CPPv2N5annex5range6prev_nE">
+<span id="annex::range::prev_n__functors::prev_nCR"></span><em class="property">constexpr</em> functors::prev_n <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">prev_n</code><a class="headerlink" href="#_CPPv2N5annex5range6prev_nE" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="function">
+<dt>
+template&lt;typename <code class="descname">Ctx</code>, typename <code class="descname">Pos</code>, <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex17MoveConstructibleE" title="annex::MoveConstructible">MoveConstructible</a> <code class="descclassname"></code><code class="descname">Sent</code>, typename <code class="descname">Steps</code>&gt;</dt>
+<dt id="_CPPv2I00_17MoveConstructible0ENK5annex5range6prev_nclER3CtxR3PosR4Sent4SentRR5Steps">
+<em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I00_17MoveConstructible0ENK5annex5range6prev_nclER3CtxR3PosR4Sent4SentRR5Steps" title="annex::range::prev_n::operator()::Pos">Pos</a> <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I00_17MoveConstructible0ENK5annex5range6prev_nclER3CtxR3PosR4Sent4SentRR5Steps" title="annex::range::prev_n::operator()::Ctx">Ctx</a> &amp;<em>ctx</em>, <a class="reference internal" href="#_CPPv2I00_17MoveConstructible0ENK5annex5range6prev_nclER3CtxR3PosR4Sent4SentRR5Steps" title="annex::range::prev_n::operator()::Pos">Pos</a> <em class="property">const</em> &amp;<em>from</em>, <a class="reference internal" href="#_CPPv2I00_17MoveConstructible0ENK5annex5range6prev_nclER3CtxR3PosR4Sent4SentRR5Steps" title="annex::range::prev_n::operator()::Sent">Sent</a> <em class="property">const</em> &amp;<em>to</em>, <a class="reference internal" href="#_CPPv2I00_17MoveConstructible0ENK5annex5range6prev_nclER3CtxR3PosR4Sent4SentRR5Steps" title="annex::range::prev_n::operator()::Sent">Sent</a> <em>pos</em>, <a class="reference internal" href="#_CPPv2I00_17MoveConstructible0ENK5annex5range6prev_nclER3CtxR3PosR4Sent4SentRR5Steps" title="annex::range::prev_n::operator()::Steps">Steps</a> &amp;&amp;<em>steps</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I00_17MoveConstructible0ENK5annex5range6prev_nclER3CtxR3PosR4Sent4SentRR5Steps" title="Permalink to this definition">¶</a></dt>
+<dt>
+template&lt;RangeType <code class="descclassname"></code><code class="descname">Rng</code>, typename <code class="descname">Steps</code>&gt;</dt>
+<dt id="_CPPv2I_9RangeType0ENK5annex5range6prev_nclER3Rng10sentinel_tI3RngERR5Steps">
+<em class="property">constexpr</em> Pos <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I_9RangeType0ENK5annex5range6prev_nclER3Rng10sentinel_tI3RngERR5Steps" title="annex::range::prev_n::operator()::Rng">Rng</a> &amp;<em>rng</em>, <a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3CtxEEN5annex5range10sentinel_tE" title="annex::range::sentinel_t">sentinel_t</a>&lt;<a class="reference internal" href="#_CPPv2I_9RangeType0ENK5annex5range6prev_nclER3Rng10sentinel_tI3RngERR5Steps" title="annex::range::prev_n::operator()::Rng">Rng</a>&gt; <em>pos</em>, <a class="reference internal" href="#_CPPv2I_9RangeType0ENK5annex5range6prev_nclER3Rng10sentinel_tI3RngERR5Steps" title="annex::range::prev_n::operator()::Steps">Steps</a> &amp;&amp;<em>steps</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I_9RangeType0ENK5annex5range6prev_nclER3Rng10sentinel_tI3RngERR5Steps" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is a <a class="reference internal" href="#bounds-checked">bounds-checked</a> function.</p>
+<p>Non-mutating counterpart of <a class="reference internal" href="#_CPPv2N5annex5range6decr_nE" title="annex::range::decr_n"><code class="xref cpp cpp-any docutils literal"><span class="pre">decr_n</span></code></a>.</p>
+<p>Equivalent to:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="n">decr_n</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">from</span><span class="p">,</span> <span class="n">to</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">forward</span><span class="o">&lt;</span><span class="n">Steps</span><span class="o">&gt;</span><span class="p">(</span><span class="n">steps</span><span class="p">));</span>
+<span class="k">return</span> <span class="n">pos</span><span class="p">;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="var">
+<dt id="_CPPv2N5annex5range16unchecked_incr_nE">
+<span id="annex::range::unchecked_incr_n__functors::unchecked_incr_nCR"></span><em class="property">constexpr</em> functors::unchecked_incr_n <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">unchecked_incr_n</code><a class="headerlink" href="#_CPPv2N5annex5range16unchecked_incr_nE" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="function">
+<dt>
+ContextType{<code class="descname">Ctx</code>}</dt>
+<dt id="_CPPv2I0EX11ContextTypeI3CtxEENK5annex5range16unchecked_incr_nclER3CtxR10position_tI3CtxE14SignedIntegral">
+<em class="property">constexpr</em> void <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I0EX11ContextTypeI3CtxEENK5annex5range16unchecked_incr_nclER3CtxR10position_tI3CtxE14SignedIntegral" title="annex::range::unchecked_incr_n::operator()::Ctx">Ctx</a> &amp;<em>ctx</em>, <a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3CtxEEN5annex5range10position_tE" title="annex::range::position_t">position_t</a>&lt;<a class="reference internal" href="#_CPPv2I0EX11ContextTypeI3CtxEENK5annex5range16unchecked_incr_nclER3CtxR10position_tI3CtxE14SignedIntegral" title="annex::range::unchecked_incr_n::operator()::Ctx">Ctx</a>&gt; &amp;<em>pos</em>, <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex14SignedIntegralE" title="annex::SignedIntegral">SignedIntegral</a> <em>steps</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I0EX11ContextTypeI3CtxEENK5annex5range16unchecked_incr_nclER3CtxR10position_tI3CtxE14SignedIntegral" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterated incrementation or decrementation.</p>
+<p>If <em>steps</em> is non-negative, equivalent to calling <a class="reference internal" href="#_CPPv2N5annex5range4incrE" title="annex::range::incr"><code class="xref cpp cpp-any docutils literal"><span class="pre">incr(ctx,</span> <span class="pre">pos)</span></code></a> <em>steps</em>-times.</p>
+<p>If <em>steps</em> is negative and <a class="reference internal" href="#_CPPv2I0EX11ContextTypeI3CtxEENK5annex5range16unchecked_incr_nclER3CtxR10position_tI3CtxE14SignedIntegral" title="annex::range::unchecked_incr_n::operator()::Ctx"><code class="xref cpp cpp-any docutils literal"><span class="pre">Ctx</span></code></a> models <code class="xref cpp cpp-any docutils literal"><span class="pre">BidirectionalContextType</span></code>, equivalent to calling <a class="reference internal" href="#_CPPv2N5annex5range4decrE" title="annex::range::decr"><code class="xref cpp cpp-any docutils literal"><span class="pre">decr(ctx,</span> <span class="pre">pos)</span></code></a> <span class="math">\(|steps|\)</span>-times. No effect otherwise.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><a class="reference internal" href="#_CPPv2N5annex5range16unchecked_next_nE" title="annex::range::unchecked_next_n"><code class="xref cpp cpp-any docutils literal"><span class="pre">unchecked_next_n</span></code></a></dt>
+<dd>the non-mutating counterpart</dd>
+<dt><a class="reference internal" href="#_CPPv2N5annex5range6incr_nE" title="annex::range::incr_n"><code class="xref cpp cpp-any docutils literal"><span class="pre">incr_n</span></code></a>, <a class="reference internal" href="#_CPPv2N5annex5range6next_nE" title="annex::range::next_n"><code class="xref cpp cpp-any docutils literal"><span class="pre">next_n</span></code></a></dt>
+<dd>the counterparts that perform bounds-checking</dd>
+</dl>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Preconditions:</th><td class="field-body"><em>pos</em> must be able to be incremented (or decremented for negative <em>steps</em> with a
+<code class="xref cpp cpp-any docutils literal"><span class="pre">BidirectionalContextType</span></code>) the required number of <em>steps</em> (see the <a class="reference internal" href="#_CPPv2N5annex5range4incrE" title="annex::range::incr"><code class="xref cpp cpp-any docutils literal"><span class="pre">incr</span></code></a> and <a class="reference internal" href="#_CPPv2N5annex5range4decrE" title="annex::range::decr"><code class="xref cpp cpp-any docutils literal"><span class="pre">decr</span></code></a> preconditions)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Complexity:</th><td class="field-body">constant time for a <code class="xref cpp cpp-any docutils literal"><span class="pre">RandomAccessContextType</span></code>, linear time with respect to <em>steps</em> otherwise</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="var">
+<dt id="_CPPv2N5annex5range16unchecked_decr_nE">
+<span id="annex::range::unchecked_decr_n__functors::unchecked_decr_nCR"></span><em class="property">constexpr</em> functors::unchecked_decr_n <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">unchecked_decr_n</code><a class="headerlink" href="#_CPPv2N5annex5range16unchecked_decr_nE" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="function">
+<dt>
+ContextType{<code class="descname">Ctx</code>}</dt>
+<dt id="_CPPv2I0EX11ContextTypeI3CtxEENK5annex5range16unchecked_decr_nclER3CtxR10sentinel_tI3CtxE14SignedIntegral">
+<em class="property">constexpr</em> void <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I0EX11ContextTypeI3CtxEENK5annex5range16unchecked_decr_nclER3CtxR10sentinel_tI3CtxE14SignedIntegral" title="annex::range::unchecked_decr_n::operator()::Ctx">Ctx</a> &amp;<em>ctx</em>, <a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3CtxEEN5annex5range10sentinel_tE" title="annex::range::sentinel_t">sentinel_t</a>&lt;<a class="reference internal" href="#_CPPv2I0EX11ContextTypeI3CtxEENK5annex5range16unchecked_decr_nclER3CtxR10sentinel_tI3CtxE14SignedIntegral" title="annex::range::unchecked_decr_n::operator()::Ctx">Ctx</a>&gt; &amp;<em>pos</em>, <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex14SignedIntegralE" title="annex::SignedIntegral">SignedIntegral</a> <em>steps</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I0EX11ContextTypeI3CtxEENK5annex5range16unchecked_decr_nclER3CtxR10sentinel_tI3CtxE14SignedIntegral" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterated incrementation or decrementation.</p>
+<p>If <em>steps</em> is non-negative, equivalent to calling <a class="reference internal" href="#_CPPv2N5annex5range4decrE" title="annex::range::decr"><code class="xref cpp cpp-any docutils literal"><span class="pre">decr(ctx,</span> <span class="pre">pos)</span></code></a> <em>steps</em>-times.</p>
+<p>If <em>steps</em> is negative and <a class="reference internal" href="#_CPPv2I0EX11ContextTypeI3CtxEENK5annex5range16unchecked_decr_nclER3CtxR10sentinel_tI3CtxE14SignedIntegral" title="annex::range::unchecked_decr_n::operator()::Ctx"><code class="xref cpp cpp-any docutils literal"><span class="pre">Ctx</span></code></a> models <code class="xref cpp cpp-any docutils literal"><span class="pre">BidirectionalContextType</span></code>, equivalent to calling <a class="reference internal" href="#_CPPv2N5annex5range4incrE" title="annex::range::incr"><code class="xref cpp cpp-any docutils literal"><span class="pre">incr(ctx,</span> <span class="pre">pos)</span></code></a> <span class="math">\(|steps|\)</span>-times. No effect otherwise.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><a class="reference internal" href="#_CPPv2N5annex5range16unchecked_prev_nE" title="annex::range::unchecked_prev_n"><code class="xref cpp cpp-any docutils literal"><span class="pre">unchecked_prev_n</span></code></a></dt>
+<dd>the non-mutating counterpart</dd>
+<dt><a class="reference internal" href="#_CPPv2N5annex5range6decr_nE" title="annex::range::decr_n"><code class="xref cpp cpp-any docutils literal"><span class="pre">decr_n</span></code></a>, <a class="reference internal" href="#_CPPv2N5annex5range6prev_nE" title="annex::range::prev_n"><code class="xref cpp cpp-any docutils literal"><span class="pre">prev_n</span></code></a></dt>
+<dd>the counterparts that perform bounds-checking</dd>
+</dl>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Preconditions:</th><td class="field-body"><em>pos</em> must be able to be decremented (or incremented for negative <em>steps</em> with a
+<code class="xref cpp cpp-any docutils literal"><span class="pre">BidirectionalContextType</span></code>) the required number of <em>steps</em> (see the <a class="reference internal" href="#_CPPv2N5annex5range4decrE" title="annex::range::decr"><code class="xref cpp cpp-any docutils literal"><span class="pre">decr</span></code></a> and <a class="reference internal" href="#_CPPv2N5annex5range4incrE" title="annex::range::incr"><code class="xref cpp cpp-any docutils literal"><span class="pre">incr</span></code></a> preconditions)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Complexity:</th><td class="field-body">constant time for a <code class="xref cpp cpp-any docutils literal"><span class="pre">RandomAccessContextType</span></code>, linear time with respect to <em>steps</em> otherwise</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="var">
+<dt id="_CPPv2N5annex5range16unchecked_next_nE">
+<span id="annex::range::unchecked_next_n__functors::unchecked_next_nCR"></span><em class="property">constexpr</em> functors::unchecked_next_n <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">unchecked_next_n</code><a class="headerlink" href="#_CPPv2N5annex5range16unchecked_next_nE" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="function">
+<dt>
+template&lt;typename <code class="descname">Ctx</code>, <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex17MoveConstructibleE" title="annex::MoveConstructible">MoveConstructible</a> <code class="descclassname"></code><code class="descname">Pos</code>, typename <code class="descname">Steps</code>&gt;</dt>
+<dt id="_CPPv2I0_17MoveConstructible0ENK5annex5range16unchecked_next_nclER3Ctx3PosRR5Steps">
+<em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I0_17MoveConstructible0ENK5annex5range16unchecked_next_nclER3Ctx3PosRR5Steps" title="annex::range::unchecked_next_n::operator()::Pos">Pos</a> <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I0_17MoveConstructible0ENK5annex5range16unchecked_next_nclER3Ctx3PosRR5Steps" title="annex::range::unchecked_next_n::operator()::Ctx">Ctx</a> &amp;<em>ctx</em>, <a class="reference internal" href="#_CPPv2I0_17MoveConstructible0ENK5annex5range16unchecked_next_nclER3Ctx3PosRR5Steps" title="annex::range::unchecked_next_n::operator()::Pos">Pos</a> <em>pos</em>, <a class="reference internal" href="#_CPPv2I0_17MoveConstructible0ENK5annex5range16unchecked_next_nclER3Ctx3PosRR5Steps" title="annex::range::unchecked_next_n::operator()::Steps">Steps</a> &amp;&amp;<em>steps</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I0_17MoveConstructible0ENK5annex5range16unchecked_next_nclER3Ctx3PosRR5Steps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-mutating counterpart of <a class="reference internal" href="#_CPPv2N5annex5range16unchecked_incr_nE" title="annex::range::unchecked_incr_n"><code class="xref cpp cpp-any docutils literal"><span class="pre">unchecked_incr_n</span></code></a>.</p>
+<p>Equivalent to:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="n">unchecked_incr_n</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">forward</span><span class="o">&lt;</span><span class="n">Steps</span><span class="o">&gt;</span><span class="p">(</span><span class="n">steps</span><span class="p">));</span>
+<span class="k">return</span> <span class="n">pos</span><span class="p">;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="var">
+<dt id="_CPPv2N5annex5range16unchecked_prev_nE">
+<span id="annex::range::unchecked_prev_n__functors::unchecked_prev_nCR"></span><em class="property">constexpr</em> functors::unchecked_prev_n <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">unchecked_prev_n</code><a class="headerlink" href="#_CPPv2N5annex5range16unchecked_prev_nE" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="function">
+<dt>
+template&lt;typename <code class="descname">Ctx</code>, <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex17MoveConstructibleE" title="annex::MoveConstructible">MoveConstructible</a> <code class="descclassname"></code><code class="descname">Pos</code>, typename <code class="descname">Steps</code>&gt;</dt>
+<dt id="_CPPv2I0_17MoveConstructible0ENK5annex5range16unchecked_prev_nclER3Ctx3PosRR5Steps">
+<em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I0_17MoveConstructible0ENK5annex5range16unchecked_prev_nclER3Ctx3PosRR5Steps" title="annex::range::unchecked_prev_n::operator()::Pos">Pos</a> <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I0_17MoveConstructible0ENK5annex5range16unchecked_prev_nclER3Ctx3PosRR5Steps" title="annex::range::unchecked_prev_n::operator()::Ctx">Ctx</a> &amp;<em>ctx</em>, <a class="reference internal" href="#_CPPv2I0_17MoveConstructible0ENK5annex5range16unchecked_prev_nclER3Ctx3PosRR5Steps" title="annex::range::unchecked_prev_n::operator()::Pos">Pos</a> <em>pos</em>, <a class="reference internal" href="#_CPPv2I0_17MoveConstructible0ENK5annex5range16unchecked_prev_nclER3Ctx3PosRR5Steps" title="annex::range::unchecked_prev_n::operator()::Steps">Steps</a> &amp;&amp;<em>steps</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I0_17MoveConstructible0ENK5annex5range16unchecked_prev_nclER3Ctx3PosRR5Steps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-mutating counterpart of <a class="reference internal" href="#_CPPv2N5annex5range16unchecked_decr_nE" title="annex::range::unchecked_decr_n"><code class="xref cpp cpp-any docutils literal"><span class="pre">unchecked_decr_n</span></code></a>.</p>
+<p>Equivalent to:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="n">unchecked_decr_n</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">forward</span><span class="o">&lt;</span><span class="n">Steps</span><span class="o">&gt;</span><span class="p">(</span><span class="n">steps</span><span class="p">));</span>
+<span class="k">return</span> <span class="n">pos</span><span class="p">;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="motivation.html">Motivation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scope.html">Scope</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="reference.html">Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="concepts.html">Concepts</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Operations &amp; functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#operations">Operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#functions">Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="sources.html">Sources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="consumers.html">Consumers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transformations.html">Transformations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="compositions.html">Compositions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arrangements.html">Arrangements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common.html">Common</a></li>
+<li class="toctree-l2"><a class="reference internal" href="annex.html">Annex quick reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference.html#how-to-read-the-reference">How to read the reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="open_questions.html">Open questions</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="concepts.html"
+                        title="previous chapter">Concepts</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="sources.html"
+                        title="next chapter">Sources</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/operations.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="sources.html" title="Sources"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="concepts.html" title="Concepts"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">annex-range 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="reference.html" >Reference</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, mickk.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5a0.
+    </div>
+  </body>
+</html>

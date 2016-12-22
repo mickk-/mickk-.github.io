@@ -1,0 +1,32 @@
+Consumers
+=========
+
+There are various ways to make use of a `Range`. They are overall referred to as *consumers* and can be distinguished by
+the various situations in which ranges are meant to be used:
+
+In range-based for statements
+-----------------------------
+
+.. include:: /autodoc/base/loop.txt
+
+.. _collects:
+
+Into a container
+----------------
+
+.. include:: /autodoc/consumer/collect.txt
+
+Compatibility with iterator code
+--------------------------------
+
+.. include:: /autodoc/base/range_iterator.txt
+
+Algorithms
+----------
+
+.. _folds:
+
+Folds
+^^^^^
+
+.. include:: /autodoc/consumer/fold.txt

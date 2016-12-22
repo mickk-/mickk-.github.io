@@ -1,0 +1,197 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Open questions &#8212; annex-range 0.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="annex-range 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="Glossary" href="glossary.html" />
+    <link rel="prev" title="Annex quick reference" href="annex.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="glossary.html" title="Glossary"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="annex.html" title="Annex quick reference"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">annex-range 0.1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="open-questions">
+<h1>Open questions<a class="headerlink" href="#open-questions" title="Permalink to this headline">¶</a></h1>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This part of the documentation is not up-to-speed. It is more of a collection of notes that needs to be written up
+into proper discourse than anything.</p>
+</div>
+<div class="section" id="double-ended-ranges">
+<h2>Double-ended ranges<a class="headerlink" href="#double-ended-ranges" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="difference-type">
+<h2>Difference type<a class="headerlink" href="#difference-type" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="saving">
+<h2>Saving<a class="headerlink" href="#saving" title="Permalink to this headline">¶</a></h2>
+<p>Currently saving (i.e. <a class="reference internal" href="operations.html#_CPPv2N5annex5range4saveE" title="annex::range::save"><code class="xref cpp cpp-any docutils literal"><span class="pre">save</span></code></a>) is defined as an operation on <a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3CtxEEN5annex5range7ContextE" title="annex::range::Context"><code class="xref cpp cpp-any docutils literal"><span class="pre">Context</span></code></a>s, as all operations are. This allows <a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a> to
+remain a simplistic concept, leaving the bulk of the cognitive load for the <a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3CtxEEN5annex5range7ContextE" title="annex::range::Context"><code class="xref cpp cpp-any docutils literal"><span class="pre">Context</span></code></a>s. However, upon closer
+examination it turns out that <a class="reference internal" href="operations.html#_CPPv2N5annex5range4saveE" title="annex::range::save"><code class="xref cpp cpp-any docutils literal"><span class="pre">save</span></code></a> takes a <a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3CtxEEN5annex5range7ContextE" title="annex::range::Context"><code class="xref cpp cpp-any docutils literal"><span class="pre">Context</span></code></a> and two delimiting positions as its arguments. In other words,
+it&#8217;s an operation that takes a <a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a> and returns a <a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a>. The factors at play here:</p>
+<ol class="arabic simple">
+<li>we have a <a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a> concept rather than one family of concrete types (i.e. the actual, triple-like
+<code class="xref cpp cpp-any docutils literal"><span class="pre">bounded_context&lt;Ctx&gt;</span></code> in use in the library), which allows a range provider to provide additional functionality.
+we only take advantage of that for <a class="reference internal" href="sources.html#_CPPv2I0EX8IterableI4IterEEN5annex5range15container_rangeE" title="annex::range::container_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">container_range</span></code></a>, which has always been a tricky and special case due to
+burdensome iterator invalidation rules.</li>
+<li>we have to reconcile the fact that a single-pass <a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a> has move-only positions to catch mistakes with the fact that
+even such a range may have its iteration state preserved (see <a class="reference internal" href="concepts.html#copy-save"><span class="std std-ref">Ranges and copying/moving</span></a> and <a class="reference internal" href="sources.html#_CPPv2N5annex5range8generateE" title="annex::range::generate"><code class="xref cpp cpp-any docutils literal"><span class="pre">generate</span></code></a> for an example).</li>
+</ol>
+<p>Factor 1 could be mitigated by the introduction of mandatory elision in C++17 which could allow <a class="reference internal" href="sources.html#_CPPv2I0EX8IterableI4IterEEN5annex5range15container_rangeE" title="annex::range::container_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">container_range</span></code></a> to be
+a <code class="xref cpp cpp-any docutils literal"><span class="pre">bounded_context</span></code> on the one hand, and as long as we are reasonably confident that any additional functionality that
+range providers would want to implement would belong with the <a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3CtxEEN5annex5range7ContextE" title="annex::range::Context"><code class="xref cpp cpp-any docutils literal"><span class="pre">Context</span></code></a>.</p>
+<p>The price to pay is additional cognitive load (<code class="xref cpp cpp-any docutils literal"><span class="pre">save_t</span></code>) and verbosity:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">Ctx</span><span class="o">&gt;</span>
+<span class="n">bounded_context</span><span class="o">&lt;</span><span class="n">Ctx</span><span class="o">&gt;</span> <span class="n">example</span><span class="p">(</span><span class="n">bounded_context</span><span class="o">&lt;</span><span class="n">Ctx</span><span class="o">&gt;</span> <span class="n">rng</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">auto</span><span class="o">&amp;&amp;</span> <span class="p">[</span><span class="n">ctx</span><span class="p">,</span> <span class="n">from</span><span class="p">,</span> <span class="n">to</span><span class="p">]</span> <span class="o">=</span> <span class="n">rng</span><span class="p">;</span>
+
+    <span class="c1">// naive, but incorrect</span>
+    <span class="c1">// the result type of save is some Range, not necessarily bounded_context&lt;Ctx&gt;</span>
+    <span class="c1">// bounded_context&lt;Ctx&gt; copy = save(ctx, from, to);</span>
+    <span class="k">auto</span> <span class="n">copy</span> <span class="o">=</span> <span class="n">save</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">from</span><span class="p">,</span> <span class="n">to</span><span class="p">);</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="n">flip_coin</span><span class="p">())</span> <span class="p">{</span>
+        <span class="c1">// fine</span>
+        <span class="k">return</span> <span class="n">rng</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="c1">// type mismatch again</span>
+        <span class="c1">// return copy;</span>
+
+        <span class="c1">// so we re-package into a bounded_context</span>
+        <span class="k">auto</span><span class="o">&amp;&amp;</span> <span class="p">[</span><span class="n">ctx</span><span class="p">,</span> <span class="n">from</span><span class="p">,</span> <span class="n">to</span><span class="p">]</span> <span class="o">=</span> <span class="n">copy</span><span class="p">;</span>
+        <span class="k">return</span> <span class="p">{</span> <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">ctx</span><span class="p">),</span> <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">from</span><span class="p">),</span> <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">to</span><span class="p">)</span> <span class="p">};</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The above situation (inspired from actual code) may in fact be leading us to a bridge-gap solution. Namely, Leave the
+operation implementation to contexts but let the user-facing <a class="reference internal" href="operations.html#_CPPv2N5annex5range4saveE" title="annex::range::save"><code class="xref cpp cpp-any docutils literal"><span class="pre">save</span></code></a> function to work on ranges:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="k">struct</span> <span class="n">save</span> <span class="p">{</span>
+    <span class="n">RangeType</span><span class="p">{</span><span class="n">Rng</span><span class="p">}</span>
+    <span class="k">constexpr</span> <span class="n">Rng</span> <span class="k">operator</span><span class="p">()(</span><span class="n">Rng</span><span class="o">&amp;&amp;</span> <span class="n">rng</span><span class="p">)</span> <span class="k">const</span>
+    <span class="p">{</span>
+        <span class="k">auto</span><span class="o">&amp;&amp;</span> <span class="p">[</span><span class="n">ctx</span><span class="p">,</span> <span class="n">from</span><span class="p">,</span> <span class="n">to</span><span class="p">]</span> <span class="o">=</span> <span class="n">dispatch_to_save_implementation</span><span class="p">(</span><span class="n">rng</span><span class="p">.</span><span class="n">context</span><span class="p">,</span> <span class="n">rng</span><span class="p">.</span><span class="n">from</span><span class="p">,</span> <span class="n">rng</span><span class="p">.</span><span class="n">to</span><span class="p">);</span>
+        <span class="c1">// N.B.</span>
+        <span class="k">return</span> <span class="p">{</span> <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">ctx</span><span class="p">),</span> <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">from</span><span class="p">),</span> <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">to</span><span class="p">)</span> <span class="p">};</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>This would imply adding a requirement to <a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a> that its models must be constructible from a context and two delimiting
+positions of appropriate types in some fashion in order for the return statement above to be meaningful. This may be a
+lesser evil.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="motivation.html">Motivation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scope.html">Scope</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">Reference</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Open questions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#double-ended-ranges">Double-ended ranges</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#difference-type">Difference type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#saving">Saving</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="annex.html"
+                        title="previous chapter">Annex quick reference</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="glossary.html"
+                        title="next chapter">Glossary</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/open_questions.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="glossary.html" title="Glossary"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="annex.html" title="Annex quick reference"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">annex-range 0.1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, mickk.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5a0.
+    </div>
+  </body>
+</html>

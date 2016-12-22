@@ -1,0 +1,72 @@
+Open questions
+==============
+
+.. warning:: |write-up|
+
+Double-ended ranges
+-------------------
+
+Difference type
+---------------
+
+Saving
+------
+
+Currently saving (i.e. `save`) is defined as an operation on `Context`\s, as all operations are. This allows `Range` to
+remain a simplistic concept, leaving the bulk of the cognitive load for the `Context`\s. However, upon closer
+examination it turns out that `save` takes a `Context` and two delimiting positions as its arguments. In other words,
+it's an operation that takes a `Range` and returns a `Range`. The factors at play here:
+
+#. we have a `Range` concept rather than one family of concrete types (i.e. the actual, triple-like
+   `bounded_context\<Ctx\>` in use in the library), which allows a range provider to provide additional functionality.
+   we only take advantage of that for `container_range`, which has always been a tricky and special case due to
+   burdensome iterator invalidation rules.
+
+#. we have to reconcile the fact that a single-pass `Range` has move-only positions to catch mistakes with the fact that
+   even such a range may have its iteration state preserved (see :ref:`copy-save` and `generate` for an example).
+
+Factor 1 could be mitigated by the introduction of mandatory elision in C++17 which could allow `container_range` to be
+a `bounded_context` on the one hand, and as long as we are reasonably confident that any additional functionality that
+range providers would want to implement would belong with the `Context`.
+
+The price to pay is additional cognitive load (`save_t`) and verbosity::
+
+    template<typename Ctx>
+    bounded_context<Ctx> example(bounded_context<Ctx> rng)
+    {
+        auto&& [ctx, from, to] = rng;
+
+        // naive, but incorrect
+        // the result type of save is some Range, not necessarily bounded_context<Ctx>
+        // bounded_context<Ctx> copy = save(ctx, from, to);
+        auto copy = save(ctx, from, to);
+
+        if(flip_coin()) {
+            // fine
+            return rng;
+        } else {
+            // type mismatch again
+            // return copy;
+
+            // so we re-package into a bounded_context
+            auto&& [ctx, from, to] = copy;
+            return { std::move(ctx), std::move(from), std::move(to) };
+        }
+    }
+
+The above situation (inspired from actual code) may in fact be leading us to a bridge-gap solution. Namely, Leave the
+operation implementation to contexts but let the user-facing `save` function to work on ranges::
+
+    struct save {
+        RangeType{Rng}
+        constexpr Rng operator()(Rng&& rng) const
+        {
+            auto&& [ctx, from, to] = dispatch_to_save_implementation(rng.context, rng.from, rng.to);
+            // N.B.
+            return { std::move(ctx), std::move(from), std::move(to) };
+        }
+    };
+
+This would imply adding a requirement to `Range` that its models must be constructible from a context and two delimiting
+positions of appropriate types in some fashion in order for the return statement above to be meaningful. This may be a
+lesser evil.

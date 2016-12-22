@@ -1,0 +1,13 @@
+Arrangements
+============
+
+A variable and not necessarily finite number of ranges, typically in the guise of a `Traversable` of ranges, can be
+arranged together to form a new range. This is to be contrasted with :doc:`compositions`, where a fixed and finite
+number of ranges gives rise to a new range. Some arrangements have a composition counterpart.
+
+flatten
+~~~~~~~
+.. include:: /autodoc/arrangement/flatten.txt
+
+.. transpose
+.. ~~~~~~~~~

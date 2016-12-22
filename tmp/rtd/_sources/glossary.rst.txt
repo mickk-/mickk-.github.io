@@ -1,0 +1,21 @@
+Glossary
+========
+
+.. warning:: |write-up|
+
+.. glossary::
+    simple model
+        A model of a given concept 'without surprises' and defined according to certain conventions described in
+        :ref:`simple-model`.
+
+    function
+        A function-like constant object or constant template. Described in :ref:`function`.
+
+    range function
+        A :term:`function` which produces a model of `Range`.
+
+    strict range
+        A `Range` which fulfils all complexity requirements.
+
+    lax range
+        A `Range` which fulfils all complexity requirements, but only in an amortised manner.

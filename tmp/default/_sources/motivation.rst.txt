@@ -1,0 +1,331 @@
+Motivation
+==========
+
+Self-contained range abstractions are a staple feature of programming languages as seen with `Python iterators`_, `D
+ranges`_, `Rust iterators`_, or `C# enumerators`_. In C++ however the closest analogue concepts of `iterators`_ have
+been found wanting at times.
+
+This library is a tabula rasa approach at the problems that range abstractions aim to solve, with the double goal of
+producing a defense of position-based ranges as well as a practically-minded API.
+
+.. _Python iterators: https://docs.python.org/3/library/stdtypes.html#typeiter
+.. _D ranges: https://dlang.org/phobos/std_range.html
+.. _Rust iterators: https://doc.rust-lang.org/std/iter/index.html
+.. _C# enumerators: https://msdn.microsoft.com/en-us/library/78dfe2yb%28v=vs.110%29.aspx
+.. _iterators: http://en.cppreference.com/w/cpp/concept/Iterator
+
+Iteration
+---------
+
+The problem that range abstractions tackle is that of iteration over a given notional and abstract sequence. 'Notional
+and abstract' means that the sequence need not explicitly and concretely live inside the program, as in the following::
+
+    // iterate over 0, 1, 2, 3, 4
+    for(int i = 0; i != 5; ++i) {
+        // use i
+    }
+
+In the above the abstract sequence of numbers from 0 to 5 exclusive doesn't exist e.g. as numbers in memory, but is
+instead implicitly encoded in the program structure and control flow (namely the ``for`` loop and its *i* variable).
+
+Practical range abstractions aim to make it possible and convenient to represent, compose, and consume such sequences.
+
+.. _external-iteration:
+
+Internal and external iteration
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+There is a distinction to be made between so-called internal and external iteration. This is an interesting topic in
+itself but to keep things short it suffices to say that this library concerns itself with external iteration. This is
+the same as existing C++ iterators as well as Python iterators, D ranges, Rust iterators, and C# enumerators. Techniques
+to turn internal iteration into external iteration or vice versa are for the most part outside of the scope of this
+library (but see `coro`).
+
+More can be learned on the subject from the very informative `Iteration Inside and Out`_ series of posts by Bob Nystrom.
+
+.. _Iteration Inside and Out: http://journal.stuffwithstuff.com/2013/01/13/iteration-inside-and-out/
+
+The users
+---------
+
+When evaluating the merits and shortcomings of a range abstraction, it's not often made explicit who are its users and
+how it is intended they use the abstraction. This library considers two types of users:
+
+* range implementers, who write code that provides instances or models that conform to the range abstraction
+* end users, who write code that uses and consumes those instances
+
+It is the author's opinion that most range abstractions put too much emphasis on end users, with the net result that
+implementing a model of a range is considered somewhat of an expert's task. This approach makes sense when a range
+library aims to be as complete as possible, with the expectation that end users will pick and choose the right tools
+from the library to match their needs. Furthermore if end users are also expected to outnumber expert implementers then
+putting the burden on experts makes sense, resulting in an economy of complexity.
+
+On the other hand it is also the author's opinion and experience that aiming for completeness is a tall order as the
+need for new kinds of range frequently arises in end-user code. When existing libraries cannot fulfil that need this
+leads to a a frustrating situation where the end users either have to use shortcuts or enlist the help of experts,
+rather than tackle their need by writing a range themselves.
+
+Conversely it is also the author's opinion that if a range library wants to be as complete as possible, then we should
+lend to the range implementers as much consideration as we do to end users. The easier it is to implement a range, the
+faster the features land.
+
+Iterator shortcomings
+---------------------
+
+The need for a solution that starts from scratch rather than an iterative improvement on top of the pre-existing
+iterator abstraction is best illustrated by a handful of examples. Consider the problem of iterating over only those
+elements of a sequence that satisfy a predicate, oftentimes known as filtering::
+
+    auto iterable = ...;
+    auto pred     = ...;
+    for(auto& elem: iterable) {
+        if(pred(elem)) {
+            // use the element
+        }
+    }
+
+The use of the predicate in the loop code makes it obvious that any iterator solution will need to somehow store *pred*
+in order to use it for filtering. That leaves us faced with unsavoury design decisions:
+
+- Storing predicate copies in the iterator objects themselves requires the predicate to be copyable, not allowing for
+  move-only predicates since iterators must be copyable. Furthermore, copyable implies copy assignable whereas closure
+  objects (the values of lambda expressions) are popular function objects that may be copy constructible, but are not
+  even move assignable. The latter obstacle can be overcome, but at the cost of additional burden to range implementers.
+
+  Compounding this is the fact that iterators are meant to be used in pairs at the very least, leaving us with redundant
+  copies when there are two predicate copies per iterator pair where one predicate would be enough. Relaxing iterator
+  pairs to have possibly heterogeneous types looks like a possible remedy to this problem::
+
+      auto iterable = ...;
+      auto pred     = ...;
+      auto first    = make_filter_iterator(std::move(pred), iterable);
+      // N.B. we don't need a pred copy here
+      auto last     = make_filter_sentinel();
+      for(; first != last; ++first) {
+          // use *first
+      }
+
+  A shortcoming of this solution is that we've effectively enforced that filtering results in a forward-traversal only
+  scenario, since we cannot decrement *last* without having access to the predicate. The original loop code could
+  handle this case::
+
+      auto iterable = ...;
+      auto pred     = ...;
+
+      auto first = begin(iterable);
+      auto last  = end(iterable);
+      for(; first != last; --last) {
+          auto&& elem = *std::prev(last);
+          if(pred(elem)) {
+              // use the element
+          }
+      }
+
+  In other words, this solution makes it impossible to use a filter range with a bidirectional algorithm.
+
+- Storing a shallow reference to the predicate can prevent code from returning down iterators::
+
+      auto client(auto const& iterable)
+      {
+          auto pred = [](int elem) { return (elem % 2) == 0; };
+          // result will outlive pred!
+          return make_filter_iterable(pred, iterable);
+      }
+
+- Storing a smart pointer to the predicate requires memory allocation, which we didn't in the loop version.
+
+Self-contained range shortcomings
+---------------------------------
+
+Andrei Alexandrescu's `Iterators Must Go`_ keynote and `On Iteration`_ article draw their own lists of criticisms of the
+C++ iterator ecosystem and suggest self-contained ranges as a superior alternative. This paved the way for for D ranges
+and Rust iterators. If we apply Alexandrescu's insights to filtering, we can immediately notice that the problems we had
+before don't manifest::
+
+    auto rng    = ...;
+    auto pred   = ...;
+
+    {
+        auto result = filter(pred, rng);
+        for(; !result.empty(); result.popFront()) {
+                // use result.front()
+        }
+    }
+
+    {
+        // we are not limited to forward-only traversal
+        auto result = filter(pred, rng);
+        for(; !result.empty(); result.popBack()) {
+            // use result.back()
+        }
+    }
+
+    return filter(std::move(pred), std::move(rng));
+
+That is, the resulting ranges of calls to *filter* each store their own copy of the argument predicate without
+compromising traversal capabilities or the the ability to return range objects down to a caller. As for assignment, we
+could choose to give semantics of the whole range object in terms of its underlying parts (which naturally extends to
+construction and move semantics)::
+
+    auto result = filter(pred, rng);
+    auto result_copy = result;
+    // both as valid as:
+    auto predicate_copy = pred;
+    auto rng_copy = rng;
+
+    result = filter(pred, rng);
+    result_copy = result;
+    // both as valid as:
+    predicate_copy = pred;
+    rng_copy = rng;
+
+    // similarly for construction & assignment involving moves
+
+Unfortunately as we dig deeper we will see familiar demons rear their ugly heads again.
+
+How self-contained are double-ended and random-access ranges really?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+A strong premise of Alexandrescu-style ranges is that self-contained objects are harder to misuse than pair of
+iterators. This leads to the following formulation for double-ended ranges (in C++ pseudo-code)::
+
+    template<typename Rng>
+    concept bool AlexandrescuDoubleEndedRange = requires(Rng rng) {
+        // a double-ended range is a forward range
+        { rng.empty() } -> ContextualBool;
+        rng.front();
+        rng.popFront();
+
+        // double-ended  operations proper
+        rng.back(); // same type as the front
+        rng.popBack();
+    };
+
+In the original Alexandrescu article these were called bidirectional ranges, as a counterpart to C++-style bidirectional
+iterators. However it should be noted that on their own these two concepts are not equivalent: a bidirectional iterator
+can be moved some steps in one direction, then another number of steps back in the other directions (preconditions
+permitting). A self-contained range can only be shrunk at either end and there is no 'going back'. While in D these are
+called `bidirectional ranges`_ taking after the article, the Rust equivalent is called the `double-ended iterator`_
+[#double-ended]_. To avoid confusion we settle on double-ended terminology as well from now on, distinct from true
+bidirectional traversal.
+
+.. _bidirectional ranges: https://dlang.org/phobos/std_range_primitives.html#isBidirectionalRange
+
+.. _double-ended iterator: https://doc.rust-lang.org/stable/std/iter/trait.DoubleEndedIterator.html
+
+Since Alexandrescu also introduces the concept of ranges which iteration state can be saved, it appears that on the
+surface the actual equivalent to C++-style bidirectional iterators are double-ended ranges that also support saving.
+This equivalency does not lend itself well to code however::
+
+    auto it = ...;
+
+    // performs ++it 5 times
+    advance(it, 5);
+
+    // use it
+
+    // circumstances may dictate that we step back to where we were earlier
+    if(cond) {
+        advance(it, -3);
+    }
+
+Translated to double-ended ranges, we end up with::
+
+    auto rng  = ...;
+
+    auto checkpoint = rng;
+    // performs rng.popFront() 5 times
+    advance(rng, 5);
+
+    // use rng
+
+    if(cond) {
+        advance(checkpoint, 5 - 3);
+        rng = std::move(checkpoint);
+    }
+
+With self-contained ranges, the programmer has to plan for and keep track of checkpoints ahead of of the bidirectional
+code that will need them to restore ranges to one of their past states. Consider now a pair of bidirectional iterators
+further subdivided into 3 subranges::
+
+    // invariant: [start, stop) is the whole original range
+    auto rng = ...;
+    auto start = begin(rng);
+    auto stop  = end(rng);
+    // notional distance of the range
+    // auto const n = distance(start, stop);
+
+    // invariant: [start, first_sub_stop) is the first subrange
+    auto first_sub_stop = next(start, i);
+
+    // invariant: [first_sub_stop, second_sub_stop) is the second subrange
+    auto second_sub_stop = next(first_sub_stop, j - i);
+
+    // invariant: [second_sub_stop, stop) is the third subrange
+    // invariant: 0 <= i <= j <= n
+
+This program fragment is a good demonstration of what bidirectional C++ iterators can do. While setting up the subrange
+delimiters can be a costly operation in that it has linear time complexity with respect to range distance :math:`n`,
+it's not impossible or unusual that it is done in one single pass. Crucially, once those subdelimiters are computed they
+can be adjusted very conveniently. For instance ``--first_sub_stop`` will at once shrink the first subrange from the end
+while expanding the second subrange at the start. Provided that pre-conditions are met (i.e. :math:`i` is non-null) all
+program invariants are preserved.
+
+Is there an equivalent to this fragment but with D-style saveable, double-ended ranges? How hard would it be to adjust
+the subranges after their initial setup? And finally, there is something very telling with the following::
+
+    auto pred = ...;
+    auto rng  = ...;
+
+    // Alexandrescu-style filter range
+    auto filtered = filter(std::move(pred), std::move(rng));
+
+    auto first_subrange  = compute_first_subrange(filtered, ...);
+    auto second_subrange = compute_second_subrange(...);
+    auto third_subrange  = compute_third_subrdang(...);
+
+If the subranges are computed by saving *filtered*, that means they each have their own copy of *pred* (the one that was
+moved into *filtered*) for a total of 4 copies! That's just as much as the iterator version would have, namely a copy
+for each of *start*, *first_sub_stop*, *second_sub_stop*, and *stop*. In other words the Alexandrescu approach really is
+self-contained for the common scenario of a range from start to end, but that self-containment breaks down when a range
+needs to be subdivided further.
+
+Random-access ranges [#random-access]_ expose this breakdown very explicitly::
+
+    AlexandrescuDoubleEndedRange{Rng}
+    concept bool AlexandrescuRandomAccessRange = requires(Rng rng) {
+        // extremely simplified
+        rng[0]; // same type as front() and back()
+    };
+
+That is, elements can be accessed using integral offsets. Since integral offsets can be incremented or decremented by
+nearly arbitrary amounts, Alexandrescu-style random-access ranges are not very different from pairs of random-access
+iterators.
+
+.. [#double-ended] Rust uses 'iterator' in its terminology but does use and implement Alexandrescu-style self-contained
+  ranges, not C++-style iterators
+
+.. [#random-access] the random-access ranges and iterators that D and Rust ended up defining differ slightly from Andrei
+  Alexandrescu's original formulation, the strawman C++ concept here is closer to the former than to the latter
+
+A hybrid approach
+-----------------
+
+Two concerns have dominated the discussion so far:
+
+- The need to package related information together in one object (e.g. the filtering predicate of a filtering range).
+  This concern is oriented around construction and argument passing, including copy semantics ('saving' in Alexandrescu
+  terminology). Correct lifetime semantics is a staple of C++ programming that is not as readily alleviated as it can be
+  in another language. Garbage collection can give great mileage to double-ended ranges together with range saving, but
+  that is not an option here.
+
+- The need to maintain functionality parity with iterators, in particular with regards to bidirectional and
+  random-access algorithms.
+
+This library aims to defend and implement a dual interface approach, with a self-contained range object concept that
+comes with individual position objects. End users need only be concerned with an interface that deals in self-contained
+ranges, while range implementers will focus on the position interfaces.
+
+.. _Iterators Must Go: https://accu.org/content/conf2009/AndreiAlexandrescu_iterators-must-go.pdf
+
+.. _On Iteration: http://www.informit.com/articles/printerfriendly/1407357
