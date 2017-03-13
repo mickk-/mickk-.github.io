@@ -1,6 +1,8 @@
 Operations & functions
 ======================
 
+All operations and accompanying functions are provided by :file:`annex/range/range.hpp`.
+
 Operations
 ~~~~~~~~~~
 
@@ -8,6 +10,7 @@ Operations are the fundamental functionality that models of `Context` and its re
 otherwise specified, each operation has constant-time complexity with respect to the number of notional elements of the
 underlying range.
 
+.. _lax:
 .. rubric:: Strict and lax ranges
 .. warning:: |experimental-feature|
 
@@ -19,9 +22,7 @@ only fulfil these requirements in an amortised manner are known as *lax* ranges.
 
 .. namespace:: ::annex::range
 
-.. |non-singular| replace:: *pos* must not be past-the-end.
-.. |reads| replace:: `peek_at` and `peek_before` are the non-destructive reads, while `at` and `before` are the
-    potentially destructive variants.
+.. |non-past-the-end| replace:: *pos* must not be past-the-end.
 
 .. var:: constexpr functors::equal_pos const& equal_pos
 
@@ -36,10 +37,11 @@ only fulfil these requirements in an amortised manner are known as *lax* ranges.
         Non-destructively read element at *pos*. Repeated peeks at the same position must have identical results,
         unless separated by a potentially destructive read.
 
-        |reads|
-
         :preconditions:
-            |non-singular|
+            |non-past-the-end|
+
+        :seealso:
+            `at`: potentially destructive variant
 
 .. var:: constexpr functors::at const& at
 
@@ -49,10 +51,11 @@ only fulfil these requirements in an amortised manner are known as *lax* ranges.
         yield a different result (e.g. a moved-from value). Nonetheless all reads must result in defined behavior as
         long as preconditions are satisfied.
 
-        |reads|
-
         :preconditions:
-            |non-singular|
+            |non-past-the-end|
+
+        :seealso:
+            `peek_at`: non-destructive variant
 
 .. var:: constexpr functors::incr const& incr
 
@@ -65,42 +68,17 @@ only fulfil these requirements in an amortised manner are known as *lax* ranges.
               the non-mutating counterpart
 
         :preconditions:
-            |non-singular|
+            |non-past-the-end|
 
-.. _double-ended-operations:
-.. rubric:: `DoubleEndedContext` operations
-
-.. var:: constexpr functors::peek_before const& peek_before
-
-    .. function:: Types{Ctx, Sent} constexpr auto operator()(Ctx& ctx, Sent const& sent) const
-
-        Non-destructively read element before *sent*. Repeated peeks at the same position must have
-        identical results, unless separated by a potentially destructive read.
-
-        |reads|
-
-        :preconditions:
-            There must be a valid position before *sent* (see `decr`).
-
-.. var:: constexpr functors::before const& before
-
-    .. function:: Types{Ctx, Sent} constexpr auto operator()(Ctx& ctx, Sent const& sent) const
-
-        Read the element before *sent*. This is a potentially destructive operation, meaning that reads
-        beyond the first may yield a different result (e.g. a moved-from value). Nonetheless all reads must result in
-        defined behavior as long as preconditions are satisfied.
-
-        |reads|
-
-        :preconditions:
-            There must be a valid position before *sent* (see `decr`).
+.. _bidirectional-operations:
+.. rubric:: `BidirectionalContext` operations
 
 .. var:: constexpr functors::decr const& decr
 
     .. function:: Types{Ctx, Sent} constexpr void operator()(Ctx& ctx, Sent& sent) const
 
-        Decrement *sent*. Where a `Rng rng; <Range>` defines a ``[rng.from, rng.to)`` half-open interval, all positions
-        except ``rng.from`` are guaranteed to have a predecessor.
+        Decrement *sent*. Where a `Rng rng; <Range>` defines a :math:`\left[rng.from, rng.to\right)` half-open interval,
+        all positions except ``rng.from`` are guaranteed to have a predecessor.
 
         .. seealso::
             `prev`
@@ -123,8 +101,8 @@ only fulfil these requirements in an amortised manner are known as *lax* ranges.
               the non-mutating counterpart
 
         :preconditions:
-            *offset* must lead to a result which lies within ``[rng.to, rng.from]`` with respect to the underlying
-            `Rng rng; <Range>`.
+            *offset* must lead to a result which lies within :math:`\left[rng.to, rng.from\right]` with respect to the
+            underlying `Rng rng; <Range>`.
 
 .. var:: constexpr functors::difference const& difference
 
@@ -181,48 +159,5 @@ together as a range argument::
     auto length = distance(rng);
 
 .. |bounds-checked| replace:: This is a `bounds-checked`_ function.
-
-.. rubric:: Non-mutating variants
-
-The fundamental operations to move positions around work by mutating their position argument. They each have a
-non-mutating counterpart, with similar guarantees and preconditions:
-
-.. var:: constexpr functors::next const& next
-
-    .. function:: template<ContextType Ctx, MoveConstructible Pos> \
-                  constexpr Pos operator()(Ctx& ctx, Pos pos) const
-
-        Non-mutating counterpart of `incr`.
-
-        Equivalent to::
-
-            incr(ctx, pos);
-            return pos;
-
-.. var:: constexpr functors::prev const& prev
-
-    .. function:: template<ContextType Ctx, MoveConstructible Pos> \
-                  constexpr Pos operator()(Ctx& ctx, Pos pos) const
-
-        Non-mutating counterpart of `decr`.
-
-        Equivalent to::
-
-            prev(ctx, pos);
-            return pos;
-
-.. var:: constexpr functors::offset const& offset
-
-    .. function:: template<ContextType Ctx, MoveConstructible Pos, typename Offset> \
-                  constexpr Pos operator()(Ctx& ctx, Pos pos, Offset const& offset) const
-
-        Non-mutating counterpart of `step`.
-
-        Equivalent to::
-
-            step(ctx, pos, offset);
-            return pos;
-
-.. rubric:: Traversal-agnostic functions
 
 .. include:: /autodoc/base/base.txt

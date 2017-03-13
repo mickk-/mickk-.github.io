@@ -96,6 +96,7 @@
 <li class="toctree-l2"><a class="reference internal" href="sources.html">Sources</a></li>
 <li class="toctree-l2"><a class="reference internal" href="consumers.html">Consumers</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Transformations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#defer">defer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#map">map</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#filter">filter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#stride">stride</a></li>
@@ -169,65 +170,168 @@
 <h1>Transformations<a class="headerlink" href="#transformations" title="Permalink to this headline">¶</a></h1>
 <p>An individual range can be transformed to give rise to a new range. For instance, <code class="docutils literal"><span class="pre">auto</span> <span class="pre">reversed</span> <span class="pre">=</span> <span class="pre">reverse(rng);</span></code>
 produces a range <em>reversed</em> which elements are in reverse order of that of <em>rng</em>.</p>
+<div class="section" id="defer">
+<h2>defer<a class="headerlink" href="#defer" title="Permalink to this headline">¶</a></h2>
+<p>Provided by <code class="file docutils literal"><span class="pre">annex/range/transformation/defer.hpp</span></code>.</p>
+<dl class="class">
+<dt id="_CPPv2I0DpEX9VariablesI7Functorsp4ArgsEEN5annex5range13defer_contextE">
+<a class="reference internal" href="annex.html#_CPPv2IDpEX5TypesIsp2XsEEN5annex9VariablesE" title="annex::Variables">Variables</a>{<code class="descname">Functor</code>, ...<code class="descname">Args</code>}<br /><em class="property">class </em><code class="descclassname"></code><code class="descname">defer_context</code><a class="headerlink" href="#_CPPv2I0DpEX9VariablesI7Functorsp4ArgsEEN5annex5range13defer_contextE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Notation:</th><td class="field-body"><div class="first highlight-c++"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Rng</span> <span class="o">=</span> <span class="n">result</span><span class="o">&lt;</span><span class="n">Functor</span><span class="p">,</span> <span class="n">Args</span><span class="p">...</span><span class="o">&gt;</span><span class="p">;</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Simple members:</th><td class="field-body"><dl class="first var">
+<dt id="_CPPv2N5annex5range13defer_context16deferred_functorE">
+<span id="annex::range::defer_context::deferred_functor__Functor"></span>Functor <code class="descclassname"></code><code class="descname">deferred_functor</code><a class="headerlink" href="#_CPPv2N5annex5range13defer_context16deferred_functorE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv2N5annex5range13defer_context13deferred_argsE">
+<span id="annex::range::defer_context::deferred_args__std::tuple:ArgsDp:"></span>std::tuple&lt;Args...&gt; <code class="descclassname"></code><code class="descname">deferred_args</code><a class="headerlink" href="#_CPPv2N5annex5range13defer_context13deferred_argsE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Additional requirements:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><p class="first"><a class="reference internal" href="annex.html#_CPPv2I_8VariableDpEN5annex13OnceInvokableE" title="annex::OnceInvokable"><code class="xref cpp cpp-any docutils literal"><span class="pre">OnceInvokable&lt;Functor,</span> <span class="pre">Args...&gt;</span></code></a></p>
+<p class="last"><a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range&lt;Rng&gt;</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv2I0DpEX9VariablesI7Functorsp4ArgsEEN5annex5range11defer_rangeE">
+<a class="reference internal" href="annex.html#_CPPv2IDpEX5TypesIsp2XsEEN5annex9VariablesE" title="annex::Variables">Variables</a>{<code class="descname">Functor</code>, ...<code class="descname">Args</code>}<br /><em class="property">using </em><code class="descclassname"></code><code class="descname">defer_range</code> = bounded_context&lt;<a class="reference internal" href="#_CPPv2I0DpEX9VariablesI7Functorsp4ArgsEEN5annex5range13defer_contextE" title="annex::range::defer_context">defer_context</a>&lt;Functor, Args...&gt;&gt;<a class="headerlink" href="#_CPPv2I0DpEX9VariablesI7Functorsp4ArgsEEN5annex5range11defer_rangeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="var">
+<dt id="_CPPv2N5annex5range5deferE">
+<span id="annex::range::defer__functors::deferCR"></span><em class="property">constexpr</em> functors::defer <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">defer</code><a class="headerlink" href="#_CPPv2N5annex5range5deferE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This constant is a <a class="reference internal" href="reference.html#range-function"><span class="std std-ref">Range function</span></a> with one or more associated <a class="reference internal" href="annex.html#simple-model"><span class="std std-ref">simple
+models</span></a>:</p>
+<blockquote>
+<div><a class="reference internal" href="#_CPPv2I0DpEX9VariablesI7Functorsp4ArgsEEN5annex5range11defer_rangeE" title="annex::range::defer_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Variables{Functor,</span> <span class="pre">...</span> <span class="pre">Args}</span> <span class="pre">defer_range</span></code></a></div></blockquote>
+<dl class="function">
+<dt id="_CPPv2I0DpEX13StorableTypesI7Functorsp4ArgsEENK5annex5range5deferclERR7FunctorDpRR4Args">
+<a class="reference internal" href="annex.html#_CPPv2IDpEX5TypesIsp2XsEEN5annex13StorableTypesE" title="annex::StorableTypes">StorableTypes</a>{<code class="descname">Functor</code>, ...<code class="descname">Args</code>}<br /><em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I0DpEX9VariablesI7Functorsp4ArgsEEN5annex5range11defer_rangeE" title="annex::range::defer_range">defer_range</a>&lt;<a class="reference internal" href="#_CPPv2I0DpEX13StorableTypesI7Functorsp4ArgsEENK5annex5range5deferclERR7FunctorDpRR4Args" title="annex::range::defer::operator()::Functor">Functor</a>, <a class="reference internal" href="#_CPPv2I0DpEX13StorableTypesI7Functorsp4ArgsEENK5annex5range5deferclERR7FunctorDpRR4Args" title="annex::range::defer::operator()::Args">Args</a>...&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I0DpEX13StorableTypesI7Functorsp4ArgsEENK5annex5range5deferclERR7FunctorDpRR4Args" title="annex::range::defer::operator()::Functor">Functor</a> &amp;&amp;<em>functor</em>, <a class="reference internal" href="#_CPPv2I0DpEX13StorableTypesI7Functorsp4ArgsEENK5annex5range5deferclERR7FunctorDpRR4Args" title="annex::range::defer::operator()::Args">Args</a>&amp;&amp;... <em>args</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I0DpEX13StorableTypesI7Functorsp4ArgsEENK5annex5range5deferclERR7FunctorDpRR4Args" title="Permalink to this definition">¶</a><br /></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Notation:</th><td class="field-body"><div class="first last highlight-c++"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="o">&amp;&amp;</span> <span class="n">rng</span> <span class="o">=</span> <span class="n">invoke</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">forward</span><span class="o">&lt;</span><span class="n">Functor</span><span class="o">&gt;</span><span class="p">(</span><span class="n">functor</span><span class="p">),</span> <span class="n">std</span><span class="o">::</span><span class="n">forward</span><span class="o">&lt;</span><span class="n">Args</span><span class="o">&gt;</span><span class="p">(</span><span class="n">args</span><span class="p">)...);</span>
+</pre></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Defer a range-producing computation. This makes it possible to create a model of <a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a> that serves as a
+stand-in for the future result <em>rng</em> of invoking <em>functor</em> on <em>args...</em>. Consider the following:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="c1">// (1)</span>
+<span class="k">auto</span> <span class="n">filtered_rng</span> <span class="o">=</span> <span class="n">filter</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">input</span><span class="p">);</span>
+<span class="k">if</span><span class="p">(...</span><span class="n">some</span> <span class="n">condition</span><span class="p">...)</span> <span class="p">{</span>
+    <span class="c1">// use filtered_rng</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="c1">// ignore filtered_rng</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This fragment may not behave as the programmer intended: if <em>input</em> is non-finite and it contains no element
+satisfying <em>pred</em>, then the call to <a class="reference internal" href="#_CPPv2N5annex5range6filterE" title="annex::range::filter"><code class="xref cpp cpp-any docutils literal"><span class="pre">filter</span></code></a> at (1) will not terminate. This would happen even if
+<em>filtered_rng</em> were not needed by the rest of the program, e.g. no element access were peformed.</p>
+<p>While the example could perhaps be fixed by only constructing <em>filtered_rng</em> when it is known it will be
+needed (and presumably in such situations construction will be guaranteed to terminate), this is not always
+an option to the programmer. <a class="reference internal" href="#_CPPv2N5annex5range5deferE" title="annex::range::defer"><code class="xref cpp cpp-any docutils literal"><span class="pre">defer</span></code></a>, as its name suggests, delays range construction to the latest point
+possible, i.e. when an actual range operation is performed on context and positions.</p>
+<p>In other words, <a class="reference internal" href="#_CPPv2N5annex5range5deferE" title="annex::range::defer"><code class="xref cpp cpp-any docutils literal"><span class="pre">defer</span></code></a> can be thought of as the tool to transform a strict range-producing function into a
+lax range (see <a class="reference internal" href="operations.html#lax"><span class="std std-ref">Strict and lax ranges</span></a>) by deferring all additional call complexity (see <a class="reference internal" href="reference.html#call-complexity"><span class="std std-ref">Call complexity</span></a>).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>functor, args...</strong> &#8211; function and arguments producing a <a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a>, i.e. modelling <a class="reference internal" href="annex.html#_CPPv2I_8VariableDpEN5annex13OnceInvokableE" title="annex::OnceInvokable"><code class="xref cpp cpp-any docutils literal"><span class="pre">OnceInvokable&lt;Functor,</span>
+<span class="pre">Args...&gt;</span></code></a></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Models:</th><td class="field-body"><p class="first"><a class="reference internal" href="operations.html#lax"><span class="std std-ref">Lax</span></a> <a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a> with identical <a class="reference internal" href="concepts.html#range-properties"><span class="std std-ref">properties</span></a> as that of <em>rng</em>.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Additional construction complexity:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><p class="first">None.</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Simple context members:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body"><p class="first"><a class="reference internal" href="#_CPPv2N5annex5range13defer_context16deferred_functorE" title="annex::range::defer_context::deferred_functor"><code class="xref cpp cpp-any docutils literal"><span class="pre">defer_context::deferred_functor</span></code></a>: <em>functor</em></p>
+<p class="last"><a class="reference internal" href="#_CPPv2N5annex5range13defer_context13deferred_argsE" title="annex::range::defer_context::deferred_args"><code class="xref cpp cpp-any docutils literal"><span class="pre">defer_context::deferred_args</span></code></a>: <code class="docutils literal"><span class="pre">std::tuple&lt;Args...&gt;</span> <span class="pre">{</span> <span class="pre">std::forward&lt;Args&gt;(args)...</span> <span class="pre">}</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
 <div class="section" id="map">
 <h2>map<a class="headerlink" href="#map" title="Permalink to this headline">¶</a></h2>
+<p>Provided by <code class="file docutils literal"><span class="pre">annex/range/transformation/map.hpp</span></code>.</p>
 <dl class="class">
-<dt>
-<a class="reference internal" href="annex.html#_CPPv2IDpEX5TypesIsp2XsEEN5annex9VariablesE" title="annex::Variables">Variables</a>{<code class="descname">PeekFunctor</code>, <code class="descname">Functor</code>}</dt>
 <dt id="_CPPv2I00EX9VariablesI11PeekFunctor7FunctorEEN5annex5range26peek_functor_overload_typeE">
-<em class="property">class </em><code class="descclassname"></code><code class="descname">peek_functor_overload_type</code><a class="headerlink" href="#_CPPv2I00EX9VariablesI11PeekFunctor7FunctorEEN5annex5range26peek_functor_overload_typeE" title="Permalink to this definition">¶</a></dt>
+<a class="reference internal" href="annex.html#_CPPv2IDpEX5TypesIsp2XsEEN5annex9VariablesE" title="annex::Variables">Variables</a>{<code class="descname">PeekFunctor</code>, <code class="descname">Functor</code>}<br /><em class="property">class </em><code class="descclassname"></code><code class="descname">peek_functor_overload_type</code><a class="headerlink" href="#_CPPv2I00EX9VariablesI11PeekFunctor7FunctorEEN5annex5range26peek_functor_overload_typeE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>An overload of two functors. Useful for merging two different functors into one, e.g. for <a class="reference internal" href="#_CPPv2N5annex5range3mapE" title="annex::range::map"><code class="xref cpp cpp-any docutils literal"><span class="pre">map</span></code></a>.</p>
 <p>The template parameter names are somewhat fanciful as it is ultimately overload resolution that selects which of
-<a class="reference internal" href="#_CPPv2I00EX9VariablesI11PeekFunctor7FunctorEEN5annex5range26peek_functor_overload_typeE" title="annex::range::peek_functor_overload_type::PeekFunctor"><code class="xref cpp cpp-any docutils literal"><span class="pre">PeekFunctor</span></code></a> or <a class="reference internal" href="#_CPPv2I00EX9VariablesI11PeekFunctor7FunctorEEN5annex5range26peek_functor_overload_typeE" title="annex::range::peek_functor_overload_type::Functor"><code class="xref cpp cpp-any docutils literal"><span class="pre">Functor</span></code></a> will be used when dispatching an <code class="docutils literal"><span class="pre">operator()</span></code> call, not whether the overload is
+<code class="xref cpp cpp-any docutils literal"><span class="pre">PeekFunctor</span></code> or <code class="xref cpp cpp-any docutils literal"><span class="pre">Functor</span></code> will be used when dispatching an <code class="docutils literal"><span class="pre">operator()</span></code> call, not whether the overload is
 being used for peeking or not.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Requirements:</th><td class="field-body"><a class="reference internal" href="#_CPPv2I00EX9VariablesI11PeekFunctor7FunctorEEN5annex5range26peek_functor_overload_typeE" title="annex::range::peek_functor_overload_type::PeekFunctor"><code class="xref cpp cpp-any docutils literal"><span class="pre">PeekFunctor</span></code></a> and <a class="reference internal" href="#_CPPv2I00EX9VariablesI11PeekFunctor7FunctorEEN5annex5range26peek_functor_overload_typeE" title="annex::range::peek_functor_overload_type::Functor"><code class="xref cpp cpp-any docutils literal"><span class="pre">Functor</span></code></a> must be non-final class types providing at least one <code class="docutils literal"><span class="pre">operator()</span></code> overload.</td>
+<tr class="field-odd field"><th class="field-name">Requirements:</th><td class="field-body"><code class="xref cpp cpp-any docutils literal"><span class="pre">PeekFunctor</span></code> and <code class="xref cpp cpp-any docutils literal"><span class="pre">Functor</span></code> must be non-final class types providing at least one <code class="docutils literal"><span class="pre">operator()</span></code> overload.</td>
 </tr>
 </tbody>
 </table>
 <dl class="function">
 <dt id="_CPPv2N5annex5range26peek_functor_overload_typeclE11unspecified">
-<span id="annex::range::peek_functor_overload_type::call-operator__unspecifiedCE"></span><em class="property">constexpr</em> unspecified <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span>unspecified<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N5annex5range26peek_functor_overload_typeclE11unspecified" title="Permalink to this definition">¶</a></dt>
+<span id="annex::range::peek_functor_overload_type::call-operator__unspecifiedCE"></span><em class="property">constexpr</em> unspecified <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span>unspecified<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N5annex5range26peek_functor_overload_typeclE11unspecified" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Call either <code class="xref cpp cpp-any docutils literal"><span class="pre">PeekFunctor::operator()</span></code> or <code class="xref cpp cpp-any docutils literal"><span class="pre">Functor::operator()</span></code>.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv2NR5annex5range26peek_functor_overload_type12peek_functorEv">
-<span id="annex::range::peek_functor_overload_type::peek_functorRCE"></span><em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I00EX9VariablesI11PeekFunctor7FunctorEEN5annex5range26peek_functor_overload_typeE" title="annex::range::peek_functor_overload_type::PeekFunctor">PeekFunctor</a> &amp;<code class="descclassname"></code><code class="descname">peek_functor</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &amp;<a class="headerlink" href="#_CPPv2NR5annex5range26peek_functor_overload_type12peek_functorEv" title="Permalink to this definition">¶</a></dt>
+<span id="annex::range::peek_functor_overload_type::peek_functorRCE"></span><em class="property">constexpr</em> PeekFunctor &amp;<code class="descclassname"></code><code class="descname">peek_functor</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &amp;<a class="headerlink" href="#_CPPv2NR5annex5range26peek_functor_overload_type12peek_functorEv" title="Permalink to this definition">¶</a><br /></dt>
 <dt id="_CPPv2NKR5annex5range26peek_functor_overload_type12peek_functorEv">
-<span id="annex::range::peek_functor_overload_type::peek_functorCRCE"></span><em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I00EX9VariablesI11PeekFunctor7FunctorEEN5annex5range26peek_functor_overload_typeE" title="annex::range::peek_functor_overload_type::PeekFunctor">PeekFunctor</a> <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">peek_functor</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em> &amp;<a class="headerlink" href="#_CPPv2NKR5annex5range26peek_functor_overload_type12peek_functorEv" title="Permalink to this definition">¶</a></dt>
+<span id="annex::range::peek_functor_overload_type::peek_functorCRCE"></span><em class="property">constexpr</em> PeekFunctor <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">peek_functor</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em> &amp;<a class="headerlink" href="#_CPPv2NKR5annex5range26peek_functor_overload_type12peek_functorEv" title="Permalink to this definition">¶</a><br /></dt>
 <dt id="_CPPv2NO5annex5range26peek_functor_overload_type12peek_functorEv">
-<span id="annex::range::peek_functor_overload_type::peek_functorOCE"></span><em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I00EX9VariablesI11PeekFunctor7FunctorEEN5annex5range26peek_functor_overload_typeE" title="annex::range::peek_functor_overload_type::PeekFunctor">PeekFunctor</a> &amp;&amp;<code class="descclassname"></code><code class="descname">peek_functor</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &amp;&amp;<a class="headerlink" href="#_CPPv2NO5annex5range26peek_functor_overload_type12peek_functorEv" title="Permalink to this definition">¶</a></dt>
-<dd><p>Access the original <a class="reference internal" href="#_CPPv2I00EX9VariablesI11PeekFunctor7FunctorEEN5annex5range26peek_functor_overload_typeE" title="annex::range::peek_functor_overload_type::PeekFunctor"><code class="xref cpp cpp-any docutils literal"><span class="pre">PeekFunctor</span></code></a>.</p>
+<span id="annex::range::peek_functor_overload_type::peek_functorOCE"></span><em class="property">constexpr</em> PeekFunctor &amp;&amp;<code class="descclassname"></code><code class="descname">peek_functor</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &amp;&amp;<a class="headerlink" href="#_CPPv2NO5annex5range26peek_functor_overload_type12peek_functorEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Access the original <code class="xref cpp cpp-any docutils literal"><span class="pre">PeekFunctor</span></code>.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv2NR5annex5range26peek_functor_overload_type7functorEv">
-<span id="annex::range::peek_functor_overload_type::functorRCE"></span><em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I00EX9VariablesI11PeekFunctor7FunctorEEN5annex5range26peek_functor_overload_typeE" title="annex::range::peek_functor_overload_type::Functor">Functor</a> &amp;<code class="descclassname"></code><code class="descname">functor</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &amp;<a class="headerlink" href="#_CPPv2NR5annex5range26peek_functor_overload_type7functorEv" title="Permalink to this definition">¶</a></dt>
+<span id="annex::range::peek_functor_overload_type::functorRCE"></span><em class="property">constexpr</em> Functor &amp;<code class="descclassname"></code><code class="descname">functor</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &amp;<a class="headerlink" href="#_CPPv2NR5annex5range26peek_functor_overload_type7functorEv" title="Permalink to this definition">¶</a><br /></dt>
 <dt id="_CPPv2NKR5annex5range26peek_functor_overload_type7functorEv">
-<span id="annex::range::peek_functor_overload_type::functorCRCE"></span><em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I00EX9VariablesI11PeekFunctor7FunctorEEN5annex5range26peek_functor_overload_typeE" title="annex::range::peek_functor_overload_type::Functor">Functor</a> <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">functor</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em> &amp;<a class="headerlink" href="#_CPPv2NKR5annex5range26peek_functor_overload_type7functorEv" title="Permalink to this definition">¶</a></dt>
+<span id="annex::range::peek_functor_overload_type::functorCRCE"></span><em class="property">constexpr</em> Functor <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">functor</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em> &amp;<a class="headerlink" href="#_CPPv2NKR5annex5range26peek_functor_overload_type7functorEv" title="Permalink to this definition">¶</a><br /></dt>
 <dt id="_CPPv2NO5annex5range26peek_functor_overload_type7functorEv">
-<span id="annex::range::peek_functor_overload_type::functorOCE"></span><em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I00EX9VariablesI11PeekFunctor7FunctorEEN5annex5range26peek_functor_overload_typeE" title="annex::range::peek_functor_overload_type::Functor">Functor</a> &amp;&amp;<code class="descclassname"></code><code class="descname">functor</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &amp;&amp;<a class="headerlink" href="#_CPPv2NO5annex5range26peek_functor_overload_type7functorEv" title="Permalink to this definition">¶</a></dt>
-<dd><p>Access the original <a class="reference internal" href="#_CPPv2I00EX9VariablesI11PeekFunctor7FunctorEEN5annex5range26peek_functor_overload_typeE" title="annex::range::peek_functor_overload_type::Functor"><code class="xref cpp cpp-any docutils literal"><span class="pre">Functor</span></code></a>.</p>
+<span id="annex::range::peek_functor_overload_type::functorOCE"></span><em class="property">constexpr</em> Functor &amp;&amp;<code class="descclassname"></code><code class="descname">functor</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &amp;&amp;<a class="headerlink" href="#_CPPv2NO5annex5range26peek_functor_overload_type7functorEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Access the original <code class="xref cpp cpp-any docutils literal"><span class="pre">Functor</span></code>.</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="type">
-<dt>
-template&lt;<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a> <code class="descclassname"></code><code class="descname">Functor</code>, <a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3CtxEEN5annex5range7ContextE" title="annex::range::Context">Context</a> <code class="descclassname"></code><code class="descname">Ctx</code>&gt;</dt>
 <dt id="_CPPv2I_8Variable_7ContextEN5annex5range9map_rangeE">
-<em class="property">using </em><code class="descclassname"></code><code class="descname">map_range</code> = bounded_context&lt;map_context&lt;<a class="reference internal" href="#_CPPv2I_8Variable_7ContextEN5annex5range9map_rangeE" title="annex::range::map_range::Functor">Functor</a>, <a class="reference internal" href="#_CPPv2I_8Variable_7ContextEN5annex5range9map_rangeE" title="annex::range::map_range::Ctx">Ctx</a>&gt;&gt;<a class="headerlink" href="#_CPPv2I_8Variable_7ContextEN5annex5range9map_rangeE" title="Permalink to this definition">¶</a></dt>
+template&lt;<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a> <code class="descclassname"></code><code class="descname">Functor</code>, <a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3CtxEEN5annex5range7ContextE" title="annex::range::Context">Context</a> <code class="descclassname"></code><code class="descname">Ctx</code>&gt;<br /><em class="property">using </em><code class="descclassname"></code><code class="descname">map_range</code> = bounded_context&lt;map_context&lt;Functor, Ctx&gt;&gt;<a class="headerlink" href="#_CPPv2I_8Variable_7ContextEN5annex5range9map_rangeE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Additional requirements:</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><p class="first"><a class="reference internal" href="annex.html#_CPPv2I_8VariableDpEN5annex9InvokableE" title="annex::Invokable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Invokable&lt;Functor&amp;,</span> <span class="pre">peek_element_t&lt;Ctx&gt;&gt;</span></code></a></p>
-<p class="last"><a class="reference internal" href="annex.html#_CPPv2I_8VariableDpEN5annex9InvokableE" title="annex::Invokable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Invokable&lt;Functor&amp;,</span> <span class="pre">element_t&lt;Ctx&gt;&gt;</span></code></a></p>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><p class="first"><a class="reference internal" href="annex.html#_CPPv2I_8VariableDpEN5annex9InvokableE" title="annex::Invokable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Invokable&lt;Functor,</span> <span class="pre">peek_element_t&lt;Ctx&gt;&gt;</span></code></a></p>
+<p class="last"><a class="reference internal" href="annex.html#_CPPv2I_8VariableDpEN5annex9InvokableE" title="annex::Invokable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Invokable&lt;Functor,</span> <span class="pre">element_t&lt;Ctx&gt;&gt;</span></code></a></p>
 </td>
 </tr>
 </tbody>
@@ -236,17 +340,14 @@ template&lt;<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN
 
 <dl class="var">
 <dt id="_CPPv2N5annex5range3mapE">
-<span id="annex::range::map__functors::mapCR"></span><em class="property">constexpr</em> functors::map <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">map</code><a class="headerlink" href="#_CPPv2N5annex5range3mapE" title="Permalink to this definition">¶</a></dt>
-<dd><p>In <code class="file docutils literal"><span class="pre">annex/range/transformation/map.hpp</span></code>.</p>
-<p>This constant is a <a class="reference internal" href="reference.html#range-function"><span class="std std-ref">Range function</span></a> with one or more associated <a class="reference internal" href="annex.html#simple-model"><span class="std std-ref">simple
+<span id="annex::range::map__functors::mapCR"></span><em class="property">constexpr</em> functors::map <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">map</code><a class="headerlink" href="#_CPPv2N5annex5range3mapE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This constant is a <a class="reference internal" href="reference.html#range-function"><span class="std std-ref">Range function</span></a> with one or more associated <a class="reference internal" href="annex.html#simple-model"><span class="std std-ref">simple
 models</span></a>:</p>
 <blockquote>
 <div><a class="reference internal" href="#_CPPv2I_8Variable_7ContextEN5annex5range9map_rangeE" title="annex::range::map_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">template&lt;Variable</span> <span class="pre">Functor,</span> <span class="pre">Context</span> <span class="pre">Ctx&gt;</span> <span class="pre">map_range</span></code></a></div></blockquote>
 <dl class="function">
-<dt>
-template&lt;<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex15ForwardableTypeE" title="annex::ForwardableType">ForwardableType</a> <code class="descclassname"></code><code class="descname">Functor</code>, <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex17MoveConstructibleE" title="annex::MoveConstructible">MoveConstructible</a> <code class="descclassname"></code><code class="descname">Rng</code>&gt;</dt>
 <dt id="_CPPv2I_15ForwardableType_17MoveConstructibleENK5annex5range3mapclERR7Functor3Rng">
-<em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I_8Variable_7ContextEN5annex5range9map_rangeE" title="annex::range::map_range">map_range</a>&lt;<a class="reference internal" href="#_CPPv2I_15ForwardableType_17MoveConstructibleENK5annex5range3mapclERR7Functor3Rng" title="annex::range::map::operator()::Functor">Functor</a>, <a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3RngEEN5annex5range9context_tE" title="annex::range::context_t">context_t</a>&lt;<a class="reference internal" href="#_CPPv2I_15ForwardableType_17MoveConstructibleENK5annex5range3mapclERR7Functor3Rng" title="annex::range::map::operator()::Rng">Rng</a>&gt;&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I_15ForwardableType_17MoveConstructibleENK5annex5range3mapclERR7Functor3Rng" title="annex::range::map::operator()::Functor">Functor</a> &amp;&amp;<em>functor</em>, <a class="reference internal" href="#_CPPv2I_15ForwardableType_17MoveConstructibleENK5annex5range3mapclERR7Functor3Rng" title="annex::range::map::operator()::Rng">Rng</a> <em>rng</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I_15ForwardableType_17MoveConstructibleENK5annex5range3mapclERR7Functor3Rng" title="Permalink to this definition">¶</a></dt>
+template&lt;<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex15ForwardableTypeE" title="annex::ForwardableType">ForwardableType</a> <code class="descclassname"></code><code class="descname">Functor</code>, <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex17MoveConstructibleE" title="annex::MoveConstructible">MoveConstructible</a> <code class="descclassname"></code><code class="descname">Rng</code>&gt;<br /><em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I_8Variable_7ContextEN5annex5range9map_rangeE" title="annex::range::map_range">map_range</a>&lt;<a class="reference internal" href="#_CPPv2I_15ForwardableType_17MoveConstructibleENK5annex5range3mapclERR7Functor3Rng" title="annex::range::map::operator()::Functor">Functor</a>, <a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3RngEEN5annex5range9context_tE" title="annex::range::context_t">context_t</a>&lt;<a class="reference internal" href="#_CPPv2I_15ForwardableType_17MoveConstructibleENK5annex5range3mapclERR7Functor3Rng" title="annex::range::map::operator()::Rng">Rng</a>&gt;&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I_15ForwardableType_17MoveConstructibleENK5annex5range3mapclERR7Functor3Rng" title="annex::range::map::operator()::Functor">Functor</a> &amp;&amp;<em>functor</em>, <a class="reference internal" href="#_CPPv2I_15ForwardableType_17MoveConstructibleENK5annex5range3mapclERR7Functor3Rng" title="annex::range::map::operator()::Rng">Rng</a> <em>rng</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I_15ForwardableType_17MoveConstructibleENK5annex5range3mapclERR7Functor3Rng" title="Permalink to this definition">¶</a><br /></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -259,8 +360,7 @@ template&lt;<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN
 </tr>
 </tbody>
 </table>
-<p>Map over the elements of <em>rng</em>. <em>functor</em> will be used for mapping whenever peeking (i.e. <a class="reference internal" href="operations.html#_CPPv2N5annex5range7peek_atE" title="annex::range::peek_at"><code class="xref cpp cpp-any docutils literal"><span class="pre">peek_at</span></code></a>,
-<a class="reference internal" href="operations.html#_CPPv2N5annex5range11peek_beforeE" title="annex::range::peek_before"><code class="xref cpp cpp-any docutils literal"><span class="pre">peek_before</span></code></a>) or accessing (i.e. <a class="reference internal" href="operations.html#_CPPv2N5annex5range2atE" title="annex::range::at"><code class="xref cpp cpp-any docutils literal"><span class="pre">at</span></code></a>, <a class="reference internal" href="operations.html#_CPPv2N5annex5range6beforeE" title="annex::range::before"><code class="xref cpp cpp-any docutils literal"><span class="pre">before</span></code></a>) elements.</p>
+<p>Map over the elements of <em>rng</em>. <em>functor</em> will be used for mapping whenever peeking or accessing elements.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -331,10 +431,7 @@ types</td>
 <tr class="row-even"><td>Traversal</td>
 <td>same as <a class="reference internal" href="#_CPPv2I_15ForwardableType_17MoveConstructibleENK5annex5range3mapclERR7Functor3Rng" title="annex::range::map::operator()::Rng"><code class="xref cpp cpp-any docutils literal"><span class="pre">Rng</span></code></a></td>
 </tr>
-<tr class="row-odd"><td>Multi-pass</td>
-<td>same as <a class="reference internal" href="#_CPPv2I_15ForwardableType_17MoveConstructibleENK5annex5range3mapclERR7Functor3Rng" title="annex::range::map::operator()::Rng"><code class="xref cpp cpp-any docutils literal"><span class="pre">Rng</span></code></a></td>
-</tr>
-<tr class="row-even"><td>Saveable</td>
+<tr class="row-odd"><td>Saveable</td>
 <td>if <a class="reference internal" href="#_CPPv2I_15ForwardableType_17MoveConstructibleENK5annex5range3mapclERR7Functor3Rng" title="annex::range::map::operator()::Rng"><code class="xref cpp cpp-any docutils literal"><span class="pre">Rng</span></code></a> is as well and <code class="docutils literal"><span class="pre">mapping_functor</span></code> models <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex17CopyConstructibleE" title="annex::CopyConstructible"><code class="xref cpp cpp-any docutils literal"><span class="pre">CopyConstructible</span></code></a></td>
 </tr>
 </tbody>
@@ -342,11 +439,11 @@ types</td>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Additional construction complexity:</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><p class="first">None.</p>
+<tr class="field-even field"><td>&#160;</td><td class="field-body"><p class="first">None.</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Simple context members:</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><p class="first"><code class="docutils literal"><span class="pre">mapping_functor</span></code>: <em>functor</em></p>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><p class="first"><code class="docutils literal"><span class="pre">mapping_functor</span></code>: <em>functor</em></p>
 <p class="last"><code class="docutils literal"><span class="pre">mapped_context</span></code>: <em>ctx</em></p>
 </td>
 </tr>
@@ -355,18 +452,16 @@ types</td>
 </dd></dl>
 
 <dl class="function">
-<dt>
-template&lt;<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI3VarEEN5annex12StorableTypeE" title="annex::StorableType">StorableType</a> <code class="descclassname"></code><code class="descname">PeekFunctor</code>, <a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI3VarEEN5annex12StorableTypeE" title="annex::StorableType">StorableType</a> <code class="descclassname"></code><code class="descname">Functor</code>, <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex17MoveConstructibleE" title="annex::MoveConstructible">MoveConstructible</a> <code class="descclassname"></code><code class="descname">Rng</code>&gt;</dt>
 <dt id="_CPPv2I_12StorableType_12StorableType_17MoveConstructibleENK5annex5range3mapclERR11PeekFunctorRR7Functor3Rng">
-<em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I_8Variable_7ContextEN5annex5range9map_rangeE" title="annex::range::map_range">map_range</a>&lt;<a class="reference internal" href="#_CPPv2I00EX9VariablesI11PeekFunctor7FunctorEEN5annex5range26peek_functor_overload_typeE" title="annex::range::peek_functor_overload_type">peek_functor_overload_type</a>&lt;std::decay_t&lt;<a class="reference internal" href="#_CPPv2I_12StorableType_12StorableType_17MoveConstructibleENK5annex5range3mapclERR11PeekFunctorRR7Functor3Rng" title="annex::range::map::operator()::PeekFunctor">PeekFunctor</a>&gt;, std::decay_t&lt;<a class="reference internal" href="#_CPPv2I_12StorableType_12StorableType_17MoveConstructibleENK5annex5range3mapclERR11PeekFunctorRR7Functor3Rng" title="annex::range::map::operator()::Functor">Functor</a>&gt;&gt;, <a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3RngEEN5annex5range9context_tE" title="annex::range::context_t">context_t</a>&lt;<a class="reference internal" href="#_CPPv2I_12StorableType_12StorableType_17MoveConstructibleENK5annex5range3mapclERR11PeekFunctorRR7Functor3Rng" title="annex::range::map::operator()::Rng">Rng</a>&gt;&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I_12StorableType_12StorableType_17MoveConstructibleENK5annex5range3mapclERR11PeekFunctorRR7Functor3Rng" title="annex::range::map::operator()::PeekFunctor">PeekFunctor</a> &amp;&amp;<em>peek_functor</em>, <a class="reference internal" href="#_CPPv2I_12StorableType_12StorableType_17MoveConstructibleENK5annex5range3mapclERR11PeekFunctorRR7Functor3Rng" title="annex::range::map::operator()::Functor">Functor</a> &amp;&amp;<em>functor</em>, <a class="reference internal" href="#_CPPv2I_12StorableType_12StorableType_17MoveConstructibleENK5annex5range3mapclERR11PeekFunctorRR7Functor3Rng" title="annex::range::map::operator()::Rng">Rng</a> <em>rng</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I_12StorableType_12StorableType_17MoveConstructibleENK5annex5range3mapclERR11PeekFunctorRR7Functor3Rng" title="Permalink to this definition">¶</a></dt>
+template&lt;<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI3VarEEN5annex12StorableTypeE" title="annex::StorableType">StorableType</a> <code class="descclassname"></code><code class="descname">PeekFunctor</code>, <a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI3VarEEN5annex12StorableTypeE" title="annex::StorableType">StorableType</a> <code class="descclassname"></code><code class="descname">Functor</code>, <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex17MoveConstructibleE" title="annex::MoveConstructible">MoveConstructible</a> <code class="descclassname"></code><code class="descname">Rng</code>&gt;<br /><em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I_8Variable_7ContextEN5annex5range9map_rangeE" title="annex::range::map_range">map_range</a>&lt;<a class="reference internal" href="#_CPPv2I00EX9VariablesI11PeekFunctor7FunctorEEN5annex5range26peek_functor_overload_typeE" title="annex::range::peek_functor_overload_type">peek_functor_overload_type</a>&lt;std::decay_t&lt;<a class="reference internal" href="#_CPPv2I_12StorableType_12StorableType_17MoveConstructibleENK5annex5range3mapclERR11PeekFunctorRR7Functor3Rng" title="annex::range::map::operator()::PeekFunctor">PeekFunctor</a>&gt;, std::decay_t&lt;<a class="reference internal" href="#_CPPv2I_12StorableType_12StorableType_17MoveConstructibleENK5annex5range3mapclERR11PeekFunctorRR7Functor3Rng" title="annex::range::map::operator()::Functor">Functor</a>&gt;&gt;, <a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3RngEEN5annex5range9context_tE" title="annex::range::context_t">context_t</a>&lt;<a class="reference internal" href="#_CPPv2I_12StorableType_12StorableType_17MoveConstructibleENK5annex5range3mapclERR11PeekFunctorRR7Functor3Rng" title="annex::range::map::operator()::Rng">Rng</a>&gt;&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I_12StorableType_12StorableType_17MoveConstructibleENK5annex5range3mapclERR11PeekFunctorRR7Functor3Rng" title="annex::range::map::operator()::PeekFunctor">PeekFunctor</a> &amp;&amp;<em>peek_functor</em>, <a class="reference internal" href="#_CPPv2I_12StorableType_12StorableType_17MoveConstructibleENK5annex5range3mapclERR11PeekFunctorRR7Functor3Rng" title="annex::range::map::operator()::Functor">Functor</a> &amp;&amp;<em>functor</em>, <a class="reference internal" href="#_CPPv2I_12StorableType_12StorableType_17MoveConstructibleENK5annex5range3mapclERR11PeekFunctorRR7Functor3Rng" title="annex::range::map::operator()::Rng">Rng</a> <em>rng</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I_12StorableType_12StorableType_17MoveConstructibleENK5annex5range3mapclERR11PeekFunctorRR7Functor3Rng" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Sometimes the difference between <a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3CtxEEN5annex5range14peek_element_tE" title="annex::range::peek_element_t"><code class="xref cpp cpp-any docutils literal"><span class="pre">peek_element_t&lt;Ctx&gt;</span></code></a> and <a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3CtxEEN5annex5range9element_tE" title="annex::range::element_t"><code class="xref cpp cpp-any docutils literal"><span class="pre">element_t&lt;Ctx&gt;</span></code></a>
 will prevent a given functor from accepting both as arguments. This overload allows passing two mapping
 functors with the intention that one will be used for peeking and the other for regular accesses.</p>
 <p>Note however that what actually happens is that the two functors are merged into one overload (see
 <a class="reference internal" href="#_CPPv2I00EX9VariablesI11PeekFunctor7FunctorEEN5annex5range26peek_functor_overload_typeE" title="annex::range::peek_functor_overload_type"><code class="xref cpp cpp-any docutils literal"><span class="pre">peek_functor_overload_type</span></code></a>). Which functor will be used for peeking and which will be used for accessing
 will be selected by overload resolution, hence the order of those two arguments is irrelevant.</p>
-<p>Equivalent to <a class="reference internal" href="#_CPPv2I_12StorableType_12StorableType_17MoveConstructibleENK5annex5range3mapclERR11PeekFunctorRR7Functor3Rng" title="annex::range::map::operator()"><code class="xref cpp cpp-any docutils literal"><span class="pre">operator()(std::move(overload),</span> <span class="pre">std::forward&lt;Rng&gt;(rng))</span></code></a>, where the
-<em>overload</em> argument is:</p>
+<p>Equivalent to <a class="reference internal" href="#_CPPv2I_12StorableType_12StorableType_17MoveConstructibleENK5annex5range3mapclERR11PeekFunctorRR7Functor3Rng" title="annex::range::map::operator()"><code class="xref cpp cpp-any docutils literal"><span class="pre">operator()(std::move(overload),</span> <span class="pre">std::forward&lt;Rng&gt;(rng))</span></code></a>, where the <em>overload</em>
+argument is:</p>
 <div class="highlight-c++"><div class="highlight"><pre><span></span><span class="k">auto</span> <span class="n">overload</span> <span class="o">=</span> <span class="n">make_peek_functor_overload_type</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">forward</span><span class="o">&lt;</span><span class="n">PeekFunctor</span><span class="o">&gt;</span><span class="p">(</span><span class="n">peek_functor</span><span class="p">),</span>
                                                 <span class="n">std</span><span class="o">::</span><span class="n">forward</span><span class="o">&lt;</span><span class="n">Functor</span><span class="o">&gt;</span><span class="p">(</span><span class="n">functor</span><span class="p">)</span> <span class="p">);</span>
 </pre></div>
@@ -378,17 +473,16 @@ will be selected by overload resolution, hence the order of those two arguments 
 </div>
 <div class="section" id="filter">
 <h2>filter<a class="headerlink" href="#filter" title="Permalink to this headline">¶</a></h2>
+<p>Provided by <code class="file docutils literal"><span class="pre">annex/range/transformation/filter.hpp</span></code>.</p>
 <dl class="type">
-<dt>
-template&lt;<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a> <code class="descclassname"></code><code class="descname">Pred</code>, <a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3CtxEEN5annex5range7ContextE" title="annex::range::Context">Context</a> <code class="descclassname"></code><code class="descname">Ctx</code>&gt;</dt>
 <dt id="_CPPv2I_8Variable_7ContextEN5annex5range12filter_rangeE">
-<em class="property">using </em><code class="descclassname"></code><code class="descname">filter_range</code> = bounded_context&lt;filter_context&lt;<a class="reference internal" href="#_CPPv2I_8Variable_7ContextEN5annex5range12filter_rangeE" title="annex::range::filter_range::Pred">Pred</a>, <a class="reference internal" href="#_CPPv2I_8Variable_7ContextEN5annex5range12filter_rangeE" title="annex::range::filter_range::Ctx">Ctx</a>&gt;&gt;<a class="headerlink" href="#_CPPv2I_8Variable_7ContextEN5annex5range12filter_rangeE" title="Permalink to this definition">¶</a></dt>
+template&lt;<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a> <code class="descclassname"></code><code class="descname">Pred</code>, <a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3CtxEEN5annex5range7ContextE" title="annex::range::Context">Context</a> <code class="descclassname"></code><code class="descname">Ctx</code>&gt;<br /><em class="property">using </em><code class="descclassname"></code><code class="descname">filter_range</code> = bounded_context&lt;filter_context&lt;Pred, Ctx&gt;&gt;<a class="headerlink" href="#_CPPv2I_8Variable_7ContextEN5annex5range12filter_rangeE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Additional requirements:</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><a class="reference internal" href="annex.html#_CPPv2I_8VariableDpEN5annex9PredicateE" title="annex::Predicate"><code class="xref cpp cpp-any docutils literal"><span class="pre">Predicate&lt;meta::as_const&lt;Pred&amp;&gt;,</span> <span class="pre">peek_element_t&lt;Ctx&gt;&gt;</span></code></a></td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><a class="reference internal" href="annex.html#_CPPv2I_8VariableDpEN5annex9PredicateE" title="annex::Predicate"><code class="xref cpp cpp-any docutils literal"><span class="pre">Predicate&lt;meta::as_const&lt;Pred&amp;&gt;,</span> <span class="pre">peek_element_t&lt;Ctx&gt;&gt;</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -396,17 +490,14 @@ template&lt;<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN
 
 <dl class="var">
 <dt id="_CPPv2N5annex5range6filterE">
-<span id="annex::range::filter__functors::filterCR"></span><em class="property">constexpr</em> functors::filter <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">filter</code><a class="headerlink" href="#_CPPv2N5annex5range6filterE" title="Permalink to this definition">¶</a></dt>
-<dd><p>In <code class="file docutils literal"><span class="pre">annex/range/transformation/filter.hpp</span></code>.</p>
-<p>This constant is a <a class="reference internal" href="reference.html#range-function"><span class="std std-ref">Range function</span></a> with one or more associated <a class="reference internal" href="annex.html#simple-model"><span class="std std-ref">simple
+<span id="annex::range::filter__functors::filterCR"></span><em class="property">constexpr</em> functors::filter <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">filter</code><a class="headerlink" href="#_CPPv2N5annex5range6filterE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This constant is a <a class="reference internal" href="reference.html#range-function"><span class="std std-ref">Range function</span></a> with one or more associated <a class="reference internal" href="annex.html#simple-model"><span class="std std-ref">simple
 models</span></a>:</p>
 <blockquote>
 <div><a class="reference internal" href="#_CPPv2I_8Variable_7ContextEN5annex5range12filter_rangeE" title="annex::range::filter_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">template&lt;Variable</span> <span class="pre">Pred,</span> <span class="pre">Context</span> <span class="pre">Ctx&gt;</span> <span class="pre">filter_range</span></code></a></div></blockquote>
 <dl class="function">
-<dt>
-template&lt;<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex15ForwardableTypeE" title="annex::ForwardableType">ForwardableType</a> <code class="descclassname"></code><code class="descname">Pred</code>, <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex17MoveConstructibleE" title="annex::MoveConstructible">MoveConstructible</a> <code class="descclassname"></code><code class="descname">Rng</code>&gt;</dt>
 <dt id="_CPPv2I_15ForwardableType_17MoveConstructibleENK5annex5range6filterclERR4Pred3Rng">
-<em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I_8Variable_7ContextEN5annex5range12filter_rangeE" title="annex::range::filter_range">filter_range</a>&lt;<a class="reference internal" href="#_CPPv2I_15ForwardableType_17MoveConstructibleENK5annex5range6filterclERR4Pred3Rng" title="annex::range::filter::operator()::Pred">Pred</a>, <a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3RngEEN5annex5range9context_tE" title="annex::range::context_t">context_t</a>&lt;<a class="reference internal" href="#_CPPv2I_15ForwardableType_17MoveConstructibleENK5annex5range6filterclERR4Pred3Rng" title="annex::range::filter::operator()::Rng">Rng</a>&gt;&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I_15ForwardableType_17MoveConstructibleENK5annex5range6filterclERR4Pred3Rng" title="annex::range::filter::operator()::Pred">Pred</a> &amp;&amp;<em>pred</em>, <a class="reference internal" href="#_CPPv2I_15ForwardableType_17MoveConstructibleENK5annex5range6filterclERR4Pred3Rng" title="annex::range::filter::operator()::Rng">Rng</a> <em>rng</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I_15ForwardableType_17MoveConstructibleENK5annex5range6filterclERR4Pred3Rng" title="Permalink to this definition">¶</a></dt>
+template&lt;<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex15ForwardableTypeE" title="annex::ForwardableType">ForwardableType</a> <code class="descclassname"></code><code class="descname">Pred</code>, <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex17MoveConstructibleE" title="annex::MoveConstructible">MoveConstructible</a> <code class="descclassname"></code><code class="descname">Rng</code>&gt;<br /><em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I_8Variable_7ContextEN5annex5range12filter_rangeE" title="annex::range::filter_range">filter_range</a>&lt;<a class="reference internal" href="#_CPPv2I_15ForwardableType_17MoveConstructibleENK5annex5range6filterclERR4Pred3Rng" title="annex::range::filter::operator()::Pred">Pred</a>, <a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3RngEEN5annex5range9context_tE" title="annex::range::context_t">context_t</a>&lt;<a class="reference internal" href="#_CPPv2I_15ForwardableType_17MoveConstructibleENK5annex5range6filterclERR4Pred3Rng" title="annex::range::filter::operator()::Rng">Rng</a>&gt;&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I_15ForwardableType_17MoveConstructibleENK5annex5range6filterclERR4Pred3Rng" title="annex::range::filter::operator()::Pred">Pred</a> &amp;&amp;<em>pred</em>, <a class="reference internal" href="#_CPPv2I_15ForwardableType_17MoveConstructibleENK5annex5range6filterclERR4Pred3Rng" title="annex::range::filter::operator()::Rng">Rng</a> <em>rng</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I_15ForwardableType_17MoveConstructibleENK5annex5range6filterclERR4Pred3Rng" title="Permalink to this definition">¶</a><br /></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -490,13 +581,9 @@ types</td>
 <td>same as <a class="reference internal" href="#_CPPv2I_15ForwardableType_17MoveConstructibleENK5annex5range6filterclERR4Pred3Rng" title="annex::range::filter::operator()::Rng"><code class="xref cpp cpp-any docutils literal"><span class="pre">Rng</span></code></a></td>
 </tr>
 <tr class="row-even"><td>Traversal</td>
-<td>same as <a class="reference internal" href="#_CPPv2I_15ForwardableType_17MoveConstructibleENK5annex5range6filterclERR4Pred3Rng" title="annex::range::filter::operator()::Rng"><code class="xref cpp cpp-any docutils literal"><span class="pre">Rng</span></code></a> as long as it has <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex8CopyableE" title="annex::Copyable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Copyable</span></code></a> positions,
-up to <a class="reference internal" href="concepts.html#_CPPv2I0EX18DoubleEndedContextI3CtxEEN5annex5range20BidirectionalContextE" title="annex::range::BidirectionalContext"><code class="xref cpp cpp-any docutils literal"><span class="pre">BidirectionalContext</span></code></a></td>
+<td>same as <a class="reference internal" href="#_CPPv2I_15ForwardableType_17MoveConstructibleENK5annex5range6filterclERR4Pred3Rng" title="annex::range::filter::operator()::Rng"><code class="xref cpp cpp-any docutils literal"><span class="pre">Rng</span></code></a>, up to <a class="reference internal" href="concepts.html#_CPPv2I0EX16MultipassContextI3CtxEEN5annex5range20BidirectionalContextE" title="annex::range::BidirectionalContext"><code class="xref cpp cpp-any docutils literal"><span class="pre">BidirectionalContext</span></code></a></td>
 </tr>
-<tr class="row-odd"><td>Multi-pass</td>
-<td>same as <a class="reference internal" href="#_CPPv2I_15ForwardableType_17MoveConstructibleENK5annex5range6filterclERR4Pred3Rng" title="annex::range::filter::operator()::Rng"><code class="xref cpp cpp-any docutils literal"><span class="pre">Rng</span></code></a></td>
-</tr>
-<tr class="row-even"><td>Saveable</td>
+<tr class="row-odd"><td>Saveable</td>
 <td>if <a class="reference internal" href="#_CPPv2I_15ForwardableType_17MoveConstructibleENK5annex5range6filterclERR4Pred3Rng" title="annex::range::filter::operator()::Rng"><code class="xref cpp cpp-any docutils literal"><span class="pre">Rng</span></code></a> is as well and <code class="docutils literal"><span class="pre">filtering_predicate</span></code> models <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex17CopyConstructibleE" title="annex::CopyConstructible"><code class="xref cpp cpp-any docutils literal"><span class="pre">CopyConstructible</span></code></a></td>
 </tr>
 </tbody>
@@ -504,11 +591,11 @@ up to <a class="reference internal" href="concepts.html#_CPPv2I0EX18DoubleEndedC
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Additional construction complexity:</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><p class="first">Linear time with respect to the number of elements of <em>ctx</em>.</p>
+<tr class="field-even field"><td>&#160;</td><td class="field-body"><p class="first">Linear time with respect to the number of elements of <em>ctx</em>.</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Simple context members:</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><p class="first"><code class="docutils literal"><span class="pre">filtering_predicate</span></code>: <em>pred</em></p>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><p class="first"><code class="docutils literal"><span class="pre">filtering_predicate</span></code>: <em>pred</em></p>
 <p class="last"><code class="docutils literal"><span class="pre">filtered_context</span></code>: <em>ctx</em></p>
 </td>
 </tr>
@@ -521,26 +608,22 @@ up to <a class="reference internal" href="concepts.html#_CPPv2I0EX18DoubleEndedC
 </div>
 <div class="section" id="stride">
 <h2>stride<a class="headerlink" href="#stride" title="Permalink to this headline">¶</a></h2>
+<p>Provided by <code class="file docutils literal"><span class="pre">annex/range/transformation/stride.hpp</span></code>.</p>
 <dl class="type">
-<dt>
-template&lt;<a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex8IntegralE" title="annex::Integral">Integral</a> <code class="descclassname"></code><code class="descname">Steps</code>, <a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3CtxEEN5annex5range7ContextE" title="annex::range::Context">Context</a> <code class="descclassname"></code><code class="descname">Ctx</code>&gt;</dt>
 <dt id="_CPPv2I_8Integral_7ContextEN5annex5range12stride_rangeE">
-<em class="property">using </em><code class="descclassname"></code><code class="descname">stride_range</code> = bounded_context&lt;stride_context&lt;<a class="reference internal" href="#_CPPv2I_8Integral_7ContextEN5annex5range12stride_rangeE" title="annex::range::stride_range::Steps">Steps</a>, <a class="reference internal" href="#_CPPv2I_8Integral_7ContextEN5annex5range12stride_rangeE" title="annex::range::stride_range::Ctx">Ctx</a>&gt;&gt;<a class="headerlink" href="#_CPPv2I_8Integral_7ContextEN5annex5range12stride_rangeE" title="Permalink to this definition">¶</a></dt>
+template&lt;<a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3IntEEN5annex8IntegralE" title="annex::Integral">Integral</a> <code class="descclassname"></code><code class="descname">Steps</code>, <a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3CtxEEN5annex5range7ContextE" title="annex::range::Context">Context</a> <code class="descclassname"></code><code class="descname">Ctx</code>&gt;<br /><em class="property">using </em><code class="descclassname"></code><code class="descname">stride_range</code> = bounded_context&lt;stride_context&lt;Steps, Ctx&gt;&gt;<a class="headerlink" href="#_CPPv2I_8Integral_7ContextEN5annex5range12stride_rangeE" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="var">
 <dt id="_CPPv2N5annex5range6strideE">
-<span id="annex::range::stride__functors::strideCR"></span>functors::stride <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">stride</code><a class="headerlink" href="#_CPPv2N5annex5range6strideE" title="Permalink to this definition">¶</a></dt>
-<dd><p>In <code class="file docutils literal"><span class="pre">annex/range/transformation/stride.hpp</span></code>.</p>
-<p>This constant is a <a class="reference internal" href="reference.html#range-function"><span class="std std-ref">Range function</span></a> with one or more associated <a class="reference internal" href="annex.html#simple-model"><span class="std std-ref">simple
+<span id="annex::range::stride__functors::strideCR"></span>functors::stride <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">stride</code><a class="headerlink" href="#_CPPv2N5annex5range6strideE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This constant is a <a class="reference internal" href="reference.html#range-function"><span class="std std-ref">Range function</span></a> with one or more associated <a class="reference internal" href="annex.html#simple-model"><span class="std std-ref">simple
 models</span></a>:</p>
 <blockquote>
 <div><a class="reference internal" href="#_CPPv2I_8Integral_7ContextEN5annex5range12stride_rangeE" title="annex::range::stride_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">template&lt;Integral</span> <span class="pre">Steps,</span> <span class="pre">Context</span> <span class="pre">Ctx&gt;</span> <span class="pre">stride_range</span></code></a></div></blockquote>
 <dl class="function">
-<dt>
-template&lt;<a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex8IntegralE" title="annex::Integral">Integral</a> <code class="descclassname"></code><code class="descname">Steps</code>, <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex17MoveConstructibleE" title="annex::MoveConstructible">MoveConstructible</a> <code class="descclassname"></code><code class="descname">Rng</code>&gt;</dt>
 <dt id="_CPPv2I_8Integral_17MoveConstructibleENK5annex5range6strideclE5Steps3Rng">
-<em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I_8Integral_7ContextEN5annex5range12stride_rangeE" title="annex::range::stride_range">stride_range</a>&lt;<a class="reference internal" href="#_CPPv2I_8Integral_17MoveConstructibleENK5annex5range6strideclE5Steps3Rng" title="annex::range::stride::operator()::Steps">Steps</a>, <a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3RngEEN5annex5range9context_tE" title="annex::range::context_t">context_t</a>&lt;<a class="reference internal" href="#_CPPv2I_8Integral_17MoveConstructibleENK5annex5range6strideclE5Steps3Rng" title="annex::range::stride::operator()::Rng">Rng</a>&gt;&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I_8Integral_17MoveConstructibleENK5annex5range6strideclE5Steps3Rng" title="annex::range::stride::operator()::Steps">Steps</a> <em>steps</em>, <a class="reference internal" href="#_CPPv2I_8Integral_17MoveConstructibleENK5annex5range6strideclE5Steps3Rng" title="annex::range::stride::operator()::Rng">Rng</a> <em>rng</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I_8Integral_17MoveConstructibleENK5annex5range6strideclE5Steps3Rng" title="Permalink to this definition">¶</a></dt>
+template&lt;<a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3IntEEN5annex8IntegralE" title="annex::Integral">Integral</a> <code class="descclassname"></code><code class="descname">Steps</code>, <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex17MoveConstructibleE" title="annex::MoveConstructible">MoveConstructible</a> <code class="descclassname"></code><code class="descname">Rng</code>&gt;<br /><em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I_8Integral_7ContextEN5annex5range12stride_rangeE" title="annex::range::stride_range">stride_range</a>&lt;<a class="reference internal" href="#_CPPv2I_8Integral_17MoveConstructibleENK5annex5range6strideclE5Steps3Rng" title="annex::range::stride::operator()::Steps">Steps</a>, <a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3RngEEN5annex5range9context_tE" title="annex::range::context_t">context_t</a>&lt;<a class="reference internal" href="#_CPPv2I_8Integral_17MoveConstructibleENK5annex5range6strideclE5Steps3Rng" title="annex::range::stride::operator()::Rng">Rng</a>&gt;&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I_8Integral_17MoveConstructibleENK5annex5range6strideclE5Steps3Rng" title="annex::range::stride::operator()::Steps">Steps</a> <em>steps</em>, <a class="reference internal" href="#_CPPv2I_8Integral_17MoveConstructibleENK5annex5range6strideclE5Steps3Rng" title="annex::range::stride::operator()::Rng">Rng</a> <em>rng</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I_8Integral_17MoveConstructibleENK5annex5range6strideclE5Steps3Rng" title="Permalink to this definition">¶</a><br /></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -596,7 +679,7 @@ whereas <em>sevens</em> ranges over the multiples of seven (i.e. <span class="ma
 </td>
 </tr>
 <tr class="row-odd"><td>Rust</td>
-<td><div class="first last highlight-rust"><div class="highlight"><pre><span></span><span class="kn">use</span><span class="w"> </span><span class="n">itertools</span><span class="o">::</span><span class="n">Itertools</span><span class="p">;</span><span class="w"></span>
+<td><div class="first last highlight-rust"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">itertools</span>::<span class="n">Itertools</span><span class="p">;</span><span class="w"></span>
 <span class="n">xs</span><span class="p">.</span><span class="n">stride</span><span class="p">(</span><span class="n">steps</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
@@ -640,12 +723,9 @@ types</td>
 <td>same as <a class="reference internal" href="#_CPPv2I_8Integral_17MoveConstructibleENK5annex5range6strideclE5Steps3Rng" title="annex::range::stride::operator()::Rng"><code class="xref cpp cpp-any docutils literal"><span class="pre">Rng</span></code></a></td>
 </tr>
 <tr class="row-even"><td>Traversal</td>
-<td>same as <a class="reference internal" href="#_CPPv2I_8Integral_17MoveConstructibleENK5annex5range6strideclE5Steps3Rng" title="annex::range::stride::operator()::Rng"><code class="xref cpp cpp-any docutils literal"><span class="pre">Rng</span></code></a> if it is bidirectional, <a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3CtxEEN5annex5range7ContextE" title="annex::range::Context"><code class="xref cpp cpp-any docutils literal"><span class="pre">Context</span></code></a> otherwise</td>
-</tr>
-<tr class="row-odd"><td>Multi-pass</td>
 <td>same as <a class="reference internal" href="#_CPPv2I_8Integral_17MoveConstructibleENK5annex5range6strideclE5Steps3Rng" title="annex::range::stride::operator()::Rng"><code class="xref cpp cpp-any docutils literal"><span class="pre">Rng</span></code></a></td>
 </tr>
-<tr class="row-even"><td>Saveable</td>
+<tr class="row-odd"><td>Saveable</td>
 <td>same as <a class="reference internal" href="#_CPPv2I_8Integral_17MoveConstructibleENK5annex5range6strideclE5Steps3Rng" title="annex::range::stride::operator()::Rng"><code class="xref cpp cpp-any docutils literal"><span class="pre">Rng</span></code></a></td>
 </tr>
 </tbody>
@@ -653,12 +733,12 @@ types</td>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Additional construction complexity:</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><p class="first">Linear time with respect to the number of elements of <em>ctx</em> if it is bidirectional but not random-access,
+<tr class="field-even field"><td>&#160;</td><td class="field-body"><p class="first">Linear time with respect to the number of elements of <em>ctx</em> if it is bidirectional but not random-access,
 constant otherwise.</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Simple context members:</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><p class="first"><code class="docutils literal"><span class="pre">striding_steps</span></code>: <em>steps</em></p>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><p class="first"><code class="docutils literal"><span class="pre">striding_steps</span></code>: <em>steps</em></p>
 <p class="last"><code class="docutils literal"><span class="pre">strided_context</span></code>: <em>ctx</em></p>
 </td>
 </tr>
@@ -671,26 +751,22 @@ constant otherwise.</p>
 </div>
 <div class="section" id="reverse">
 <h2>reverse<a class="headerlink" href="#reverse" title="Permalink to this headline">¶</a></h2>
+<p>Provided by <code class="file docutils literal"><span class="pre">annex/range/transformation/reverse.hpp</span></code>.</p>
 <dl class="type">
-<dt>
-<a class="reference internal" href="concepts.html#_CPPv2I0EX7ContextI3CtxEEN5annex5range18DoubleEndedContextE" title="annex::range::DoubleEndedContext">DoubleEndedContext</a>{<code class="descname">Ctx</code>}</dt>
-<dt id="_CPPv2I0EX18DoubleEndedContextI3CtxEEN5annex5range13reverse_rangeE">
-<em class="property">using </em><code class="descclassname"></code><code class="descname">reverse_range</code> = bounded_context&lt;reverse_context&lt;<a class="reference internal" href="#_CPPv2I0EX18DoubleEndedContextI3CtxEEN5annex5range13reverse_rangeE" title="annex::range::reverse_range::Ctx">Ctx</a>&gt;&gt;<a class="headerlink" href="#_CPPv2I0EX18DoubleEndedContextI3CtxEEN5annex5range13reverse_rangeE" title="Permalink to this definition">¶</a></dt>
+<dt id="_CPPv2I0EX20BidirectionalContextI3CtxEEN5annex5range13reverse_rangeE">
+<a class="reference internal" href="concepts.html#_CPPv2I0EX16MultipassContextI3CtxEEN5annex5range20BidirectionalContextE" title="annex::range::BidirectionalContext">BidirectionalContext</a>{<code class="descname">Ctx</code>}<br /><em class="property">using </em><code class="descclassname"></code><code class="descname">reverse_range</code> = bounded_context&lt;reverse_context&lt;Ctx&gt;&gt;<a class="headerlink" href="#_CPPv2I0EX20BidirectionalContextI3CtxEEN5annex5range13reverse_rangeE" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="var">
 <dt id="_CPPv2N5annex5range7reverseE">
-<span id="annex::range::reverse__functors::reverseCR"></span><em class="property">constexpr</em> functors::reverse <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">reverse</code><a class="headerlink" href="#_CPPv2N5annex5range7reverseE" title="Permalink to this definition">¶</a></dt>
-<dd><p>In <code class="file docutils literal"><span class="pre">annex/range/transformation/reverse.hpp</span></code>.</p>
-<p>This constant is a <a class="reference internal" href="reference.html#range-function"><span class="std std-ref">Range function</span></a> with one or more associated <a class="reference internal" href="annex.html#simple-model"><span class="std std-ref">simple
+<span id="annex::range::reverse__functors::reverseCR"></span><em class="property">constexpr</em> functors::reverse <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">reverse</code><a class="headerlink" href="#_CPPv2N5annex5range7reverseE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This constant is a <a class="reference internal" href="reference.html#range-function"><span class="std std-ref">Range function</span></a> with one or more associated <a class="reference internal" href="annex.html#simple-model"><span class="std std-ref">simple
 models</span></a>:</p>
 <blockquote>
-<div><a class="reference internal" href="#_CPPv2I0EX18DoubleEndedContextI3CtxEEN5annex5range13reverse_rangeE" title="annex::range::reverse_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">DoubleEndedContext{Ctx}</span> <span class="pre">reverse_range</span></code></a></div></blockquote>
+<div><a class="reference internal" href="#_CPPv2I0EX20BidirectionalContextI3CtxEEN5annex5range13reverse_rangeE" title="annex::range::reverse_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">BidirectionalContext{Ctx}</span> <span class="pre">reverse_range</span></code></a></div></blockquote>
 <dl class="function">
-<dt>
-<a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex17MoveConstructibleE" title="annex::MoveConstructible">MoveConstructible</a>{<code class="descname">Rng</code>}</dt>
 <dt id="_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range7reverseclE3Rng">
-<em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I0EX18DoubleEndedContextI3CtxEEN5annex5range13reverse_rangeE" title="annex::range::reverse_range">reverse_range</a>&lt;<a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3RngEEN5annex5range9context_tE" title="annex::range::context_t">context_t</a>&lt;<a class="reference internal" href="#_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range7reverseclE3Rng" title="annex::range::reverse::operator()::Rng">Rng</a>&gt;&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range7reverseclE3Rng" title="annex::range::reverse::operator()::Rng">Rng</a> <em>rng</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range7reverseclE3Rng" title="Permalink to this definition">¶</a></dt>
+<a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex17MoveConstructibleE" title="annex::MoveConstructible">MoveConstructible</a>{<code class="descname">Rng</code>}<br /><em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I0EX20BidirectionalContextI3CtxEEN5annex5range13reverse_rangeE" title="annex::range::reverse_range">reverse_range</a>&lt;<a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3RngEEN5annex5range9context_tE" title="annex::range::context_t">context_t</a>&lt;<a class="reference internal" href="#_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range7reverseclE3Rng" title="annex::range::reverse::operator()::Rng">Rng</a>&gt;&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range7reverseclE3Rng" title="annex::range::reverse::operator()::Rng">Rng</a> <em>rng</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range7reverseclE3Rng" title="Permalink to this definition">¶</a><br /></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -774,10 +850,7 @@ types</td>
 <tr class="row-even"><td>Traversal</td>
 <td>same as <a class="reference internal" href="#_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range7reverseclE3Rng" title="annex::range::reverse::operator()::Rng"><code class="xref cpp cpp-any docutils literal"><span class="pre">Rng</span></code></a></td>
 </tr>
-<tr class="row-odd"><td>Multi-pass</td>
-<td>same as <a class="reference internal" href="#_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range7reverseclE3Rng" title="annex::range::reverse::operator()::Rng"><code class="xref cpp cpp-any docutils literal"><span class="pre">Rng</span></code></a></td>
-</tr>
-<tr class="row-even"><td>Saveable</td>
+<tr class="row-odd"><td>Saveable</td>
 <td>same as <a class="reference internal" href="#_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range7reverseclE3Rng" title="annex::range::reverse::operator()::Rng"><code class="xref cpp cpp-any docutils literal"><span class="pre">Rng</span></code></a></td>
 </tr>
 </tbody>
@@ -785,11 +858,11 @@ types</td>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Additional construction complexity:</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><p class="first">None.</p>
+<tr class="field-even field"><td>&#160;</td><td class="field-body"><p class="first">None.</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Simple context members:</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><p class="first last"><code class="docutils literal"><span class="pre">reversed_context</span></code>: <em>ctx</em></p>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><p class="first last"><code class="docutils literal"><span class="pre">reversed_context</span></code>: <em>ctx</em></p>
 </td>
 </tr>
 </tbody>
@@ -801,11 +874,10 @@ types</td>
 </div>
 <div class="section" id="group">
 <h2>group<a class="headerlink" href="#group" title="Permalink to this headline">¶</a></h2>
+<p>Provided by <code class="file docutils literal"><span class="pre">annex/range/transformation/group.hpp</span></code>.</p>
 <dl class="type">
-<dt>
-template&lt;<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a> <code class="descclassname"></code><code class="descname">Proj</code>, <a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a> <code class="descclassname"></code><code class="descname">Equiv</code>, <a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3CtxEEN5annex5range7ContextE" title="annex::range::Context">Context</a> <code class="descclassname"></code><code class="descname">Ctx</code>&gt;</dt>
-<dt id="_CPPv2I_8Variable_8Variable_7ContextEN5annex5range11group_rangeE">
-<em class="property">using </em><code class="descclassname"></code><code class="descname">group_range</code> = bounded_context&lt;group_context&lt;<a class="reference internal" href="#_CPPv2I_8Variable_8Variable_7ContextEN5annex5range11group_rangeE" title="annex::range::group_range::Proj">Proj</a>, <a class="reference internal" href="#_CPPv2I_8Variable_8Variable_7ContextEN5annex5range11group_rangeE" title="annex::range::group_range::Equiv">Equiv</a>, <a class="reference internal" href="#_CPPv2I_8Variable_8Variable_7ContextEN5annex5range11group_rangeE" title="annex::range::group_range::Ctx">Ctx</a>&gt;&gt;<a class="headerlink" href="#_CPPv2I_8Variable_8Variable_7ContextEN5annex5range11group_rangeE" title="Permalink to this definition">¶</a></dt>
+<dt id="_CPPv2I_8Variable_8Variable_16MultipassContextEN5annex5range11group_rangeE">
+template&lt;<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a> <code class="descclassname"></code><code class="descname">Proj</code>, <a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a> <code class="descclassname"></code><code class="descname">Equiv</code>, <a class="reference internal" href="concepts.html#_CPPv2I0EX7ContextI3CtxEEN5annex5range16MultipassContextE" title="annex::range::MultipassContext">MultipassContext</a> <code class="descclassname"></code><code class="descname">Ctx</code>&gt;<br /><em class="property">using </em><code class="descclassname"></code><code class="descname">group_range</code> = bounded_context&lt;group_context&lt;Proj, Equiv, Ctx&gt;&gt;<a class="headerlink" href="#_CPPv2I_8Variable_8Variable_16MultipassContextEN5annex5range11group_rangeE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -817,10 +889,9 @@ template&lt;<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Additional requirements:</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><p class="first"><a class="reference internal" href="annex.html#_CPPv2I_8VariableDpEN5annex9InvokableE" title="annex::Invokable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Invokable&lt;meta::as_const&lt;Proj&amp;&gt;,</span> <span class="pre">peek_t&gt;</span></code></a></p>
+<tr class="field-even field"><td>&#160;</td><td class="field-body"><p class="first"><a class="reference internal" href="annex.html#_CPPv2I_8VariableDpEN5annex9InvokableE" title="annex::Invokable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Invokable&lt;meta::as_const&lt;Proj&amp;&gt;,</span> <span class="pre">peek_t&gt;</span></code></a></p>
 <p><a class="reference internal" href="annex.html#_CPPv2I_8Variable00EN5annex11EquivalenceE" title="annex::Equivalence"><code class="xref cpp cpp-any docutils literal"><span class="pre">Equivalence&lt;meta::as_const&lt;Equiv&amp;&gt;,</span> <span class="pre">meta::as_const&lt;proj_t&amp;&gt;,</span> <span class="pre">proj_t&gt;</span></code></a></p>
-<p><a class="reference internal" href="concepts.html#_CPPv2I0EX7ContextI3CtxEEN5annex5range8SaveableE" title="annex::range::Saveable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Saveable&lt;Ctx&gt;</span></code></a></p>
-<p class="last"><a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex8CopyableE" title="annex::Copyable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Copyable&lt;position_t&lt;Ctx&gt;&gt;</span></code></a></p>
+<p class="last"><a class="reference internal" href="concepts.html#_CPPv2I0EX7ContextI3CtxEEN5annex5range8SaveableE" title="annex::range::Saveable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Saveable&lt;Ctx&gt;</span></code></a></p>
 </td>
 </tr>
 </tbody>
@@ -829,9 +900,8 @@ template&lt;<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN
 
 <dl class="var">
 <dt id="_CPPv2N5annex5range5groupE">
-<span id="annex::range::group__functors::groupCR"></span><em class="property">constexpr</em> functors::group <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">group</code><a class="headerlink" href="#_CPPv2N5annex5range5groupE" title="Permalink to this definition">¶</a></dt>
-<dd><p>In <code class="file docutils literal"><span class="pre">annex/range/transformation/group.hpp</span></code>.</p>
-<div class="admonition warning">
+<span id="annex::range::group__functors::groupCR"></span><em class="property">constexpr</em> functors::group <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">group</code><a class="headerlink" href="#_CPPv2N5annex5range5groupE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><div class="admonition warning">
 <p class="first admonition-title">Warning</p>
 <p class="last">This library feature is much more experimental than the rest, and is considered incomplete or unsatisfactory. It is
 likely to be subject to significant changes or dropped altogether.</p>
@@ -839,12 +909,10 @@ likely to be subject to significant changes or dropped altogether.</p>
 <p>This constant is a <a class="reference internal" href="reference.html#range-function"><span class="std std-ref">Range function</span></a> with one or more associated <a class="reference internal" href="annex.html#simple-model"><span class="std std-ref">simple
 models</span></a>:</p>
 <blockquote>
-<div><a class="reference internal" href="#_CPPv2I_8Variable_8Variable_7ContextEN5annex5range11group_rangeE" title="annex::range::group_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">template&lt;Variable</span> <span class="pre">Proj,</span> <span class="pre">Variable</span> <span class="pre">Equiv,</span> <span class="pre">Context</span> <span class="pre">Ctx&gt;</span> <span class="pre">group_range</span></code></a></div></blockquote>
+<div><a class="reference internal" href="#_CPPv2I_8Variable_8Variable_16MultipassContextEN5annex5range11group_rangeE" title="annex::range::group_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">template&lt;Variable</span> <span class="pre">Proj,</span> <span class="pre">Variable</span> <span class="pre">Equiv,</span> <span class="pre">MultipassContext</span> <span class="pre">Ctx&gt;</span> <span class="pre">group_range</span></code></a></div></blockquote>
 <dl class="function">
-<dt>
-template&lt;<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex15ForwardableTypeE" title="annex::ForwardableType">ForwardableType</a> <code class="descclassname"></code><code class="descname">Proj</code>, <a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex15ForwardableTypeE" title="annex::ForwardableType">ForwardableType</a> <code class="descclassname"></code><code class="descname">Equiv</code>, <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex17MoveConstructibleE" title="annex::MoveConstructible">MoveConstructible</a> <code class="descclassname"></code><code class="descname">Rng</code>&gt;</dt>
 <dt id="_CPPv2I_15ForwardableType_15ForwardableType_17MoveConstructibleENK5annex5range5groupclERR4ProjRR5Equiv3Rng">
-<em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I_8Variable_8Variable_7ContextEN5annex5range11group_rangeE" title="annex::range::group_range">group_range</a>&lt;<a class="reference internal" href="#_CPPv2I_15ForwardableType_15ForwardableType_17MoveConstructibleENK5annex5range5groupclERR4ProjRR5Equiv3Rng" title="annex::range::group::operator()::Proj">Proj</a>, <a class="reference internal" href="#_CPPv2I_15ForwardableType_15ForwardableType_17MoveConstructibleENK5annex5range5groupclERR4ProjRR5Equiv3Rng" title="annex::range::group::operator()::Equiv">Equiv</a>, <a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3RngEEN5annex5range9context_tE" title="annex::range::context_t">context_t</a>&lt;<a class="reference internal" href="#_CPPv2I_15ForwardableType_15ForwardableType_17MoveConstructibleENK5annex5range5groupclERR4ProjRR5Equiv3Rng" title="annex::range::group::operator()::Rng">Rng</a>&gt;&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I_15ForwardableType_15ForwardableType_17MoveConstructibleENK5annex5range5groupclERR4ProjRR5Equiv3Rng" title="annex::range::group::operator()::Proj">Proj</a> &amp;&amp;<em>proj</em>, <a class="reference internal" href="#_CPPv2I_15ForwardableType_15ForwardableType_17MoveConstructibleENK5annex5range5groupclERR4ProjRR5Equiv3Rng" title="annex::range::group::operator()::Equiv">Equiv</a> &amp;&amp;<em>equiv</em>, <a class="reference internal" href="#_CPPv2I_15ForwardableType_15ForwardableType_17MoveConstructibleENK5annex5range5groupclERR4ProjRR5Equiv3Rng" title="annex::range::group::operator()::Rng">Rng</a> <em>rng</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I_15ForwardableType_15ForwardableType_17MoveConstructibleENK5annex5range5groupclERR4ProjRR5Equiv3Rng" title="Permalink to this definition">¶</a></dt>
+template&lt;<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex15ForwardableTypeE" title="annex::ForwardableType">ForwardableType</a> <code class="descclassname"></code><code class="descname">Proj</code>, <a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex15ForwardableTypeE" title="annex::ForwardableType">ForwardableType</a> <code class="descclassname"></code><code class="descname">Equiv</code>, <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex17MoveConstructibleE" title="annex::MoveConstructible">MoveConstructible</a> <code class="descclassname"></code><code class="descname">Rng</code>&gt;<br /><em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I_8Variable_8Variable_16MultipassContextEN5annex5range11group_rangeE" title="annex::range::group_range">group_range</a>&lt;<a class="reference internal" href="#_CPPv2I_15ForwardableType_15ForwardableType_17MoveConstructibleENK5annex5range5groupclERR4ProjRR5Equiv3Rng" title="annex::range::group::operator()::Proj">Proj</a>, <a class="reference internal" href="#_CPPv2I_15ForwardableType_15ForwardableType_17MoveConstructibleENK5annex5range5groupclERR4ProjRR5Equiv3Rng" title="annex::range::group::operator()::Equiv">Equiv</a>, <a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3RngEEN5annex5range9context_tE" title="annex::range::context_t">context_t</a>&lt;<a class="reference internal" href="#_CPPv2I_15ForwardableType_15ForwardableType_17MoveConstructibleENK5annex5range5groupclERR4ProjRR5Equiv3Rng" title="annex::range::group::operator()::Rng">Rng</a>&gt;&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I_15ForwardableType_15ForwardableType_17MoveConstructibleENK5annex5range5groupclERR4ProjRR5Equiv3Rng" title="annex::range::group::operator()::Proj">Proj</a> &amp;&amp;<em>proj</em>, <a class="reference internal" href="#_CPPv2I_15ForwardableType_15ForwardableType_17MoveConstructibleENK5annex5range5groupclERR4ProjRR5Equiv3Rng" title="annex::range::group::operator()::Equiv">Equiv</a> &amp;&amp;<em>equiv</em>, <a class="reference internal" href="#_CPPv2I_15ForwardableType_15ForwardableType_17MoveConstructibleENK5annex5range5groupclERR4ProjRR5Equiv3Rng" title="annex::range::group::operator()::Rng">Rng</a> <em>rng</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I_15ForwardableType_15ForwardableType_17MoveConstructibleENK5annex5range5groupclERR4ProjRR5Equiv3Rng" title="Permalink to this definition">¶</a><br /></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -909,7 +977,7 @@ then the result of <a class="reference internal" href="#_CPPv2N5annex5range5grou
 </td>
 </tr>
 <tr class="row-odd"><td>Rust</td>
-<td><div class="first last highlight-rust"><div class="highlight"><pre><span></span><span class="kn">use</span><span class="w"> </span><span class="n">itertools</span><span class="o">::</span><span class="n">Itertools</span><span class="p">;</span><span class="w"></span>
+<td><div class="first last highlight-rust"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">itertools</span>::<span class="n">Itertools</span><span class="p">;</span><span class="w"></span>
 <span class="c1">// no direct way of specifying equiv</span>
 <span class="n">xs</span><span class="p">.</span><span class="n">group_by</span><span class="p">(</span><span class="n">proj</span><span class="p">)</span><span class="w"></span>
 </pre></div>
@@ -947,9 +1015,9 @@ then the result of <a class="reference internal" href="#_CPPv2N5annex5range5grou
 <li><strong>proj</strong> &#8211; A projection to select which property or aspect of the <em>rng</em> elements will be compared for equivalence.
 Consequently, must satisfy <a class="reference internal" href="annex.html#_CPPv2I_8VariableDpEN5annex9InvokableE" title="annex::Invokable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Invokable&lt;meta::as_const&lt;Proj&amp;&gt;,</span> <span class="pre">peek_t&gt;</span></code></a>.</li>
 <li><strong>equiv</strong> &#8211; An equivalence relation over some property or aspect of the <em>rng</em> elements. Consequently, must satisfy
-<a class="reference internal" href="annex.html#_CPPv2I_8Variable00EN5annex11EquivalenceE" title="annex::Equivalence"><code class="xref cpp cpp-any docutils literal"><span class="pre">Equivalence&lt;meta::as_const&lt;Equiv&amp;&gt;,</span> <span class="pre">meta::as_const&lt;proj_t&amp;&gt;,</span> <span class="pre">proj_t&gt;</span></code></a></li>
-<li><strong>rng</strong> &#8211; <a class="reference internal" href="concepts.html#_CPPv2I0EX7ContextI3CtxEEN5annex5range8SaveableE" title="annex::range::Saveable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Saveable</span></code></a>, <a class="reference internal" href="concepts.html#copy-save-pass"><span class="std std-ref">multi-pass</span></a> <a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a>. Additionally, <code class="docutils literal"><span class="pre">proj_t</span></code> must be a reference type or model
-<a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex7MovableE" title="annex::Movable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Movable</span></code></a></li>
+<a class="reference internal" href="annex.html#_CPPv2I_8Variable00EN5annex11EquivalenceE" title="annex::Equivalence"><code class="xref cpp cpp-any docutils literal"><span class="pre">Equivalence&lt;meta::as_const&lt;Equiv&amp;&gt;,</span> <span class="pre">meta::as_const&lt;proj_t&amp;&gt;,</span> <span class="pre">proj_t&gt;</span></code></a>.</li>
+<li><strong>rng</strong> &#8211; <a class="reference internal" href="concepts.html#_CPPv2I0EX7ContextI3CtxEEN5annex5range8SaveableE" title="annex::range::Saveable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Saveable</span></code></a> <a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a> with a multi-pass context. Additionally, <code class="docutils literal"><span class="pre">proj_t</span></code> must be a reference type
+or model <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex7MovableE" title="annex::Movable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Movable</span></code></a>.</li>
 </ul>
 </td>
 </tr>
@@ -965,12 +1033,10 @@ types</td>
 <td>a subrange, see below</td>
 </tr>
 <tr class="row-even"><td>Traversal</td>
-<td><a class="reference internal" href="concepts.html#_CPPv2I0EX18DoubleEndedContextI3CtxEEN5annex5range20BidirectionalContextE" title="annex::range::BidirectionalContext"><code class="xref cpp cpp-any docutils literal"><span class="pre">BidirectionalContext</span></code></a> if and only if <code class="xref cpp cpp-any docutils literal"><span class="pre">Ctx</span></code> is bidirectional, <a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3CtxEEN5annex5range7ContextE" title="annex::range::Context"><code class="xref cpp cpp-any docutils literal"><span class="pre">Context</span></code></a> otherwise</td>
+<td><a class="reference internal" href="concepts.html#_CPPv2I0EX16MultipassContextI3CtxEEN5annex5range20BidirectionalContextE" title="annex::range::BidirectionalContext"><code class="xref cpp cpp-any docutils literal"><span class="pre">BidirectionalContext</span></code></a> if <code class="xref cpp cpp-any docutils literal"><span class="pre">Ctx</span></code> is bidirectional, else <a class="reference internal" href="concepts.html#_CPPv2I0EX7ContextI3CtxEEN5annex5range16MultipassContextE" title="annex::range::MultipassContext"><code class="xref cpp cpp-any docutils literal"><span class="pre">MultipassContext</span></code></a> if <code class="xref cpp cpp-any docutils literal"><span class="pre">Ctx</span></code>
+is and <code class="docutils literal"><span class="pre">proj_t</span></code> is a reference type or models <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex8CopyableE" title="annex::Copyable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Copyable</span></code></a>, <a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3CtxEEN5annex5range7ContextE" title="annex::range::Context"><code class="xref cpp cpp-any docutils literal"><span class="pre">Context</span></code></a> otherwise</td>
 </tr>
-<tr class="row-odd"><td>Multi-pass</td>
-<td>if and only if <code class="xref cpp cpp-any docutils literal"><span class="pre">Ctx</span></code> is and <code class="docutils literal"><span class="pre">proj_t</span></code> is a reference type or models <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex8CopyableE" title="annex::Copyable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Copyable</span></code></a></td>
-</tr>
-<tr class="row-even"><td>Saveable</td>
+<tr class="row-odd"><td>Saveable</td>
 <td>if and only if <a class="reference internal" href="#_CPPv2I_15ForwardableType_15ForwardableType_17MoveConstructibleENK5annex5range5groupclERR4ProjRR5Equiv3Rng" title="annex::range::group::operator()::Proj"><code class="xref cpp cpp-any docutils literal"><span class="pre">Proj</span></code></a> and <a class="reference internal" href="#_CPPv2I_15ForwardableType_15ForwardableType_17MoveConstructibleENK5annex5range5groupclERR4ProjRR5Equiv3Rng" title="annex::range::group::operator()::Equiv"><code class="xref cpp cpp-any docutils literal"><span class="pre">Equiv</span></code></a> model <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex17CopyConstructibleE" title="annex::CopyConstructible"><code class="xref cpp cpp-any docutils literal"><span class="pre">CopyConstructible</span></code></a></td>
 </tr>
 </tbody>
@@ -989,10 +1055,7 @@ types</td>
 <tr class="row-even"><td>Traversal</td>
 <td>same as <code class="xref cpp cpp-any docutils literal"><span class="pre">Ctx</span></code></td>
 </tr>
-<tr class="row-odd"><td>Multi-pass</td>
-<td>same as <code class="xref cpp cpp-any docutils literal"><span class="pre">Ctx</span></code></td>
-</tr>
-<tr class="row-even"><td>Saveable</td>
+<tr class="row-odd"><td>Saveable</td>
 <td>yes</td>
 </tr>
 </tbody>
@@ -1000,11 +1063,11 @@ types</td>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Additional construction complexity:</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><p class="first">Linear time with respect to the number of elements of <em>ctx</em>.</p>
+<tr class="field-even field"><td>&#160;</td><td class="field-body"><p class="first">Linear time with respect to the number of elements of <em>ctx</em>.</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Simple context members:</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><p class="first"><code class="docutils literal"><span class="pre">grouping_projection</span></code>: <em>proj</em></p>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><p class="first"><code class="docutils literal"><span class="pre">grouping_projection</span></code>: <em>proj</em></p>
 <p><code class="docutils literal"><span class="pre">grouping_equivalence</span></code>: <em>equiv</em></p>
 <p class="last"><code class="docutils literal"><span class="pre">grouped_context</span></code>: <em>ctx</em></p>
 </td>
@@ -1014,18 +1077,16 @@ types</td>
 </dd></dl>
 
 <dl class="function">
-<dt>
-<a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex17MoveConstructibleE" title="annex::MoveConstructible">MoveConstructible</a>{<code class="descname">Rng</code>}</dt>
 <dt id="_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range5groupclE3Rng">
-<em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I_8Variable_8Variable_7ContextEN5annex5range11group_rangeE" title="annex::range::group_range">group_range</a>&lt;functors::forward, functors::equal_to, <a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3RngEEN5annex5range9context_tE" title="annex::range::context_t">context_t</a>&lt;<a class="reference internal" href="#_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range5groupclE3Rng" title="annex::range::group::operator()::Rng">Rng</a>&gt;&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range5groupclE3Rng" title="annex::range::group::operator()::Rng">Rng</a> <em>rng</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range5groupclE3Rng" title="Permalink to this definition">¶</a></dt>
+<a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex17MoveConstructibleE" title="annex::MoveConstructible">MoveConstructible</a>{<code class="descname">Rng</code>}<br /><em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I_8Variable_8Variable_16MultipassContextEN5annex5range11group_rangeE" title="annex::range::group_range">group_range</a>&lt;functors::forward, functors::equal_to, <a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3RngEEN5annex5range9context_tE" title="annex::range::context_t">context_t</a>&lt;<a class="reference internal" href="#_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range5groupclE3Rng" title="annex::range::group::operator()::Rng">Rng</a>&gt;&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range5groupclE3Rng" title="annex::range::group::operator()::Rng">Rng</a> <em>rng</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range5groupclE3Rng" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Create a range over the successive groupings of elements of <em>rng</em> that compare equal. Equivalent to
 <a class="reference internal" href="#_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range5groupclE3Rng" title="annex::range::group::operator()"><code class="xref cpp cpp-any docutils literal"><span class="pre">operator()(functors::forward</span> <span class="pre">{},</span> <span class="pre">functors::equal_to</span> <span class="pre">{},</span> <span class="pre">std::move(rng))</span></code></a>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rng</strong> &#8211; <a class="reference internal" href="concepts.html#_CPPv2I0EX7ContextI3CtxEEN5annex5range8SaveableE" title="annex::range::Saveable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Saveable</span></code></a>, <a class="reference internal" href="concepts.html#copy-save-pass"><span class="std std-ref">multi-pass</span></a> <a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a> of <a class="reference internal" href="annex.html#_CPPv2I_8Variable_8VariableEN5annex18EqualityComparableE" title="annex::EqualityComparable"><code class="xref cpp cpp-any docutils literal"><span class="pre">EqualityComparable</span></code></a> elements. The elements must be
-references or model <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex8CopyableE" title="annex::Copyable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Copyable</span></code></a>.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rng</strong> &#8211; <a class="reference internal" href="concepts.html#_CPPv2I0EX7ContextI3CtxEEN5annex5range8SaveableE" title="annex::range::Saveable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Saveable</span></code></a> <a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a> with a multi-pass context of <a class="reference internal" href="annex.html#_CPPv2I_8Variable_8VariableEN5annex18EqualityComparableE" title="annex::EqualityComparable"><code class="xref cpp cpp-any docutils literal"><span class="pre">EqualityComparable</span></code></a> elements. The elements must
+be references or model <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex8CopyableE" title="annex::Copyable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Copyable</span></code></a>.</td>
 </tr>
 </tbody>
 </table>
@@ -1035,14 +1096,11 @@ references or model <a class="reference internal" href="annex.html#_CPPv2I0EX8Va
 
 <dl class="var">
 <dt id="_CPPv2N5annex5range8group_byE">
-<span id="annex::range::group_by__functors::group_byCR"></span><em class="property">constexpr</em> functors::group_by <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">group_by</code><a class="headerlink" href="#_CPPv2N5annex5range8group_byE" title="Permalink to this definition">¶</a></dt>
-<dd><p>In <code class="file docutils literal"><span class="pre">annex/range/transformation/group.hpp</span></code>.</p>
-<p>This constant is a <a class="reference internal" href="reference.html#range-function"><span class="std std-ref">Range function</span></a>.</p>
+<span id="annex::range::group_by__functors::group_byCR"></span><em class="property">constexpr</em> functors::group_by <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">group_by</code><a class="headerlink" href="#_CPPv2N5annex5range8group_byE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This constant is a <a class="reference internal" href="reference.html#range-function"><span class="std std-ref">Range function</span></a>.</p>
 <dl class="function">
-<dt>
-template&lt;<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex15ForwardableTypeE" title="annex::ForwardableType">ForwardableType</a> <code class="descclassname"></code><code class="descname">Proj</code>, <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex17MoveConstructibleE" title="annex::MoveConstructible">MoveConstructible</a> <code class="descclassname"></code><code class="descname">Rng</code>&gt;</dt>
 <dt id="_CPPv2I_15ForwardableType_17MoveConstructibleENK5annex5range8group_byclERR4Proj3Rng">
-<em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I_8Variable_8Variable_7ContextEN5annex5range11group_rangeE" title="annex::range::group_range">group_range</a>&lt;<a class="reference internal" href="#_CPPv2I_15ForwardableType_17MoveConstructibleENK5annex5range8group_byclERR4Proj3Rng" title="annex::range::group_by::operator()::Proj">Proj</a>, functors::equal_to, <a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3RngEEN5annex5range9context_tE" title="annex::range::context_t">context_t</a>&lt;<a class="reference internal" href="#_CPPv2I_15ForwardableType_17MoveConstructibleENK5annex5range8group_byclERR4Proj3Rng" title="annex::range::group_by::operator()::Rng">Rng</a>&gt;&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I_15ForwardableType_17MoveConstructibleENK5annex5range8group_byclERR4Proj3Rng" title="annex::range::group_by::operator()::Proj">Proj</a> &amp;&amp;<em>proj</em>, <a class="reference internal" href="#_CPPv2I_15ForwardableType_17MoveConstructibleENK5annex5range8group_byclERR4Proj3Rng" title="annex::range::group_by::operator()::Rng">Rng</a> <em>rng</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I_15ForwardableType_17MoveConstructibleENK5annex5range8group_byclERR4Proj3Rng" title="Permalink to this definition">¶</a></dt>
+template&lt;<a class="reference internal" href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex15ForwardableTypeE" title="annex::ForwardableType">ForwardableType</a> <code class="descclassname"></code><code class="descname">Proj</code>, <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex17MoveConstructibleE" title="annex::MoveConstructible">MoveConstructible</a> <code class="descclassname"></code><code class="descname">Rng</code>&gt;<br /><em class="property">constexpr</em> <a class="reference internal" href="#_CPPv2I_8Variable_8Variable_16MultipassContextEN5annex5range11group_rangeE" title="annex::range::group_range">group_range</a>&lt;<a class="reference internal" href="#_CPPv2I_15ForwardableType_17MoveConstructibleENK5annex5range8group_byclERR4Proj3Rng" title="annex::range::group_by::operator()::Proj">Proj</a>, functors::equal_to, <a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3RngEEN5annex5range9context_tE" title="annex::range::context_t">context_t</a>&lt;<a class="reference internal" href="#_CPPv2I_15ForwardableType_17MoveConstructibleENK5annex5range8group_byclERR4Proj3Rng" title="annex::range::group_by::operator()::Rng">Rng</a>&gt;&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I_15ForwardableType_17MoveConstructibleENK5annex5range8group_byclERR4Proj3Rng" title="annex::range::group_by::operator()::Proj">Proj</a> &amp;&amp;<em>proj</em>, <a class="reference internal" href="#_CPPv2I_15ForwardableType_17MoveConstructibleENK5annex5range8group_byclERR4Proj3Rng" title="annex::range::group_by::operator()::Rng">Rng</a> <em>rng</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I_15ForwardableType_17MoveConstructibleENK5annex5range8group_byclERR4Proj3Rng" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>A shorter variant of <a class="reference internal" href="#_CPPv2N5annex5range5groupE" title="annex::range::group"><code class="xref cpp cpp-any docutils literal"><span class="pre">group</span></code></a> where only the projection is specified, and the resulting projected property or
 aspect of the elements of <em>rng</em> is equality compared. Equivalent to <a class="reference internal" href="#_CPPv2I_15ForwardableType_15ForwardableType_17MoveConstructibleENK5annex5range5groupclERR4ProjRR5Equiv3Rng" title="annex::range::group::operator()"><code class="xref cpp cpp-any docutils literal"><span class="pre">group(std::forward&lt;Proj&gt;(proj),</span>
 <span class="pre">functors::equal_to</span> <span class="pre">{},</span> <span class="pre">std::move(rng))</span></code></a>.</p>
@@ -1053,21 +1111,18 @@ aspect of the elements of <em>rng</em> is equality compared. Equivalent to <a cl
 </div>
 <div class="section" id="box">
 <h2>box<a class="headerlink" href="#box" title="Permalink to this headline">¶</a></h2>
+<p>Provided by <code class="file docutils literal"><span class="pre">annex/range/transformation/box.hpp</span></code>.</p>
 <dl class="concept">
-<dt>
-template&lt;typename <code class="descname">Ctx</code>, Traversal <code class="descclassname"></code><code class="descname">Trav</code>, typename <code class="descname">Element</code>, typename <code class="descname">PeekElement</code>, typename <code class="descname">Diff</code>, bool <code class="descclassname"></code><code class="descname">Saveable</code>, bool <code class="descclassname"></code><code class="descname">Multipass</code>&gt;</dt>
-<dt id="_CPPv2I0_9Traversal000_b_bEN5annex5range10ErasableAsE">
-<em class="property">concept </em>bool <code class="descclassname"></code><code class="descname">ErasableAs</code><a class="headerlink" href="#_CPPv2I0_9Traversal000_b_bEN5annex5range10ErasableAsE" title="Permalink to this definition">¶</a></dt>
-<dd><p>Satisfied iff the <a class="reference internal" href="concepts.html#range-properties"><span class="std std-ref">Range properties</span></a> of <a class="reference internal" href="#_CPPv2I0_9Traversal000_b_bEN5annex5range10ErasableAsE" title="annex::range::ErasableAs::Ctx"><code class="xref cpp cpp-any docutils literal"><span class="pre">Ctx</span></code></a> are compatible with the other template arguments. E.g. a
+<dt id="_CPPv2I0_9Traversal000_bEN5annex5range10ErasableAsE">
+template&lt;typename <code class="descname">Ctx</code>, Traversal <code class="descclassname"></code><code class="descname">Trav</code>, typename <code class="descname">Element</code>, typename <code class="descname">PeekElement</code>, typename <code class="descname">Diff</code>, bool <code class="descclassname"></code><code class="descname">Saveable</code>&gt;<br /><em class="property">concept </em>bool <code class="descclassname"></code><code class="descname">ErasableAs</code><a class="headerlink" href="#_CPPv2I0_9Traversal000_bEN5annex5range10ErasableAsE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Satisfied iff the <a class="reference internal" href="concepts.html#range-properties"><span class="std std-ref">Range properties</span></a> of <code class="xref cpp cpp-any docutils literal"><span class="pre">Ctx</span></code> are compatible with the other template arguments. E.g. a
 random-access range with element types <code class="docutils literal"><span class="pre">int&amp;</span></code> can be erased as a bidirectional range with element types
 <code class="docutils literal"><span class="pre">int</span></code>.</p>
 </dd></dl>
 
 <dl class="type">
-<dt>
-template&lt;Traversal <code class="descclassname"></code><code class="descname">Trav</code>, typename <code class="descname">Element</code>, typename <code class="descname">PeekElement</code> = <a class="reference internal" href="#_CPPv2I_9Traversal000_b_bEN5annex5range9any_rangeE" title="annex::range::any_range::Element">Element</a>, typename <code class="descname">Diff</code> = std::ptrdiff_t, bool <code class="descclassname"></code><code class="descname">Saveable</code> = false, bool <code class="descclassname"></code><code class="descname">Multipass</code> = false&gt;</dt>
-<dt id="_CPPv2I_9Traversal000_b_bEN5annex5range9any_rangeE">
-<em class="property">using </em><code class="descclassname"></code><code class="descname">any_range</code> = bounded_context&lt;any_context&lt;<a class="reference internal" href="#_CPPv2I_9Traversal000_b_bEN5annex5range9any_rangeE" title="annex::range::any_range::Trav">Trav</a>, <a class="reference internal" href="#_CPPv2I_9Traversal000_b_bEN5annex5range9any_rangeE" title="annex::range::any_range::Element">Element</a>, <a class="reference internal" href="#_CPPv2I_9Traversal000_b_bEN5annex5range9any_rangeE" title="annex::range::any_range::PeekElement">PeekElement</a>, <a class="reference internal" href="#_CPPv2I_9Traversal000_b_bEN5annex5range9any_rangeE" title="annex::range::any_range::Diff">Diff</a>, <a class="reference internal" href="#_CPPv2I_9Traversal000_b_bEN5annex5range9any_rangeE" title="annex::range::any_range::Saveable">Saveable</a>, <a class="reference internal" href="#_CPPv2I_9Traversal000_b_bEN5annex5range9any_rangeE" title="annex::range::any_range::Multipass">Multipass</a>&gt;&gt;<a class="headerlink" href="#_CPPv2I_9Traversal000_b_bEN5annex5range9any_rangeE" title="Permalink to this definition">¶</a></dt>
+<dt id="_CPPv2I_9Traversal000_bEN5annex5range9any_rangeE">
+template&lt;Traversal <code class="descclassname"></code><code class="descname">Trav</code>, typename <code class="descname">Element</code>, typename <code class="descname">PeekElement</code> = Element, typename <code class="descname">Diff</code> = std::ptrdiff_t, bool <code class="descclassname"></code><code class="descname">Saveable</code> = false&gt;<br /><em class="property">using </em><code class="descclassname"></code><code class="descname">any_range</code> = bounded_context&lt;any_context&lt;Trav, Element, PeekElement, Diff, Saveable&gt;&gt;<a class="headerlink" href="#_CPPv2I_9Traversal000_bEN5annex5range9any_rangeE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>A type-erasing container for a <a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a> which itself behaves as one. The template parameters dictate which
 <a class="reference internal" href="concepts.html#range-properties"><span class="std std-ref">Range properties</span></a> the container will expose, and in turn will require of its underlying range.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1075,13 +1130,12 @@ template&lt;Traversal <code class="descclassname"></code><code class="descname">
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Template Parameters:</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><ul class="first last simple">
 <li><strong>Trav</strong> &#8211; the exposed traversal of the underlying range</li>
 <li><strong>Element</strong> &#8211; the exposed element type of the underlying range</li>
 <li><strong>PeekElement</strong> &#8211; the exposed element type for peeking of the underlying range</li>
 <li><strong>Diff</strong> &#8211; the exposed difference type, if any, of the underlying range</li>
 <li><strong>Saveable</strong> &#8211; true iff the save capability of the underlying range is to be exposed</li>
-<li><strong>Multipass</strong> &#8211; true iff the multi-pass capability of the underlying range is to be exposed</li>
 </ul>
 </td>
 </tr>
@@ -1091,57 +1145,44 @@ template&lt;Traversal <code class="descclassname"></code><code class="descname">
 
 <p>There is one convenience alias per traversal:</p>
 <dl class="type">
-<dt>
-template&lt;typename <code class="descname">Element</code>, typename <code class="descname">PeekElement</code> = <a class="reference internal" href="#_CPPv2I00_b_bEN5annex5range17any_forward_rangeE" title="annex::range::any_forward_range::Element">Element</a>, bool <code class="descclassname"></code><code class="descname">Saveable</code> = false, bool <code class="descclassname"></code><code class="descname">Multipass</code> = false&gt;</dt>
-<dt id="_CPPv2I00_b_bEN5annex5range17any_forward_rangeE">
-<em class="property">using </em><code class="descclassname"></code><code class="descname">any_forward_range</code> = <a class="reference internal" href="#_CPPv2I_9Traversal000_b_bEN5annex5range9any_rangeE" title="annex::range::any_range">any_range</a>&lt;forward_traversal, <a class="reference internal" href="#_CPPv2I00_b_bEN5annex5range17any_forward_rangeE" title="annex::range::any_forward_range::Element">Element</a>, <a class="reference internal" href="#_CPPv2I00_b_bEN5annex5range17any_forward_rangeE" title="annex::range::any_forward_range::PeekElement">PeekElement</a>, std::ptrdiff_t, <a class="reference internal" href="#_CPPv2I00_b_bEN5annex5range17any_forward_rangeE" title="annex::range::any_forward_range::Saveable">Saveable</a>, <a class="reference internal" href="#_CPPv2I00_b_bEN5annex5range17any_forward_rangeE" title="annex::range::any_forward_range::Multipass">Multipass</a>&gt;<a class="headerlink" href="#_CPPv2I00_b_bEN5annex5range17any_forward_rangeE" title="Permalink to this definition">¶</a></dt>
+<dt id="_CPPv2I00_bEN5annex5range17any_forward_rangeE">
+template&lt;typename <code class="descname">Element</code>, typename <code class="descname">PeekElement</code> = Element, bool <code class="descclassname"></code><code class="descname">Saveable</code> = false&gt;<br /><em class="property">using </em><code class="descclassname"></code><code class="descname">any_forward_range</code> = <a class="reference internal" href="#_CPPv2I_9Traversal000_bEN5annex5range9any_rangeE" title="annex::range::any_range">any_range</a>&lt;forward_traversal, Element, PeekElement, std::ptrdiff_t, Saveable&gt;<a class="headerlink" href="#_CPPv2I00_bEN5annex5range17any_forward_rangeE" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="type">
-<dt>
-template&lt;typename <code class="descname">Element</code>, typename <code class="descname">PeekElement</code> = <a class="reference internal" href="#_CPPv2I00_b_bEN5annex5range22any_double_ended_rangeE" title="annex::range::any_double_ended_range::Element">Element</a>, bool <code class="descclassname"></code><code class="descname">Saveable</code> = false, bool <code class="descclassname"></code><code class="descname">Multipass</code> = false&gt;</dt>
-<dt id="_CPPv2I00_b_bEN5annex5range22any_double_ended_rangeE">
-<em class="property">using </em><code class="descclassname"></code><code class="descname">any_double_ended_range</code> = <a class="reference internal" href="#_CPPv2I_9Traversal000_b_bEN5annex5range9any_rangeE" title="annex::range::any_range">any_range</a>&lt;double_ended_traversal, <a class="reference internal" href="#_CPPv2I00_b_bEN5annex5range22any_double_ended_rangeE" title="annex::range::any_double_ended_range::Element">Element</a>, <a class="reference internal" href="#_CPPv2I00_b_bEN5annex5range22any_double_ended_rangeE" title="annex::range::any_double_ended_range::PeekElement">PeekElement</a>, std::ptrdiff_t, <a class="reference internal" href="#_CPPv2I00_b_bEN5annex5range22any_double_ended_rangeE" title="annex::range::any_double_ended_range::Saveable">Saveable</a>, <a class="reference internal" href="#_CPPv2I00_b_bEN5annex5range22any_double_ended_rangeE" title="annex::range::any_double_ended_range::Multipass">Multipass</a>&gt;<a class="headerlink" href="#_CPPv2I00_b_bEN5annex5range22any_double_ended_rangeE" title="Permalink to this definition">¶</a></dt>
+<dt id="_CPPv2I00_bEN5annex5range19any_multipass_rangeE">
+template&lt;typename <code class="descname">Element</code>, typename <code class="descname">PeekElement</code> = Element, bool <code class="descclassname"></code><code class="descname">Saveable</code> = false&gt;<br /><em class="property">using </em><code class="descclassname"></code><code class="descname">any_multipass_range</code> = <a class="reference internal" href="#_CPPv2I_9Traversal000_bEN5annex5range9any_rangeE" title="annex::range::any_range">any_range</a>&lt;forward_traversal, Element, PeekElement, std::ptrdiff_t, Saveable&gt;<a class="headerlink" href="#_CPPv2I00_bEN5annex5range19any_multipass_rangeE" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="type">
-<dt>
-template&lt;typename <code class="descname">Element</code>, typename <code class="descname">PeekElement</code> = <a class="reference internal" href="#_CPPv2I00_bEN5annex5range23any_bidirectional_rangeE" title="annex::range::any_bidirectional_range::Element">Element</a>, bool <code class="descclassname"></code><code class="descname">Saveable</code> = false&gt;</dt>
 <dt id="_CPPv2I00_bEN5annex5range23any_bidirectional_rangeE">
-<em class="property">using </em><code class="descclassname"></code><code class="descname">any_bidirectional_range</code> = <a class="reference internal" href="#_CPPv2I_9Traversal000_b_bEN5annex5range9any_rangeE" title="annex::range::any_range">any_range</a>&lt;bidirectional_traversal, <a class="reference internal" href="#_CPPv2I00_bEN5annex5range23any_bidirectional_rangeE" title="annex::range::any_bidirectional_range::Element">Element</a>, <a class="reference internal" href="#_CPPv2I00_bEN5annex5range23any_bidirectional_rangeE" title="annex::range::any_bidirectional_range::PeekElement">PeekElement</a>, std::ptrdiff_t, <a class="reference internal" href="#_CPPv2I00_bEN5annex5range23any_bidirectional_rangeE" title="annex::range::any_bidirectional_range::Saveable">Saveable</a>, true&gt;<a class="headerlink" href="#_CPPv2I00_bEN5annex5range23any_bidirectional_rangeE" title="Permalink to this definition">¶</a></dt>
+template&lt;typename <code class="descname">Element</code>, typename <code class="descname">PeekElement</code> = Element, bool <code class="descclassname"></code><code class="descname">Saveable</code> = false&gt;<br /><em class="property">using </em><code class="descclassname"></code><code class="descname">any_bidirectional_range</code> = <a class="reference internal" href="#_CPPv2I_9Traversal000_bEN5annex5range9any_rangeE" title="annex::range::any_range">any_range</a>&lt;bidirectional_traversal, Element, PeekElement, std::ptrdiff_t, Saveable&gt;<a class="headerlink" href="#_CPPv2I00_bEN5annex5range23any_bidirectional_rangeE" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="type">
-<dt>
-template&lt;typename <code class="descname">Element</code>, typename <code class="descname">PeekElement</code> = <a class="reference internal" href="#_CPPv2I000_bEN5annex5range23any_random_access_rangeE" title="annex::range::any_random_access_range::Element">Element</a>, typename <code class="descname">Diff</code> = std::ptrdiff_t, bool <code class="descclassname"></code><code class="descname">Saveable</code> = false&gt;</dt>
 <dt id="_CPPv2I000_bEN5annex5range23any_random_access_rangeE">
-<em class="property">using </em><code class="descclassname"></code><code class="descname">any_random_access_range</code> = <a class="reference internal" href="#_CPPv2I_9Traversal000_b_bEN5annex5range9any_rangeE" title="annex::range::any_range">any_range</a>&lt;random_access_traversal, <a class="reference internal" href="#_CPPv2I000_bEN5annex5range23any_random_access_rangeE" title="annex::range::any_random_access_range::Element">Element</a>, <a class="reference internal" href="#_CPPv2I000_bEN5annex5range23any_random_access_rangeE" title="annex::range::any_random_access_range::PeekElement">PeekElement</a>, <a class="reference internal" href="#_CPPv2I000_bEN5annex5range23any_random_access_rangeE" title="annex::range::any_random_access_range::Diff">Diff</a>, <a class="reference internal" href="#_CPPv2I000_bEN5annex5range23any_random_access_rangeE" title="annex::range::any_random_access_range::Saveable">Saveable</a>, true&gt;<a class="headerlink" href="#_CPPv2I000_bEN5annex5range23any_random_access_rangeE" title="Permalink to this definition">¶</a></dt>
+template&lt;typename <code class="descname">Element</code>, typename <code class="descname">PeekElement</code> = Element, typename <code class="descname">Diff</code> = std::ptrdiff_t, bool <code class="descclassname"></code><code class="descname">Saveable</code> = false&gt;<br /><em class="property">using </em><code class="descclassname"></code><code class="descname">any_random_access_range</code> = <a class="reference internal" href="#_CPPv2I_9Traversal000_bEN5annex5range9any_rangeE" title="annex::range::any_range">any_range</a>&lt;random_access_traversal, Element, PeekElement, Diff, Saveable&gt;<a class="headerlink" href="#_CPPv2I000_bEN5annex5range23any_random_access_rangeE" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="type">
-<dt>
-<a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3CtxEEN5annex5range7ContextE" title="annex::range::Context">Context</a>{<code class="descname">Ctx</code>}</dt>
 <dt id="_CPPv2I0EX7ContextI3CtxEEN5annex5range13any_range_forE">
-<em class="property">using </em><code class="descclassname"></code><code class="descname">any_range_for</code><a class="headerlink" href="#_CPPv2I0EX7ContextI3CtxEEN5annex5range13any_range_forE" title="Permalink to this definition">¶</a></dt>
-<dd><p>An <a class="reference internal" href="#_CPPv2I_9Traversal000_b_bEN5annex5range9any_rangeE" title="annex::range::any_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">any_range</span></code></a> specialization with <a class="reference internal" href="concepts.html#range-properties"><span class="std std-ref">Range properties</span></a> equivalent to that of  <a class="reference internal" href="#_CPPv2I0EX7ContextI3CtxEEN5annex5range13any_range_forE" title="annex::range::any_range_for::Ctx"><code class="xref cpp cpp-any docutils literal"><span class="pre">Ctx</span></code></a>. E.g. they will have
+<a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3CtxEEN5annex5range7ContextE" title="annex::range::Context">Context</a>{<code class="descname">Ctx</code>}<br /><em class="property">using </em><code class="descclassname"></code><code class="descname">any_range_for</code><a class="headerlink" href="#_CPPv2I0EX7ContextI3CtxEEN5annex5range13any_range_forE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>An <a class="reference internal" href="#_CPPv2I_9Traversal000_bEN5annex5range9any_rangeE" title="annex::range::any_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">any_range</span></code></a> specialization with <a class="reference internal" href="concepts.html#range-properties"><span class="std std-ref">Range properties</span></a> equivalent to that of  <code class="xref cpp cpp-any docutils literal"><span class="pre">Ctx</span></code>. E.g. they will have
 identical traversal and element types.</p>
 </dd></dl>
 
 <dl class="var">
 <dt id="_CPPv2N5annex5range3boxE">
-<span id="annex::range::box__functors::boxCR"></span><em class="property">constexpr</em> functors::box <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">box</code><a class="headerlink" href="#_CPPv2N5annex5range3boxE" title="Permalink to this definition">¶</a></dt>
-<dd><p>In <code class="file docutils literal"><span class="pre">annex/range/transformation/box.hpp</span></code>.</p>
-<p>This constant is a <a class="reference internal" href="reference.html#range-function"><span class="std std-ref">Range function</span></a> with one or more associated <a class="reference internal" href="annex.html#simple-model"><span class="std std-ref">simple
+<span id="annex::range::box__functors::boxCR"></span><em class="property">constexpr</em> functors::box <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">box</code><a class="headerlink" href="#_CPPv2N5annex5range3boxE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This constant is a <a class="reference internal" href="reference.html#range-function"><span class="std std-ref">Range function</span></a> with one or more associated <a class="reference internal" href="annex.html#simple-model"><span class="std std-ref">simple
 models</span></a>:</p>
 <blockquote>
-<div><a class="reference internal" href="#_CPPv2I_9Traversal000_b_bEN5annex5range9any_rangeE" title="annex::range::any_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">template&lt;Traversal</span> <span class="pre">Trav,</span> <span class="pre">typename</span> <span class="pre">Element,</span> <span class="pre">typename</span> <span class="pre">PeekElement</span> <span class="pre">=</span> <span class="pre">Element,</span> <span class="pre">typename</span> <span class="pre">Diff</span> <span class="pre">=</span> <span class="pre">std::ptrdiff_t,</span> <span class="pre">bool</span> <span class="pre">Saveable</span> <span class="pre">=</span> <span class="pre">false,</span> <span class="pre">bool</span> <span class="pre">Multipass</span> <span class="pre">=</span> <span class="pre">false&gt;</span>
+<div><a class="reference internal" href="#_CPPv2I_9Traversal000_bEN5annex5range9any_rangeE" title="annex::range::any_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">template&lt;Traversal</span> <span class="pre">Trav,</span> <span class="pre">typename</span> <span class="pre">Element,</span> <span class="pre">typename</span> <span class="pre">PeekElement</span> <span class="pre">=</span> <span class="pre">Element,</span> <span class="pre">typename</span> <span class="pre">Diff</span> <span class="pre">=</span> <span class="pre">std::ptrdiff_t,</span> <span class="pre">bool</span> <span class="pre">Saveable</span> <span class="pre">=</span> <span class="pre">false&gt;</span>
 <span class="pre">any_range</span></code></a></div></blockquote>
 <dl class="function">
-<dt>
-<a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex17MoveConstructibleE" title="annex::MoveConstructible">MoveConstructible</a>{<code class="descname">Rng</code>}</dt>
 <dt id="_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range3boxclE3Rng">
-<a class="reference internal" href="#_CPPv2I0EX7ContextI3CtxEEN5annex5range13any_range_forE" title="annex::range::any_range_for">any_range_for</a>&lt;<a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3RngEEN5annex5range9context_tE" title="annex::range::context_t">context_t</a>&lt;<a class="reference internal" href="#_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range3boxclE3Rng" title="annex::range::box::operator()::Rng">Rng</a>&gt;&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range3boxclE3Rng" title="annex::range::box::operator()::Rng">Rng</a> <em>rng</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range3boxclE3Rng" title="Permalink to this definition">¶</a></dt>
-<dd><p>Box <em>rng</em> into a type-erased <a class="reference internal" href="#_CPPv2I_9Traversal000_b_bEN5annex5range9any_rangeE" title="annex::range::any_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">any_range</span></code></a> container.</p>
+<a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex17MoveConstructibleE" title="annex::MoveConstructible">MoveConstructible</a>{<code class="descname">Rng</code>}<br /><a class="reference internal" href="#_CPPv2I0EX7ContextI3CtxEEN5annex5range13any_range_forE" title="annex::range::any_range_for">any_range_for</a>&lt;<a class="reference internal" href="concepts.html#_CPPv2I0EX4TypeI3RngEEN5annex5range9context_tE" title="annex::range::context_t">context_t</a>&lt;<a class="reference internal" href="#_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range3boxclE3Rng" title="annex::range::box::operator()::Rng">Rng</a>&gt;&gt; <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range3boxclE3Rng" title="annex::range::box::operator()::Rng">Rng</a> <em>rng</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range3boxclE3Rng" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Box <em>rng</em> into a type-erased <a class="reference internal" href="#_CPPv2I_9Traversal000_bEN5annex5range9any_rangeE" title="annex::range::any_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">any_range</span></code></a> container.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1151,7 +1192,7 @@ models</span></a>:</p>
 <tr class="field-even field"><th class="field-name">Models:</th><td class="field-body"><a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a> with identical <a class="reference internal" href="concepts.html#range-properties"><span class="std std-ref">Range properties</span></a> as that of <a class="reference internal" href="#_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range3boxclE3Rng" title="annex::range::box::operator()::Rng"><code class="xref cpp cpp-any docutils literal"><span class="pre">Rng</span></code></a>.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Additional construction complexity:</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">None.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">None.</td>
 </tr>
 </tbody>
 </table>
@@ -1160,56 +1201,50 @@ models</span></a>:</p>
 </dd></dl>
 
 <dl class="var">
-<dt>
-template&lt;Traversal <code class="descclassname"></code><code class="descname">Trav</code>, typename <code class="descname">Element</code> = deduced, typename <code class="descname">PeekElement</code> = <a class="reference internal" href="#_CPPv2I_9Traversal00000EN5annex5range6box_asE" title="annex::range::box_as::Element">Element</a>, typename <code class="descname">Diff</code> = deduced, typename <code class="descname">Saveable</code> = deduced, typename <code class="descname">Multipass</code> = deduced&gt;</dt>
-<dt id="_CPPv2I_9Traversal00000EN5annex5range6box_asE">
-<em class="property">constexpr</em> functors::box_as <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">box_as</code><a class="headerlink" href="#_CPPv2I_9Traversal00000EN5annex5range6box_asE" title="Permalink to this definition">¶</a></dt>
-<dd><p>In <code class="file docutils literal"><span class="pre">annex/range/transformation/box.hpp</span></code>.</p>
-<p>This constant is a <a class="reference internal" href="reference.html#range-function"><span class="std std-ref">Range function</span></a> with one or more associated <a class="reference internal" href="annex.html#simple-model"><span class="std std-ref">simple
+<dt id="_CPPv2I_9Traversal0000EN5annex5range6box_asE">
+template&lt;Traversal <code class="descclassname"></code><code class="descname">Trav</code>, typename <code class="descname">Element</code> = deduced, typename <code class="descname">PeekElement</code> = Element, typename <code class="descname">Diff</code> = deduced, typename <code class="descname">Saveable</code> = deduced&gt;<br /><em class="property">constexpr</em> functors::box_as <em class="property">const</em> &amp;<code class="descclassname"></code><code class="descname">box_as</code><a class="headerlink" href="#_CPPv2I_9Traversal0000EN5annex5range6box_asE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This constant is a <a class="reference internal" href="reference.html#range-function"><span class="std std-ref">Range function</span></a> with one or more associated <a class="reference internal" href="annex.html#simple-model"><span class="std std-ref">simple
 models</span></a>:</p>
 <blockquote>
-<div><a class="reference internal" href="#_CPPv2I_9Traversal000_b_bEN5annex5range9any_rangeE" title="annex::range::any_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">template&lt;Traversal</span> <span class="pre">Trav,</span> <span class="pre">typename</span> <span class="pre">Element,</span> <span class="pre">typename</span> <span class="pre">PeekElement</span> <span class="pre">=</span> <span class="pre">Element,</span> <span class="pre">typename</span> <span class="pre">Diff</span> <span class="pre">=</span> <span class="pre">std::ptrdiff_t,</span> <span class="pre">bool</span> <span class="pre">Saveable</span> <span class="pre">=</span> <span class="pre">false,</span> <span class="pre">bool</span> <span class="pre">Multipass</span> <span class="pre">=</span> <span class="pre">false&gt;</span>
+<div><a class="reference internal" href="#_CPPv2I_9Traversal000_bEN5annex5range9any_rangeE" title="annex::range::any_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">template&lt;Traversal</span> <span class="pre">Trav,</span> <span class="pre">typename</span> <span class="pre">Element,</span> <span class="pre">typename</span> <span class="pre">PeekElement</span> <span class="pre">=</span> <span class="pre">Element,</span> <span class="pre">typename</span> <span class="pre">Diff</span> <span class="pre">=</span> <span class="pre">std::ptrdiff_t,</span> <span class="pre">bool</span> <span class="pre">Saveable</span> <span class="pre">=</span> <span class="pre">false&gt;</span>
 <span class="pre">any_range</span></code></a></div></blockquote>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Template Parameters:</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><ul class="first last simple">
 <li><strong>Trav</strong> &#8211; the traversal to expose</li>
 <li><strong>Element</strong> &#8211; the element type to expose</li>
 <li><strong>PeekElement</strong> &#8211; the element type for peeking to expose</li>
 <li><strong>Diff</strong> &#8211; the difference type to expose</li>
 <li><strong>Saveable</strong> &#8211; the save capability to expose, as a meta-boolean (e.g. <code class="xref cpp cpp-any docutils literal"><span class="pre">std::true_type</span></code>)</li>
-<li><strong>Multipass</strong> &#8211; the multi-pass capability to expose, as a meta-boolean (e.g. <code class="xref cpp cpp-any docutils literal"><span class="pre">std::true_type</span></code>)</li>
 </ul>
 </td>
 </tr>
 </tbody>
 </table>
-<p>Parameters other than <a class="reference internal" href="#_CPPv2I_9Traversal00000EN5annex5range6box_asE" title="annex::range::box_as::Trav"><code class="xref cpp cpp-any docutils literal"><span class="pre">Trav</span></code></a> can be left to be deduced (see <code class="xref cpp cpp-any docutils literal"><span class="pre">deduced</span></code>).</p>
+<p>Parameters other than <code class="xref cpp cpp-any docutils literal"><span class="pre">Trav</span></code> can be left to be deduced (see <code class="xref cpp cpp-any docutils literal"><span class="pre">deduced</span></code>).</p>
 <dl class="function">
-<dt>
-<a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex17MoveConstructibleE" title="annex::MoveConstructible">MoveConstructible</a>{<code class="descname">Rng</code>}</dt>
 <dt id="_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range6box_asclE3Rng">
-<a class="reference internal" href="#_CPPv2I_9Traversal000_b_bEN5annex5range9any_rangeE" title="annex::range::any_range">any_range</a> <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range6box_asclE3Rng" title="annex::range::box_as::operator()::Rng">Rng</a> <em>rng</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range6box_asclE3Rng" title="Permalink to this definition">¶</a></dt>
-<dd><p>Box <em>rng</em> into a type-erased <a class="reference internal" href="#_CPPv2I_9Traversal000_b_bEN5annex5range9any_rangeE" title="annex::range::any_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">any_range</span></code></a> container. Like <a class="reference internal" href="#_CPPv2N5annex5range3boxE" title="annex::range::box"><code class="xref cpp cpp-any docutils literal"><span class="pre">box</span></code></a>, except that the user specifies the traversal
+<a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex17MoveConstructibleE" title="annex::MoveConstructible">MoveConstructible</a>{<code class="descname">Rng</code>}<br /><a class="reference internal" href="#_CPPv2I_9Traversal000_bEN5annex5range9any_rangeE" title="annex::range::any_range">any_range</a> <code class="descclassname"></code><code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range6box_asclE3Rng" title="annex::range::box_as::operator()::Rng">Rng</a> <em>rng</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range6box_asclE3Rng" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Box <em>rng</em> into a type-erased <a class="reference internal" href="#_CPPv2I_9Traversal000_bEN5annex5range9any_rangeE" title="annex::range::any_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">any_range</span></code></a> container. Like <a class="reference internal" href="#_CPPv2N5annex5range3boxE" title="annex::range::box"><code class="xref cpp cpp-any docutils literal"><span class="pre">box</span></code></a>, except that the user specifies the traversal
 to use and may additionally specify other <a class="reference internal" href="concepts.html#range-properties"><span class="std std-ref">Range properties</span></a> to override.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rng</strong> &#8211; <a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a> satisfying <a class="reference internal" href="#_CPPv2I0_9Traversal000_b_bEN5annex5range10ErasableAsE" title="annex::range::ErasableAs"><code class="xref cpp cpp-any docutils literal"><span class="pre">ErasableAs&lt;context_t&lt;Rng&gt;,</span> <span class="pre">Properties...&gt;</span></code></a> where the
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rng</strong> &#8211; <a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a> satisfying <a class="reference internal" href="#_CPPv2I0_9Traversal000_bEN5annex5range10ErasableAsE" title="annex::range::ErasableAs"><code class="xref cpp cpp-any docutils literal"><span class="pre">ErasableAs&lt;context_t&lt;Rng&gt;,</span> <span class="pre">Properties...&gt;</span></code></a> where the
 <code class="docutils literal"><span class="pre">Properties...</span></code> is the union of those <a class="reference internal" href="concepts.html#range-properties"><span class="std std-ref">Range properties</span></a> specified by the user and those deduced
 from <a class="reference internal" href="#_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range6box_asclE3Rng" title="annex::range::box_as::operator()::Rng"><code class="xref cpp cpp-any docutils literal"><span class="pre">Rng</span></code></a>.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#_CPPv2I_9Traversal000_b_bEN5annex5range9any_rangeE" title="annex::range::any_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">any_range</span></code></a> specialization</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#_CPPv2I_9Traversal000_bEN5annex5range9any_rangeE" title="annex::range::any_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">any_range</span></code></a> specialization</td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Models:</th><td class="field-body"><a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a> with the <a class="reference internal" href="concepts.html#range-properties"><span class="std std-ref">Range properties</span></a> as set by the template parameters. Any property left to be deduced
 is taken from <a class="reference internal" href="#_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range6box_asclE3Rng" title="annex::range::box_as::operator()::Rng"><code class="xref cpp cpp-any docutils literal"><span class="pre">Rng</span></code></a> instead.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Additional construction complexity:</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body">None.</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">None.</td>
 </tr>
 </tbody>
 </table>

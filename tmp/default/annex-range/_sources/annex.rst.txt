@@ -17,7 +17,7 @@ variables however, but the two can be easily distinguished:
 
 - concepts for variables introduce a `Variable` constraint on at least one parameter, but not necessarily all::
 
-   template<Variable Var, typename... Args> concept bool Invokable = ...;
+   template<Variable Func, typename... Args> concept bool Invokable = ...;
 
 - concepts for types follow the naming convention of ending in ``-Type``, starting with the trivial concept `Type`::
 
@@ -65,11 +65,11 @@ namespace-scope constant function objects or variable templates. That is, someth
 particular ``operator()`` overload on a constant named ``decay``. The motivation behind this is as follows:
 
 - to avoid unwanted and uncontrolled use of Argument-Dependent Lookup
-- to encourage and facilitate higher-order manipulation; e.g. ``auto& decay = annex::decay;`` is an easy way to alias a
+- to encourage and facilitate higher-order manipulation; e.g. ``auto& dc = annex::decay;`` is an easy way to alias a
   :ref:`function`. Perhaps more importantly the referred ``decay`` object can be passed to another :ref:`function` using
   this very same mechanism::
 
-      assert( annex::tuples::map(decay, std::make_tuple(0)) == std::make_tuple(0) );
+      assert( annex::tuples::map(dc, std::make_tuple(0)) == std::make_tuple(0) );
 
   If ``decay`` were a function template, something such as the following would have to be used as a verbose workaround::
 
@@ -202,6 +202,15 @@ Base & convenience concepts
 
     A pseudo-concept for constraining variadic templates that are not valid for empty packs.
 
+Sister concepts are usually presented together, alongside variadic variants when they make sense:
+
+.. concept:: Variable{Var} Example
+             Type{X} ExampleType
+             Variables{... Vars} Examples = (... && Example<Vars>)
+             Types{... Xs} ExampleTypes = (... && ExampleType<Xs>)
+
+    A dummy concept to showcase the documentation.
+
 Construction
 ^^^^^^^^^^^^
 
@@ -213,68 +222,77 @@ These concepts are nearly equivalent to the corresponding trait (e.g. `std::is_c
 .. concept:: template<Variable Var, typename Init> Assignable
 
 .. concept:: Variable{Var} MoveConstructible
+             Variables{... Vars} MoveConstructibles = (... && MoveConstructible<Vars>)
 
 .. concept:: Variable{Var} MoveAssignable
 
 .. concept:: Variable{Var} CopyConstructible
+             Variables{... Vars} CopyConstructibles = (... && CopyConstructible<Vars>)
 
 .. concept:: Variable{Var} CopyAssignable
 
 As well as some shortcuts:
 
 .. concept:: Variable{Var} Movable = MoveConstructible<Var> && MoveAssignable<Var>
+             Variables{... Vars} Movables = (... && Movable<Vars>)
 
 .. concept:: Variable{Var} Copyable = CopyConstructible<Var> && CopyAssignable<Var>
+             Variables{... Vars} Copyables = (... && Copyable<Vars>)
 
 There are construction concepts that make it easy to constrain factory :ref:`functions <function>`:
 
-.. concept:: Type{X} ForwardableType
+.. concept:: Variable{Var} Forwardable
+             Type{X} ForwardableType
+             Variables{... Vars} Forwardables = (... && Forwardable<Vars>)
+             Types{... Xs} ForwardableTypes = (... && ForwardableType<Xs>)
 
     For factories that use :ref:`forward-storing` for their arguments::
 
-        ForwardableType{Param} foo_type<Param> foo(Param&& param)
+        ForwardableType{Param}
+        foo_type<Param> foo(Param&& param)
         {
-            return foo_type<Param> { std::forward<Param>(param) };
+            return { std::forward<Param>(param) };
         }
 
-.. concept:: Type{Var} StorableType
+.. concept:: Variable{Var} Storable
+             Type{Var} StorableType
+             Variables{... Vars} Storables = (... && Storable<Vars>)
+             Types{... Xs} StorableTypes = (... && StorableType<Xs>)
 
     For factories that decay their arguments::
 
-        StorableType{Param} foo_type<std::decay<Param>> make_foo(Param&& param)
+        StorableType{Param}
+        foo_type<std::decay_t<Param>> make_foo(Param&& param)
         {
-            return foo_type<Param> { std::forward<Param>(param) };
+            return { std::forward<Param>(param) };
         }
-
-There also are variadic versions:
-
-.. concept:: Types{... Xs} ForwardableTypes = (... && ForwardableType<Xs>)
-
-.. concept:: Types{... Xs} StorableTypes = (... && StorableType<Xs>)
-
-.. concept:: Types{... Xs} MoveConstructibles = (... && MoveConstructible<Xs>)
 
 Iterators
 ^^^^^^^^^
 
 These correspond to the Standard iterator concepts, but in :ref:`concepts-for-variables` form:
 
-.. concept:: Variable{Var} InputIterator
+.. concept:: Variable{It} InputIterator
+             Type{It} InputIteratorType
 
 .. concept:: InputIterator{It} ForwardIterator
+             InputIteratorType{It} ForwardIteratorType
 
 .. concept:: ForwardIterator{It} BidirectionalIterator
+             ForwardIteratorType{It} BidirectionalIteratorType
 
 .. concept:: BidirectionalIterator{It} RandomAccessIterator
+             BidirectionalIteratorType{It} RandomAccessIteratorType
 
 As well as the non-standard:
 
-.. concept:: Variable{Var} Iterable
+.. concept:: Variable{Iter} Iterable
+             Type{Iter} IterableType
 
     :notation:
       ::
 
-          Var iter;
+          Iter iter;
           auto first = ops::begin(iter);
           auto last  = ops::end(iter);
 
@@ -293,107 +311,152 @@ As well as the non-standard:
         the notional sequence respectively---both results must have identical types, and *last* must be reachable from
         *first*
 
-Invokation
+Invocation
 ^^^^^^^^^^
 
-.. concept:: template<Variable Var, typename... Args> Invokable
+.. var:: constexpr functors::invoke const& invoke
+
+    .. function:: template<typename Func, typename... Args> \
+                  constexpr unspecified operator()(Func&& func, Args&&... args) const
+
+        Invoke *func* given arguments *args...*. This is an implementation of the Standard *INVOKE* protocol with no
+        given converted return type.
+
+.. var:: template<typename Result> \
+         constexpr functors::invoke_as<Result> const& invoke_as
+
+    :tparam Result: Converted return type.
+
+    .. function:: template<typename Func, typename... Args> \
+                  constexpr Result operator()(Func&& func, Args&&... args) const
+
+        Invoke *func* given arguments *args...* and implicitly convert the result to `Result`. This is an implementation
+        of the Standard *INVOKE* protocol with a given converted return type.
+
+        `Result` may also be ``void`` or `unit_type`, in which case the result is discarded.
+
+.. concept:: template<Variable Func, typename... Args> OnceInvokable
+             template<typename Func, typename... Args> OnceInvokableType
 
     :notation:
       ::
 
-          Var var;
+          Func func;
+          Args args...;
 
-    An invokable variable, given some arguments.
+    A variable that can be once-invoked given some arguments. Note that the ``Args`` are not constrained to be models of
+    `Variable`.
 
     :associated expressions:
       ::
 
-          annex::invoke(std::forward<Var>(var), std::declval<Args>()...);
-          // n.b. ------^^^^^^^^^^^^^^^^^^^^^^
+          annex::invoke(std::forward<Func>(func), std::forward<Args>(args)...);
+          // N.B. ------^^^^^^^^^^^^^^^^^^^^^^^^
 
-    It should be noted that while `Var` is a `Variable` (making `Invokable` a :ref:`concept for variables
-    <concepts-for-variables>`), inside the associated expression the variable that stands for it is forwarded. This
-    makes it possible to correctly constrain the following code::
+    Forwarding gives an opportunity to *func* to optimise the invocation, but it means that *func* should be treated
+    with caution if the invocation was final in the case that *func* was effectively moved from::
 
         template<typename Func, typename... Params>
         void example(Func&& func, Params const&... params)
             requires
-                // for the first invocation
-                Invokable<Func&, Params const&...>
+                // first invocations constraint
+                OnceInvokableType<Func&, Params const&...>
 
-                // for the final invocation
-                && Invokable<Func&&, Params const&...>
+                // possibly final invocation constraint
+                OnceInvokableType<Func, Params const&...>
         {
+            // first invocation
             annex::invoke(func, params...);
+            // second invocation possible: func has not been forwarded
+            annex::invoke(func, params...);
+
+            // possibly final invocation
             annex::invoke(std::forward<Func>(func), params...);
+
+            // invoking again would be ill-advised: func may have been
+            // moved-from or otherwise pilfered
         }
 
-    Note also that the ``Args`` are not constrained to be models of `Variable`.
+    .. seealso::
+        `Invokable`, `InvokableType`
+            Non-forwarding variants that should be preferred if *func* is not being forwarded and will be called
+            repeatedly.
 
-.. concept:: template<typename Result, Variable Var, typename... Args> InvokableAs
+.. concept:: template<Variable Func, typename... Args> Invokable
+             template<typename Func, typename... Args> InvokableType
 
     :notation:
       ::
 
-          Var var;
+          Func func;
+          Args args...;
 
-    Similar to `Invokable` except specified in terms of `annex::invoke_as\<Result\>` instead of `annex::invoke`
+    A variable that can be invoked repeatedly given some arguments. Note that the ``Args`` are not constrained to be
+    models of `Variable`.
 
     :associated expressions:
       ::
 
-          annex::invoke_as<Result>(std::forward<Var>(var), std::declval<Args>()...);
+          annex::invoke(func, std::forward<Args>(args)...);
 
-.. concept:: template<Variable Var, typename... Args> Predicate
+    .. seealso::
+        `OnceInvokable`, `OnceInvokableType`
+            Forwarding variants, applicable for one-shot invocations.
 
-    :notation:
-      ::
+.. concept:: template<typename Result, Variable Func, typename... Args> OnceInvokableAs
+             template<typename Result, typename Func, typename... Args> OnceInvokableAsType
+             template<typename Result, Variable Func, typename... Args> InvokableAs
+             template<typename Result, typename Func, typename... Args> InvokableAsType
 
-          Var var;
+    Variants of `OnceInvokable` and `Invokable` except specified in terms of `annex::invoke_as\<Result\> <invoke_as>`
+    instead of `annex::invoke`.
 
-    A refinement of `Invokable\<Var, Args...\> <Invokable>`, which further requires that the invocation result must be a
-    model of `ContextualBool`.
-
-    .. note::
-        As a refinement of `Invokable` the associated expression still involves the forwarding of *var*. Care should be
-        taken if a predicate will be used repeatedly, as is typical. E.g. the following is a correctly constrained
-        implementation of logical conjunction with perfectly-forwarded parameters::
-
-            template<typename Pred, typename... Args>
-            constexpr bool all(Pred&& pred, Args&&... args)
-                requires (... && Predicate<meta::as_const<Pred&>, Args&&>)
-            {
-                return (... && as_const(pred)(std::forward<Args>(args)));
-            }
-
-.. concept:: template<Variable Var, typename Lhs, typename Rhs = Lhs> Equivalence
+.. concept:: template<Variable Pred, typename... Args> Predicate
+             template<typename Pred, typename... Args> PredicateType
 
     :notation:
       ::
 
-          Var var;
+          Pred pred;
+          Args args...;
 
-    A refinement of `Predicate` (see additional requirements) where *var* induces an equivalence relation, meaning it
+    A refinement of `Invokable\<Pred, Args...\> <Invokable>`, which further requires that the invocation
+    result must be a model of `ContextualBool`.
+
+    :associated expressions:
+      ::
+
+          bool { annex::invoke(func, std::forward<Args>(args)...) };
+
+.. concept:: template<Variable Pred, typename Lhs, typename Rhs = Lhs> Equivalence
+             template<typename Pred, typename Lhs, typename Rhs = Lhs> EquivalenceType
+
+    :notation:
+      ::
+
+          Pred pred;
+
+    A refinement of `Predicate` (see additional requirements) where *pred* induces an equivalence relation, meaning it
     respects the axioms of reflexivity, symmetry, and transitivity when called on arguments with types `Lhs` or `Rhs`.
 
     :additional requirements:
-      `Predicate\<Var, Lhs, Lhs\> <Predicate>`
+      `Predicate\<Pred, Lhs, Lhs\> <Predicate>`
 
-      `Predicate\<Var, Rhs, Rhs\> <Predicate>`
+      `Predicate\<Pred, Rhs, Rhs\> <Predicate>`
 
-      `Predicate\<Var, Lhs, Rhs\> <Predicate>`
+      `Predicate\<Pred, Lhs, Rhs\> <Predicate>`
 
-      `Predicate\<Var, Rhs, Rhs\> <Predicate>`
+      `Predicate\<Pred, Rhs, Rhs\> <Predicate>`
 
 
 Various
 ^^^^^^^
 
-.. concept:: Variable{Var} Integral
+.. concept:: Variable{Int} Integral
 
     `std::is_integral_v` in :ref:`concepts-for-variables` form.
 
-.. concept:: Variable{Var} SignedIntegral
+.. concept:: Variable{Int} SignedIntegral
 
     A refinement of `Integral` for signed integer types.
 
@@ -408,25 +471,25 @@ Various
 
     :associated expressions: ``lhs == rhs``, ``lhs != rhs`` which must be contextual booleans
 
-.. type:: Type{Var} nullable_dereference_t
+.. type:: Type{Null} nullable_dereference_t
 
     :notation:
       ::
 
-          Var nullable;
+          Null nullable;
 
-    The result type of ``*std::forward<Var>(nullable)``
+    The result type of ``*std::forward<Null>(nullable)``
 
-.. type:: Type{Var} nullable_element_t
+.. type:: Type{Null} nullable_element_t
 
     The underlying element type of a nullable variable.
 
-.. concept:: Variable{Var} Nullable
+.. concept:: Variable{Null} Nullable
 
     :notation:
       ::
 
-          Var nullable;
+          Null nullable;
 
     A possibly null variable which can be tested for, indirected if non-null, and reset to a null state.
 
@@ -435,7 +498,7 @@ Various
 
       ``nullable = {}``: reset the variable to a null state, such that ``!nullable`` holds afterwards
 
-      ``*std::forward<Var>(nullable)``: access to the indirected value on the precondition that *nullable* is non-null
+      ``*std::forward<Null>(nullable)``: access to the indirected value on the precondition that *nullable* is non-null
 
     :associated types: `nullable_dereference_t`, `nullable_element_t`
 

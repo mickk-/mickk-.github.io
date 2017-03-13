@@ -4,26 +4,44 @@ Transformations
 An individual range can be transformed to give rise to a new range. For instance, ``auto reversed = reverse(rng);``
 produces a range *reversed* which elements are in reverse order of that of *rng*.
 
+defer
+~~~~~
+Provided by :file:`annex/range/transformation/defer.hpp`.
+
+.. include:: /autodoc/transformation/defer.txt
+
 map
 ~~~
+Provided by :file:`annex/range/transformation/map.hpp`.
+
 .. include:: /autodoc/transformation/map.txt
 
 filter
 ~~~~~~
+Provided by :file:`annex/range/transformation/filter.hpp`.
+
 .. include:: /autodoc/transformation/filter.txt
 
 stride
 ~~~~~~
+Provided by :file:`annex/range/transformation/stride.hpp`.
+
 .. include:: /autodoc/transformation/stride.txt
 
 reverse
 ~~~~~~~
+Provided by :file:`annex/range/transformation/reverse.hpp`.
+
 .. include:: /autodoc/transformation/reverse.txt
 
 group
 ~~~~~
+Provided by :file:`annex/range/transformation/group.hpp`.
+
 .. include:: /autodoc/transformation/group.txt
 
 box
 ~~~
+Provided by :file:`annex/range/transformation/box.hpp`.
+
 .. include:: /autodoc/transformation/box.txt

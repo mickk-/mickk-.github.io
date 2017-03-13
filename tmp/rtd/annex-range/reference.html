@@ -187,6 +187,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="transformations.html">Transformations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="transformations.html#defer">defer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="transformations.html#map">map</a></li>
 <li class="toctree-l2"><a class="reference internal" href="transformations.html#filter">filter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="transformations.html#stride">stride</a></li>
@@ -264,21 +265,21 @@ normally used:</p>
 <p>It&#8217;s the combined constraints on the <a class="reference internal" href="annex.html#simple-model"><span class="std std-ref">Simple model</span></a> and its associated <a class="reference internal" href="#range-function"><span class="std std-ref">Range function</span></a> that describe when a
 call is valid. Taking <a class="reference internal" href="transformations.html#_CPPv2N5annex5range7reverseE" title="annex::range::reverse"><code class="xref cpp cpp-any docutils literal"><span class="pre">reverse</span></code></a> as an example:</p>
 <blockquote>
-<div><p><a class="reference internal" href="transformations.html#_CPPv2I0EX18DoubleEndedContextI3CtxEEN5annex5range13reverse_rangeE" title="annex::range::reverse_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">DoubleEndedContext{Ctx}</span> <span class="pre">reverse_range</span></code></a></p>
+<div><p><a class="reference internal" href="transformations.html#_CPPv2I0EX20BidirectionalContextI3CtxEEN5annex5range13reverse_rangeE" title="annex::range::reverse_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">BidirectionalContext{Ctx}</span> <span class="pre">reverse_range</span></code></a></p>
 <p><a class="reference internal" href="transformations.html#_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range7reverseclE3Rng" title="annex::range::reverse::operator()"><code class="xref cpp cpp-any docutils literal"><span class="pre">MoveConstructible{Rng}</span> <span class="pre">constexpr</span> <span class="pre">reverse_range&lt;context_t&lt;Rng&gt;&gt;</span> <span class="pre">reverse::operator()(Rng</span> <span class="pre">rng)</span> <span class="pre">const</span></code></a></p>
 </div></blockquote>
 <p>Then <code class="docutils literal"><span class="pre">range::reverse(arg)</span></code> is valid as long as:</p>
 <ul class="simple">
 <li>the <em>rng</em> parameter is constructible from <em>arg</em></li>
 <li><em>rng</em> models <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex17MoveConstructibleE" title="annex::MoveConstructible"><code class="xref cpp cpp-any docutils literal"><span class="pre">MoveConstructible</span></code></a></li>
-<li><code class="xref cpp cpp-any docutils literal"><span class="pre">context_t&lt;Rng&gt;</span></code> models <a class="reference internal" href="concepts.html#_CPPv2I0EX7ContextI3CtxEEN5annex5range18DoubleEndedContextE" title="annex::range::DoubleEndedContext"><code class="xref cpp cpp-any docutils literal"><span class="pre">DoubleEndedContext</span></code></a></li>
+<li><code class="xref cpp cpp-any docutils literal"><span class="pre">context_t&lt;Rng&gt;</span></code> models <a class="reference internal" href="concepts.html#_CPPv2I0EX16MultipassContextI3CtxEEN5annex5range20BidirectionalContextE" title="annex::range::BidirectionalContext"><code class="xref cpp cpp-any docutils literal"><span class="pre">BidirectionalContext</span></code></a></li>
 </ul>
 <p class="rubric">Capabities</p>
 <p>The <a class="reference internal" href="concepts.html#range-properties"><span class="std std-ref">Range properties</span></a> of the result of the range function are documented under the &#8216;Models:&#8217; entry, sometimes in
 the form of a table.</p>
 <p>Sometimes a range may provide additional functionality beyond that required by the concepts it models. This is
 documented under the &#8216;Additional context capabilities:&#8217; or &#8216;Additional range capabilities:&#8217; entry, as appropriate.</p>
-<p class="rubric">Call complexity</p>
+<p class="rubric" id="call-complexity">Call complexity</p>
 <p>When range functions perform the duties of constructing a range (<a class="reference internal" href="annex.html#simple-model"><span class="std std-ref">Simple model</span></a> or otherwise), they may require
 additional complexity beyond that of forwarding or moving their parameters into the result. Typically, they may need to
 compute appropriate starting and ending positions. This additional complexity is documented under the &#8216;Additional
@@ -301,7 +302,7 @@ languages (see <a class="reference internal" href="motivation.html"><span class=
 <li><p class="first">the Rust examples may need additional functionality provided by the third-party <a class="reference external" href="https://docs.rs/itertools/">itertools</a> crate in
 which case this will be shown by the following import:</p>
 <blockquote>
-<div><div class="highlight-rust"><div class="highlight"><pre><span></span><span class="kn">use</span><span class="w"> </span><span class="n">itertools</span><span class="o">::</span><span class="n">Itertools</span><span class="p">;</span><span class="w"></span>
+<div><div class="highlight-rust"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">itertools</span>::<span class="n">Itertools</span><span class="p">;</span><span class="w"></span>
 </pre></div>
 </div>
 </div></blockquote>

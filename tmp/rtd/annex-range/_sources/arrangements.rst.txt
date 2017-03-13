@@ -7,6 +7,8 @@ number of ranges gives rise to a new range. Some arrangements have a composition
 
 flatten
 ~~~~~~~
+Provided by :file:`annex/range/arrangement/flatten.hpp`.
+
 .. include:: /autodoc/arrangement/flatten.txt
 
 .. transpose

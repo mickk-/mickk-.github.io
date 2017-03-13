@@ -7,8 +7,12 @@ of composition have an arrangement counterpart.
 
 concat
 ~~~~~~
+Provided by :file:`annex/range/composition/concat.hpp`.
+
 .. include:: /autodoc/composition/concat.txt
 
 zip
 ~~~
+Provided by :file:`annex/range/composition/zip.hpp`.
+
 .. include:: /autodoc/composition/zip.txt

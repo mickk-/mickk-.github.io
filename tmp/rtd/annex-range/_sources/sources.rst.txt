@@ -10,30 +10,44 @@ Fundamental sources
 
 nullable
 ~~~~~~~~
+Provided by :file:`annex/range/source/nullable.hpp`.
+
 .. include:: /autodoc/source/nullable.txt
 
 generate
 ~~~~~~~~
+Provided by :file:`annex/range/source/generate.hpp`.
+
 .. include:: /autodoc/source/generate.txt
 
 interval
 ~~~~~~~~
+Provided by :file:`annex/range/source/interval.hpp`.
+
 .. include:: /autodoc/source/interval.txt
 
 iterator_interval & as_range
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Provided by :file:`annex/range/range.hpp`.
+
 .. include:: /autodoc/base/iterator_interval.txt
 
 repeat
 ~~~~~~
+Provided by :file:`annex/range/source/repeat.hpp`.
+    
 .. include:: /autodoc/source/repeat.txt
 
 replicate
 ~~~~~~~~~
+Provided by :file:`annex/range/source/replicate.hpp`.
+
 .. include:: /autodoc/source/replicate.txt
 
 coro
 ~~~~
+Provided by :file:`annex/range/source/boost_coroutine.hpp`.
+
 .. include:: /autodoc/source/boost_coroutine.txt
 
 Container sources
@@ -41,10 +55,14 @@ Container sources
 
 indexable
 ~~~~~~~~~
+Provided by :file:`annex/range/source/indexable.hpp`.
+
 .. include:: /autodoc/source/indexable.txt
 
 container
 ~~~~~~~~~
+Provided by :file:`annex/range/source/container.hpp`.
+
 .. include:: /autodoc/source/container.txt
 
 I/O sources
@@ -62,8 +80,12 @@ I/O sources
 
 istream
 ~~~~~~~
+Provided by :file:`annex/range/source/istream.hpp`.
+
 .. include:: /autodoc/source/istream.txt
 
 lines
 ~~~~~
+Provided by :file:`annex/range/source/lines.hpp`.
+
 .. include:: /autodoc/source/lines.txt

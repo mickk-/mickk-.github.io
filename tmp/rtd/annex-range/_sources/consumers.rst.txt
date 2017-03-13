@@ -7,6 +7,8 @@ the various situations in which ranges are meant to be used:
 In range-based for statements
 -----------------------------
 
+Provided by :file:`annex/range/range.hpp`.
+
 .. include:: /autodoc/base/loop.txt
 
 .. _collects:
@@ -14,10 +16,14 @@ In range-based for statements
 Into a container
 ----------------
 
+Provided by :file:`annex/range/consumer/collect.hpp`.
+
 .. include:: /autodoc/consumer/collect.txt
 
 Compatibility with iterator code
 --------------------------------
+
+Provided by :file:`annex/range/range.hpp`.
 
 .. include:: /autodoc/base/range_iterator.txt
 
@@ -28,5 +34,7 @@ Algorithms
 
 Folds
 ^^^^^
+
+Provided by :file:`annex/range/consumer/fold.hpp`.
 
 .. include:: /autodoc/consumer/fold.txt

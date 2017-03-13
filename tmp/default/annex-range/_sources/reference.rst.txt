@@ -68,15 +68,15 @@ This results in the following behaviour (using `filter` as an example)::
 It's the combined constraints on the :ref:`simple-model` and its associated :ref:`range-function` that describe when a
 call is valid. Taking `reverse` as an example:
 
-    `DoubleEndedContext{Ctx} reverse_range`
+    `BidirectionalContext{Ctx} reverse_range`
 
-    `MoveConstructible{Rng} constexpr reverse_range\<context_t\<Rng\>\> reverse::operator()(Rng rng) const <reverse::operator()()>`
+    `MoveConstructible{Rng} constexpr reverse_range\<context_t\<Rng\>\> reverse::operator()(Rng rng) const <reverse::operator()>`
 
 Then ``range::reverse(arg)`` is valid as long as:
 
 - the *rng* parameter is constructible from *arg*
 - *rng* models `MoveConstructible`
-- `context_t\<Rng\>` models `DoubleEndedContext`
+- `context_t\<Rng\>` models `BidirectionalContext`
 
 .. rubric:: Capabities
 
@@ -86,6 +86,7 @@ the form of a table.
 Sometimes a range may provide additional functionality beyond that required by the concepts it models. This is
 documented under the 'Additional context capabilities:' or 'Additional range capabilities:' entry, as appropriate.
 
+.. _`call-complexity`:
 .. rubric:: Call complexity
 
 When range functions perform the duties of constructing a range (:ref:`simple-model` or otherwise), they may require
