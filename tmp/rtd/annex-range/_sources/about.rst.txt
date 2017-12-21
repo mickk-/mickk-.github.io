@@ -1,0 +1,35 @@
+About this document
+===================
+
+This document was made with the help of `Sphinx <http://sphinx-doc.org>`_.
+
+Rights & Licences
+-----------------
+
+© Copyright 2017 mickk.
+
+.. |cc-by-sa| image:: https://i.creativecommons.org/l/by-sa/4.0/88x31.png
+    :target: http://creativecommons.org/licenses/by-sa/4.0/
+    :alt: Creative Commons License
+
+|cc-by-sa| Except where otherwise noted, the content in this document is licensed under a `Creative Commons
+Attribution-ShareAlike 4.0 International License <cc-by-sa_>`_.
+
+.. _cc-by-sa: http://creativecommons.org/licenses/by-sa/4.0/
+
+.. |cc0| image:: http://i.creativecommons.org/p/zero/1.0/88x31.png
+    :target: http://creativecommons.org/publicdomain/zero/1.0/
+    :alt: CC0
+
+|cc0| To the extent possible under law, the author `has waived all copyright and related or neighboring rights <cc0_>`_
+to the code examples that appear on this document. This work is published from France.
+
+.. _cc0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Further Attributions
+--------------------
+
+`Scale icon by Atón (Own work) <scale_>`_ `CC BY-SA 4.0 <http://creativecommons.org/licenses/by-sa/4.0>`_, via Wikimedia
+Commons.
+
+.. _scale: https://commons.wikimedia.org/wiki/File:Scale_icon_unbalanced.svg

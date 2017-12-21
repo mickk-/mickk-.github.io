@@ -1,0 +1,253 @@
+Division of work
+================
+
+Prefixes
+--------
+
+If we reflect back on our :ref:`fundamentals`, we recall that we want to deal in notional sequences of elements
+:math:`e_i` (using offset notation i.e. starting from :math:`0`):
+
+.. math:: seq = e_0, e_1, e_2, …
+
+Pursuing our practically minded approach, we already know that these cannot be elements in memory in the general case:
+as we previously discussed in the :doc:`chapter opening <../work>` there might not even be enough memory in the world to
+begin with. So there must be some computational cost to compute each of these elements. Immediately we have at least two
+approaches as to where to put this work. We could associate a certain amount of work to each element:
+
+.. math:: seq = \mathopen{}\left<work\right>\mathclose{}, e_0, \mathopen{}\left<work\right>\mathclose{}, e_1, \
+          \mathopen{}\left<work\right>\mathclose{}, e_2, …
+
+That is, proceeding in natural order we must first do some work before we have access to :math:`e_0`, then so some more
+work to produce :math:`e_1`, so on and so forth. In terms of control flow, this has the same shape as a traditional
+``while`` loop::
+
+    while(seq = seq.next(), seq.valid()) {
+        process(seq.current());
+    }
+
+We will call this :dfn:`the prefix approach`, since we prefix each element by some amount of work. It is taken by
+|Python iterators|_, |Rust iterators|_, and |C# enumerators|_. For each of them we describe in the following how the
+notional amounts of work and notional elements map to concrete ranges and their associated functionality:
+
+.. |not at home| replace::
+
+    The following program fragments are for illustration purposes only. Often they do not reflect actual, idiomatic code
+    and gloss over certain technicalities that are irrelevant to this chapter. They should not be imitated.
+
+.. warning:: |not at home|
+
+.. admonition:: Python iterators
+    :class: collapsed
+
+    .. code-block:: Python
+
+        iterator = ...
+        while True:
+            try:
+                elem = next(iterator)
+                process(elem)
+            except StopIteration:
+                break
+
+    - work is performed by calling the :qv:`next` builtin function
+    - a ``StopIteration`` exception is raised to signal the end of the range
+    - otherwise, the result of calling :qv:`next` is the current element and the iterator state has been updated to be
+      ready to work on the following element
+
+.. admonition:: Rust iterators
+    :class: collapsed
+
+    .. code-block:: Rust
+
+        let iterator = ...;
+        loop {
+            match iterator.next() {
+                Some(elem) => process(elem),
+                None => break,
+            }
+        }
+
+    - work is performed by calling :qv:`next` on the iterator
+    - a ``None`` result signals the end of the range
+    - a ``Some`` result gives the current element and signals that the iterator state has been updated to be ready to
+      work on the following element
+
+.. admonition:: C# enumerators
+    :class: collapsed
+
+    .. code-block:: C#
+
+        var enumerator = ...;
+        while(enumerator.MoveNext()) {
+            var elem = enumerator.Current;
+            process(elem);
+        }
+
+    - work is performed by calling :qv:`MoveNext` on the iterator
+    - a ``false`` result signals the end of the range
+    - otherwise, the :qv:`Current` property selects the current element and the enumerator state has been updated to be
+      ready to work on the following element
+
+Links & Fence posts
+-------------------
+
+Another scheme goes as follows:
+
+.. math:: seq = e_0, \mathopen{}\left<work\right>\mathclose{}, e_1, \mathopen{}\left<work\right>\mathclose{}, e_2, …
+
+Here, the elements function as fence posts separated and linked by sections of work. As a consequence
+:math:`e_0`  must be available from the get-go (for a non-empty sequence). This has the same shape as a traditional
+``for`` loop::
+
+    for(; seq.valid(); seq = seq.next()) {
+        process(seq.current());
+    }
+
+We will call this :dfn:`the fence post approach`. It is is taken by |C++ iterators|_ and |D ranges|_. For each of them
+we describe in the following how the notional amounts of work and notional elements map to concrete ranges and their
+associated functionality:
+
+.. warning:: |not at home|
+
+.. admonition:: C++ iterators
+    :class: collapsed
+
+    .. code-block:: C++
+
+        auto it  = ...;
+        auto end = ...;
+        for(; it != end; ++it) {
+            auto&& elem = *it;
+            process(elem);
+        }
+
+    - an iterator equal to the end iterator signals an empty range
+    - otherwise, ``*it`` selects the current element and ``++it`` performs the work to step to the following element
+
+.. admonition:: D ranges
+    :class: collapsed
+
+    .. code-block:: D
+
+        auto rng = ...;
+        for(; !rng.empty; rng.popFront()) {
+            auto elem = rng.front;
+            process(elem);
+        }
+
+    - :qv:`rng.empty` signals an empty range
+    - otherwise, the :qv:`front` property selects the current element and calling :qv:`popFront` performs the work to
+      step to the following element
+
+Initial work
+------------
+
+It is interesting to consider whether any of these two approaches is more natural or expressive than the other. For one,
+we could take any sequence in fence post form and 'insert' a dummy amount of work at the start to obtain an equivalent
+sequence but this time following the prefix approach. Naïvely we might think that this is supporting evidence for
+claiming that the prefix approach is more general than and subsumes the fence post approach. We however reject this
+simplistic view: 'inserting' a dummy amount of work, while invisible to a final consumer of sequences, would in
+actuality require a non-trivial effort on the part of sequence authors---it is a very one-sided :tradeoff:`tradeoff`.
+
+In order to study the relative merits of both approaches with more care, we will instead consider what happens if we try
+to split a sequence :math:`seq` following the prefix approach at an arbitrary element :math:`sep` in an *exclusive*
+fashion. In other words we will be left with an :math:`\mathopen{}\left[e_0, sep\right)\mathclose{}` initial part and a
+:math:`\mathopen{}\left[sep, …\right)\mathclose{}` final part. Reusing our previous notation for the prefix scheme, we
+start from the following:
+
+.. math:: seq = \mathopen{}\left<work\right>\mathclose{}, e_0, \mathopen{}\left<work\right>\mathclose{}, e_1, \mathopen{}\left<work\right>\mathclose{}, e_2, …
+
+Then when we stop at element :math:`sep` we must already have computed all the work that came before it. All the work
+that remains lies after, leaving us with the following (noting that :math:`sep` appears at offset :math:`i`):
+
+.. math:: seq = e_0, e_1, …, e_{i-1}, sep, \mathopen{}\left<work\right>\mathclose{}, e_{i+1}, \mathopen{}\left<work\right>\mathclose{}, …
+
+We next split the above in two result sequences, labelling them respectively :math:`initial` and :math:`final`:
+
+.. math::
+
+    initial &= e_0, e_1, …, e_{i-1}
+
+    final &= sep, \mathopen{}\left<work\right>\mathclose{}, e_{i+1}, \mathopen{}\left<work\right>\mathclose{}, …
+
+Now we can see that :math:`final` takes after the fence post approach, even though we started from a prefix sequence.
+Translating the splitting to loop code, we can return to the ``while``/``for`` dichotomy of shapes:
+
+.. code-block:: C++
+
+    while(seq = seq.next(), seq.valid()) {
+        auto&& current = seq.current();
+        if(is_sep(current)) {
+            break;
+        }
+        process_initial(current);
+    }
+
+    // we might have exhausted the sequence by this point, so we have to defensively
+    // test before entering the loop body; hence a do-while loop is not more
+    // appropriate than a for loop
+    for(; seq.valid(); seq = seq.next()) {
+        process_final(seq.current());
+    }
+
+The insight here is that how the results are shaped is entirely determined by how we stated the problem. For instance
+had we performed the split in an *inclusive* manner instead, the final part would be in prefix form:
+
+.. math::
+
+    initial &= e_0, e_1, …, e_{i-1}, sep
+
+    final &= \mathopen{}\left<work\right>\mathclose{}, e_{i+1}, \mathopen{}\left<work\right>\mathclose{}, …
+
+Similarly, we had to perform all the work up to :math:`sep` because by the parameters of the problem it was an arbitrary
+element. In our pseudo-code we interpreted this requirement as having a predicate with which to test each element in
+turn, which drove us to performing all the work up to :math:`sep`. If the problem were instead to split a sequence up to
+the element at given offset :math:`i`, we could have approached the problem differently and ended with differently
+shaped results.
+
+A more subtle insight is that the fence post approach as we first presented it was incomplete. In the exclusive
+splitting example we noted that the :math:`final` result was in fence post form: it is a sequence with initial element
+:math:`sep` (if non-empty), with no work preceding it. However that element was preceded by an amount of work when it
+was part of the starting :math:`seq` sequence, so when was that work performed? Looking carefully, we can see that this
+took place as part of the splitting process itself. Therein lies the real distinction between the two approaches, and we
+can now more accurately express our former intuition:
+
+- the prefix approach treats all work uniformly:
+
+  .. math::
+
+      seq =
+          \mathopen{}\left<work\right>\mathclose{} \dashrightarrow \mathopen{}\left\{
+              e_0,
+              \mathopen{}\left<work\right>\mathclose{} \dashrightarrow \mathopen{}\left\{
+                  e_1,
+                  \mathopen{}\left<work\right>\mathclose{} \dashrightarrow \mathopen{}\left\{
+                      e_2,
+                      …
+                  \right\}\mathclose{}
+              \right\}\mathclose{}
+          \right\}\mathclose{}
+
+- the fence post approach makes a distinction between the :dfn:`initial work`, i.e. what corresponds to the very first
+  step in the prefix approach, and the other work steps:
+
+  .. math::
+
+      \mathopen{}\left<initial\ work\right>\mathclose{} \dashrightarrow \mathopen{}\left\{
+          seq =
+              e_0,
+              \mathopen{}\left<work\right>\mathclose{} \dashrightarrow \mathopen{}\left\{
+                  e_1,
+                  \mathopen{}\left<work\right>\mathclose{} \dashrightarrow \mathopen{}\left\{
+                      e_2,
+                      …
+                  \right\}\mathclose{}
+              \right\}\mathclose{}
+      \right\}\mathclose{}
+
+This time we are more careful with the notation in order to highlight the situation: each amount of work points to the
+thing it produces in brackets. We leave the arrows dashed as we still need to elucidate the precise relationship between
+each amount of work and its result. Still, we can now confidently see and claim that the two approaches are extremely
+similar: they each involve the same amount of work, except that they divide and label the parts differently.
+
+In the next section, we take a closer look at the semantics of this initial work to deduce :doc:`semantics`.

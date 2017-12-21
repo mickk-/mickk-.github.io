@@ -8,9 +8,11 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>annex-range &mdash; annex-range 0.1.0 documentation</title>
+  <title>A Study of Ranges &mdash; annex-range 0.1.0 documentation</title>
   
 
+  
+  
   
   
 
@@ -28,13 +30,17 @@
   
 
   
+    <link rel="stylesheet" href="_static/styles.css" type="text/css" />
+  
 
   
+        <link rel="author" title="About these documents"
+              href="about.html"/>
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="annex-range 0.1.0 documentation" href="#"/>
-        <link rel="next" title="Quickstart" href="quickstart.html"/> 
+        <link rel="next" title="Designing a Range Abstraction" href="study.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -84,14 +90,13 @@
           
             
             
-                <ul>
-<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
-<li class="toctree-l1"><a class="reference internal" href="motivation.html">Motivation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="scope.html">Scope</a></li>
-<li class="toctree-l1"><a class="reference internal" href="reference.html">Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="open_questions.html">Open questions</a></li>
-</ul>
-<ul>
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="study.html">Designing a Range Abstraction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">The annex-range library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About this document</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
 </ul>
 
@@ -105,8 +110,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="#">annex-range</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">annex-range</a>
+        
       </nav>
 
 
@@ -115,7 +122,13 @@
         <div class="rst-content">
           
 
- 
+
+
+
+
+
+
+
 
 
 
@@ -124,89 +137,93 @@
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="#">Docs</a> &raquo;</li>
-      
-    <li>annex-range</li>
-    <li class="wy-breadcrumbs-aside">
-      
-          
-          <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+    
+      <li><a href="#">Docs</a> &raquo;</li>
         
-      
-    </li>
+      <li>A Study of Ranges</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="annex-range">
-<h1>annex-range<a class="headerlink" href="#annex-range" title="Permalink to this headline">¶</a></h1>
-<p>Contents:</p>
+  <div class="section" id="a-study-of-ranges">
+<h1>A Study of Ranges<a class="headerlink" href="#a-study-of-ranges" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
+</div>
+<p>This document is split into two. While related, both parts are independent and can be read separately. They differ in
+their purposes and intended audiences:</p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="quickstart.html#creating-and-using-simple-ranges">Creating and using simple ranges</a></li>
-<li class="toctree-l2"><a class="reference internal" href="quickstart.html#transforming-composing-and-arranging-ranges">Transforming, composing, and arranging ranges</a></li>
-</ul>
+<li><dl>
+<dt><a class="reference internal" href="study.html"><span class="doc">Designing a Range Abstraction</span></a></dt>
+<dd><p>A study which delves into external iteration and its abstractions (sometimes known as ‘ranges’), cataloguing and
+analysing various means of implementing them.</p>
+<p>This should be of interest to anyone interested in designing iteration abstractions, regardless of language. Because
+it caters to designers and implementers, it’s however probably not as interesting to end users.</p>
+</dd>
+</dl>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="motivation.html">Motivation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="motivation.html#iteration">Iteration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="motivation.html#the-users">The users</a></li>
-<li class="toctree-l2"><a class="reference internal" href="motivation.html#iterator-shortcomings">Iterator shortcomings</a></li>
-<li class="toctree-l2"><a class="reference internal" href="motivation.html#self-contained-range-shortcomings">Self-contained range shortcomings</a></li>
-<li class="toctree-l2"><a class="reference internal" href="motivation.html#a-hybrid-approach">A hybrid approach</a></li>
+<li><dl>
+<dt><a class="reference internal" href="reference.html"><span class="doc">The annex-range library</span></a></dt>
+<dd><p>A reference for a library which uses some of the conclusions reached in the study in order to implement ranges
+for C++. This library also explores and targets C++17 extended with concepts in an attempt to provide an
+easy-to-use, hard-to-misuse interface.</p>
+<p>This library has the goal to demonstrate that a rich family of functionality can be implemented for C++. Another
+goal is to provide a systematic classification of these features beyond the classical division:</p>
+<ul class="simple">
+<li><p>base ranges,</p></li>
+<li><p>higher-order ranges i.e. ranges made from other ranges,</p></li>
+<li><p>and algorithms which operate on ranges.</p></li>
 </ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="scope.html">Scope</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="scope.html#current-features">Current features</a></li>
-<li class="toctree-l2"><a class="reference internal" href="scope.html#possible-future-work">Possible future work</a></li>
-<li class="toctree-l2"><a class="reference internal" href="scope.html#out-of-scope">Out of scope</a></li>
-<li class="toctree-l2"><a class="reference internal" href="scope.html#the-great-big-bikeshed">The great big bikeshed</a></li>
+<p>While this has a more narrow focus on C++, many library features are related to their equivalent or similar
+counterpart in a variety of languages and libraries:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="http://en.cppreference.com/w/cpp/concept/Iterator">C++ iterators</a></p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#typeiter">Python iterators</a></p></li>
+<li><p><a class="reference external" href="https://dlang.org/phobos/std_range.html">D ranges</a></p></li>
+<li><p><a class="reference external" href="https://doc.rust-lang.org/std/iter/index.html">Rust iterators</a></p></li>
+<li><p><a class="reference external" href="https://msdn.microsoft.com/en-us/library/78dfe2yb%28v=vs.110%29.aspx">C# enumerators</a></p></li>
 </ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="reference.html">Reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="concepts.html">Concepts</a></li>
-<li class="toctree-l2"><a class="reference internal" href="operations.html">Operations &amp; functions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sources.html">Sources</a></li>
-<li class="toctree-l2"><a class="reference internal" href="consumers.html">Consumers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="transformations.html">Transformations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="compositions.html">Compositions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="arrangements.html">Arrangements</a></li>
-<li class="toctree-l2"><a class="reference internal" href="common.html">Common</a></li>
-<li class="toctree-l2"><a class="reference internal" href="annex.html">Annex quick reference</a></li>
-<li class="toctree-l2"><a class="reference internal" href="reference.html#how-to-read-the-reference">How to read the reference</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="open_questions.html">Open questions</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="open_questions.html#double-ended-ranges">Double-ended ranges</a></li>
-<li class="toctree-l2"><a class="reference internal" href="open_questions.html#difference-type">Difference type</a></li>
-<li class="toctree-l2"><a class="reference internal" href="open_questions.html#saving">Saving</a></li>
-</ul>
+<p>It is ultimately hoped that users should expect and claim the familiar features found in these ecosystems for C++ as
+well.</p>
+</dd>
+</dl>
 </li>
 </ul>
-</div>
-<div class="toctree-wrapper compound">
-</div>
 </div>
 <div class="section" id="indices-and-tables">
 <h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
-<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
-<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
-<li><a class="reference internal" href="glossary.html"><span class="doc">Glossary</span></a></li>
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="glossary.html"><span class="doc">Glossary</span></a></p></li>
 </ul>
 </div>
 
 
+           </div>
+           <div class="articleComments">
+            
            </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="quickstart.html" class="btn btn-neutral float-right" title="Quickstart" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="study.html" class="btn btn-neutral float-right" title="Designing a Range Abstraction" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
     </div>
@@ -216,7 +233,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2016, mickk.
+        &copy; Copyright 2017, mickk.
 
     </p>
   </div>
@@ -241,13 +258,14 @@
             VERSION:'0.1.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

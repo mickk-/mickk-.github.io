@@ -1,0 +1,621 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Work semantics &mdash; annex-range 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../../../_static/styles.css" type="text/css" />
+  
+
+  
+        <link rel="author" title="About these documents"
+              href="../../../about.html"/>
+        <link rel="index" title="Index"
+              href="../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="annex-range 0.1.0 documentation" href="../../../index.html"/>
+        <link rel="up" title="Amount of work" href="../work.html"/>
+        <link rel="next" title="Impact of traversal on work" href="traversal.html"/>
+        <link rel="prev" title="Division of work" href="division.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> annex-range
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../../study.html">Designing a Range Abstraction</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../iteration.html">Iteration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../study.html#criticism">Criticism</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../../study.html#design-elements">Design elements</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../work.html">Amount of work</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="division.html">Division of work</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Work semantics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="traversal.html">Impact of traversal on work</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../representation.html">Representation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../traversal.html">Forms of traversal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../termination.html">Termination and finiteness</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../types.html">Associated types</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference.html">The annex-range library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../about.html">About this document</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">annex-range</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../../study.html">Designing a Range Abstraction</a> &raquo;</li>
+        
+          <li><a href="../work.html">Amount of work</a> &raquo;</li>
+        
+      <li>Work semantics</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../../_sources/study/elements/work/semantics.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="work-semantics">
+<h1>Work semantics<a class="headerlink" href="#work-semantics" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="iterables">
+<h2>Iterables<a class="headerlink" href="#iterables" title="Permalink to this headline">¶</a></h2>
+<p>Since the fence post approach sets the initial work apart from the rest as we established in the <a class="reference internal" href="division.html"><span class="doc">previous section</span></a>, it tends to require the supporting concept of an <em class="dfn">iterable</em> to abstract over this initial work which
+produces the concrete fence post range. Iterables can be defined for the prefix approach as well, in which case they
+don’t need to perform any sequence-related work at all. (It’s just as well that we define them however because there are
+additional reasons for wanting to define iterables as part of an iteration abstraction, some of which we examine in
+<a class="reference internal" href="../representation.html"><span class="doc">Representation</span></a>.)</p>
+<table class="collapsible docutils" id="id1">
+<caption><span class="caption-text">Iteration abstractions and their work approaches, ranges, and iterables</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 13%" />
+<col style="width: 34%" />
+<col style="width: 34%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Iteration abstraction</p></th>
+<th class="head"><p>Work approach</p></th>
+<th class="head"><p>Ranges</p></th>
+<th class="head"><p>Iterables</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Loops</p></td>
+<td><p>prefix
+<code class="docutils literal"><span class="pre">while</span></code>,
+fence post
+<code class="docutils literal"><span class="pre">for</span></code></p></td>
+<td><p>implicit in the loop variables
+and loop statement</p></td>
+<td><p>ad hoc</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="http://en.cppreference.com/w/cpp/concept/Iterator">C++ iterators</a></p></td>
+<td><p>fence post</p></td>
+<td><p>implicit or explicit pairs of iterators</p></td>
+<td><p>ill-defined (<code class="docutils literal"><span class="pre">begin</span></code> and <code class="docutils literal"><span class="pre">end</span></code>
+pair of operations)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#typeiter">Python iterators</a></p></td>
+<td><p>prefix</p></td>
+<td><p>iterators</p></td>
+<td><p><a class="reference external" href="https://docs.python.org/3/glossary.html#term-iterable">iterables</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://dlang.org/phobos/std_range.html">D ranges</a></p></td>
+<td><p>fence post</p></td>
+<td><p>ranges (conforming to the <a class="reference external" href="https://dlang.org/phobos/std_range_primitives.html">range
+primitives</a>)</p></td>
+<td><p>not defined</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://doc.rust-lang.org/std/iter/index.html">Rust iterators</a></p></td>
+<td><p>prefix</p></td>
+<td><p>iterators (<a class="reference external" href="https://doc.rust-lang.org/std/iter/trait.Iterator.html"><code class="xref cpp cpp-any docutils literal"><span class="pre">Iterator</span></code></a> trait)</p></td>
+<td><p>types implementing the
+<a class="reference external" href="https://doc.rust-lang.org/std/iter/trait.IntoIterator.html"><code class="xref cpp cpp-any docutils literal"><span class="pre">IntoIterator</span></code></a> trait</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://msdn.microsoft.com/en-us/library/78dfe2yb%28v=vs.110%29.aspx">C# enumerators</a></p></td>
+<td><p>prefix</p></td>
+<td><p>enumerators (<a class="reference external" href="https://msdn.microsoft.com/en-us/library/78dfe2yb%28v=vs.110%29.aspx"><code class="xref cpp cpp-any docutils literal"><span class="pre">IEnumerator</span></code></a> interface)</p></td>
+<td><p>enumerables (<a class="reference external" href="https://msdn.microsoft.com/en-us/library/system.collections.ienumerable(v=vs.110).aspx"><code class="xref cpp cpp-any docutils literal"><span class="pre">IEnumerable</span></code></a> interface)</p></td>
+</tr>
+</tbody>
+</table>
+<p>It bears pointing out that much like the two approaches lead to two kinds of ranges, we’re really ending up with two
+kinds of iterables. We can illustrate their differences by studying the problem of filtering a range. Given a predicate
+<span class="math">\(pred\)</span> and a range <span class="math">\(rng\)</span> of elements over which <span class="math">\(pred\)</span> can operate, the result of <span class="math">\(filter(pred,
+rng)\)</span> is itself a range which notional sequence only contains those notional elements <span class="math">\(elem\)</span> of <span class="math">\(rng\)</span> for
+which <span class="math">\(pred(elem)\)</span> holds true. Elements not satisfying the predicate are skipped over.</p>
+<p>We can now study a Rust program, where iteration follows a prefix approach:</p>
+<div class="highlight-container highlight-rust" data-highlight-language="Rust"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">borrow</span>::<span class="n">Borrow</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">iterable_demo</span><span class="o">&lt;</span><span class="n">It</span>: <span class="nb">Iterator</span><span class="o">&gt;</span><span class="p">(</span><span class="n">it</span>: <span class="nc">It</span><span class="p">)</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">It</span>::<span class="n">Item</span>: <span class="nc">Borrow</span><span class="o">&lt;</span><span class="kt">isize</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">filtered</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">it</span><span class="p">.</span><span class="n">filter</span><span class="p">(</span><span class="o">|</span><span class="n">elem</span><span class="o">|</span><span class="w"> </span><span class="n">elem</span><span class="p">.</span><span class="n">borrow</span><span class="p">()</span><span class="o">%</span><span class="mi">2</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">println</span><span class="o">!</span><span class="p">(</span><span class="s">&quot;iterable used, new range produced!&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">match</span><span class="w"> </span><span class="n">filtered</span><span class="p">.</span><span class="n">next</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nb">Some</span><span class="p">(</span><span class="n">first</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">println</span><span class="o">!</span><span class="p">(</span><span class="s">&quot;first element: {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">first</span><span class="p">.</span><span class="n">borrow</span><span class="p">()),</span><span class="w"></span>
+<span class="w">        </span><span class="nb">None</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">println</span><span class="o">!</span><span class="p">(</span><span class="s">&quot;empty&quot;</span><span class="p">),</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For consistency with the Rust ecosystem our code follows the same <a class="reference external" href="https://doc.rust-lang.org/std/iter/trait.Iterator.html">Iterator</a>
+terminology—but it bears repeating that they really are ranges in the sense of this study.</p>
+</div>
+<p>This <em class="pre quoted-variable">iterable_demo</em> function accepts a range of integers, from which it creates a new range of only odd integers by
+using <em class="pre quoted-variable">filter</em>.  It then displays the first such integer if any, or a message telling the sequence was empty
+otherwise. Here the call to <em class="pre quoted-variable">filter</em> serves as an example of iterable use and during function execution a message
+makes a note of that fact. It is straightforward to write a seemingly equivalent D program, where iteration follows a
+fence post approach:</p>
+<div class="highlight-container highlight-D" data-highlight-language="D"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="n">iterable_demo</span><span class="p">(</span><span class="n">Rng</span><span class="p">)(</span><span class="n">Rng</span> <span class="n">rng</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">import</span> <span class="n">std</span><span class="p">.</span><span class="n">stdio</span><span class="p">;</span>
+    <span class="k">import</span> <span class="n">std</span><span class="p">.</span><span class="n">range</span><span class="p">;</span>
+    <span class="k">import</span> <span class="n">std</span><span class="p">.</span><span class="n">algorithm</span><span class="p">;</span>
+
+    <span class="k">auto</span> <span class="n">filtered</span> <span class="p">=</span> <span class="n">rng</span><span class="p">.</span><span class="n">filter</span><span class="p">!(</span><span class="n">x</span> <span class="p">=&gt;</span> <span class="n">x</span><span class="p">%</span><span class="mi">2</span> <span class="p">!=</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="n">writeln</span><span class="p">(</span><span class="s">&quot;iterable used, new range produced!&quot;</span><span class="p">);</span>
+
+    <span class="k">if</span><span class="p">(!</span><span class="n">filtered</span><span class="p">.</span><span class="n">empty</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">writefln</span><span class="p">(</span><span class="s">&quot;first element: %s&quot;</span><span class="p">,</span> <span class="n">filtered</span><span class="p">.</span><span class="n">front</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">writeln</span><span class="p">(</span><span class="s">&quot;empty&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>If tested on simple inputs, both functions may appear to perform identically. The crafty reader may however wonder what
+happens with sufficiently long inputs which <em>only</em> contain even integers; or even what happens with non-terminating
+sequences of even integers such as an infinitely repeating sequence of zeroes (the respective iteration abstractions of
+Rust and D both support these types of sequences).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>We have only given so far an informal definition of <span class="math">\(filter\)</span>, so we should stop for an instant and contemplate
+what the result of keeping only the odd integers out of a non-terminating sequence of even integers should be.
+Ideally we would perhaps like it to be an empty sequence, as that would neatly coincide with the result in the case
+of a terminating input sequence of even integers. Unfortunately this cannot be the case in general as long as we are
+entertaining the idea of supporting ‘interesting’ non-terminating sequences, i.e. those that are allowed to perform
+arbitrary computations: we would be in effect mandating that <span class="math">\(filter(pred, rng)\)</span> solves the halting problem in
+order to verify that <span class="math">\(rng\)</span> does not in fact terminate.</p>
+<p>A less theoretically-minded argument is to consider a sequence of values that are produced e.g. by a remote
+host on the network. As long as such a host produces even integers we are kept waiting with baited breath, and we
+can neither produce the first odd integer of the filtered sequence nor conclude that we are done producing odd
+integers.</p>
+<p>Both explanations are informal, but nonetheless we will take for granted that the correct result of filtering a
+non-terminating sequence with a never-satisfied predicate is a non-empty sequence which cannot terminate computing
+its first element.</p>
+</div>
+<p>When called on such inputs, we finally notice different behaviours:</p>
+<ul class="simple">
+<li><p>the Rust function quickly displays the “iterable used, new range produced!” message, and then terminates after a
+while (given sufficiently long inputs) or not at all (given non-terminating inputs)</p></li>
+<li><p>the D function only ever displays its note after a while and then terminates, or does not display anything at all and
+does not terminate</p></li>
+</ul>
+<p>In the former case, the call to <em class="pre quoted-variable">filter</em> has the luxury of not having to perform any sequence-related work by virtue
+of following the prefix approach. It may perform any bookkeeping it deems necessary to do (which is itself the topic of
+<a class="reference internal" href="../representation.html"><span class="doc">Representation</span></a>), and need only return a range in the prefix form. That is to say a range on which we can call
+<em class="pre quoted-variable">.next()</em>, at which point the very first work step is performed. This call may itself take a long while or never
+return, but whichever the case we do get to print our message right before.</p>
+<p>In the latter, the call to <em class="pre quoted-variable">filter</em> must return a range in the fence post form. Hence as soon as this result is
+available we must be able to query whether it is an empty sequence, and if not what the first element is. The very first
+work step is being performed by the <em class="pre quoted-variable">filter</em> call. It could take a while before we can proceed to displaying our
+message, or <em class="pre quoted-variable">filter</em> may not even ever return.</p>
+</div>
+<div class="section" id="work-semantics-of-iterables">
+<h2>Work semantics of iterables<a class="headerlink" href="#work-semantics-of-iterables" title="Permalink to this headline">¶</a></h2>
+<p>We can be a little more precise. A call to <em class="pre quoted-variable">filter</em> is itself a particular iterable scenario, and it is instructive
+to abstract away this specificity:</p>
+<div class="highlight-container highlight-Rust" data-highlight-language="Rust"><div class="highlight"><pre><span></span><span class="k">fn</span> <span class="nf">generic_iterable_demo</span><span class="o">&lt;</span><span class="n">Iterable</span>: <span class="nb">IntoIterator</span><span class="o">&gt;</span><span class="p">(</span><span class="n">iterable</span>: <span class="nc">Iterable</span><span class="p">)</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">Iterable</span>::<span class="n">Item</span>: <span class="nc">Borrow</span><span class="o">&lt;</span><span class="kt">isize</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">iterator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iterable</span><span class="p">.</span><span class="n">into_iter</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">println</span><span class="o">!</span><span class="p">(</span><span class="s">&quot;iterable used, new range produced!&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">match</span><span class="w"> </span><span class="n">iterator</span><span class="p">.</span><span class="n">next</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nb">Some</span><span class="p">(</span><span class="n">first</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">println</span><span class="o">!</span><span class="p">(</span><span class="s">&quot;first element: {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">first</span><span class="p">.</span><span class="n">borrow</span><span class="p">()),</span><span class="w"></span>
+<span class="w">        </span><span class="nb">None</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">println</span><span class="o">!</span><span class="p">(</span><span class="s">&quot;empty&quot;</span><span class="p">),</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Studying what semantics this generic function has or should have informs us on what the relationship between the
+iterable and range concepts of a given iteration abstraction is or should be. Here we’ve repurposed our former example
+and made it more general. In pseudo-code we could recover the old <code class="docutils literal"><span class="pre">iterable_demo(iterator)</span></code> semantics as follows:</p>
+<div class="highlight-container highlight-Rust" data-highlight-language="Rust"><div class="highlight"><pre><span></span><span class="n">generic_iterable_demo</span><span class="p">(</span><span class="n">callable_to_iterable</span><span class="p">(</span><span class="o">||</span><span class="w"> </span><span class="n">iterator</span><span class="p">.</span><span class="n">filter</span><span class="p">(</span><span class="o">|</span><span class="n">elem</span><span class="o">|</span><span class="w"> </span><span class="n">elem</span><span class="p">.</span><span class="n">borrow</span><span class="p">()</span><span class="o">%</span><span class="mi">2</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)))</span><span class="w"></span>
+</pre></div>
+</div>
+<p>(The purpose of the putative <em class="pre quoted-variable">callable_to_iterable</em> function is to allow us to treat a closure returning an iterable
+itself as an iterable. The range associated to such a callable iterable is the range associated to the result of calling
+the closure. Expressed in code, this means that <code class="docutils literal"><span class="pre">callable_to_iterable(func).into_iter()</span></code> has the semantics of
+<code class="docutils literal"><span class="pre">func().into_iter()</span></code>.)</p>
+<p>By making the same code more general, we can now argue that a prefix iterable in the truest sense must not perform any
+sequence-related work if we want to be able to reason about generic code. In its Rust incarnation, that means the
+<code class="docutils literal"><span class="pre">iterable.into_iter()</span></code> call should succeed and complete for any sensible implementation of the <a class="reference external" href="https://doc.rust-lang.org/std/iter/trait.IntoIterator.html">IntoIterator</a> trait by using an amount of computing resources that is bounded with respect to the properties of the
+resulting prefix range:</p>
+<ul class="simple">
+<li><p>whether it is empty or not, or whether it can be computed at all whether it is empty or not</p></li>
+<li><p>regardless of length, or whether its length can be computed at all</p></li>
+<li><p>regardless of the value of the elements if any, or whether these values can be computed at all</p></li>
+</ul>
+<p>And so on for whichever observable properties we decide a range should have (e.g. non-terminating sequences are properly
+discussed in <a class="reference internal" href="../termination.html"><span class="doc">Termination and finiteness</span></a>). If we ever choose to relax this requirement, we wouldn’t be able anymore to tell
+whether our note-making statement would definitively run or not. This would be a high price to pay not just for this
+program but for any generic range code.</p>
+<p>As to our other work division scheme, we conclude that fence post iterables must perform exactly the necessary sequence
+work to be able to produce a fence post range, and no more. That is to say, it must produce a range for which it is
+possible to compute whether it is empty or not and, if it isn’t, from which it is possible to obtain the first element
+as well as the computation which produces the rest of the sequence. Once again all these things must take an amount of
+computing resources which does not depend on any other properties of the rest of the sequence. This time this allows us
+to reason about the following generic program:</p>
+<div class="highlight-container highlight-D" data-highlight-language="D" id="d-generic-iterable-demo"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="n">generic_iterable_demo</span><span class="p">(</span><span class="n">RngFunc</span><span class="p">)(</span><span class="n">RngFunc</span> <span class="n">make_range</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">import</span> <span class="n">std</span><span class="p">.</span><span class="n">stdio</span><span class="p">;</span>
+    <span class="k">import</span> <span class="n">std</span><span class="p">.</span><span class="n">range</span><span class="p">;</span>
+    <span class="k">import</span> <span class="n">std</span><span class="p">.</span><span class="n">algorithm</span><span class="p">;</span>
+
+    <span class="k">auto</span> <span class="n">rng</span> <span class="p">=</span> <span class="n">make_range</span><span class="p">();</span>
+    <span class="n">writeln</span><span class="p">(</span><span class="s">&quot;make_range used, new range produced!&quot;</span><span class="p">);</span>
+
+    <span class="k">if</span><span class="p">(!</span><span class="n">rng</span><span class="p">.</span><span class="n">empty</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">writefln</span><span class="p">(</span><span class="s">&quot;first element: %s&quot;</span><span class="p">,</span> <span class="n">rng</span><span class="p">.</span><span class="n">front</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">writeln</span><span class="p">(</span><span class="s">&quot;empty&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>If and only if <em class="pre quoted-variable">make_range</em> is a strict fence post iterable can we confidently say that the note-making message, if
+displayed, must be followed by one of the non-empty or empty messages.</p>
+<p>In a sense strict prefix iterables and ranges on the one hand, and strict fence post iterables and ranges on the other
+are opposite ends of a <a class="tradeoff-icon reference internal" href="../../../study.html#designers-tradeoff"><span class="std std-ref"></span></a><strong class="tradeoff">spectrum</strong>. At the extremes we are able to formally express guarantees about our
+generic programs (e.g. under which circumstances our messages would be printed or not), while moving to the middle
+muddles our reasoning. A lax prefix iterable which performs some initial sequence work looks like an improper fence post
+iterable which has senselessly decided to split its initial work in two separate function calls; while a lax fence post
+iterable which delegates too much work to the ‘is this range empty?’ operation looks like a prefix iterable in disguise.</p>
+</div>
+<div class="section" id="work-semantics-of-ranges">
+<span id="d-peel-first"></span><h2>Work semantics of ranges<a class="headerlink" href="#work-semantics-of-ranges" title="Permalink to this headline">¶</a></h2>
+<p>It’s worth taking a brief glance back at the work division diagrams we established in <a class="reference internal" href="division.html"><span class="doc">the previous part</span></a>:</p>
+<ul>
+<li><p>the prefix approach:</p>
+<div class="math">
+\[seq =
+    \mathopen{}\left&lt;work\right&gt;\mathclose{} \dashrightarrow \mathopen{}\left\{
+        e_0,
+        \mathopen{}\left&lt;work\right&gt;\mathclose{} \dashrightarrow \mathopen{}\left\{
+            e_1,
+            \mathopen{}\left&lt;work\right&gt;\mathclose{} \dashrightarrow \mathopen{}\left\{
+                e_2,
+                …
+            \right\}\mathclose{}
+        \right\}\mathclose{}
+    \right\}\mathclose{}\]</div>
+</li>
+<li><p>the fence post approach</p>
+<div class="math">
+\[\mathopen{}\left&lt;initial\ work\right&gt;\mathclose{} \dashrightarrow \mathopen{}\left\{
+    seq =
+        e_0,
+        \mathopen{}\left&lt;work\right&gt;\mathclose{} \dashrightarrow \mathopen{}\left\{
+            e_1,
+            \mathopen{}\left&lt;work\right&gt;\mathclose{} \dashrightarrow \mathopen{}\left\{
+                e_2,
+                …
+            \right\}\mathclose{}
+        \right\}\mathclose{}
+\right\}\mathclose{}\]</div>
+</li>
+</ul>
+<p>The observant reader will have noticed that the diagrams exhibit a form of self-similarity. Namely, it possible to peel
+off some amount of elements <span class="math">\(e_0, …, e_i\)</span> from the front of the sequence and end up with a <span class="math">\(subseq =
+e_{i+1}, \mathopen{}\left&lt;work\right&gt;\mathclose{} \dashrightarrow \mathopen{}\left\{e_{i+2}, …\right\}\mathclose{}\)</span>
+remainder provided that the initial sequence has enough elements. This remainder is itself shaped like a fence post
+sequence, and can thus be properly considered a subsequence. In terms of code this means that the following D function
+where we peel just one element is suspiciously similar to <a class="reference internal" href="#d-generic-iterable-demo">the one we wrote before</a>:</p>
+<div class="highlight-container highlight-D" data-highlight-language="D"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="n">peel_first</span><span class="p">(</span><span class="n">Rng</span><span class="p">)(</span><span class="n">Rng</span> <span class="n">rng</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">import</span> <span class="n">std</span><span class="p">.</span><span class="n">stdio</span><span class="p">;</span>
+    <span class="k">import</span> <span class="n">std</span><span class="p">.</span><span class="n">range</span><span class="p">;</span>
+
+    <span class="k">assert</span><span class="p">(!</span><span class="n">rng</span><span class="p">.</span><span class="n">empty</span><span class="p">);</span>
+    <span class="n">rng</span><span class="p">.</span><span class="n">popFront</span><span class="p">();</span>
+    <span class="n">wrinteln</span><span class="p">(</span><span class="s">&quot;popped first element, new subrange state!&quot;</span><span class="p">);</span>
+
+    <span class="k">if</span><span class="p">(!</span><span class="n">rng</span><span class="p">.</span><span class="n">empty</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">writefln</span><span class="p">(</span><span class="s">&quot;next element: %s&quot;</span><span class="p">,</span> <span class="n">rng</span><span class="p">.</span><span class="n">front</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">writeln</span><span class="p">(</span><span class="s">&quot;no more elements&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Taking a close look, we can identify that what previously was the iterable-related initial work is now the element work
+cutting away the first element; and what used to be the resulting fence post range is now the <em>remainder</em> of the range
+as embodied by the state of <em class="pre quoted-variable">rng</em> following the <em class="pre quoted-variable">popFront</em> call. Since the situation is the same, we can reuse
+our argument! Where we concluded before that a fence post iterable must perform work that is bounded with respect to the
+properties of the overall range, we must now conclude that performing this instance of non-initial work is bounded with
+respect to the properties of the remainder subrange. In particular this means that the amount of time it takes must not
+depend on the number of remaining elements.</p>
+<p>Recall also that we’ve mentioned in that previous part how the way we choose to ‘cut’ the subsequence entirely
+determines that the result is fence post form. Therefore our reasoning holds even if we start from a prefix range. Now
+taking advantage of the self-similarity, we can transitively repeat the conclusion for the next amount of work thus
+bounding it with respect to the <em>next</em> remainder subsequence, and so on with respect to ever-shrinking subsequences. Put
+all together, we can finally fill in the missing parts on our diagrams:</p>
+<ul>
+<li><p>the prefix approach and its <a class="tradeoff-icon reference internal" href="../../../study.html#designers-tradeoff"><span class="std std-ref"></span></a><strong class="tradeoff">rules</strong>:</p>
+<div class="math">
+\[iterable = \mathopen{}\left&lt;\right&gt;\mathclose{} \Rightarrow \mathopen{}\left\{
+  seq =
+      \mathopen{}\left&lt;work\right&gt;\mathclose{} \rightarrow \mathopen{}\left\{
+          e_0,
+          \mathopen{}\left&lt;work\right&gt;\mathclose{} \rightarrow \mathopen{}\left\{
+              e_1,
+              \mathopen{}\left&lt;work\right&gt;\mathclose{} \rightarrow \mathopen{}\left\{
+                  e_2,
+                  …
+              \right\}\mathclose{}
+          \right\}\mathclose{}
+      \right\}\mathclose{}
+\right\}\mathclose{}\]</div>
+<ul class="simple">
+<li><p>iterables must perform no work (as represented by the empty brackets) relative to the properties of the overall
+range they produce (a relationship represented by the fat arrow)</p></li>
+<li><p>work steps are treated uniformly and are bounded in the resources they use with respect to the remainder of the
+range (represented by the thin arrows)</p></li>
+</ul>
+</li>
+<li><p>the fence post approach and its <a class="tradeoff-icon reference internal" href="../../../study.html#designers-tradeoff"><span class="std std-ref"></span></a><strong class="tradeoff">rules</strong>:</p>
+<div class="math">
+\[iterable = \mathopen{}\left&lt;initial\ work\right&gt;\mathclose{} \Rightarrow \mathopen{}\left\{
+    seq =
+        e_0,
+        \mathopen{}\left&lt;work\right&gt;\mathclose{} \rightarrow \mathopen{}\left\{
+            e_1,
+            \mathopen{}\left&lt;work\right&gt;\mathclose{} \rightarrow \mathopen{}\left\{
+                e_2,
+                …
+            \right\}\mathclose{}
+        \right\}\mathclose{}
+\right\}\mathclose{}\]</div>
+<ul class="simple">
+<li><p>iterables must perform initial work with bounded resources relative to the properties of the overall range they
+produce (a relationship represented by the fat arrow)</p></li>
+<li><p>other work steps are bounded in the resources they use with respect to the remainder of the range (represented by
+the thin arrows)</p></li>
+</ul>
+</li>
+</ul>
+<p>We can verify that these requirements are sufficient to achieve the goal we set for ourselves when we started this
+chapter. Assume we find the means of implementing a <em class="pre quoted-variable">naturals_up_to</em> function which when given a
+<em class="pre quoted-variable">greater_limit</em> integer can produce a range standing for <span class="math">\(\mathopen{}\left\{ n \mid n \in \mathbb{N}, n &lt;
+greater\_limit \right\}\mathclose{}\)</span>, in order. Then we are able to write the following program fragment:</p>
+<div class="highlight-container highlight-C++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="k">auto</span> <span class="n">rng</span> <span class="o">=</span> <span class="n">naturals_up_to</span><span class="p">(</span><span class="n">greater_limit</span><span class="p">);</span>
+<span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="nl">nat</span><span class="p">:</span> <span class="n">rng</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">nat</span> <span class="o">&gt;=</span> <span class="n">limit</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">process</span><span class="p">(</span><span class="n">nat</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The length of <em class="pre quoted-variable">rng</em> is <em class="pre quoted-variable">greater_limit</em> by definition. Consequently by our iterable requirements the
+<code class="docutils literal"><span class="pre">naturals_up_to(greater_limit)</span></code> call cannot have a complexity which depends on <em class="pre quoted-variable">greater_limit</em>. Similarly during
+loop execution, each amount of work to proceed to the next iteration step has complexity independent of the remaining
+length of <em class="pre quoted-variable">rng</em>. As long as <em class="pre quoted-variable">naturals_up_to</em> is well-behaved, we can push the <em class="pre quoted-variable">greater_limit</em> as much as we
+want while keeping the amount of resources used by the program fragment constant (once <em class="pre quoted-variable">greater_limit</em> exceeds
+<em class="pre quoted-variable">limit</em>).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>At this point we could be tempted to say that ‘in the limit’ we would find the <code class="docutils literal"><span class="pre">naturals()</span></code> practical
+representation of the naturals with which we opened the chapter. This would however carelessly gloss over
+considerations of representing an arbitrary natural number, which is beyond the topic of this study. The way we
+presented it our verification only relies on the usual integers that should be familiar to all programmers.</p>
+</div>
+<p>In the final part we settle once and for all the distinction between initial and non-initial work by studying the
+<a class="reference internal" href="traversal.html"><span class="doc">Impact of traversal on work</span></a>.</p>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="traversal.html" class="btn btn-neutral float-right" title="Impact of traversal on work" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="division.html" class="btn btn-neutral" title="Division of work" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, mickk.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

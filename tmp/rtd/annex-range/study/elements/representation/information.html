@@ -1,0 +1,543 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Traversal consistency &mdash; annex-range 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../../../_static/styles.css" type="text/css" />
+  
+
+  
+        <link rel="author" title="About these documents"
+              href="../../../about.html"/>
+        <link rel="index" title="Index"
+              href="../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="annex-range 0.1.0 documentation" href="../../../index.html"/>
+        <link rel="up" title="Representation" href="../representation.html"/>
+        <link rel="next" title="Forms of traversal" href="../traversal.html"/>
+        <link rel="prev" title="The litmus test for ranges" href="litmus.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> annex-range
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../../study.html">Designing a Range Abstraction</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../iteration.html">Iteration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../study.html#criticism">Criticism</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../../study.html#design-elements">Design elements</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../work.html">Amount of work</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../representation.html">Representation</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="litmus.html">The litmus test for ranges</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Traversal consistency</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../traversal.html">Forms of traversal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../termination.html">Termination and finiteness</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../types.html">Associated types</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference.html">The annex-range library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../about.html">About this document</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">annex-range</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../../study.html">Designing a Range Abstraction</a> &raquo;</li>
+        
+          <li><a href="../representation.html">Representation</a> &raquo;</li>
+        
+      <li>Traversal consistency</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../../_sources/study/elements/representation/information.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="traversal-consistency">
+<h1>Traversal consistency<a class="headerlink" href="#traversal-consistency" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="complete-semantics-of-copying">
+<h2>Complete semantics of copying<a class="headerlink" href="#complete-semantics-of-copying" title="Permalink to this headline">¶</a></h2>
+<p>In the previous part we made a parallel between our definition of a range:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Range</dt>
+<dd><p>A precise, embodied iteration state. It evolves in the course of iteration, and to pause iteration is to suspend this
+state as if taking a snapshot. Once iteration is resumed from such a suspended state the course goes on from where it
+stopped.</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>and the semantics of copying a range (excerpted):</p>
+<blockquote>
+<div><p>[…] to copy a range is to copy exactly that amount of information which is necessary to preserve traversal state.</p>
+</div></blockquote>
+<p>However our reformulation is incomplete in that it only puts a lower bound on the semantics of copying, i.e. these are
+minimal requirements that a range must satisfy. We are now interested in putting an upper bound on copying: we want to
+know when a range should <em>not</em> be copyable. To this end we present the following program fragment:</p>
+<div class="highlight-container highlight-C++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">Rng</span><span class="o">&gt;</span>
+<span class="kt">void</span> <span class="n">copy_upper_bound</span><span class="p">(</span><span class="n">Rng</span> <span class="n">rng</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// appropriate type for range elements</span>
+    <span class="k">using</span> <span class="n">element_type</span> <span class="o">=</span> …<span class="p">;</span>
+
+    <span class="c1">// skip first three elements</span>
+    <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">for</span> <span class="n">elem</span> <span class="n">in</span> <span class="n">rng</span> <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="o">++</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="c1">// take a snapshot</span>
+    <span class="k">auto</span> <span class="n">copy</span> <span class="o">=</span> <span class="n">rng</span><span class="p">;</span>
+
+    <span class="c1">// collect rest into container</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">element_type</span><span class="o">&gt;</span> <span class="n">collected</span><span class="p">;</span>
+    <span class="k">for</span> <span class="n">elem</span> <span class="n">in</span> <span class="n">rng</span> <span class="p">{</span>
+        <span class="n">collected</span><span class="p">.</span><span class="n">emplace_back</span><span class="p">(</span><span class="n">elem</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="c1">// collect rest of copy into container</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">element_type</span><span class="o">&gt;</span> <span class="n">collected_from_copy</span><span class="p">;</span>
+    <span class="k">for</span> <span class="n">elem</span> <span class="n">in</span> <span class="n">copy</span> <span class="p">{</span>
+        <span class="n">collected_from_copy</span><span class="p">.</span><span class="n">emplace_back</span><span class="p">(</span><span class="n">elem</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">assert</span><span class="p">(</span> <span class="n">std</span><span class="o">::</span><span class="n">equal</span><span class="p">(</span><span class="n">collected</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">collected</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span>
+                       <span class="n">collected_from_copy</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">collected_from_copy</span><span class="p">.</span><span class="n">end</span><span class="p">())</span> <span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>We are once again using the <code class="docutils literal"><span class="pre">for</span> <span class="pre">elem</span> <span class="pre">in</span> <span class="pre">rng</span></code> straw syntax to stand for traversing over the elements of a
+range, which mutates <em class="pre quoted-variable">rng</em>.</p>
+</div>
+<p>This fragment aims to twice traverse the tail end of a range, starting past the first three elements. The expectation is
+that not only has copying preserved and duplicated the traversal state (our lower bound requirements: traversing
+<em class="pre quoted-variable">rng</em> does not modify <em class="pre quoted-variable">copy</em>); but moreover that the second traversal should yield morally equivalent elements.
+Here lie the upper bound requirements on copying: a range should not be copyable if it cannot guarantee that all copies
+stand for the same notional sequence.</p>
+<p>It may look like we are stating the obvious, in which case it is helpful to present a counter-example: a range which
+iteration state <em>can</em> be preserved, but which copies stand for (sometimes subtly) different sequences. To this end we
+consider the sequence of byte chunks produced by synchronously reading from a file descriptor:</p>
+<div class="highlight-container highlight-C++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">optional</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="o">&gt;&gt;</span> <span class="n">read_from_fd</span><span class="p">(</span><span class="kt">int</span> <span class="n">fd</span><span class="p">);</span>
+
+<span class="kt">void</span> <span class="nf">copy_counterexample</span><span class="p">(</span><span class="kt">int</span> <span class="n">fd</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">struct</span> <span class="n">iter_state</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">fd</span><span class="p">;</span>
+    <span class="p">};</span>
+
+    <span class="n">iter_state</span> <span class="n">state</span> <span class="p">{</span> <span class="n">fd</span> <span class="p">};</span>
+    <span class="k">auto</span> <span class="n">copy</span> <span class="o">=</span> <span class="n">state</span><span class="p">;</span>
+
+    <span class="c1">// process up to 3 responses from the original</span>
+    <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">while</span><span class="p">(</span><span class="k">auto</span> <span class="n">res</span> <span class="o">=</span> <span class="n">read_from_fd</span><span class="p">(</span><span class="n">state</span><span class="p">.</span><span class="n">fd</span><span class="p">);</span> <span class="n">res</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">auto</span><span class="o">&amp;</span> <span class="n">payload</span> <span class="o">=</span> <span class="o">*</span><span class="n">res</span><span class="p">;</span>
+        <span class="n">process</span><span class="p">(</span><span class="n">payload</span><span class="p">);</span>
+
+        <span class="k">if</span><span class="p">(</span><span class="o">++</span><span class="n">count</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="c1">// use the copy</span>
+    <span class="k">while</span><span class="p">(</span><span class="k">auto</span> <span class="n">res</span> <span class="o">=</span> <span class="n">read_from_fd</span><span class="p">(</span><span class="n">copy</span><span class="p">.</span><span class="n">fd</span><span class="p">);</span> <span class="n">res</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">auto</span><span class="o">&amp;</span> <span class="n">payload</span> <span class="o">=</span> <span class="o">*</span><span class="n">res</span><span class="p">;</span>
+        <span class="n">process</span><span class="p">(</span><span class="n">payload</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>We use a simplified, straw <em class="pre quoted-variable">read_from_fd</em> function to stand for the typical OS-level interface to read from files,
+and to hide away the busywork and error-handling code that is usually involved. All the state we ever need now is to
+keep track of our <em class="pre quoted-variable">fd</em> file descriptor, thus ensuring we always read from the same file. Since it’s a plain <code class="xref cpp cpp-any docutils literal"><span class="pre">int</span></code>,
+the resulting iteration state is naturally copyable.</p>
+<p>All that remains is to contemplate the semantics of the code: can we really expect that the second traversal over the
+copy will process the same three initial chunks as during the first loop before moving on to the rest of the file?
+Knowing what we do about the usual I/O OS facilities, we might rightfully expect instead that the ‘copy’ would resume
+from where the original left off. These objections come to mind:</p>
+<ul class="simple">
+<li><p>Our <code class="xref cpp cpp-any docutils literal"><span class="pre">iter_state</span></code> definition is not truly including all the necessary iteration state because there is some information
+associated with the file that is not being copied along with the descriptor, such as a current offset into the file.
+In other words a file descriptor is really a handle, and copying that handle is not the same as copying the
+information it refers to.</p></li>
+<li><p>Alternatively, the ‘file’ associated with the descriptor might be a particular kind of I/O object which does not
+support seeking, e.g. a network socket. Because these I/O objects are used for reading transient data, in these cases
+there is <em>no</em> current offset to be copied, no information or iteration state other than ‘currently reading from
+<em class="pre quoted-variable">fd</em>’ or ‘done reading’. All that could be done would be pessimistically caching all the bytes that have been read
+so far—and since that amount of data is a function of the notional sequence length it would need to be preserved in
+a way that does not make range copy operations have linear complexity or worse.</p></li>
+</ul>
+<p>Our goal here is not to go about defining ranges over files, but to outline how the copy semantics we wish to specify
+are concerned with logical and not physical state: <code class="xref cpp cpp-any docutils literal"><span class="pre">iter_state</span></code> <em>can</em> be copied, but it <em>shouldn’t</em>—at least not as we
+defined it. The objections we raised give the appropriate courses of action we have available to remedy the situation:
+either amend <code class="xref cpp cpp-any docutils literal"><span class="pre">iter_state</span></code> to represent all the necessary logical state exactly; or forbid copying altogether.</p>
+<p>This insight manifests itself in the C++ ecosystem in the form of input iterators, which come with <a class="reference internal" href="../../state_of_the_art/iterators.html#input-iterators"><span class="std std-ref">very
+questionable copy semantics</span></a>. In his <a class="reference external" href="http://www.informit.com/articles/printerfriendly/1407357"><cite>On Iteration</cite></a> article Andrei Alexandrescu identified this
+shortcoming and originally formulated the need for the proper preservation of iteration state, via a <code class="docutils literal"><span class="pre">save(rng)</span></code>
+operation. This lives on in the D and Rust ecosystems:</p>
+<div class="highlight-container highlight-D" data-highlight-language="D"><div class="highlight"><pre><span></span><span class="k">auto</span> <span class="n">rng</span> <span class="p">=</span> …<span class="p">;</span>
+<span class="c1">// separate range</span>
+<span class="k">auto</span> <span class="n">saved</span> <span class="p">=</span> <span class="n">rng</span><span class="p">.</span><span class="n">save</span><span class="p">();</span>
+</pre></div>
+</div>
+<div class="highlight-container highlight-Rust" data-highlight-language="Rust"><div class="highlight"><pre><span></span><span class="kd">let</span><span class="w"> </span><span class="n">it</span>: …<span class="p">;</span><span class="w"></span>
+<span class="c1">// separate range</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">cloned</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">it</span><span class="p">.</span><span class="n">clone</span><span class="p">();</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="equivalence-of-elements">
+<h2>Equivalence of elements<a class="headerlink" href="#equivalence-of-elements" title="Permalink to this headline">¶</a></h2>
+<p>We’ve been careful so far to avoid giving a precise meaning to the ‘morally equivalent elements’ that two range copies
+should produce. This is because any such meaning would be language and ecosystem specific, and so is really up to the
+iteration abstraction designer. We present the following example as motivation, featuring so-called move iterators:</p>
+<div class="highlight-container highlight-C++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="n">ForwardIterator</span> <span class="n">It</span><span class="o">&gt;</span>
+<span class="kt">void</span> <span class="n">double_traversal</span><span class="p">(</span><span class="n">It</span> <span class="k">const</span> <span class="n">first</span><span class="p">,</span> <span class="n">It</span> <span class="k">const</span> <span class="n">last</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">auto</span> <span class="n">it</span> <span class="o">=</span> <span class="n">first</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(;</span> <span class="n">it</span> <span class="o">!=</span> <span class="n">last</span><span class="p">;</span> <span class="o">++</span><span class="n">it</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">process</span><span class="p">(</span><span class="o">*</span><span class="n">it</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">it</span> <span class="o">=</span> <span class="n">first</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(;</span> <span class="n">it</span> <span class="o">!=</span> <span class="n">last</span><span class="p">;</span> <span class="o">++</span><span class="n">it</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">process</span><span class="p">(</span><span class="o">*</span><span class="n">it</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">Elem</span><span class="o">&gt;</span>
+<span class="kt">void</span> <span class="n">move_iterator_demo</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Elem</span><span class="o">&gt;</span> <span class="n">elems</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">double_traversal</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">make_move_iterator</span><span class="p">(</span><span class="n">elems</span><span class="p">.</span><span class="n">begin</span><span class="p">()),</span>
+                     <span class="n">std</span><span class="o">::</span><span class="n">make_move_iterator</span><span class="p">(</span><span class="n">elems</span><span class="p">.</span><span class="n">end</span><span class="p">())</span> <span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>True to its name, <em class="pre quoted-variable">double_traversal</em> is a straightforward function template that does exactly what the reader should
+expect. It is carefully constrained on a putative <a class="reference internal" href="../../../reference/annex.html#_CPPv3I0EX13InputIteratorI2ItEEN5annex15ForwardIteratorE" title="annex::ForwardIterator"><code class="xref cpp cpp-any docutils literal"><span class="pre">ForwardIterator</span></code></a> concept to properly document that it should not and
+cannot operate on input iterators since they do not allow repeated traversals. Does this program fragment truly perform
+a double traversal over <em class="pre quoted-variable">elems</em>, in the sense that both traversals will process morally equivalent elements? The
+first thing to recognise is that the answer will depend on an intersection of several features:</p>
+<ul class="simple">
+<li><p><code class="xref cpp cpp-any docutils literal"><span class="pre">std::move_iterator</span></code> itself</p></li>
+<li><p>the base iterator which is passed to <code class="xref cpp cpp-any docutils literal"><span class="pre">std::make_move_iterator</span></code>—in this case <code class="xref cpp cpp-any docutils literal"><span class="pre">std::vector&lt;Elem&gt;::iterator</span></code></p></li>
+<li><p>the <code class="xref cpp cpp-any docutils literal"><span class="pre">Elem</span></code> element type, in particular its copy and move semantics</p></li>
+<li><p>what kind of processing <em class="pre quoted-variable">double_traversal</em> ends up performing</p></li>
+</ul>
+<p>We can now put the function to the test:</p>
+<div class="highlight-container highlight-C++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">elems</span> <span class="p">{</span> <span class="s">&quot;hello&quot;</span><span class="n">s</span><span class="p">,</span> <span class="s">&quot;world&quot;</span><span class="n">s</span> <span class="p">};</span>
+<span class="n">move_iterator_demo</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">elems</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>In the particular case of picking a type such as <code class="xref cpp cpp-any docutils literal"><span class="pre">std::string</span></code> as the element type, then the semantics of the program
+are as follows:</p>
+<ul class="simple">
+<li><p>if the processing non-destructively reads the range elements (i.e. as if performing <code class="docutils literal"><span class="pre">auto</span> <span class="pre">const&amp;</span> <span class="pre">elem</span> <span class="pre">=</span> <span class="pre">*it;</span></code>) both
+traversals will see the same string values</p></li>
+<li><p>if the processing destructively reads the range elements (i.e. as if performing <code class="docutils literal"><span class="pre">auto</span> <span class="pre">elem</span> <span class="pre">=</span> <span class="pre">*it;</span></code>) then the first
+traversal will pilfer the element contents leaving the second traversal with moved-from string objects—e.g. it may
+(but is not guaranteed to) leave empty strings behind</p></li>
+</ul>
+<p>Hence in the first case it is enough for moral equivalence to be simple equality of values. The same cannot be said for
+the second case—but since both traversals end up processing the same string objects, moral equivalence is preserved as
+long as we are concerned with equality of references. In fact the careful reader might notice that equality of reference
+is sufficient in either case. However it would be premature to conclude that equality of references is the ‘correct’
+moral equivalence to pick for all situations: C++ allows for ranges that produce (non reference) values just as well, in
+which case equality of references is ill-defined. Perhaps more damning, other languages may not care for or even define
+reference equality.</p>
+<p>The value of our illustration is to demonstrate that because the C++ ecosystem at large already gladly and pervasively
+deals in runtime-checked move semantics, a consequence of which is the proliferation of moved-from values, the designers
+of the iterator ecosystem thought it useful and appropriate to define <code class="xref cpp cpp-any docutils literal"><span class="pre">std::move_iterator</span></code> the way it is. This leaves us
+with the following advice:</p>
+<ul class="simple">
+<li><p>equivalence of elements is contextual and should be carefully specified and documented by the iteration abstraction
+designer</p></li>
+</ul>
+</div>
+<div class="section" id="timelines">
+<h2>Timelines<a class="headerlink" href="#timelines" title="Permalink to this headline">¶</a></h2>
+<p>As an addendum to this section, we consider implementing a non-terminating sequence of random numbers drawn from a
+generator in C++:</p>
+<div class="highlight-container highlight-C++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="c1">// a seeded C++ random number generator such as std::default_random_engine { … }</span>
+<span class="k">auto</span> <span class="n">gen</span>  <span class="o">=</span> …<span class="p">;</span>
+<span class="c1">// distribution</span>
+<span class="k">auto</span> <span class="n">dist</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">uniform_int_distribution</span> <span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span> <span class="p">};</span>
+<span class="c1">// dist(gen) draws a random number</span>
+
+<span class="c1">// prepare range of random numbers</span>
+<span class="k">auto</span> <span class="n">numbers</span> <span class="o">=</span> <span class="n">generate</span><span class="p">([</span><span class="n">gen</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">gen</span><span class="p">),</span> <span class="n">dist</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">dist</span><span class="p">)]()</span> <span class="k">mutable</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">std</span><span class="o">::</span><span class="n">optional</span> <span class="p">{</span> <span class="n">dist</span><span class="p">(</span><span class="n">gen</span><span class="p">)</span> <span class="p">};</span>
+<span class="p">});</span>
+
+<span class="c1">// process first five random numbers</span>
+<span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">for</span> <span class="n">number</span> <span class="n">in</span> <span class="n">numbers</span> <span class="p">{</span>
+    <span class="n">process</span><span class="p">(</span><span class="n">number</span><span class="p">);</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="o">++</span><span class="n">count</span> <span class="o">&gt;=</span> <span class="mi">5</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Putting the iterator ecosystem aside for the sake of the demonstration, we assume that <em class="pre quoted-variable">generate(arg)</em> constructs a
+range from its functor argument. The range elements are determined by the successive results of calling <em class="pre quoted-variable">arg</em>, which
+produces <a class="reference internal" href="../../../reference/annex.html#_CPPv3I0EX8VariableI4NullEEN5annex8NullableE" title="annex::Nullable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Nullable</span></code></a> values: a null result indicates the end of the range, a non-null result provides the current
+element. Since we’re creating a non-terminating range, the functor we pass to <em class="pre quoted-variable">generate</em> always returns a non-null
+value.</p>
+<p>Should <em class="pre quoted-variable">numbers</em> be copyable? If <em class="pre quoted-variable">gen</em> is a deterministic generator producing pseudorandom numbers, there’s a
+good argument for it: as long as copying the generating functor entails copying its very own <em class="pre quoted-variable">gen</em> in a manner that
+preserves the current generator state, the resulting range would fulfill our range copy requirements. On the other hand,
+if the generator is nondeterministic and e.g. produces random bits from a source of entropy it’s not much different from
+a range over the values produced by a transient I/O source. As we established before, it would be best for <em class="pre quoted-variable">numbers</em>
+not to be copyable in this latter case. (By no coincidence, it is in fact the case that in C++ the standard random
+number generators such as those provided by the <code class="file docutils literal"><span class="pre">&lt;random&gt;</span></code> header are required to only be copyable if both copy
+and original produce the same sequence of random numbers afterwards. Contrariwise <code class="xref cpp cpp-any docutils literal"><span class="pre">std::random_device</span></code> is not copyable.)</p>
+<p>It might however occur to the range designer that the range copy semantics of deterministic generators are not exactly
+what she needs. For instance, her program might need to hand out fresh random numbers to a sub-computation—in which
+case duplicating the generator state is inappropriate: both main program and sub-computation would end up drawing the
+same ‘random’ numbers:</p>
+<div class="highlight-container highlight-C++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">Numbers</span><span class="o">&gt;</span>
+<span class="k">auto</span> <span class="n">random_computations</span><span class="p">(</span><span class="n">Numbers</span> <span class="n">numbers</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// prepare second sequence</span>
+    <span class="k">auto</span> <span class="n">duplicated</span> <span class="o">=</span> <span class="n">numbers</span><span class="p">;</span>
+    <span class="c1">// both subcomputations see the same numbers!</span>
+    <span class="k">return</span> <span class="nf">first_computation</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">numbers</span><span class="p">))</span>
+        <span class="o">+</span> <span class="n">second_computation</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">duplicated</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>As a compromise the designer might decide to sacrifice semantics for practicality and write a range which copies do
+<em>not</em> receive a new generator state, but instead one where all copies refer to a common state. By doing so all parts of
+the program using a copy of <em class="pre quoted-variable">numbers</em> would essentially be drawing from a single notional sequence of random
+numbers. The cautious designer might however balk at the idea, as sharing comes with well-known anti-modular drawbacks
+such as the need for synchronisation in multithreaded programs or lack of reproduceability for the purposes of testing
+or debugging.</p>
+<p>Instead, the careful designer might turn to a solution such as the one presented in <a class="reference external" href="http://publications.lib.chalmers.se/records/fulltext/183348/local_183348.pdf"><cite>Splittable Pseudorandom Number Generators using Cryptographic Hashing</cite></a>. That is, the
+program should split off an <em>independent</em> generator state which will go on to produce its own sequence of still random
+numbers:</p>
+<div class="highlight-container highlight-C++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">Numbers</span><span class="o">&gt;</span>
+<span class="k">auto</span> <span class="n">random_computations</span><span class="p">(</span><span class="n">Numbers</span> <span class="n">numbers</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// prepare second sequence</span>
+    <span class="k">auto</span> <span class="n">forked</span> <span class="o">=</span> <span class="n">split</span><span class="p">(</span><span class="n">numbers</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nf">first_computation</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">numbers</span><span class="p">))</span>
+        <span class="o">+</span> <span class="n">second_computation</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">forked</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The two versions of <em class="pre quoted-variable">random_computations</em> are essentially syntactically identical—the only difference lies in the
+fact that one calls a copy constructor whereas the other calls a named function. The salient difference is entirely a
+matter of semantics.</p>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../traversal.html" class="btn btn-neutral float-right" title="Forms of traversal" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="litmus.html" class="btn btn-neutral" title="The litmus test for ranges" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, mickk.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

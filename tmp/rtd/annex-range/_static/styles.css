@@ -1,0 +1,180 @@
+/*** Blockquotes ***/
+
+div.body blockquote {
+    border-left: 0.5em solid #ccc;
+    padding-left: 1em;
+    background: #f0f0f0;
+}
+
+/*** Code block emphasised lines ***/
+
+div.body div.highlight > pre > span.hll {
+    background-color: yellow;
+}
+
+/*** Definitions ***/
+
+div.body dfn, .dfn {
+    text-decoration: underline;
+}
+
+/*** Footnote tweaks ***/
+
+div.body table.footnote > tbody > tr > td.label::after,
+div.body table.footnote > tbody > tr > td.label:after {
+    content: ". ";
+}
+
+/*** Footnote tweaks for the HTML 5 writer ***/
+
+/*
+ * By default footnotes are rendered as definition lists, e.g.:
+ *
+ *   1
+ *     Description of footnote.
+ *
+ * which we tweak to look more like e.g.:
+ *
+ *   1. Description of footnote.
+ */
+div.body dl.footnote > dt {
+    float: left;
+}
+div.body dl.footnote > dt::after,
+div.body dl.footnote > dt:after {
+    content: ". ";
+}
+
+/* Tweak footnote references from being normal, inline text to a superscript annotation */
+div.body a.footnote-reference.brackets {
+    vertical-align: super;
+}
+
+/*** Table captions ***/
+
+div.body table > caption {
+    caption-side: top;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+/*** Custom styles ***/
+
+#designers-tradeoff {
+    background-image: url("Scale_icon_unbalanced.svg");
+    background-repeat: no-repeat;
+    background-position: left;
+    background-size: 12px 12px;
+    padding-left: 14px;
+}
+
+/*** Custom roles ***/
+
+.tradeoff-icon {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    background-image: url("Scale_icon_unbalanced.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 12px 12px;
+}
+
+.tradeoff {
+    font-style: italic;
+}
+
+.quoted-variable {
+    font-family: monospace;
+}
+
+/*** Custom admonitions ***/
+
+.admonition-internal-iteration > .admonition-title {
+    display: none;
+}
+
+div.admonition-internal-iteration {
+    background-color: #eee;
+    border: 1px solid blue;
+}
+
+.admonition-study > .admonition-title {
+    display: none;
+}
+
+div.admonition-study {
+    background-color: #eee;
+    border: 1px solid green;
+}
+
+/*** Collapsible admonitions & tables ***/
+
+/* commas and duplication for want of universal :matches support */
+
+div.collapsed.admonition,
+div.collapsible.admonition {
+    background-color: #eee;
+    border: 1px solid #ccc;
+}
+
+div.collapsed > p.admonition-title,
+div.collapsible > p.admonition-title {
+    display: block;
+    clear: both;
+}
+
+div.collapsed > p.admonition-title,
+div.collapsible > p.admonition-title,
+table.collapsed > caption,
+table.collapsible > caption {
+    cursor: pointer;
+}
+
+div.collapsed > p.admonition-title::before,
+div.collapsed > p.admonition-title:before,
+div.collapsible > p.admonition-title::before,
+div.collapsible > p.admonition-title:before,
+table.collapsed > caption::before,
+table.collapsed > caption:before,
+table.collapsible > caption::before,
+table.collapsible > caption:before {
+    content: "▲ ";
+}
+
+div.collapsed > p.admonition-title.closed::before,
+div.collapsed > p.admonition-title.closed:before,
+div.collapsible > p.admonition-title.closed::before,
+div.collapsible > p.admonition-title.closed:before,
+table.collapsed > caption.closed::before,
+table.collapsed > caption.closed:before,
+table.collapsible > caption.closed::before,
+table.collapsible > caption.closed:before {
+    content: "▼ ";
+}
+
+/*** Language labels for code-blocks ***/
+
+div.highlight-container[data-highlight-language]::before,
+div.highlight-container[data-highlight-language]:before {
+    content: attr(data-highlight-language);
+    font-size: x-small;
+    background: #B2BF99;
+    padding: 0 5px;
+    display: inline;
+    line-height: 1;
+}
+
+div.highlight-container[data-highlight-language] {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+div.code-block-caption + div.highlight-container[data-highlight-language] {
+    margin-top: 0;
+}
+
+div.highlight-container[data-highlight-language] > div.highlight > pre {
+    margin-top: 0;
+    margin-bottom: 0;
+}

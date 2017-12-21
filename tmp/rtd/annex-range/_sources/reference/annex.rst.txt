@@ -1,0 +1,514 @@
+Annex quick reference
+=====================
+
+.. namespace:: ::annex
+
+This library is part of the |annex| series of libraries and as such relies on certain conventions and pre-defined
+concepts. The most common and important ones are briefly documented here, while the library proper is documented in the
+rest of the :doc:`/reference`.
+
+.. _concepts-for-variables:
+
+Concepts for variables
+----------------------
+
+The |annex| series of libraries follow the philosophy of `Concepts for variables`_. Not all concepts are written for
+variables however, but the two can be easily distinguished:
+
+- concepts for variables introduce a `Variable` constraint on at least one parameter, but not necessarily all::
+
+   template<Variable Func, typename... Args> concept Invokable = ...;
+
+- concepts for types follow the naming convention of ending in ``-Type``, starting with the trivial concept `Type`::
+
+   template<typename X> concept Type = true;
+   Type{X} concept StorableType = ...;
+
+.. _Concepts for variables: http://mickk-on-cpp.github.io
+
+.. _forward-storing:
+
+Forward Storing
+---------------
+
+It's common in C++ for generic data to come with factory function templates, to reduce boilerplate thanks to template
+argument deduction. `std::make_tuple` is a very prominent example of such and many factories use the ``make_*`` naming
+convention::
+
+    auto xs = std::make_tuple(0, 'a', "bcd");
+    // more convenient than:
+    std::tuple<int, char, const char*> xs = { 0, 'a', "bcd" };
+
+Unfortunately, the generic `std::tuple` actually comes with *three* factories: `std::make_tuple`, `std::tie`, and
+`std::forward_as_tuple` which each have a particular purpose. The |annex| series of libraries instead typically provides
+one factory per generic type which can serve those three purposes simultaneously:
+
+==========================================      =============================================================
+``std::make_tuple(a, std::ref(b))``             ``annex::tuples::tuple(decay(a), b)``
+``std::tie(a, b, c)``                           ``annex::tuples::tuple(a, b, c)``
+``std::forward_as_tuple(a, std::move(b))``      ``annex::tuples::tuple(a, std::move(b))`` [#tuple-note]_
+==========================================      =============================================================
+
+.. [#tuple-note]
+    ``std::forward_as_tuple(0)`` and ``annex::tuples::tuple(0)`` differ in that the former creates an
+    ``std::tuple<int&&>``, the latter an ``std::tuple<int>``.
+
+When the circumstances call for it a traditional, additional ``make_*`` factory is sometimes provided as well.
+
+.. _function:
+
+Function
+--------
+
+The |annex| series of libraries attempts to avoid namespace-scope functions and function templates, favouring instead
+namespace-scope constant function objects or variable templates. That is, something such as ``annex::decay(0)`` calls a
+particular ``operator()`` overload on a constant named ``decay``. The motivation behind this is as follows:
+
+- to avoid unwanted and uncontrolled use of Argument-Dependent Lookup
+- to encourage and facilitate higher-order manipulation; e.g. ``auto& dc = annex::decay;`` is an easy way to alias a
+  :ref:`function`. Perhaps more importantly the referred ``decay`` object can be passed to another :ref:`function` using
+  this very same mechanism::
+
+      assert( annex::tuples::map(dc, std::make_tuple(0)) == std::make_tuple(0) );
+
+  If ``decay`` were a function template, something such as the following would have to be used as a verbose workaround::
+
+      auto function_object = [](auto&&... args)
+      {
+          // explicitly qualify to avoid unwanted ADL
+          return annex::decay(std::forward<decltype(args)>(args)...);
+      };
+      assert( annex::tuples::map(function_object, std::make_tuple(0)) == std::make_tuple(0) );
+
+  Transforming the function template into a function object so that it can be passed as an argument is pure boilerplate.
+  In a sense the |annex| libraries take this precaution ahead of time for convenience to the user.
+
+Eric Niebler elaborates on the benefits of function-like objects in his post `Customization Point Design in C++11 and
+Beyond`_, especially as it relates to ADL.
+
+.. note::
+
+  |annex| functions are not customization points and do not perform ADL on behalf of the user unless otherwise
+  specified.
+
+.. _Customization Point Design in C++11 and Beyond: http://ericniebler.com/2014/10/21/customization-point-design-in-c11-and-beyond/
+
+For conciseness, and because their nature as objects is mostly an implementation detail, function-like objects are still
+referred to as *functions*. Additionally, functions are consistently defined as follows throughout |annex| libraries
+(e.g. for an assumed ``foo`` function):
+
+- the constant lives in its relevant |annex| namespace or subnamespace, e.g. ``annex::tuples::foo``
+- it has type ``annex::tuples::functors::foo const``
+- there is an associated ``annex::tuples::result_of::foo<X, Y, Z>`` alias which is short for::
+
+    decltype( annex::tuples::foo(std::declval<X>(), std::declval<Y>(), std::declval<Z>() )
+
+- some functions are parametrised over types and constants, in which case they are constant templates e.g.
+  ``annex::tuples::foo<int, 0>`` of type ``annex::tuples::functors::foo<int, 0> const`` and with alias
+  ``annex::tuples::result_of::foo<int, 0, X, Y, Z>`` short for::
+
+      decltype( annex::tuples::foo<int, 0>(std::declval<X>(), std::declval<Y>(), std::declval<Z>()) )
+
+  Due to limitations in the language, constant templates that accept a variadic number of arguments cannot have a
+  ``result_of`` alias::
+
+      auto res = annex::tuples::reorder_to<int, char>(tup);
+      // not possible:
+      // using res_t = annex::tuples::result_of::reorder_to<int, char, decltype(tup)&>;
+
+- functions have additional functionality, e.g. they can be partially applied::
+
+      assert( annex::tuples::foo(0, 'a', -1., "hello") == annex::tuples::foo.partial(0).partial('a', -1.)("hello") );
+
+  A call to ``partial`` produces a new function-like object, which can in turn be subject to a call to ``partial``
+  again, or be invoked with final arguments. Many functions take ``partial`` into account when it comes to parameter
+  order to help with higher-order usage::
+
+      using annex::tuples::map;
+      auto succ = [](auto arg) { ++arg; return arg; };
+      assert( map(map.partial(succ), std::make_tuple(std::make_tuple(0, 1), std::make_tuple(2)))
+              == std::make_tuple(std::make_tuple(1, 2), std::make_tuple(3)) );
+
+.. _simple-model:
+
+Simple model
+------------
+
+A *simple model* of a concept is intended to be the least surprising possible type which fulfils this concept, given
+some parameters. In particular, simple models associated with a factory :ref:`function` behave according to the
+following (e.g. assuming an associated ``annex::ns::foo`` factory):
+
+- the name of the class or class template that will model the concept follows closely that of the :ref:`function`, e.g.
+  ``annex::ns::foo_type``
+- a valid call ``annex::ns::foo(a, b, c)`` produces an ``annex::ns::foo_type<A, B, C>`` result, where ``A``, ``B``, and
+  ``C`` are types related to ``a``, ``b``, and ``c`` respectively (e.g. a :ref:`forward storing <forward-storing>`
+  :ref:`function` called as ``annex::ns::foo(i, std::move(j), 0)`` yields an ``annex::ns::foo_type<int&, int, int>``
+  assuming all ``int`` arguments); while ``annex::ns::foo<X, Y, Z>(a, b, c)`` would produce an ``annex::ns::foo_type<X,
+  Y, Z, A, B, C>`` result
+- some or all of the parameters used to construct the simple model may be available as public data members::
+
+      namespace range = annex::range;
+      // decltype( res ) is intended as the least surprising model of a range of ints from 0 to 6 exclusive
+      auto res = range::interval(0, 6);
+      // names of data members documented by interval
+      assert( res.context.from == 0 );
+      assert( res.context.to   == 6 );
+
+
+  .. warning::
+      The data members are made public so that the values used to construct the simple model can be retrieved, which
+      usually takes place **after** normal usage. Hence the members are able to be accessed mutably so as to allow
+      moves.
+
+      However those data members are used by the type in order to fulfil the concept operations and are not merely
+      copies of the parameters used at construction--the user should store its own if that's what they need. This means
+      that modifying those members before or during use of the associated concept operations should be done at own risk,
+      and considered extremely brittle.
+
+Because a simple model is closely associated to its factory :ref:`function`, its precise capabilities are normally
+described in the function documentation.
+
+Concepts
+--------
+
+Base & convenience concepts
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. concept:: template<typename X> Type
+
+    The trivial concept satisfied by any type. It's used as a shortcut for template introductions::
+
+        Type{Item} Item* addressof(Item& item);
+
+.. concept:: template<typename... Xs> Types = (... && Type<Xs>)
+
+    A variadic variant of `Type`, for introducing multiple parameters and/or a pack::
+
+        Types{First, ... Rest} tuple<First, Rest...> accept(First&& first, Rest&&... rest);
+
+.. concept:: Type{X} Variable
+
+    The basis of :ref:`concepts-for-variables`. It is the minimal constraint for the following::
+
+        Variable{Var} struct generic_data { Var member; };
+
+        Variable{Var} void generic_function(generic_data<Var> arg);
+
+.. concept:: Types{... Xs} Variables = (... && Variable<Xs>)
+
+    A variadic variant of `Variable`, for introducing multiple parameters and/or a pack.
+
+.. concept:: Types{... Pack} NonEmptyPack = sizeof...(Pack) != 0
+
+    A pseudo-concept for constraining variadic templates that are not valid for empty packs.
+
+Sister concepts are usually presented together, alongside variadic variants when they make sense:
+
+.. concept:: Variable{Var} Example
+             Type{X} ExampleType
+             Variables{... Vars} Examples = (... && Example<Vars>)
+             Types{... Xs} ExampleTypes = (... && ExampleType<Xs>)
+
+    A dummy concept to showcase the documentation.
+
+Construction
+^^^^^^^^^^^^
+
+These concepts are nearly equivalent to the corresponding trait (e.g. `std::is_constructible_v` and so on), but in
+:ref:`concepts-for-variables` form:
+
+.. concept:: template<Variable Var, typename... Inits> Constructible
+
+.. concept:: template<Variable Var, typename Init> Assignable
+
+.. concept:: Variable{Var} MoveConstructible
+             Variables{... Vars} MoveConstructibles = (... && MoveConstructible<Vars>)
+
+.. concept:: Variable{Var} MoveAssignable
+
+.. concept:: Variable{Var} CopyConstructible
+             Variables{... Vars} CopyConstructibles = (... && CopyConstructible<Vars>)
+
+.. concept:: Variable{Var} CopyAssignable
+
+As well as some shortcuts:
+
+.. concept:: Variable{Var} Movable = MoveConstructible<Var> && MoveAssignable<Var>
+             Variables{... Vars} Movables = (... && Movable<Vars>)
+
+.. concept:: Variable{Var} Copyable = CopyConstructible<Var> && CopyAssignable<Var>
+             Variables{... Vars} Copyables = (... && Copyable<Vars>)
+
+There are construction concepts that make it easy to constrain factory :ref:`functions <function>`:
+
+.. concept:: Variable{Var} Forwardable
+             Type{X} ForwardableType
+             Variables{... Vars} Forwardables = (... && Forwardable<Vars>)
+             Types{... Xs} ForwardableTypes = (... && ForwardableType<Xs>)
+
+    For factories that use :ref:`forward-storing` for their arguments::
+
+        ForwardableType{Param}
+        foo_type<Param> foo(Param&& param)
+        {
+            return { std::forward<Param>(param) };
+        }
+
+.. concept:: Variable{Var} Storable
+             Type{Var} StorableType
+             Variables{... Vars} Storables = (... && Storable<Vars>)
+             Types{... Xs} StorableTypes = (... && StorableType<Xs>)
+
+    For factories that decay their arguments::
+
+        StorableType{Param}
+        foo_type<std::decay_t<Param>> make_foo(Param&& param)
+        {
+            return { std::forward<Param>(param) };
+        }
+
+Iterators
+^^^^^^^^^
+
+These correspond to the Standard iterator concepts, but in :ref:`concepts-for-variables` form:
+
+.. concept:: Variable{It} InputIterator
+             Type{It} InputIteratorType
+
+.. concept:: InputIterator{It} ForwardIterator
+             InputIteratorType{It} ForwardIteratorType
+
+.. concept:: ForwardIterator{It} BidirectionalIterator
+             ForwardIteratorType{It} BidirectionalIteratorType
+
+.. concept:: BidirectionalIterator{It} RandomAccessIterator
+             BidirectionalIteratorType{It} RandomAccessIteratorType
+
+As well as the non-standard:
+
+.. concept:: Variable{Iter} Iterable
+             Type{Iter} IterableType
+
+    :notation:
+      ::
+
+          Iter iter;
+          auto first = ops::begin(iter);
+          auto last  = ops::end(iter);
+
+    A variable which can provide a readable, notional sequence of elements via models of `InputIterator` provided
+    through the `ops::begin` and `ops::end` operations::
+
+        auto first = ops::begin(iter);
+        auto last  = ops::end(iter);
+        for(; first != last; ++first) {
+            auto&& elem = *first;
+            // use elem
+        }
+
+    :requirements:
+        `ops::begin(iter) <ops::begin>`, `ops::end(iter) <ops::end>`: obtain an initial and final `InputIterator` into
+        the notional sequence respectively---both results must have identical types, and *last* must be reachable from
+        *first*
+
+Invocation
+^^^^^^^^^^
+
+.. var:: constexpr functors::invoke invoke
+
+    .. function:: template<typename Func, typename... Args> \
+                  constexpr unspecified operator()(Func&& func, Args&&... args) const
+
+        Invoke *func* given arguments *args...*. This is an implementation of the Standard *INVOKE* protocol with no
+        given converted return type.
+
+.. var:: template<typename Result> \
+         constexpr functors::invoke_as<Result> invoke_as
+
+    :tparam Result: Converted return type.
+
+    .. function:: template<typename Func, typename... Args> \
+                  constexpr Result operator()(Func&& func, Args&&... args) const
+
+        Invoke *func* given arguments *args...* and implicitly convert the result to `Result`. This is an implementation
+        of the Standard *INVOKE* protocol with a given converted return type.
+
+        `Result` may also be ``void`` or `unit_type`, in which case the result is discarded.
+
+.. concept:: template<Variable Func, typename... Args> OnceInvokable
+             template<typename Func, typename... Args> OnceInvokableType
+
+    :notation:
+      ::
+
+          Func func;
+          Args args...;
+
+    A variable that can be once-invoked given some arguments. Note that the ``Args`` are not constrained to be models of
+    `Variable`.
+
+    :associated expressions:
+      ::
+
+          annex::invoke(std::forward<Func>(func), std::forward<Args>(args)...);
+          // N.B. ------^^^^^^^^^^^^^^^^^^^^^^^^
+
+    Forwarding gives an opportunity to *func* to optimise the invocation, but it means that *func* should be treated
+    with caution if the invocation was final in the case that *func* was effectively moved from::
+
+        template<typename Func, typename... Params>
+        void example(Func&& func, Params const&... params)
+            requires
+                // first invocations constraint
+                OnceInvokableType<Func&, Params const&...>
+
+                // possibly final invocation constraint
+                OnceInvokableType<Func, Params const&...>
+        {
+            // first invocation
+            annex::invoke(func, params...);
+            // second invocation possible: func has not been forwarded
+            annex::invoke(func, params...);
+
+            // possibly final invocation
+            annex::invoke(std::forward<Func>(func), params...);
+
+            // invoking again would be ill-advised: func may have been
+            // moved-from or otherwise pilfered
+        }
+
+    .. seealso::
+        `Invokable`, `InvokableType`
+            Non-forwarding variants that should be preferred if *func* is not being forwarded and will be called
+            repeatedly.
+
+.. concept:: template<Variable Func, typename... Args> Invokable
+             template<typename Func, typename... Args> InvokableType
+
+    :notation:
+      ::
+
+          Func func;
+          Args args...;
+
+    A variable that can be invoked repeatedly given some arguments. Note that the ``Args`` are not constrained to be
+    models of `Variable`.
+
+    :associated expressions:
+      ::
+
+          annex::invoke(func, std::forward<Args>(args)...);
+
+    .. seealso::
+        `OnceInvokable`, `OnceInvokableType`
+            Forwarding variants, applicable for one-shot invocations.
+
+.. concept:: template<typename Result, Variable Func, typename... Args> OnceInvokableAs
+             template<typename Result, typename Func, typename... Args> OnceInvokableAsType
+             template<typename Result, Variable Func, typename... Args> InvokableAs
+             template<typename Result, typename Func, typename... Args> InvokableAsType
+
+    Variants of `OnceInvokable` and `Invokable` except specified in terms of `annex::invoke_as\<Result\> <invoke_as>`
+    instead of `annex::invoke`.
+
+.. concept:: template<Variable Pred, typename... Args> Predicate
+             template<typename Pred, typename... Args> PredicateType
+
+    :notation:
+      ::
+
+          Pred pred;
+          Args args...;
+
+    A refinement of `Invokable\<Pred, Args...\> <Invokable>`, which further requires that the invocation
+    result must be a model of `ContextualBool`.
+
+    :associated expressions:
+      ::
+
+          bool { annex::invoke(func, std::forward<Args>(args)...) };
+
+.. concept:: template<Variable Pred, typename Lhs, typename Rhs = Lhs> Equivalence
+             template<typename Pred, typename Lhs, typename Rhs = Lhs> EquivalenceType
+
+    :notation:
+      ::
+
+          Pred pred;
+
+    A refinement of `Predicate` (see additional requirements) where *pred* induces an equivalence relation, meaning it
+    respects the axioms of reflexivity, symmetry, and transitivity when called on arguments with types `Lhs` or `Rhs`.
+
+    :additional requirements:
+      `Predicate\<Pred, Lhs, Lhs\> <Predicate>`
+
+      `Predicate\<Pred, Rhs, Rhs\> <Predicate>`
+
+      `Predicate\<Pred, Lhs, Rhs\> <Predicate>`
+
+      `Predicate\<Pred, Rhs, Rhs\> <Predicate>`
+
+
+Various
+^^^^^^^
+
+.. concept:: Variable{Int} Integral
+
+    `std::is_integral_v` in :ref:`concepts-for-variables` form.
+
+.. concept:: Variable{Int} SignedIntegral
+
+    A refinement of `Integral` for signed integer types.
+
+.. concept:: template<Variable Lhs, Variable Rhs = Lhs> EqualityComparable
+
+    :notation:
+      ::
+
+          Lhs lhs; Rhs rhs;
+
+    Decidable equality relation between possibly heterogeneous variables. This must induce an equivalence relation.
+
+    :associated expressions: ``lhs == rhs``, ``lhs != rhs`` which must be contextual booleans
+
+.. type:: Type{Null} nullable_dereference_t
+
+    :notation:
+      ::
+
+          Null nullable;
+
+    The result type of ``*std::forward<Null>(nullable)``
+
+.. type:: Type{Null} nullable_element_t
+
+    The underlying element type of a nullable variable.
+
+.. concept:: Variable{Null} Nullable
+
+    :notation:
+      ::
+
+          Null nullable;
+
+    A possibly null variable which can be tested for, indirected if non-null, and reset to a null state.
+
+    :associated expressions:
+      ``nullable``: must be a contextual ``bool`` for testing the null state; ``true`` indicates a non-null *nullable*
+
+      ``nullable = {}``: reset the variable to a null state, such that ``!nullable`` holds afterwards
+
+      ``*std::forward<Null>(nullable)``: access to the indirected value on the precondition that *nullable* is non-null
+
+    :associated types: `nullable_dereference_t`, `nullable_element_t`
+
+.. concept:: template<Variable Var, typename Stream = std::ostream&> StreamExtractable
+
+    :notation:
+      ::
+
+          Var extractable;
+
+    A variable which can be extracted from a stream.
+
+    :associated expression: ``std::declval<Stream&>() >> extractable``: extract into variable

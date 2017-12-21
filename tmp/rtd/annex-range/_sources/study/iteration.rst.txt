@@ -1,0 +1,169 @@
+Iteration
+=========
+
+Overview
+--------
+
+Iteration is a staple of procedural and imperative programming. It allows the programmer to concisely express patterns
+of repetition in the code, as best illustrated by the classical ``for`` statement::
+
+    for(int i = 0; i != 15; ++i) {
+        demonstration(i);
+    }
+
+Here, fifteen calls to the :qv:`demonstration` function have been condensed into three lines of code. In a sense ``for``
+loops (or simply 'loops') act as the base abstraction of iteration. They will serve as a point of reference throughout
+the study.
+
+As is typical in programming, this starting point can be improved on by factoring recurring functionality into clearly
+delineated constructs. This allows the programmer to more easily write, review, and talk about code such as the
+following:
+
+.. code-block:: C++
+    :emphasize-lines: 6
+
+    auto this_month_customers = filter(customer_ordered_this_month, customer_database);
+    auto pending_customers    = map(&order::customer, filter(order_is_pending, order_database));
+    auto customers            = concat(this_month_customers, pending_customers);
+
+    for(auto&& customer: customers) {
+        handle(customer);
+    }
+
+A correct iteration abstraction makes it possible to write and reason about piecemeal iteration constructs such as
+:qv:`filter` and their combinations, hopefully resulting in final semantics as close as possible to the hand-rolled
+code:
+
+.. code-block:: C++
+    :emphasize-lines: 7,19
+
+    {
+        index_type idx = 0;
+        index_type end = customer_database.size();
+        for(; idx != end; ++end) {
+            auto&& customer = customer_database.at(idx);
+            if(customer_ordered_this_month(customer)) {
+                handle(customer);
+            }
+        }
+    }
+
+    {
+        index_type idx = 0;
+        index_type end = order_database.size();
+        for(; idx != end; ++end) {
+            auto&& order = order_database.at(idx);
+            if(order_is_pending(order)) {
+                auto&& customer = order.customer;
+                handle(customer);
+            }
+        }
+    }
+
+.. _external-iteration:
+
+Internal and external iteration
+-------------------------------
+
+There is a distinction to be made between so-called :dfn:`internal` and :dfn:`external` iteration. Both are concerned
+with patterns of repetition, but sit at opposite ends. To put it succinctly and in an ever-so-slightly-incorrect,
+non-technical manner tailored for a novice end-user perspective: external iteration makes it easy to write elaborate
+code that *consumes* elements, whereas internal iteration makes it easy to write elaborate code that *produces*
+elements.
+
+For the most part, this study does not intend to be comparative and sticks to exploring the external iteration
+space---and we will usually just say 'iteration' from now on. Still, since both kinds of iteration are closely related
+some remarks regarding internal iteration will be made from time to time. They can be treated as windows into the larger
+topic, or can be ignored just as well. They are displayed as follows:
+
+.. admonition:: Internal iteration
+
+    Some topics and terms related to internal iteration:
+
+    - blocks or callbacks
+    - generators
+    - coroutines
+    - fibers
+
+
+Finally, we defer curious readers to the |Iteration Inside and Out|_ two-parter series of posts by Bob Nystrom. It
+provides a well-motivated introduction into the distinction between internal and external iteration.
+
+.. |Iteration Inside and Out| replace:: :title:`Iteration Inside and Out`
+.. _Iteration Inside and Out: http://journal.stuffwithstuff.com/2013/01/13/iteration-inside-and-out/
+
+.. _fundamentals:
+
+Fundamentals
+------------
+
+Abstract sequences and practical ranges
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Iteration abstractions deal in notional, abstract sequences of elements that come in a certain natural order. 'Notional
+and abstract' means that the sequence and its elements need not explicitly and concretely live inside the program::
+
+    // iterate over 0, 1, 2, 3, 4
+    for(int i = 0; i != 5; ++i) {
+        // use i
+    }
+
+In the above the abstract sequence of numbers from 0 to 5 exclusive doesn't exist e.g. as numbers in memory, but is
+instead implicitly encoded in the program structure and control flow (namely the ``for`` loop and its :qv:`i` variable).
+
+We can recast the previous fragment into a C++ iterator version::
+
+    auto it   = counting_iterator(0);
+    auto stop = counting_iterator(5);
+    for(; it != stop; ++it) {
+        // use *it
+    }
+
+Or into a Python iterator version:
+
+.. code-block:: python
+
+    rng = range(0, 5)
+    for i in rng:
+        # use i
+        pass
+
+Whenever an iteration abstraction gives us the means to to manipulate such an abstract sequence directly into code we'll
+refer to this as a :dfn:`range` by analogy with mathematics, e.g. a range (or interval) of numbers. Marking the
+separation between the notional sequence and the range that represents it allows us to precisely outline their
+respective properties; much like we can discuss the properties of real numbers as idealised mathematical objects
+separately from the properties of their practical floating-point representations.
+
+It is interesting to note that ranges are not always explicit as demonstrated by the C++ iterator fragment where the
+range is given by the :math:`\left( it, stop \right)` pair of iterators. Neither :qv:`it` nor :qv:`stop` alone are
+enough to correctly represent the 0 to 5 sequence. By contrast, in the Python iterator fragment the range is given by
+:qv:`rng` on its own.
+
+As a quick overview here are the common, basic ranges found in several iteration abstractions of interest to this study:
+
+.. table:: Iteration abstractions and their ranges
+
+    .. include:: recaps/ranges.txt
+
+Since it is such a crucial element of design it has its own chapter: :doc:`elements/representation`.
+
+Consuming a range
+^^^^^^^^^^^^^^^^^
+
+The raison d'être of imperative ``for`` loops is ultimately to run a block of code potentially multiple times. Iteration
+abstractions provide the means to do the same, typically through a loop-compatible interface (oftentimes called an
+iteration protocol or similar). This interface is also sometimes accompanied by a layer of helpful syntax, e.g. the
+range-based ``for`` statement of C++:
+
+.. code-block:: C++
+
+    for(auto element: rng) {
+        // use element
+    }
+
+These syntax facilities may look superficially similar to one another across different range abstractions, but the
+essential design decisions that underlie them can give them subtly different semantics.
+
+In addition, consuming a range may not always directly take the form of a loop. E.g. computing the mean, sum, or
+variance of a range are all common operations in a numerical context and may be provided as standalone functions. In a
+sense these and others are refactored forms of particular patterns of consumption.

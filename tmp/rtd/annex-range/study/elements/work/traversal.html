@@ -1,0 +1,465 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Impact of traversal on work &mdash; annex-range 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../../../_static/styles.css" type="text/css" />
+  
+
+  
+        <link rel="author" title="About these documents"
+              href="../../../about.html"/>
+        <link rel="index" title="Index"
+              href="../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="annex-range 0.1.0 documentation" href="../../../index.html"/>
+        <link rel="up" title="Amount of work" href="../work.html"/>
+        <link rel="next" title="Representation" href="../representation.html"/>
+        <link rel="prev" title="Work semantics" href="semantics.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> annex-range
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../../study.html">Designing a Range Abstraction</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../iteration.html">Iteration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../study.html#criticism">Criticism</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../../study.html#design-elements">Design elements</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../work.html">Amount of work</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="division.html">Division of work</a></li>
+<li class="toctree-l4"><a class="reference internal" href="semantics.html">Work semantics</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Impact of traversal on work</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../representation.html">Representation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../traversal.html">Forms of traversal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../termination.html">Termination and finiteness</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../types.html">Associated types</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference.html">The annex-range library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../about.html">About this document</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">annex-range</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../../study.html">Designing a Range Abstraction</a> &raquo;</li>
+        
+          <li><a href="../work.html">Amount of work</a> &raquo;</li>
+        
+      <li>Impact of traversal on work</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../../_sources/study/elements/work/traversal.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="impact-of-traversal-on-work">
+<h1>Impact of traversal on work<a class="headerlink" href="#impact-of-traversal-on-work" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="beyond-forward-traversal">
+<h2>Beyond forward traversal<a class="headerlink" href="#beyond-forward-traversal" title="Permalink to this headline">¶</a></h2>
+<p>So far we’ve largely stuck to a somewhat simplistic translation of our notional sequences into practical ranges without
+question. This has allowed us to quickly pin down the fundamental semantics at the heart of practical iteration
+abstractions. It is interesting to note that we did so by keeping a close correspondence between range code and loop
+code. If you recall, we established the semantics of non-initial work thanks in part to the study of a particular
+<a class="reference external" href="semantics.html#d-peel-first"><em class="pre quoted-variable">peel_first</em></a> function from which we drew an argument. We proceeded on to ‘repeat’ that argument on ever smaller
+suffixes of a sequence… as if we were using it in a loop! We can in fact rewrite <em class="pre quoted-variable">peel_first</em> to make this loop
+explicit:</p>
+<div class="highlight-container highlight-D" data-highlight-language="D"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="n">range_loop</span><span class="p">(</span><span class="n">Rng</span><span class="p">)(</span><span class="n">Rng</span> <span class="n">rng</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">import</span> <span class="n">std</span><span class="p">.</span><span class="n">stdio</span><span class="p">;</span>
+    <span class="k">import</span> <span class="n">std</span><span class="p">.</span><span class="n">range</span><span class="p">;</span>
+
+    <span class="k">for</span><span class="p">(;</span> <span class="p">!</span><span class="n">rng</span><span class="p">.</span><span class="n">empty</span><span class="p">;</span> <span class="n">rng</span><span class="p">.</span><span class="n">popFront</span><span class="p">())</span> <span class="p">{</span>
+        <span class="n">writefln</span><span class="p">(</span><span class="s">&quot;element: %s&quot;</span><span class="p">,</span> <span class="n">rng</span><span class="p">.</span><span class="n">front</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="n">writeln</span><span class="p">(</span><span class="s">&quot;no more elements&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>We later verified that the semantics we settled on met our requirements relative to a similarly-shaped loop over the
+naturals. Namely this shape is that of <em>forward traversal</em>, proceeding through notional sequence elements in natural
+order. The forward nature of this kind of traversal justifies the nesting apparent in our semantics, where any element
+of the sequence can only be accessed by peeling away all the layers of work that come before it:</p>
+<div class="math">
+\[e_0,
+\mathopen{}\left&lt;work\right&gt;\mathclose{} \rightarrow \mathopen{}\left\{
+    e_1,
+    \mathopen{}\left&lt;work\right&gt;\mathclose{} \rightarrow \mathopen{}\left\{
+        e_2,
+        …
+    \right\}\mathclose{}
+\right\}\mathclose{}\]</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When describing or discussing traversal, we prefer to use suggestive directional terms such as <em>forward</em>.
+There is however potential for confusion with C++ <em>forward iterators</em>—while these do perform sequence traversals
+in a forward fashion, their defining feature is really a topic that belongs to <a class="reference internal" href="../representation.html"><span class="doc">Representation</span></a>. In the C++
+ecosystem it is so-called <em>input iterators</em> which embody forward traversal.</p>
+</div>
+<p>In this part we ponder what the existence of loops ‘of a different shape’ imply for work semantics.</p>
+</div>
+<div class="section" id="initial-work-revisited">
+<h2>Initial work revisited<a class="headerlink" href="#initial-work-revisited" title="Permalink to this headline">¶</a></h2>
+<p>Let’s look at the problem of zipping together two sequences. For instance, given sequences <span class="math">\(a = 0, 2, 4, 6\)</span> and
+<span class="math">\(b = 1, 3, 5\)</span> we might like to ensure that:</p>
+<div class="math">
+\[zip(a, b) = (0, 1), (2, 3), (4, 5)\]</div>
+<p>(Using round brackets to denote pairs of values as sequence elements.)</p>
+<p>Note in particular that because <span class="math">\(a\)</span> and <span class="math">\(b\)</span> have mismatched lengths we choose to ignore the extra <span class="math">\(6\)</span>
+element of <span class="math">\(a\)</span>. As long as we are sticking to forward traversal, this is not especially troubling: we stop
+iteration as soon as the shortest of the two sequences is done.</p>
+<p>What should we do however if we wish for richer <span class="math">\(zip\)</span> functionality in relation to traversals? For instance we
+might very want its result to support bidirectional traversal if both argument ranges do. Then our implementation must
+be careful, for the last element of <span class="math">\(zip(a, b)\)</span> is the <span class="math">\((4, 5)\)</span> pair of elements which is different from the
+<span class="math">\((6, 5)\)</span> pair of last elements of <span class="math">\(a\)</span> and <span class="math">\(b\)</span>. Effectively the implementation needs to set aside in
+one way or another the extra elements from the longer range.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It is not our intention here to give any particular definition of bidirectional traversal. There’s more than
+one way to skin that cat, and ultimately it is for the iteration abstraction designer to take that sort of decision.
+Our intent here is to demonstrate by way of illustration how these decisions have consequences with respect to the
+semantics of work, so for the most part we will try to treat bidirectional and other forms of traversal abstractly.</p>
+</div>
+<p>Let’s assume that for the purposes of producing a bidirectional <span class="math">\(zip\)</span> result the input ranges must not only be
+bidirectional themselves, but must also support an efficient method of querying their lengths <span class="math">\(\lvert a \rvert\)</span> or
+<span class="math">\(\lvert b \rvert\)</span>. Now we can say that the implementation must handle on the order of <span class="math">\(abs(\lvert a \rvert -
+\lvert b \rvert)\)</span> superfluous elements (writing the absolute value as a function to avoid confusion), and must also
+perform some of their associated amounts of work as well.</p>
+<p>At this point we run into an obstacle: under these circumstances we cannot define a strictly performing bidirectional
+<span class="math">\(zip\)</span> following a prefix approach, and the reason for this is twofold. Firstly we cannot perform the work to
+prepare the correct last element during the <span class="math">\(zip\)</span> call itself, since prefix iterables must perform no
+range-related work as we saw in the <a class="reference internal" href="semantics.html"><span class="doc">previous part</span></a>. Secondly the amount of work to perform to prepare
+the correct last element is on the order of <span class="math">\(\mathcal{O}(abs(\lvert a \rvert - \lvert b \rvert))\)</span>, while the
+length of the resulting range is <span class="math">\(\min(\lvert a \rvert, \lvert b \rvert)\)</span>—that’s a linear amount of work with
+respect to length! Hence, if we were to perform a reverse traversal of the range:</p>
+<div class="highlight-container highlight-rust" data-highlight-language="Rust"><div class="highlight"><pre><span></span><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="cm">/* omitted */</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="cm">/* omitted */</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="n">zip</span><span class="p">(</span><span class="n">b</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">loop</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">match</span><span class="w"> </span><span class="n">result</span><span class="p">.</span><span class="n">next_back</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="nb">Some</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">println</span><span class="o">!</span><span class="p">(</span><span class="s">&quot;element: {:?}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">elem</span><span class="p">),</span><span class="w"></span>
+<span class="w">            </span><span class="nb">None</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="k">break</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* displays:</span>
+<span class="cm">    element: (4, 5)</span>
+<span class="cm">    element: (2, 3)</span>
+<span class="cm">    element: (0, 1)</span>
+<span class="cm">    */</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The very first loop iteration will need to perform the work to skip superfluous elements, but the other ones only
+perform simple work steps. Note that had we performed a <em>forward</em> traversal, all steps would however have performed the
+same work without the need to discard superfluous elements. Our situation is a conjunction of the following
+circumstances:</p>
+<ul class="simple">
+<li><p>work follows the prefix approach, so range authors must uniformly deal with initial (such as computing the correct
+last <span class="math">\(zip\)</span> element) and non-initial work</p></li>
+<li><p>we wish for <span class="math">\(zip\)</span> to support more interesting forms of traversal than just forward</p></li>
+<li><p>a range consumer may use these forms of traversal to perform more than just a typical forward loop</p></li>
+</ul>
+<p>The best we can say of a bidirectional <span class="math">\(zip\)</span> following the prefix approach is that it produces a <em>lax</em> range,
+where the amount of work per step follows an <em>amortised</em> bound. For a forward traversal we can improve this to a strict
+bound. Other traversals may also respect a strict bound, but some will need to amortise a linear step over their whole
+course. Which follows which is entirely dependent on the shape of the final loop that consumes the range!</p>
+</div>
+<div class="section" id="traversals-algorithms">
+<h2>Traversals &amp; Algorithms<a class="headerlink" href="#traversals-algorithms" title="Permalink to this headline">¶</a></h2>
+<p>We can refine our initial insight regarding the dependency of the semantics of work on the final shape of traversal.
+Consider the well-studied algorithm of binary search over a sorted array. Here follows a possible Python implementation,
+returning the first <span class="math">\(offset\)</span> such that <span class="math">\(haystack[offset] == needle\)</span>; or <code class="docutils literal"><span class="pre">None</span></code> if there is no such value:</p>
+<div class="highlight-container highlight-Python3" data-highlight-language="Python 3"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">binary_search</span><span class="p">(</span><span class="n">needle</span><span class="p">,</span> <span class="n">haystack</span><span class="p">):</span>
+    <span class="n">length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">haystack</span><span class="p">)</span>
+    <span class="n">low</span>    <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">high</span>   <span class="o">=</span> <span class="n">length</span> <span class="o">-</span> <span class="mi">1</span>
+
+    <span class="k">while</span> <span class="n">low</span> <span class="o">&lt;</span> <span class="n">high</span><span class="p">:</span>
+        <span class="n">mid</span> <span class="o">=</span> <span class="n">low</span> <span class="o">+</span> <span class="p">(</span><span class="n">high</span> <span class="o">-</span> <span class="n">low</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
+        <span class="n">candidate</span> <span class="o">=</span> <span class="n">haystack</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">candidate</span> <span class="o">&lt;</span> <span class="n">needle</span><span class="p">:</span>
+            <span class="n">low</span> <span class="o">=</span> <span class="n">mid</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">high</span> <span class="o">=</span> <span class="n">mid</span>
+
+    <span class="k">return</span> <span class="n">low</span> <span class="k">if</span> <span class="n">low</span> <span class="o">!=</span> <span class="n">length</span> <span class="ow">and</span> <span class="n">haystack</span><span class="p">[</span><span class="n">low</span><span class="p">]</span> <span class="o">==</span> <span class="n">needle</span> <span class="k">else</span> <span class="kc">None</span>
+</pre></div>
+</div>
+<p>An important result is that binary search takes <span class="math">\(\mathcal{O}(\log n)\)</span> time on average to run, where <span class="math">\(n\)</span> is
+the length of the input. This can only hold on inputs which have the performance characteristics of <em>arrays</em>, i.e. where
+element access takes constant time regardless of array size (a property also known as <em>random access</em>). This ensures
+that fetching the midpoint value in a loop (i.e. <code class="docutils literal"><span class="pre">haystack[mid]</span></code>) does not compromise overall performance.</p>
+<p>Our first insight here is that should the designer of an iteration abstraction decide to include a generalisation of
+arrays, e.g. random-access ranges, they would do well to preserve these traversal characteristics. To do otherwise would
+compromise the ability to write those algorithms which rely on random-access properties to perform well. This can be
+extended to any form of traversal together with the algorithms it enables, such as bidirectional traversal and
+algorithms that work over Unicode<a class="footnote-reference brackets" href="#unicode" id="id1">1</a> grapheme clusters or word boundaries.</p>
+<p>It is instructive to trace algorithm execution, such as when running <span class="math">\(binary\_search(6, \left[0, 1, 2, 3, 4, 5, 6,
+7, 8, 9, 10, 11, 12, 13, 14, 15\right])\)</span>. In this instance the algorithm visits the elements at offsets 7, 3, 5, and the
+final result of 6 in that order, which is a noticeably different visiting pattern than we had before. With just forward
+traversal, a consumer of a sequence inspects a prefix of arbitrary length (up to sequence length) and is left with a
+remainder subsequence. Observe that in either case, the pattern of elements that are visited is not directly specified
+by the rules for forward or random-access traversal respectively. Instead it emerges as a consequence of the respective
+specifications for <em>single</em> element access while being guided by the needs of the final consumer, such as the
+algorithmic needs of implementing binary search.</p>
+<p>Hence the deeper insight is that it’s not just individual operations and their characteristics that should give purpose
+to any form of traversal. Of equal importance is the entire space of traversals that it generates, which corresponds to
+all the possible shapes a loop could take. At one extreme, forward iteration gives rises to only forward loops because
+the sole operation is going from the current element to the next. At another, random-access makes it possible to write a
+bisecting loop such as happens during binary search, jumping between the midpoints of ever-shrinking sequence halves.
+But there are many more loops over random-access sequences that one can write, and its that totality that should be
+taken into account when evaluating the merits and consequences of random access.</p>
+</div>
+<div class="section" id="element-of-design-work">
+<h2>Element of design: work<a class="headerlink" href="#element-of-design-work" title="Permalink to this headline">¶</a></h2>
+<p>Put all together, we leave the designer of an iteration abstraction with the following points:</p>
+<ul>
+<li><p>The distinction between initial and non-initial work is not crucial for the purposes of work when it comes to just
+forward traversal.</p></li>
+<li><p>Distinction of initial and non-initial work becomes important for more elaborate forms of traversal, and is a matter
+of separation of concerns:</p>
+<ul class="simple">
+<li><p>initial work is <em>non-navigational</em> and <em>representational</em>, typically a form of pre-processing:</p>
+<ul>
+<li><p><em class="dfn">non-navigational</em> because the processing only needs to be performed once with respect to the overall range,
+and not while traversing range elements;</p></li>
+<li><p><em class="dfn">representational</em> because the nature and amount of pre-processing is influenced by the choices of
+<a class="reference internal" href="../representation.html"><span class="doc">Representation</span></a> which dictate what a concrete range looks like;</p></li>
+</ul>
+</li>
+<li><p>non-initial work is <em class="dfn">navigational</em>, i.e. for going from a range element to another; the rules that govern which
+element can be computed from another determine a form of traversal (e.g. bidirectional when either the predecessor
+or successor can be computed or random-access when another element at given offset can be computed, just to mention
+the popular ones).</p></li>
+</ul>
+<p>Mixing or separating these concerns is a <a class="tradeoff-icon reference internal" href="../../../study.html#designers-tradeoff"><span class="std std-ref"></span></a><strong class="tradeoff">balancing act</strong> that will affect both range <em>authors</em> and range
+<em>consumers</em>. Both perspectives should be taken into account. If separating these concerns:</p>
+<ul class="simple">
+<li><p>iterables are the abstractions which perform initial work</p></li>
+<li><p>ranges are the abstractions which perform navigational work</p></li>
+</ul>
+</li>
+<li><p>Small picture view of work: the stricter the specification of the performance characteristics of range operations
+(e.g. navigational work), the easier it is for range consumers to reason about their code such as when studying
+generic range code or performing complexity analysis.</p></li>
+<li><p>Big picture view of work: forms of traversal should be justified and informed by the algorithms or loops they enable,
+which is closely related to the ‘space’ of loop shapes that the traversal rules generate.</p></li>
+</ul>
+<hr class="docutils" />
+<dl class="footnote brackets">
+<dt class="label" id="unicode"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>Unicode is a registered trademark of <a class="reference external" href="http://www.unicode.org">Unicode, Inc</a> in the United States and other
+countries.</p>
+</dd>
+</dl>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../representation.html" class="btn btn-neutral float-right" title="Representation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="semantics.html" class="btn btn-neutral" title="Work semantics" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, mickk.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

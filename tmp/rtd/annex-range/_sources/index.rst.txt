@@ -1,25 +1,50 @@
-annex-range
-===========
-
-Contents:
-
-.. toctree::
-    :maxdepth: 2
-
-    quickstart
-    motivation
-    scope
-    reference
-    open_questions
+A Study of Ranges
+=================
 
 .. toctree::
     :hidden:
 
+    study
+    reference
+    about
     glossary
+
+This document is split into two. While related, both parts are independent and can be read separately. They differ in
+their purposes and intended audiences:
+
+* :doc:`study`
+    A study which delves into external iteration and its abstractions (sometimes known as 'ranges'), cataloguing and
+    analysing various means of implementing them.
+
+    This should be of interest to anyone interested in designing iteration abstractions, regardless of language. Because
+    it caters to designers and implementers, it's however probably not as interesting to end users.
+
+* :doc:`reference`
+    A reference for a library which uses some of the conclusions reached in the study in order to implement ranges
+    for C++. This library also explores and targets C++17 extended with concepts in an attempt to provide an
+    easy-to-use, hard-to-misuse interface.
+
+    This library has the goal to demonstrate that a rich family of functionality can be implemented for C++. Another
+    goal is to provide a systematic classification of these features beyond the classical division:
+
+    - base ranges,
+    - higher-order ranges i.e. ranges made from other ranges,
+    - and algorithms which operate on ranges.
+
+    While this has a more narrow focus on C++, many library features are related to their equivalent or similar
+    counterpart in a variety of languages and libraries:
+
+    - |C++ iterators|_
+    - |Python iterators|_
+    - |D ranges|_
+    - |Rust iterators|_
+    - |C# enumerators|_
+
+    It is ultimately hoped that users should expect and claim the familiar features found in these ecosystems for C++ as
+    well.
 
 Indices and tables
 ==================
 
 * :ref:`genindex`
-* :ref:`search`
 * :doc:`glossary`

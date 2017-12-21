@@ -1,19 +1,21 @@
-Reference
-=========
+The annex-range library
+=======================
 
 .. toctree::
     :maxdepth: 2
 
-    concepts
-    operations
-    sources
-    consumers
-    transformations
-    compositions
-    arrangements
-    common
+    reference/quickstart
+    reference/scope
+    reference/concepts
+    reference/operations
+    reference/sources
+    reference/consumers
+    reference/transformations
+    reference/compositions
+    reference/arrangements
+    reference/common
 
-    annex
+    reference/annex
 
 How to read the reference
 -------------------------
@@ -97,7 +99,7 @@ construction complexity:' entry.
 .. rubric:: Equivalents
 
 Some range functions document their equivalents in terms of different range abstractions, sometimes as found in other
-languages (see :doc:`motivation`):
+languages (see :doc:`reference/scope`):
 
 - hand-written C++ ``for`` loops
 - D ranges

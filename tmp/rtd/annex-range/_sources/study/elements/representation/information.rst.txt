@@ -1,0 +1,303 @@
+Traversal consistency
+=====================
+
+Complete semantics of copying
+-----------------------------
+
+In the previous part we made a parallel between our definition of a range:
+
+    Range
+        .. include:: ../../recaps/range.txt
+
+and the semantics of copying a range (excerpted):
+
+    […] to copy a range is to copy exactly that amount of information which is necessary to preserve traversal state.
+
+However our reformulation is incomplete in that it only puts a lower bound on the semantics of copying, i.e. these are
+minimal requirements that a range must satisfy. We are now interested in putting an upper bound on copying: we want to
+know when a range should *not* be copyable. To this end we present the following program fragment:
+
+.. code-block:: C++
+
+    template<typename Rng>
+    void copy_upper_bound(Rng rng)
+    {
+        // appropriate type for range elements
+        using element_type = …;
+
+        // skip first three elements
+        int count = 0;
+        for elem in rng {
+            if(++count > 3) {
+                break;
+            }
+        }
+
+        // take a snapshot
+        auto copy = rng;
+
+        // collect rest into container
+        std::vector<element_type> collected;
+        for elem in rng {
+            collected.emplace_back(elem);
+        }
+
+        // collect rest of copy into container
+        std::vector<element_type> collected_from_copy;
+        for elem in copy {
+            collected_from_copy.emplace_back(elem);
+        }
+
+        assert( std::equal(collected.begin(), collected.end(),
+                           collected_from_copy.begin(), collected_from_copy.end()) );
+    }
+
+.. note:: We are once again using the ``for elem in rng`` straw syntax to stand for traversing over the elements of a
+    range, which mutates :qv:`rng`.
+
+This fragment aims to twice traverse the tail end of a range, starting past the first three elements. The expectation is
+that not only has copying preserved and duplicated the traversal state (our lower bound requirements: traversing
+:qv:`rng` does not modify :qv:`copy`); but moreover that the second traversal should yield morally equivalent elements.
+Here lie the upper bound requirements on copying: a range should not be copyable if it cannot guarantee that all copies
+stand for the same notional sequence.
+
+It may look like we are stating the obvious, in which case it is helpful to present a counter-example: a range which
+iteration state *can* be preserved, but which copies stand for (sometimes subtly) different sequences. To this end we
+consider the sequence of byte chunks produced by synchronously reading from a file descriptor:
+
+.. code-block:: C++
+
+    std::optional<std::vector<unsigned char>> read_from_fd(int fd);
+
+    void copy_counterexample(int fd)
+    {
+        struct iter_state {
+            int fd;
+        };
+
+        iter_state state { fd };
+        auto copy = state;
+
+        // process up to 3 responses from the original
+        int count = 0;
+        while(auto res = read_from_fd(state.fd); res) {
+            auto& payload = *res;
+            process(payload);
+
+            if(++count >= 3) {
+                break;
+            }
+        }
+
+        // use the copy
+        while(auto res = read_from_fd(copy.fd); res) {
+            auto& payload = *res;
+            process(payload);
+        }
+    }
+
+We use a simplified, straw :qv:`read_from_fd` function to stand for the typical OS-level interface to read from files,
+and to hide away the busywork and error-handling code that is usually involved. All the state we ever need now is to
+keep track of our :qv:`fd` file descriptor, thus ensuring we always read from the same file. Since it's a plain `int`,
+the resulting iteration state is naturally copyable.
+
+All that remains is to contemplate the semantics of the code: can we really expect that the second traversal over the
+copy will process the same three initial chunks as during the first loop before moving on to the rest of the file?
+Knowing what we do about the usual I/O OS facilities, we might rightfully expect instead that the 'copy' would resume
+from where the original left off. These objections come to mind:
+
+- Our `iter_state` definition is not truly including all the necessary iteration state because there is some information
+  associated with the file that is not being copied along with the descriptor, such as a current offset into the file.
+  In other words a file descriptor is really a handle, and copying that handle is not the same as copying the
+  information it refers to.
+- Alternatively, the 'file' associated with the descriptor might be a particular kind of I/O object which does not
+  support seeking, e.g. a network socket. Because these I/O objects are used for reading transient data, in these cases
+  there is *no* current offset to be copied, no information or iteration state other than 'currently reading from
+  :qv:`fd`' or 'done reading'. All that could be done would be pessimistically caching all the bytes that have been read
+  so far---and since that amount of data is a function of the notional sequence length it would need to be preserved in
+  a way that does not make range copy operations have linear complexity or worse.
+
+Our goal here is not to go about defining ranges over files, but to outline how the copy semantics we wish to specify
+are concerned with logical and not physical state: `iter_state` *can* be copied, but it *shouldn't*---at least not as we
+defined it. The objections we raised give the appropriate courses of action we have available to remedy the situation:
+either amend `iter_state` to represent all the necessary logical state exactly; or forbid copying altogether.
+
+This insight manifests itself in the C++ ecosystem in the form of input iterators, which come with :ref:`very
+questionable copy semantics <input iterators>`. In his |On Iteration|_ article Andrei Alexandrescu identified this
+shortcoming and originally formulated the need for the proper preservation of iteration state, via a ``save(rng)``
+operation. This lives on in the D and Rust ecosystems:
+
+.. code-block:: D
+
+    auto rng = …;
+    // separate range
+    auto saved = rng.save();
+
+.. code-block:: Rust
+
+    let it: …;
+    // separate range
+    let cloned = it.clone();
+
+Equivalence of elements
+-----------------------
+
+We've been careful so far to avoid giving a precise meaning to the 'morally equivalent elements' that two range copies
+should produce. This is because any such meaning would be language and ecosystem specific, and so is really up to the
+iteration abstraction designer. We present the following example as motivation, featuring so-called move iterators:
+
+.. code-block:: C++
+
+    template<ForwardIterator It>
+    void double_traversal(It const first, It const last)
+    {
+        auto it = first;
+        for(; it != last; ++it) {
+            process(*it);
+        }
+
+        it = first;
+        for(; it != last; ++it) {
+            process(*it);
+        }
+    }
+
+    template<typename Elem>
+    void move_iterator_demo(std::vector<Elem> elems)
+    {
+        double_traversal(std::make_move_iterator(elems.begin()),
+                         std::make_move_iterator(elems.end()) );
+    }
+
+True to its name, :qv:`double_traversal` is a straightforward function template that does exactly what the reader should
+expect. It is carefully constrained on a putative `ForwardIterator` concept to properly document that it should not and
+cannot operate on input iterators since they do not allow repeated traversals. Does this program fragment truly perform
+a double traversal over :qv:`elems`, in the sense that both traversals will process morally equivalent elements? The
+first thing to recognise is that the answer will depend on an intersection of several features:
+
+- `std::move_iterator` itself
+- the base iterator which is passed to `std::make_move_iterator`---in this case `std::vector<Elem>::iterator`
+- the `Elem` element type, in particular its copy and move semantics
+- what kind of processing :qv:`double_traversal` ends up performing
+
+We can now put the function to the test:
+
+.. code-block:: C++
+
+    std::vector<std::string> elems { "hello"s, "world"s };
+    move_iterator_demo(std::move(elems));
+
+In the particular case of picking a type such as `std::string` as the element type, then the semantics of the program
+are as follows:
+
+- if the processing non-destructively reads the range elements (i.e. as if performing ``auto const& elem = *it;``) both
+  traversals will see the same string values
+- if the processing destructively reads the range elements (i.e. as if performing ``auto elem = *it;``) then the first
+  traversal will pilfer the element contents leaving the second traversal with moved-from string objects---e.g. it may
+  (but is not guaranteed to) leave empty strings behind
+
+Hence in the first case it is enough for moral equivalence to be simple equality of values. The same cannot be said for
+the second case---but since both traversals end up processing the same string objects, moral equivalence is preserved as
+long as we are concerned with equality of references. In fact the careful reader might notice that equality of reference
+is sufficient in either case. However it would be premature to conclude that equality of references is the 'correct'
+moral equivalence to pick for all situations: C++ allows for ranges that produce (non reference) values just as well, in
+which case equality of references is ill-defined. Perhaps more damning, other languages may not care for or even define
+reference equality.
+
+The value of our illustration is to demonstrate that because the C++ ecosystem at large already gladly and pervasively
+deals in runtime-checked move semantics, a consequence of which is the proliferation of moved-from values, the designers
+of the iterator ecosystem thought it useful and appropriate to define `std::move_iterator` the way it is. This leaves us
+with the following advice:
+
+- equivalence of elements is contextual and should be carefully specified and documented by the iteration abstraction
+  designer
+
+Timelines
+---------
+
+As an addendum to this section, we consider implementing a non-terminating sequence of random numbers drawn from a
+generator in C++:
+
+.. code-block:: C++
+
+    // a seeded C++ random number generator such as std::default_random_engine { … }
+    auto gen  = …;
+    // distribution
+    auto dist = std::uniform_int_distribution { 0, 10 };
+    // dist(gen) draws a random number
+
+    // prepare range of random numbers
+    auto numbers = generate([gen = std::move(gen), dist = std::move(dist)]() mutable {
+        return std::optional { dist(gen) };
+    });
+
+    // process first five random numbers
+    int count = 0;
+    for number in numbers {
+        process(number);
+
+        if(++count >= 5) {
+            break;
+        }
+    }
+
+Putting the iterator ecosystem aside for the sake of the demonstration, we assume that :qv:`generate(arg)` constructs a
+range from its functor argument. The range elements are determined by the successive results of calling :qv:`arg`, which
+produces `Nullable` values: a null result indicates the end of the range, a non-null result provides the current
+element. Since we're creating a non-terminating range, the functor we pass to :qv:`generate` always returns a non-null
+value.
+
+Should :qv:`numbers` be copyable? If :qv:`gen` is a deterministic generator producing pseudorandom numbers, there's a
+good argument for it: as long as copying the generating functor entails copying its very own :qv:`gen` in a manner that
+preserves the current generator state, the resulting range would fulfill our range copy requirements. On the other hand,
+if the generator is nondeterministic and e.g. produces random bits from a source of entropy it's not much different from
+a range over the values produced by a transient I/O source. As we established before, it would be best for :qv:`numbers`
+not to be copyable in this latter case. (By no coincidence, it is in fact the case that in C++ the standard random
+number generators such as those provided by the :file:`<random>` header are required to only be copyable if both copy
+and original produce the same sequence of random numbers afterwards. Contrariwise `std::random_device` is not copyable.)
+
+It might however occur to the range designer that the range copy semantics of deterministic generators are not exactly
+what she needs. For instance, her program might need to hand out fresh random numbers to a sub-computation---in which
+case duplicating the generator state is inappropriate: both main program and sub-computation would end up drawing the
+same 'random' numbers:
+
+.. code-block:: C++
+
+    template<typename Numbers>
+    auto random_computations(Numbers numbers)
+    {
+        // prepare second sequence
+        auto duplicated = numbers;
+        // both subcomputations see the same numbers!
+        return first_computation(std::move(numbers))
+            + second_computation(std::move(duplicated));
+    }
+
+As a compromise the designer might decide to sacrifice semantics for practicality and write a range which copies do
+*not* receive a new generator state, but instead one where all copies refer to a common state. By doing so all parts of
+the program using a copy of :qv:`numbers` would essentially be drawing from a single notional sequence of random
+numbers. The cautious designer might however balk at the idea, as sharing comes with well-known anti-modular drawbacks
+such as the need for synchronisation in multithreaded programs or lack of reproduceability for the purposes of testing
+or debugging.
+
+Instead, the careful designer might turn to a solution such as the one presented in |splittable prng|_. That is, the
+program should split off an *independent* generator state which will go on to produce its own sequence of still random
+numbers:
+
+.. |splittable prng| replace:: :title:`Splittable Pseudorandom Number Generators using Cryptographic Hashing`
+.. _splittable prng: http://publications.lib.chalmers.se/records/fulltext/183348/local_183348.pdf
+
+.. code-block:: C++
+
+    template<typename Numbers>
+    auto random_computations(Numbers numbers)
+    {
+        // prepare second sequence
+        auto forked = split(numbers);
+        return first_computation(std::move(numbers))
+            + second_computation(std::move(forked));
+    }
+
+The two versions of :qv:`random_computations` are essentially syntactically identical---the only difference lies in the
+fact that one calls a copy constructor whereas the other calls a named function. The salient difference is entirely a
+matter of semantics.

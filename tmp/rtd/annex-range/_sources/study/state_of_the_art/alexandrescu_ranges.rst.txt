@@ -1,0 +1,250 @@
+Alexandrescu-style ranges
+=========================
+
+Overview
+--------
+
+Andrei Alexandrescu's |Iterators Must Go|_ keynote and |On Iteration|_ article draw their own lists of criticisms of the
+C++ iterator ecosystem and suggest self-contained ranges as a superior alternative. This paved the way for |D ranges|_
+and |Rust iterators|_. As a promising start if we apply Alexandrescu's insights to the problem of filtering and take a
+look at the issues surrounding :ref:`common_information` we had with C++ iterators, we can see they don't manifest any
+longer in this D program:
+
+.. code-block:: D
+
+    auto filter_demo(Rng, Pred)(Rng rng, Pred pred)
+    {
+        import std.range;
+        import std.algorithm;
+
+        {
+            // (1)
+            auto filtered = rng.filter!(pred);
+            foreach(elem; filtered) {
+                // use elem
+            }
+        }
+
+        {
+            // (2)
+            auto filtered_backwards = rng.filter!(pred).retro();
+            foreach(elem; filtered_backwards)) {
+                // use elem
+            }
+        }
+
+        // (3)
+        return rng.filter!(pred);
+    }
+
+.. note:: In the D ecosystem one has to use |filterBidirectional|_ rather than just :qv:`filter` in order to actually
+    produce a bidirectional filtered range. The reason for this practical concern does not really change the nature of
+    our comparison, so for the sake of the argument we idealise :qv:`filter`.
+
+.. |filterBidirectional| replace:: :qv:`filterBidirectional`
+.. _filterBidirectional: https://dlang.org/phobos/std_algorithm_iteration.html#.filterBidirectional
+
+That is, the resulting ranges of the ``(1)``, ``(2)``, and ``(3)`` calls to :qv:`filter` each store their own, unique
+copy of the argument predicate without compromising traversal capabilities (i.e. ``(2)``)  or the ability to return
+range objects to a caller (i.e. ``(3)``).
+
+Unfortunately as we dig deeper we will see familiar demons rear their ugly heads again.
+
+Bidirectional ease of use
+-------------------------
+
+A strong premise of Alexandrescu-style ranges is that self-contained objects are harder to misuse than pair of iterators
+as happens in :doc:`C++ <iterators>`. This leads to the following formulation for double-ended ranges (in
+C++-with-concepts pseudo-code):
+
+.. code-block:: C++
+
+    template<typename Rng>
+    concept bool AlexandrescuDoubleEndedRange = requires(Rng rng) {
+        // a double-ended range is a forward range
+        { rng.empty() } -> ContextualBool;
+        rng.front();
+        rng.popFront();
+
+        // double-ended  operations proper
+        rng.back(); // same type as the front
+        rng.popBack();
+    };
+
+.. topic:: Double-ended terminology
+
+    In the original Alexandrescu article these were called bidirectional ranges, as a counterpart to C++-style
+    bidirectional iterators. However it should be noted that on their own these two concepts are not equivalent: a
+    bidirectional iterator can be moved some steps in one direction, then another number of steps back in the other
+    directions (preconditions permitting). A self-contained range can only be shrunk at either end and there is no
+    'going back'. While in D these are called `bidirectional ranges`_ taking after the article, the Rust equivalent is
+    called the `double-ended iterator`_\ [#double-ended]_. To avoid confusion we settle on double-ended terminology as
+    well from now on, distinct from true bidirectional traversal.
+
+.. _bidirectional ranges: https://dlang.org/phobos/std_range_primitives.html#isBidirectionalRange
+
+.. _double-ended iterator: https://doc.rust-lang.org/stable/std/iter/trait.DoubleEndedIterator.html
+
+Since Alexandrescu also introduces the concept of ranges which iteration state can be saved, it appears that on the
+surface the precise equivalent to C++-style bidirectional iterators are double-ended ranges that also support saving.
+This equivalency does not lend itself well to code however. We can use the following bidirectional iterator code as a
+point of reference:
+
+.. code-block:: C++
+
+    template<typename It>
+    void bidi_example(It it)
+    {
+        // five steps forward
+        advance(it, 5);
+
+        // use it
+
+        // circumstances may dictate that we step back to an earlier element
+        if(cond) {
+            advance(it, -3);
+        }
+    }
+
+Translated to double-ended range code, we end up with:
+
+.. code-block:: C++
+
+    template<typename Rng>
+    void saveable_double_ended_example(Rng rng)
+    {
+        // five steps forward, but with a checkpoint in-between
+        advance(rng, 2);
+        auto checkpoint = save(rng);
+        advance(rng, 3);
+
+        // use rng
+
+        // circumstances may dictate that we restore to a previous state
+        if(cond) {
+            rng = std::move(checkpoint);
+        }
+    }
+
+With self-contained ranges, the programmer has to plan for and keep track of checkpoints ahead of the bidirectional code
+that will need them to restore ranges to one of their past states. These snapshots will need to be taken even if it
+turns out they are not needed later. Consider now a pair of bidirectional iterators
+further subdivided into three subranges:
+
+.. code-block:: C++
+
+    template<typename Iterable>
+    void iterator_division_example(Iterable iterable, int i, int j)
+    {
+        // invariant: [start, stop) is the whole original range
+        auto start = begin(iterable);
+        auto stop  = end(iterable);
+
+        // notional distance of the range:
+        //   auto const n = distance(start, stop);
+
+        // precondition: 0 <= i <= j <= n:
+        //   assert( 0 <= i && i <= j && j <= n );
+
+        // invariant: [start, first_sub_stop) is the first subrange
+        auto first_sub_stop = next(start, i);
+
+        // invariant: [first_sub_stop, second_sub_stop) is the second subrange
+        auto second_sub_stop = next(first_sub_stop, j - i);
+
+        // invariant: [second_sub_stop, stop) is the third subrange
+    }
+
+This program fragment is a good demonstration of what bidirectional C++ iterators can do. While setting up the subrange
+delimiters can be a costly operation in that it has linear time complexity with respect to range distance :math:`n`,
+it's not impossible or unusual that they can be computed in a single pass. Crucially, once those subdelimiters are
+computed they can be adjusted very conveniently. For instance ``--first_sub_stop`` will at once shrink the first
+subrange from the end while expanding the second subrange at the start. Provided that pre-conditions are met (i.e.
+:qv:`i` is non-null) all program invariants are preserved.
+
+It's hard to come-up with an equivalent fragment with D-style saveable, double-ended ranges. We'll just assume for the
+sake of the argument that the details can be figured out:
+
+.. code-block:: C++
+
+    template<typename Pred, typename Rng>
+    void range_division_example(Rng rng, int i, int j)
+    {
+        auto first_subrange  = compute_first_subrange(...);
+        auto second_subrange = compute_second_subrange(...);
+        auto third_subrange  = compute_third_subrange(...);
+        // invariant: the subranges partition the initial range
+    }
+
+What is of interest to us is to point out that it's not obvious how to adjust the subranges after their initial
+computation. Each can be shrunk in one direction or other, but none can be extended to reclaim the neighbouring elements
+that would be left behind in the process. As we pointed out before, the normal remedy for this is the ability to make
+checkpoints thanks to the save capability of the ranges. But we can only make a checkpoint from a previously reached
+program state. Depending on how the subranges are computed, it might very well be that the desired state was never
+reached before---in which case there would be no checkpoint to make and with which to restore our subranges.
+
+Uncommon information
+--------------------
+
+By tweaking the last example a little bit, we can also uncover an altogether different flaw. To make things explicit,
+we'll focus on subdividing a filter range specifically rather than an abstract, general :qv:`rng`:
+
+.. code-block:: C++
+
+    template<typename Pred, typename Rng>
+    void uncommon_information_example(Pred pred, Rng rng, ...)
+    {
+        // Alexandrescu-style filter range
+        auto filtered = filter(std::move(pred), std::move(rng));
+
+        auto first_subrange  = compute_first_subrange(filtered, ...);
+        auto second_subrange = compute_second_subrange(...);
+        auto third_subrange  = compute_third_subrange(...);
+    }
+
+If the subranges are constructed by saving :qv:`filtered`, that means they each have their own copy of the predicate
+(the one that was moved into :qv:`filtered`) for a total of 4 copies! That's just as much as the iterator version would
+have, namely a copy for each of :qv:`start`, :qv:`first_sub_stop`, :qv:`second_sub_stop`, and :qv:`stop`. This is quite
+the blowback since an excess of copies was part of the indictment against iterators, and we initially praised
+self-contained ranges for solving that problem. It appears that the approach really only saves us from redundant copies
+in the usual, simple scenario of having just the one range object, but does not help (or perhaps not as much) in cases
+involving subdivision.
+
+Position information
+--------------------
+
+In a sense the flaws that affect iterators are diametrically opposed to those that do self-contained ranges. The former
+have troubles dealing with common, position-independent information but they allow the user to precisely outline
+position-specific relationships such as partitioning a range into subdivisions. The latter are able to sensibly package
+position-independent information, but their opacity makes it impossible to retrieve position information.
+
+Interestingly, this particular shortcoming of self-contained ranges is somewhat commensurate to their their traversal
+capabilities. We drew an argument from an example involving saveable, double-ended ranges, but it's harder to find fault
+with non-saveable, double-ended or forward ranges--and in that respect single-pass ranges are faultless. In fact, by the
+time we reach random-access ranges\ [#random-access]_ the breakdown becomes explicit. Consider this pseudo-code
+formulation:
+
+.. code-block:: C++
+
+    // simplified
+    AlexandrescuDoubleEndedRange{Rng}
+    concept bool AlexandrescuRandomAccessRange = requires {
+        typename difference_type_t<Rng>;
+    } && requires(Rng rng, difference_type_t<Rng> offset) {
+        { rng.size() } -> difference_type_t<Rng>;
+        // precondition: 0 <= offset < rng.size()
+        rng[offset]; // same type as front() and back()
+    };
+
+That is, elements can be accessed using integral offsets. Since integral offsets can be incremented or decremented by
+nearly arbitrary amounts, Alexandrescu-style random-access ranges are not very different from pairs of random-access
+iterators. Under this disguise the individual position information that self-contained ranges purported to banish creeps
+back in.
+
+-----
+
+.. [#double-ended] Rust uses 'iterator' in its terminology but does use and implement Alexandrescu-style self-contained
+  ranges, not C++-style iterators
+
+.. [#random-access] the random-access ranges and iterators that D and Rust ended up defining differ slightly from Andrei
+  Alexandrescu's original formulation, the strawman C++ concept here is closer to the former than to the latter

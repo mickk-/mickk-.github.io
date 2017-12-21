@@ -1,0 +1,490 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Division of work &mdash; annex-range 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../../../_static/styles.css" type="text/css" />
+  
+
+  
+        <link rel="author" title="About these documents"
+              href="../../../about.html"/>
+        <link rel="index" title="Index"
+              href="../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="annex-range 0.1.0 documentation" href="../../../index.html"/>
+        <link rel="up" title="Amount of work" href="../work.html"/>
+        <link rel="next" title="Work semantics" href="semantics.html"/>
+        <link rel="prev" title="Amount of work" href="../work.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> annex-range
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../../study.html">Designing a Range Abstraction</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../iteration.html">Iteration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../study.html#criticism">Criticism</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../../study.html#design-elements">Design elements</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../work.html">Amount of work</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Division of work</a></li>
+<li class="toctree-l4"><a class="reference internal" href="semantics.html">Work semantics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="traversal.html">Impact of traversal on work</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../representation.html">Representation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../traversal.html">Forms of traversal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../termination.html">Termination and finiteness</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../types.html">Associated types</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference.html">The annex-range library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../about.html">About this document</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">annex-range</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../../study.html">Designing a Range Abstraction</a> &raquo;</li>
+        
+          <li><a href="../work.html">Amount of work</a> &raquo;</li>
+        
+      <li>Division of work</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../../_sources/study/elements/work/division.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="division-of-work">
+<h1>Division of work<a class="headerlink" href="#division-of-work" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="prefixes">
+<h2>Prefixes<a class="headerlink" href="#prefixes" title="Permalink to this headline">¶</a></h2>
+<p>If we reflect back on our <a class="reference internal" href="../../iteration.html#fundamentals"><span class="std std-ref">Fundamentals</span></a>, we recall that we want to deal in notional sequences of elements
+<span class="math">\(e_i\)</span> (using offset notation i.e. starting from <span class="math">\(0\)</span>):</p>
+<div class="math">
+\[seq = e_0, e_1, e_2, …\]</div>
+<p>Pursuing our practically minded approach, we already know that these cannot be elements in memory in the general case:
+as we previously discussed in the <a class="reference internal" href="../work.html"><span class="doc">chapter opening</span></a> there might not even be enough memory in the world to
+begin with. So there must be some computational cost to compute each of these elements. Immediately we have at least two
+approaches as to where to put this work. We could associate a certain amount of work to each element:</p>
+<div class="math">
+\[seq = \mathopen{}\left&lt;work\right&gt;\mathclose{}, e_0, \mathopen{}\left&lt;work\right&gt;\mathclose{}, e_1, \
+\mathopen{}\left&lt;work\right&gt;\mathclose{}, e_2, …\]</div>
+<p>That is, proceeding in natural order we must first do some work before we have access to <span class="math">\(e_0\)</span>, then so some more
+work to produce <span class="math">\(e_1\)</span>, so on and so forth. In terms of control flow, this has the same shape as a traditional
+<code class="docutils literal"><span class="pre">while</span></code> loop:</p>
+<div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="k">while</span><span class="p">(</span><span class="n">seq</span> <span class="o">=</span> <span class="n">seq</span><span class="p">.</span><span class="n">next</span><span class="p">(),</span> <span class="n">seq</span><span class="p">.</span><span class="n">valid</span><span class="p">())</span> <span class="p">{</span>
+    <span class="n">process</span><span class="p">(</span><span class="n">seq</span><span class="p">.</span><span class="n">current</span><span class="p">());</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>We will call this <em class="dfn">the prefix approach</em>, since we prefix each element by some amount of work. It is taken by
+<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#typeiter">Python iterators</a>, <a class="reference external" href="https://doc.rust-lang.org/std/iter/index.html">Rust iterators</a>, and <a class="reference external" href="https://msdn.microsoft.com/en-us/library/78dfe2yb%28v=vs.110%29.aspx">C# enumerators</a>. For each of them we describe in the following how the
+notional amounts of work and notional elements map to concrete ranges and their associated functionality:</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The following program fragments are for illustration purposes only. Often they do not reflect actual, idiomatic code
+and gloss over certain technicalities that are irrelevant to this chapter. They should not be imitated.</p>
+</div>
+<div class="collapsed admonition">
+<p class="admonition-title">Python iterators</p>
+<div class="highlight-container highlight-Python" data-highlight-language="Python"><div class="highlight"><pre><span></span><span class="n">iterator</span> <span class="o">=</span> <span class="o">...</span>
+<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">elem</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
+        <span class="n">process</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
+        <span class="k">break</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>work is performed by calling the <em class="pre quoted-variable">next</em> builtin function</p></li>
+<li><p>a <code class="docutils literal"><span class="pre">StopIteration</span></code> exception is raised to signal the end of the range</p></li>
+<li><p>otherwise, the result of calling <em class="pre quoted-variable">next</em> is the current element and the iterator state has been updated to be
+ready to work on the following element</p></li>
+</ul>
+</div>
+<div class="collapsed admonition">
+<p class="admonition-title">Rust iterators</p>
+<div class="highlight-container highlight-Rust" data-highlight-language="Rust"><div class="highlight"><pre><span></span><span class="kd">let</span><span class="w"> </span><span class="n">iterator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...;</span><span class="w"></span>
+<span class="k">loop</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">match</span><span class="w"> </span><span class="n">iterator</span><span class="p">.</span><span class="n">next</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nb">Some</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">process</span><span class="p">(</span><span class="n">elem</span><span class="p">),</span><span class="w"></span>
+<span class="w">        </span><span class="nb">None</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="k">break</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>work is performed by calling <em class="pre quoted-variable">next</em> on the iterator</p></li>
+<li><p>a <code class="docutils literal"><span class="pre">None</span></code> result signals the end of the range</p></li>
+<li><p>a <code class="docutils literal"><span class="pre">Some</span></code> result gives the current element and signals that the iterator state has been updated to be ready to
+work on the following element</p></li>
+</ul>
+</div>
+<div class="collapsed admonition">
+<p class="admonition-title">C# enumerators</p>
+<div class="highlight-container highlight-C#" data-highlight-language="C#"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">enumerator</span> <span class="p">=</span> <span class="p">...;</span>
+<span class="k">while</span><span class="p">(</span><span class="n">enumerator</span><span class="p">.</span><span class="n">MoveNext</span><span class="p">())</span> <span class="p">{</span>
+    <span class="kt">var</span> <span class="n">elem</span> <span class="p">=</span> <span class="n">enumerator</span><span class="p">.</span><span class="n">Current</span><span class="p">;</span>
+    <span class="n">process</span><span class="p">(</span><span class="n">elem</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>work is performed by calling <em class="pre quoted-variable">MoveNext</em> on the iterator</p></li>
+<li><p>a <code class="docutils literal"><span class="pre">false</span></code> result signals the end of the range</p></li>
+<li><p>otherwise, the <em class="pre quoted-variable">Current</em> property selects the current element and the enumerator state has been updated to be
+ready to work on the following element</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="links-fence-posts">
+<h2>Links &amp; Fence posts<a class="headerlink" href="#links-fence-posts" title="Permalink to this headline">¶</a></h2>
+<p>Another scheme goes as follows:</p>
+<div class="math">
+\[seq = e_0, \mathopen{}\left&lt;work\right&gt;\mathclose{}, e_1, \mathopen{}\left&lt;work\right&gt;\mathclose{}, e_2, …\]</div>
+<p>Here, the elements function as fence posts separated and linked by sections of work. As a consequence
+<span class="math">\(e_0\)</span>  must be available from the get-go (for a non-empty sequence). This has the same shape as a traditional
+<code class="docutils literal"><span class="pre">for</span></code> loop:</p>
+<div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="k">for</span><span class="p">(;</span> <span class="n">seq</span><span class="p">.</span><span class="n">valid</span><span class="p">();</span> <span class="n">seq</span> <span class="o">=</span> <span class="n">seq</span><span class="p">.</span><span class="n">next</span><span class="p">())</span> <span class="p">{</span>
+    <span class="n">process</span><span class="p">(</span><span class="n">seq</span><span class="p">.</span><span class="n">current</span><span class="p">());</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>We will call this <em class="dfn">the fence post approach</em>. It is is taken by <a class="reference external" href="http://en.cppreference.com/w/cpp/concept/Iterator">C++ iterators</a> and <a class="reference external" href="https://dlang.org/phobos/std_range.html">D ranges</a>. For each of them
+we describe in the following how the notional amounts of work and notional elements map to concrete ranges and their
+associated functionality:</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The following program fragments are for illustration purposes only. Often they do not reflect actual, idiomatic code
+and gloss over certain technicalities that are irrelevant to this chapter. They should not be imitated.</p>
+</div>
+<div class="collapsed admonition">
+<p class="admonition-title">C++ iterators</p>
+<div class="highlight-container highlight-C++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="k">auto</span> <span class="n">it</span>  <span class="o">=</span> <span class="p">...;</span>
+<span class="k">auto</span> <span class="n">end</span> <span class="o">=</span> <span class="p">...;</span>
+<span class="k">for</span><span class="p">(;</span> <span class="n">it</span> <span class="o">!=</span> <span class="n">end</span><span class="p">;</span> <span class="o">++</span><span class="n">it</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">auto</span><span class="o">&amp;&amp;</span> <span class="n">elem</span> <span class="o">=</span> <span class="o">*</span><span class="n">it</span><span class="p">;</span>
+    <span class="n">process</span><span class="p">(</span><span class="n">elem</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>an iterator equal to the end iterator signals an empty range</p></li>
+<li><p>otherwise, <code class="docutils literal"><span class="pre">*it</span></code> selects the current element and <code class="docutils literal"><span class="pre">++it</span></code> performs the work to step to the following element</p></li>
+</ul>
+</div>
+<div class="collapsed admonition">
+<p class="admonition-title">D ranges</p>
+<div class="highlight-container highlight-D" data-highlight-language="D"><div class="highlight"><pre><span></span><span class="k">auto</span> <span class="n">rng</span> <span class="p">=</span> <span class="p">...;</span>
+<span class="k">for</span><span class="p">(;</span> <span class="p">!</span><span class="n">rng</span><span class="p">.</span><span class="n">empty</span><span class="p">;</span> <span class="n">rng</span><span class="p">.</span><span class="n">popFront</span><span class="p">())</span> <span class="p">{</span>
+    <span class="k">auto</span> <span class="n">elem</span> <span class="p">=</span> <span class="n">rng</span><span class="p">.</span><span class="n">front</span><span class="p">;</span>
+    <span class="n">process</span><span class="p">(</span><span class="n">elem</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><em class="pre quoted-variable">rng.empty</em> signals an empty range</p></li>
+<li><p>otherwise, the <em class="pre quoted-variable">front</em> property selects the current element and calling <em class="pre quoted-variable">popFront</em> performs the work to
+step to the following element</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="initial-work">
+<h2>Initial work<a class="headerlink" href="#initial-work" title="Permalink to this headline">¶</a></h2>
+<p>It is interesting to consider whether any of these two approaches is more natural or expressive than the other. For one,
+we could take any sequence in fence post form and ‘insert’ a dummy amount of work at the start to obtain an equivalent
+sequence but this time following the prefix approach. Naïvely we might think that this is supporting evidence for
+claiming that the prefix approach is more general than and subsumes the fence post approach. We however reject this
+simplistic view: ‘inserting’ a dummy amount of work, while invisible to a final consumer of sequences, would in
+actuality require a non-trivial effort on the part of sequence authors—it is a very one-sided <a class="tradeoff-icon reference internal" href="../../../study.html#designers-tradeoff"><span class="std std-ref"></span></a><strong class="tradeoff">tradeoff</strong>.</p>
+<p>In order to study the relative merits of both approaches with more care, we will instead consider what happens if we try
+to split a sequence <span class="math">\(seq\)</span> following the prefix approach at an arbitrary element <span class="math">\(sep\)</span> in an <em>exclusive</em>
+fashion. In other words we will be left with an <span class="math">\(\mathopen{}\left[e_0, sep\right)\mathclose{}\)</span> initial part and a
+<span class="math">\(\mathopen{}\left[sep, …\right)\mathclose{}\)</span> final part. Reusing our previous notation for the prefix scheme, we
+start from the following:</p>
+<div class="math">
+\[seq = \mathopen{}\left&lt;work\right&gt;\mathclose{}, e_0, \mathopen{}\left&lt;work\right&gt;\mathclose{}, e_1, \mathopen{}\left&lt;work\right&gt;\mathclose{}, e_2, …\]</div>
+<p>Then when we stop at element <span class="math">\(sep\)</span> we must already have computed all the work that came before it. All the work
+that remains lies after, leaving us with the following (noting that <span class="math">\(sep\)</span> appears at offset <span class="math">\(i\)</span>):</p>
+<div class="math">
+\[seq = e_0, e_1, …, e_{i-1}, sep, \mathopen{}\left&lt;work\right&gt;\mathclose{}, e_{i+1}, \mathopen{}\left&lt;work\right&gt;\mathclose{}, …\]</div>
+<p>We next split the above in two result sequences, labelling them respectively <span class="math">\(initial\)</span> and <span class="math">\(final\)</span>:</p>
+<div class="math">
+\[ \begin{align}\begin{aligned}initial &amp;= e_0, e_1, …, e_{i-1}\\final &amp;= sep, \mathopen{}\left&lt;work\right&gt;\mathclose{}, e_{i+1}, \mathopen{}\left&lt;work\right&gt;\mathclose{}, …\end{aligned}\end{align} \]</div>
+<p>Now we can see that <span class="math">\(final\)</span> takes after the fence post approach, even though we started from a prefix sequence.
+Translating the splitting to loop code, we can return to the <code class="docutils literal"><span class="pre">while</span></code>/<code class="docutils literal"><span class="pre">for</span></code> dichotomy of shapes:</p>
+<div class="highlight-container highlight-C++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="k">while</span><span class="p">(</span><span class="n">seq</span> <span class="o">=</span> <span class="n">seq</span><span class="p">.</span><span class="n">next</span><span class="p">(),</span> <span class="n">seq</span><span class="p">.</span><span class="n">valid</span><span class="p">())</span> <span class="p">{</span>
+    <span class="k">auto</span><span class="o">&amp;&amp;</span> <span class="n">current</span> <span class="o">=</span> <span class="n">seq</span><span class="p">.</span><span class="n">current</span><span class="p">();</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">is_sep</span><span class="p">(</span><span class="n">current</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">process_initial</span><span class="p">(</span><span class="n">current</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// we might have exhausted the sequence by this point, so we have to defensively</span>
+<span class="c1">// test before entering the loop body; hence a do-while loop is not more</span>
+<span class="c1">// appropriate than a for loop</span>
+<span class="k">for</span><span class="p">(;</span> <span class="n">seq</span><span class="p">.</span><span class="n">valid</span><span class="p">();</span> <span class="n">seq</span> <span class="o">=</span> <span class="n">seq</span><span class="p">.</span><span class="n">next</span><span class="p">())</span> <span class="p">{</span>
+    <span class="n">process_final</span><span class="p">(</span><span class="n">seq</span><span class="p">.</span><span class="n">current</span><span class="p">());</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The insight here is that how the results are shaped is entirely determined by how we stated the problem. For instance
+had we performed the split in an <em>inclusive</em> manner instead, the final part would be in prefix form:</p>
+<div class="math">
+\[ \begin{align}\begin{aligned}initial &amp;= e_0, e_1, …, e_{i-1}, sep\\final &amp;= \mathopen{}\left&lt;work\right&gt;\mathclose{}, e_{i+1}, \mathopen{}\left&lt;work\right&gt;\mathclose{}, …\end{aligned}\end{align} \]</div>
+<p>Similarly, we had to perform all the work up to <span class="math">\(sep\)</span> because by the parameters of the problem it was an arbitrary
+element. In our pseudo-code we interpreted this requirement as having a predicate with which to test each element in
+turn, which drove us to performing all the work up to <span class="math">\(sep\)</span>. If the problem were instead to split a sequence up to
+the element at given offset <span class="math">\(i\)</span>, we could have approached the problem differently and ended with differently
+shaped results.</p>
+<p>A more subtle insight is that the fence post approach as we first presented it was incomplete. In the exclusive
+splitting example we noted that the <span class="math">\(final\)</span> result was in fence post form: it is a sequence with initial element
+<span class="math">\(sep\)</span> (if non-empty), with no work preceding it. However that element was preceded by an amount of work when it
+was part of the starting <span class="math">\(seq\)</span> sequence, so when was that work performed? Looking carefully, we can see that this
+took place as part of the splitting process itself. Therein lies the real distinction between the two approaches, and we
+can now more accurately express our former intuition:</p>
+<ul>
+<li><p>the prefix approach treats all work uniformly:</p>
+<div class="math">
+\[seq =
+    \mathopen{}\left&lt;work\right&gt;\mathclose{} \dashrightarrow \mathopen{}\left\{
+        e_0,
+        \mathopen{}\left&lt;work\right&gt;\mathclose{} \dashrightarrow \mathopen{}\left\{
+            e_1,
+            \mathopen{}\left&lt;work\right&gt;\mathclose{} \dashrightarrow \mathopen{}\left\{
+                e_2,
+                …
+            \right\}\mathclose{}
+        \right\}\mathclose{}
+    \right\}\mathclose{}\]</div>
+</li>
+<li><p>the fence post approach makes a distinction between the <em class="dfn">initial work</em>, i.e. what corresponds to the very first
+step in the prefix approach, and the other work steps:</p>
+<div class="math">
+\[\mathopen{}\left&lt;initial\ work\right&gt;\mathclose{} \dashrightarrow \mathopen{}\left\{
+    seq =
+        e_0,
+        \mathopen{}\left&lt;work\right&gt;\mathclose{} \dashrightarrow \mathopen{}\left\{
+            e_1,
+            \mathopen{}\left&lt;work\right&gt;\mathclose{} \dashrightarrow \mathopen{}\left\{
+                e_2,
+                …
+            \right\}\mathclose{}
+        \right\}\mathclose{}
+\right\}\mathclose{}\]</div>
+</li>
+</ul>
+<p>This time we are more careful with the notation in order to highlight the situation: each amount of work points to the
+thing it produces in brackets. We leave the arrows dashed as we still need to elucidate the precise relationship between
+each amount of work and its result. Still, we can now confidently see and claim that the two approaches are extremely
+similar: they each involve the same amount of work, except that they divide and label the parts differently.</p>
+<p>In the next section, we take a closer look at the semantics of this initial work to deduce <a class="reference internal" href="semantics.html"><span class="doc">Work semantics</span></a>.</p>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="semantics.html" class="btn btn-neutral float-right" title="Work semantics" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../work.html" class="btn btn-neutral" title="Amount of work" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, mickk.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

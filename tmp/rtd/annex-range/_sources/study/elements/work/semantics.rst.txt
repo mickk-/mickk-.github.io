@@ -1,0 +1,344 @@
+Work semantics
+==============
+
+Iterables
+---------
+
+Since the fence post approach sets the initial work apart from the rest as we established in the :doc:`previous section
+<division>`, it tends to require the supporting concept of an :dfn:`iterable` to abstract over this initial work which
+produces the concrete fence post range. Iterables can be defined for the prefix approach as well, in which case they
+don't need to perform any sequence-related work at all. (It's just as well that we define them however because there are
+additional reasons for wanting to define iterables as part of an iteration abstraction, some of which we examine in
+:doc:`../representation`.)
+
+.. table:: Iteration abstractions and their work approaches, ranges, and iterables
+    :class: collapsible
+
+    .. include:: ../../recaps/work_iterables.txt
+
+It bears pointing out that much like the two approaches lead to two kinds of ranges, we're really ending up with two
+kinds of iterables. We can illustrate their differences by studying the problem of filtering a range. Given a predicate
+:math:`pred` and a range :math:`rng` of elements over which :math:`pred` can operate, the result of :math:`filter(pred,
+rng)` is itself a range which notional sequence only contains those notional elements :math:`elem` of :math:`rng` for
+which :math:`pred(elem)` holds true. Elements not satisfying the predicate are skipped over.
+
+We can now study a Rust program, where iteration follows a prefix approach:
+
+.. code-block:: rust
+
+    use std::borrow::Borrow;
+
+    fn iterable_demo<It: Iterator>(it: It) where It::Item: Borrow<isize> {
+        let mut filtered = it.filter(|elem| elem.borrow()%2 != 0);
+        println!("iterable used, new range produced!");
+
+        match filtered.next() {
+            Some(first) => println!("first element: {}", first.borrow()),
+            None => println!("empty"),
+        }
+    }
+
+.. note:: For consistency with the Rust ecosystem our code follows the same `Iterator <Rust iterator_>`_
+    terminology---but it bears repeating that they really are ranges in the sense of this study.
+
+This :qv:`iterable_demo` function accepts a range of integers, from which it creates a new range of only odd integers by
+using :qv:`filter`.  It then displays the first such integer if any, or a message telling the sequence was empty
+otherwise. Here the call to :qv:`filter` serves as an example of iterable use and during function execution a message
+makes a note of that fact. It is straightforward to write a seemingly equivalent D program, where iteration follows a
+fence post approach:
+
+.. code-block:: D
+
+    void iterable_demo(Rng)(Rng rng)
+    {
+        import std.stdio;
+        import std.range;
+        import std.algorithm;
+
+        auto filtered = rng.filter!(x => x%2 != 0);
+        writeln("iterable used, new range produced!");
+
+        if(!filtered.empty) {
+            writefln("first element: %s", filtered.front);
+        } else {
+            writeln("empty");
+        }
+    }
+
+If tested on simple inputs, both functions may appear to perform identically. The crafty reader may however wonder what
+happens with sufficiently long inputs which *only* contain even integers; or even what happens with non-terminating
+sequences of even integers such as an infinitely repeating sequence of zeroes (the respective iteration abstractions of
+Rust and D both support these types of sequences).
+
+.. note::
+
+    We have only given so far an informal definition of :math:`filter`, so we should stop for an instant and contemplate
+    what the result of keeping only the odd integers out of a non-terminating sequence of even integers should be.
+    Ideally we would perhaps like it to be an empty sequence, as that would neatly coincide with the result in the case
+    of a terminating input sequence of even integers. Unfortunately this cannot be the case in general as long as we are
+    entertaining the idea of supporting 'interesting' non-terminating sequences, i.e. those that are allowed to perform
+    arbitrary computations: we would be in effect mandating that :math:`filter(pred, rng)` solves the halting problem in
+    order to verify that :math:`rng` does not in fact terminate.
+
+    A less theoretically-minded argument is to consider a sequence of values that are produced e.g. by a remote
+    host on the network. As long as such a host produces even integers we are kept waiting with baited breath, and we
+    can neither produce the first odd integer of the filtered sequence nor conclude that we are done producing odd
+    integers.
+
+    Both explanations are informal, but nonetheless we will take for granted that the correct result of filtering a
+    non-terminating sequence with a never-satisfied predicate is a non-empty sequence which cannot terminate computing
+    its first element.
+
+When called on such inputs, we finally notice different behaviours:
+
+- the Rust function quickly displays the "iterable used, new range produced!" message, and then terminates after a
+  while (given sufficiently long inputs) or not at all (given non-terminating inputs)
+- the D function only ever displays its note after a while and then terminates, or does not display anything at all and
+  does not terminate
+
+In the former case, the call to :qv:`filter` has the luxury of not having to perform any sequence-related work by virtue
+of following the prefix approach. It may perform any bookkeeping it deems necessary to do (which is itself the topic of
+:doc:`../representation`), and need only return a range in the prefix form. That is to say a range on which we can call
+:qv:`.next()`, at which point the very first work step is performed. This call may itself take a long while or never
+return, but whichever the case we do get to print our message right before.
+
+In the latter, the call to :qv:`filter` must return a range in the fence post form. Hence as soon as this result is
+available we must be able to query whether it is an empty sequence, and if not what the first element is. The very first
+work step is being performed by the :qv:`filter` call. It could take a while before we can proceed to displaying our
+message, or :qv:`filter` may not even ever return.
+
+Work semantics of iterables
+---------------------------
+
+We can be a little more precise. A call to :qv:`filter` is itself a particular iterable scenario, and it is instructive
+to abstract away this specificity:
+
+.. code-block:: Rust
+
+    fn generic_iterable_demo<Iterable: IntoIterator>(iterable: Iterable) where Iterable::Item: Borrow<isize> {
+        let mut iterator = iterable.into_iter();
+        println!("iterable used, new range produced!");
+
+        match iterator.next() {
+            Some(first) => println!("first element: {}", first.borrow()),
+            None => println!("empty"),
+        }
+    }
+
+Studying what semantics this generic function has or should have informs us on what the relationship between the
+iterable and range concepts of a given iteration abstraction is or should be. Here we've repurposed our former example
+and made it more general. In pseudo-code we could recover the old ``iterable_demo(iterator)`` semantics as follows:
+
+.. code-block:: Rust
+
+    generic_iterable_demo(callable_to_iterable(|| iterator.filter(|elem| elem.borrow()%2 != 0)))
+
+(The purpose of the putative :qv:`callable_to_iterable` function is to allow us to treat a closure returning an iterable
+itself as an iterable. The range associated to such a callable iterable is the range associated to the result of calling
+the closure. Expressed in code, this means that ``callable_to_iterable(func).into_iter()`` has the semantics of
+``func().into_iter()``.)
+
+By making the same code more general, we can now argue that a prefix iterable in the truest sense must not perform any
+sequence-related work if we want to be able to reason about generic code. In its Rust incarnation, that means the
+``iterable.into_iter()`` call should succeed and complete for any sensible implementation of the `IntoIterator <Rust
+IntoIterator_>`_ trait by using an amount of computing resources that is bounded with respect to the properties of the
+resulting prefix range:
+
+- whether it is empty or not, or whether it can be computed at all whether it is empty or not
+- regardless of length, or whether its length can be computed at all
+- regardless of the value of the elements if any, or whether these values can be computed at all
+
+And so on for whichever observable properties we decide a range should have (e.g. non-terminating sequences are properly
+discussed in :doc:`../termination`). If we ever choose to relax this requirement, we wouldn't be able anymore to tell
+whether our note-making statement would definitively run or not. This would be a high price to pay not just for this
+program but for any generic range code.
+
+As to our other work division scheme, we conclude that fence post iterables must perform exactly the necessary sequence
+work to be able to produce a fence post range, and no more. That is to say, it must produce a range for which it is
+possible to compute whether it is empty or not and, if it isn't, from which it is possible to obtain the first element
+as well as the computation which produces the rest of the sequence. Once again all these things must take an amount of
+computing resources which does not depend on any other properties of the rest of the sequence. This time this allows us
+to reason about the following generic program:
+
+.. _d_generic_iterable_demo:
+
+.. code-block:: D
+
+    void generic_iterable_demo(RngFunc)(RngFunc make_range)
+    {
+        import std.stdio;
+        import std.range;
+        import std.algorithm;
+
+        auto rng = make_range();
+        writeln("make_range used, new range produced!");
+
+        if(!rng.empty) {
+            writefln("first element: %s", rng.front);
+        } else {
+            writeln("empty");
+        }
+    }
+
+If and only if :qv:`make_range` is a strict fence post iterable can we confidently say that the note-making message, if
+displayed, must be followed by one of the non-empty or empty messages.
+
+In a sense strict prefix iterables and ranges on the one hand, and strict fence post iterables and ranges on the other
+are opposite ends of a :tradeoff:`spectrum`. At the extremes we are able to formally express guarantees about our
+generic programs (e.g. under which circumstances our messages would be printed or not), while moving to the middle
+muddles our reasoning. A lax prefix iterable which performs some initial sequence work looks like an improper fence post
+iterable which has senselessly decided to split its initial work in two separate function calls; while a lax fence post
+iterable which delegates too much work to the 'is this range empty?' operation looks like a prefix iterable in disguise.
+
+.. _d_peel_first:
+
+Work semantics of ranges
+------------------------
+
+It's worth taking a brief glance back at the work division diagrams we established in :doc:`the previous part
+<division>`:
+
+- the prefix approach:
+
+  .. math::
+
+      seq =
+          \mathopen{}\left<work\right>\mathclose{} \dashrightarrow \mathopen{}\left\{
+              e_0,
+              \mathopen{}\left<work\right>\mathclose{} \dashrightarrow \mathopen{}\left\{
+                  e_1,
+                  \mathopen{}\left<work\right>\mathclose{} \dashrightarrow \mathopen{}\left\{
+                      e_2,
+                      …
+                  \right\}\mathclose{}
+              \right\}\mathclose{}
+          \right\}\mathclose{}
+
+- the fence post approach
+
+  .. math::
+
+      \mathopen{}\left<initial\ work\right>\mathclose{} \dashrightarrow \mathopen{}\left\{
+          seq =
+              e_0,
+              \mathopen{}\left<work\right>\mathclose{} \dashrightarrow \mathopen{}\left\{
+                  e_1,
+                  \mathopen{}\left<work\right>\mathclose{} \dashrightarrow \mathopen{}\left\{
+                      e_2,
+                      …
+                  \right\}\mathclose{}
+              \right\}\mathclose{}
+      \right\}\mathclose{}
+
+The observant reader will have noticed that the diagrams exhibit a form of self-similarity. Namely, it possible to peel
+off some amount of elements :math:`e_0, …, e_i` from the front of the sequence and end up with a :math:`subseq =
+e_{i+1}, \mathopen{}\left<work\right>\mathclose{} \dashrightarrow \mathopen{}\left\{e_{i+2}, …\right\}\mathclose{}`
+remainder provided that the initial sequence has enough elements. This remainder is itself shaped like a fence post
+sequence, and can thus be properly considered a subsequence. In terms of code this means that the following D function
+where we peel just one element is suspiciously similar to `the one we wrote before <d_generic_iterable_demo_>`_:
+
+.. code-block:: D
+
+    void peel_first(Rng)(Rng rng)
+    {
+        import std.stdio;
+        import std.range;
+
+        assert(!rng.empty);
+        rng.popFront();
+        wrinteln("popped first element, new subrange state!");
+
+        if(!rng.empty) {
+            writefln("next element: %s", rng.front);
+        } else {
+            writeln("no more elements");
+        }
+    }
+
+Taking a close look, we can identify that what previously was the iterable-related initial work is now the element work
+cutting away the first element; and what used to be the resulting fence post range is now the *remainder* of the range
+as embodied by the state of :qv:`rng` following the :qv:`popFront` call. Since the situation is the same, we can reuse
+our argument! Where we concluded before that a fence post iterable must perform work that is bounded with respect to the
+properties of the overall range, we must now conclude that performing this instance of non-initial work is bounded with
+respect to the properties of the remainder subrange. In particular this means that the amount of time it takes must not
+depend on the number of remaining elements.
+
+Recall also that we've mentioned in that previous part how the way we choose to 'cut' the subsequence entirely
+determines that the result is fence post form. Therefore our reasoning holds even if we start from a prefix range. Now
+taking advantage of the self-similarity, we can transitively repeat the conclusion for the next amount of work thus
+bounding it with respect to the *next* remainder subsequence, and so on with respect to ever-shrinking subsequences. Put
+all together, we can finally fill in the missing parts on our diagrams:
+
+- the prefix approach and its :tradeoff:`rules`:
+
+  .. math::
+
+      iterable = \mathopen{}\left<\right>\mathclose{} \Rightarrow \mathopen{}\left\{
+        seq =
+            \mathopen{}\left<work\right>\mathclose{} \rightarrow \mathopen{}\left\{
+                e_0,
+                \mathopen{}\left<work\right>\mathclose{} \rightarrow \mathopen{}\left\{
+                    e_1,
+                    \mathopen{}\left<work\right>\mathclose{} \rightarrow \mathopen{}\left\{
+                        e_2,
+                        …
+                    \right\}\mathclose{}
+                \right\}\mathclose{}
+            \right\}\mathclose{}
+      \right\}\mathclose{}
+
+  * iterables must perform no work (as represented by the empty brackets) relative to the properties of the overall
+    range they produce (a relationship represented by the fat arrow)
+  * work steps are treated uniformly and are bounded in the resources they use with respect to the remainder of the
+    range (represented by the thin arrows)
+
+- the fence post approach and its :tradeoff:`rules`:
+
+  .. math::
+
+      iterable = \mathopen{}\left<initial\ work\right>\mathclose{} \Rightarrow \mathopen{}\left\{
+          seq =
+              e_0,
+              \mathopen{}\left<work\right>\mathclose{} \rightarrow \mathopen{}\left\{
+                  e_1,
+                  \mathopen{}\left<work\right>\mathclose{} \rightarrow \mathopen{}\left\{
+                      e_2,
+                      …
+                  \right\}\mathclose{}
+              \right\}\mathclose{}
+      \right\}\mathclose{}
+
+  * iterables must perform initial work with bounded resources relative to the properties of the overall range they
+    produce (a relationship represented by the fat arrow)
+  * other work steps are bounded in the resources they use with respect to the remainder of the range (represented by
+    the thin arrows)
+
+We can verify that these requirements are sufficient to achieve the goal we set for ourselves when we started this
+chapter. Assume we find the means of implementing a :qv:`naturals_up_to` function which when given a
+:qv:`greater_limit` integer can produce a range standing for :math:`\mathopen{}\left\{ n \mid n \in \mathbb{N}, n <
+greater\_limit \right\}\mathclose{}`, in order. Then we are able to write the following program fragment:
+
+.. code-block:: C++
+
+    auto rng = naturals_up_to(greater_limit);
+    for(auto nat: rng) {
+        if(nat >= limit) {
+            break;
+        }
+        process(nat);
+    }
+
+The length of :qv:`rng` is :qv:`greater_limit` by definition. Consequently by our iterable requirements the
+``naturals_up_to(greater_limit)`` call cannot have a complexity which depends on :qv:`greater_limit`. Similarly during
+loop execution, each amount of work to proceed to the next iteration step has complexity independent of the remaining
+length of :qv:`rng`. As long as :qv:`naturals_up_to` is well-behaved, we can push the :qv:`greater\_limit` as much as we
+want while keeping the amount of resources used by the program fragment constant (once :qv:`greater_limit` exceeds
+:qv:`limit`).
+
+.. note:: At this point we could be tempted to say that 'in the limit' we would find the ``naturals()`` practical
+    representation of the naturals with which we opened the chapter. This would however carelessly gloss over
+    considerations of representing an arbitrary natural number, which is beyond the topic of this study. The way we
+    presented it our verification only relies on the usual integers that should be familiar to all programmers.
+
+In the final part we settle once and for all the distinction between initial and non-initial work by studying the
+:doc:`traversal`.

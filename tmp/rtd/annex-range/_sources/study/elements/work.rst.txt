@@ -1,0 +1,46 @@
+Amount of work
+==============
+
+.. toctree::
+    :maxdepth: 2
+    :hidden:
+
+    work/division
+    work/semantics
+    work/traversal
+
+Given limitless computer resources, programmers wouldn't need elaborate iteration abstractions. Limitless time would
+mean that we could compute everything that can possibly ever be computed and limitless space would mean we could store
+as many of these results as we want, whether we might actually need them later or not. Slices of memory and numerical
+offsets is all we would ever need---random-access wouldn't even be a requirement! We do not however live in such a world
+and wish to use our resources sparingly. In this sense, designing a practical iteration abstraction implies carefully
+picking a scheme to divide the computational work or memory usage that are involved in making use of a notional
+sequence.
+
+For instance, if an iteration abstraction ever hopes to be able to provide a practical representation ``naturals()`` of
+the mathematical natural numbers :math:`\mathbb{N}` then it should ensure that the following program works given an
+arbitrary :qv:`limit`::
+
+    auto nats = naturals();
+    for(auto nat: nats) {
+        if(nat >= limit) {
+            break;
+        }
+        // use nat
+    }
+
+It's common between programmers to refer to this by saying that practical ranges should be *lazy* or *deferred*. For
+instance, in certain circumstances the Rust compiler can emit this helpful warning to guide the user:
+
+.. code-block:: text
+
+    warning: unused result which must be used: iterator adaptors are lazy and do nothing unless consumed
+
+It should however be noted that this usage is informal, and we will refrain from using this terminology outside of this
+section in order to avoid confusion. For instance what we are considering here is entirely independent of the
+language-level evaluation strategy: both so-called lazy and strict languages can make good use of iteration abstractions
+for exactly the same reasons of bounded usage of resources. Instead we will be explicitly mentioning the computational
+work (or just :dfn:`work` for short) needed to produce results, when it will or must be performed, and the computational
+complexity consequences that our design choices lead us to.
+
+In our first section we will study two :doc:`work/division` schemes.

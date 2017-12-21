@@ -1,0 +1,4 @@
+Termination and finiteness
+==========================
+
+Tbd.

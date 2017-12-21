@@ -1,0 +1,325 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Designing a Range Abstraction &mdash; annex-range 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="_static/styles.css" type="text/css" />
+  
+
+  
+        <link rel="author" title="About these documents"
+              href="about.html"/>
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="annex-range 0.1.0 documentation" href="index.html"/>
+        <link rel="next" title="Iteration" href="study/iteration.html"/>
+        <link rel="prev" title="A Study of Ranges" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> annex-range
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Designing a Range Abstraction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="study/iteration.html">Iteration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#criticism">Criticism</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="study/state_of_the_art/iterators.html">C++ iterators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="study/state_of_the_art/alexandrescu_ranges.html">Alexandrescu-style ranges</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#design-elements">Design elements</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="study/elements/work.html">Amount of work</a></li>
+<li class="toctree-l3"><a class="reference internal" href="study/elements/representation.html">Representation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="study/elements/traversal.html">Forms of traversal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="study/elements/termination.html">Termination and finiteness</a></li>
+<li class="toctree-l3"><a class="reference internal" href="study/elements/types.html">Associated types</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">The annex-range library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About this document</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">annex-range</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Designing a Range Abstraction</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/study.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="designing-a-range-abstraction">
+<h1>Designing a Range Abstraction<a class="headerlink" href="#designing-a-range-abstraction" title="Permalink to this headline">¶</a></h1>
+<p class="rubric">How to read this study</p>
+<p>This study does not have to be read in strict order, although it is suggested to lead with <a class="reference internal" href="study/iteration.html"><span class="doc">Iteration</span></a>. This
+introduction of sorts outlines the background, motivation, and scope of the study. Quite importantly it also sets up
+some of the terminology.</p>
+<div class="toctree-wrapper compound">
+</div>
+<p>From then on the reader can start from any topic and follow cross-references when necessary. In lieu of a reading guide,
+it is suggested to take a look at the study structure for inspiration:</p>
+<div class="section" id="criticism">
+<h2>Criticism<a class="headerlink" href="#criticism" title="Permalink to this headline">¶</a></h2>
+<p>Each ‘Criticism’ chapter presents some of the shortcomings of an existing iteration abstraction:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="study/state_of_the_art/iterators.html">C++ iterators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="study/state_of_the_art/alexandrescu_ranges.html">Alexandrescu-style ranges</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="design-elements">
+<h2>Design elements<a class="headerlink" href="#design-elements" title="Permalink to this headline">¶</a></h2>
+<p>Each ‘Design element’ chapter independently focuses on one design aspect of iteration abstractions, listing and
+commenting on the trade-offs to be made. They are listed in rough order of importance with the more fundamental topics
+coming first:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="study/elements/work.html">Amount of work</a></li>
+<li class="toctree-l1"><a class="reference internal" href="study/elements/representation.html">Representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="study/elements/traversal.html">Forms of traversal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="study/elements/termination.html">Termination and finiteness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="study/elements/types.html">Associated types</a></li>
+</ul>
+</div>
+<p class="rubric">Conventions</p>
+<p>Most of the pseudo-code contained in this study takes the form of C++17 extended with concepts<a class="footnote-reference brackets" href="#concepts" id="id1">1</a>. Other
+languages are also used when discussing the existing iteration abstractions of their respective ecosystem.</p>
+<p class="rubric" id="designers-tradeoff">The designer’s trade-off</p>
+<p>Trade-offs are a recurring motif throughout this study. This is so because the designer of an iteration abstraction,
+which is to say in practical terms the designer of a range ecosystem, acts as a broker between the implementers (i.e.
+range authors) and their users (i.e. range consumers). Consequently the stricter the requirements on a particular range
+concept or interface, the heavier the burden on range authors to satisfy it; but all the same the more guarantees for
+range consumers to rely on. Conversely laxer requirements allow authors to implement a larger class of ranges; which
+consumers can only use in more limited ways.</p>
+<p>As a concrete example of the designer’s trade-off suppose that we, with our iteration abstraction designer hat firmly
+on, wish to mandate that all ranges must be able to be queried for their length. Under this scheme the consequences are
+immediate:</p>
+<ul class="simple">
+<li><p>non-finite ranges are ruled out which, depending on our mood, is perhaps not the most serious of offences</p></li>
+<li><p>more concerningly however in the same breath we also ruled out possibly-finite ranges but which length cannot be
+computed ahead of time, such as a range over network-produced elements</p></li>
+</ul>
+<p>Just as equally though, whenever a consumer ends up with a range in this scheme they can take for granted that it is
+finite. Notably this makes it easy to tell that a simple loop over that range will terminate—a powerful guarantee in
+any Turing-complete language. Should we remove our onerous requirement to enable more interesting ranges, then in all
+likelihood all loops would need to be audited for termination.</p>
+<p>All things considered this study does not aim to be prescriptive. On many occasions it qualifies choices in the
+comparative: ‘stricter’, ‘laxer’, ‘more precisely’, and so on but these should not be understood as absolute mandates.
+Rather they are hints that there exists here a continuum of behaviour. The careful reader should consider the
+consequences of picking the opposite decision as well. In the end we always leave the final choice of direction in which
+to tip the scales in the hands of the would-be iteration abstraction designer.</p>
+<p>We leave <a class="tradeoff-icon reference internal" href="#designers-tradeoff"><span class="std std-ref"></span></a><strong class="tradeoff">reminders</strong> in our conclusions to link the reader back to here.</p>
+<hr class="docutils" />
+<dl class="footnote brackets">
+<dt class="label" id="concepts"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>Concepts are specified by <a class="reference external" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2017/n4674.pdf">n4674</a>.</p>
+</dd>
+</dl>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="study/iteration.html" class="btn btn-neutral float-right" title="Iteration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="A Study of Ranges" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, mickk.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

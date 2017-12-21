@@ -1,0 +1,171 @@
+C++ iterators
+=============
+
+Implicit ranges
+---------------
+
+A particularity of the C++ ecosystem is that it doesn't define ranges as such. An iterator on its own is usually not
+enough information to serve that purpose, instead it takes at least two iterators or similarly one iterator and a size
+to correctly represent a range. Such an implicit approach leads to very specific flaws which would not manifest as
+readily in a setting where concrete, single objects serve as explicit ranges.
+
+.. topic:: ``begin()`` and ``end()``
+
+    It may look like the traditional pair of ``begin`` and ``end`` C++ functions can be used to define concrete ranges
+    instead of relying on only iterators. These functions are however too under-specified to fill that need in the
+    precise way we define in this study, and they arguably overlap with the related but separate notion of an
+    :dfn:`iterable`.
+
+    The concept of iterables and their relation to ranges is not the topic of this section but is looked at in more
+    depth in the :doc:`/study/elements/representation` and :doc:`/study/elements/work` chapters.
+
+An immediate drawback is incidental API complexity. A common symptom is duplicated interfaces where the same essential
+functionality exists as separate, subtly different overloads or similarly named functions. For instance when it comes to
+filling a range with a given value::
+
+    template<typename ForwardIterator, typename T>
+    void std::fill(ForwardIterator first, ForwardIterator last, T const& value);
+
+    template<typename OutputIterator, typename Size, typename T>
+    OutputIterator std::fill_n(OutputIterator first, Size n, T const& value);
+
+Furthermore the approach leaves more room for programmer error. The user may for instance mistakenly specify two
+delimiting iterators in the wrong order (i.e. end iterator first and starting iterator second), or mix up the iterators
+when two or more pairs are involved.
+
+On the other hand it should be said that the approach does grant an unusual amount of flexibility. It is for instance
+also possible for a user to specify an implicit range out of a :math:`(first, mid, last)` triple of iterators such that
+:math:`mid` is half-way between the two end-points. While the same range could be traditionally expressed as the usual
+:math:`\left[first, last\right)` half-open interval, doing it this way does allow for specifying two :math:`\left[first,
+mid\right)` and :math:`\left[mid, last\right)` partitioning subranges in the same breath.
+
+.. _common_information:
+
+Common information
+------------------
+
+Since iterators really work in pairs or more, they are not well suited for ranges which rely on common information. For
+instance consider the problem of iterating over only those elements of a sequence that satisfy a predicate, oftentimes
+known as filtering. In traditional loop form it may look like the following::
+
+    auto iterable = ...;
+    auto pred     = ...;
+    for(auto& elem: iterable) {
+        if(pred(elem)) {
+            // use the element
+        }
+    }
+
+In this instance the predicate is necessary information in order to define a filtered range. Much like the loop makes
+use of the predicate in its body, any iterator solution will need to somehow store and later access :qv:`pred` or a copy
+of it in order to use it for filtering. That leaves the implementer with unsavoury design decisions:
+
+- Storing predicate copies in the iterator objects themselves requires the predicate to be copyable, not allowing for
+  move-only predicates since iterators must be copyable. Furthermore, copyable implies copy assignable which is
+  particularly concerning for closure objects (the values of lambda expressions). Indeed, these popular function objects
+  may be copy constructible, but are not even move assignable. This latter obstacle can be overcome, but at the cost of
+  additional burden to implementers.
+
+  Compounding this is the fact that we are left with redundant copies since there now are two predicate copies per
+  iterator pair, three copies for a triple, and so on. But as the traditional code reveals, we really just need the one
+  predicate. Relaxing iterator pairs to have possibly heterogeneous types looks like a possible remedy to this problem::
+
+      auto iterable = ...;
+      auto pred     = ...;
+      auto first    = make_filter_iterator(std::move(pred), iterable);
+      // N.B. we don't need a pred copy here
+      auto last     = make_filter_sentinel();
+      for(; first != last; ++first) {
+          // use *first
+      }
+
+  A shortcoming of doing this is that we've effectively enforced that filtering results in a forward-traversal only
+  scenario, since we cannot decrement :qv:`last` without having access to the predicate. The original loop code could
+  handle this case::
+
+      auto iterable = ...;
+      auto pred     = ...;
+
+      auto first = begin(iterable);
+      auto last  = end(iterable);
+      for(; first != last; --last) {
+          auto&& elem = *std::prev(last);
+          if(pred(elem)) {
+              // use the element
+          }
+      }
+
+  In other words, this workaround makes it impossible to use a filter range with a bidirectional algorithm. It wouldn't
+  help as much either with e.g. the :math:`(first, mid, last)` triple mentioned earlier: we would save one copy, but
+  still be left with two. Put plainly the approach is a pinpoint optimisation for the very specific case of forward
+  traversal, although it is a very frequent one
+
+- Storing a shallow reference to the predicate can prevent code from returning down iterators:
+
+  .. code-block:: C++
+
+      template<typename Iterable>
+      auto client(Iterable const& iterable)
+      {
+          auto pred = [](int elem) { return (elem % 2) == 0; };
+          // result will outlive pred!
+          return make_filter_iterable(pred, iterable);
+      }
+
+- Storing a smart pointer to the predicate requires memory allocation, which we didn't in the loop version.
+
+.. _input iterators:
+
+Input iterators are easy to misuse
+----------------------------------
+
+C++ iterators pre-date the move semantics that were introduced with C++11. As such they are required to be copyable so
+that they can be easily (or at all before C++11) stored in data structures or passed to functions. This leads to a
+conflict with :title:`input iterators`, which are intended to represent ranges which can be iterated over at most
+once---sometimes known as single-pass ranges.
+
+.. topic:: Single-pass ranges
+
+    The single-pass traversal property is crucial when it comes to designing an iteration abstraction, as it closely
+    models things like network, filesystem, or otherwise transient sources. The idea is that only one current element
+    can be accessed at a time, and proceeding to the next element makes it impossible to retrieve the previous one. It
+    is the range user's responsibility to save copies of visited elements should they be needed. Without this property
+    every would-be single-pass range would need to defensively perform caching of every visited element.
+
+Consequently input iterators do not perform true, independent copies. Incrementing an input iterator invalidates all
+former copies::
+
+    template<typename InputIterator>
+    void input_iterator_invalidation(InputIterator it)
+    {
+        auto quickly_invalidated = it;
+
+        // fine as long as the iterator is not done
+        process(*quickly_invalidated)
+
+        // invalidates the copy
+        ++it;
+
+        // would not be fine
+        //process(*quickly_invalidated)
+
+        auto stolen = it;
+        process(*stolen);
+
+        // invalidates the original
+        ++stolen;
+
+        // would not be fine
+        //process(*it);
+    }
+
+This amounts to burdening the input iterator user with respecting move semantics but with copies. This is very similar
+to the copy semantics of the former `std::auto_ptr\<Val\>` (now removed). Even worse and unlike the smart pointer, input
+iterators must be able to perform ``const``-correct copy operations.
+
+In defence of iterators
+-----------------------
+
+As a final counter-point it should be noted that in the C++ ecosystem iterators serve other functions besides
+representing ranges. For instance they also play a part in container interfaces. The criticism outlined here is specific
+to their role as ranges.

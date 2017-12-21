@@ -1,0 +1,282 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Bric-à-brac &mdash; annex-range 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="_static/styles.css" type="text/css" />
+  
+
+  
+        <link rel="author" title="About these documents"
+              href="about.html"/>
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="annex-range 0.1.0 documentation" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> annex-range
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="study.html">Designing a Range Abstraction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">The annex-range library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About this document</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">annex-range</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Bric-à-brac</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/bric-a-brac.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="bric-a-brac">
+<h1>Bric-à-brac<a class="headerlink" href="#bric-a-brac" title="Permalink to this headline">¶</a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This is a collection of early thoughts and notes which haven’t yet made it in the actual study or
+reference. This is unfinished business, not fit for publication. If you have made your way to here, you were not
+supposed to!</p>
+</div>
+<div class="section" id="more-alexandrescu-style-range-shortcomings">
+<h2>More Alexandrescu-style range shortcomings<a class="headerlink" href="#more-alexandrescu-style-range-shortcomings" title="Permalink to this headline">¶</a></h2>
+<p>Actual D ranges are laxly specified in terms of when element work is actually performed, e.g.:</p>
+<div class="highlight-container highlight-D" data-highlight-language="D"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="n">double_ended_work</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">import</span> <span class="n">std</span><span class="p">.</span><span class="n">range</span><span class="p">;</span>
+    <span class="k">import</span> <span class="n">std</span><span class="p">.</span><span class="n">stdio</span><span class="p">;</span>
+
+    <span class="k">auto</span> <span class="n">singleton</span> <span class="p">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+    <span class="n">writefln</span><span class="p">(</span><span class="s">&quot;front: %s; back: %s&quot;</span><span class="p">,</span> <span class="n">singleton</span><span class="p">.</span><span class="n">front</span><span class="p">,</span> <span class="n">singleton</span><span class="p">.</span><span class="n">back</span><span class="p">);</span>
+
+    <span class="cm">/* output:</span>
+<span class="cm">    front: 3; back: 3</span>
+<span class="cm">    */</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Which looks straightforward and innocent enough. We can however decorate the single element with some message printing
+to stand for element-producing work:</p>
+<div class="highlight-container highlight-D" data-highlight-language="D"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="n">decorated_double_ended_work</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">import</span> <span class="n">std</span><span class="p">.</span><span class="n">range</span><span class="p">;</span>
+    <span class="k">import</span> <span class="n">std</span><span class="p">.</span><span class="n">algorithm</span><span class="p">;</span>
+    <span class="k">import</span> <span class="n">std</span><span class="p">.</span><span class="n">stdio</span><span class="p">;</span>
+
+    <span class="k">auto</span> <span class="n">singleton</span> <span class="p">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+    <span class="k">auto</span> <span class="n">decorated</span> <span class="p">=</span> <span class="n">singleton</span><span class="p">.</span><span class="n">map</span><span class="p">!(</span><span class="k">function</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="p">{</span> <span class="n">writefln</span><span class="p">(</span><span class="s">&quot;producing: %s&quot;</span><span class="p">,</span> <span class="n">item</span><span class="p">);</span> <span class="k">return</span> <span class="n">item</span><span class="p">;</span> <span class="p">});</span>
+    <span class="n">writefln</span><span class="p">(</span><span class="s">&quot;front: %s; back: %s&quot;</span><span class="p">,</span> <span class="n">decorated</span><span class="p">.</span><span class="n">front</span><span class="p">,</span> <span class="n">decorated</span><span class="p">.</span><span class="n">back</span><span class="p">);</span>
+
+    <span class="cm">/* output:</span>
+<span class="cm">    producing: 3</span>
+<span class="cm">    producing: 3</span>
+<span class="cm">    front: 3; back: 3</span>
+<span class="cm">    */</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This is also a consequence of the presentation of double-ended ranges that exists in D, namely where performing work via
+calling either <code class="docutils literal"><span class="pre">popFront</span></code> or <code class="docutils literal"><span class="pre">popBack</span></code> is separate from selecting the current front or back elements via the
+<code class="docutils literal"><span class="pre">front</span></code> and <code class="docutils literal"><span class="pre">back</span></code> properties. In the Rust ecosystem, which iterators were influenced by the work of Andrei
+Alexandrescu and D ranges, this doesn’t manifest because performing the work and selecting the associated element is
+‘fused’ in a single operation.</p>
+<p>The study however is more interested in commenting on the ideas behind D ranges rather than the existing implementation
+at large.</p>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, mickk.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

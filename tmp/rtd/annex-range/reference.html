@@ -8,9 +8,11 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Reference &mdash; annex-range 0.1.0 documentation</title>
+  <title>The annex-range library &mdash; annex-range 0.1.0 documentation</title>
   
 
+  
+  
   
   
 
@@ -28,14 +30,18 @@
   
 
   
+    <link rel="stylesheet" href="_static/styles.css" type="text/css" />
+  
 
   
+        <link rel="author" title="About these documents"
+              href="about.html"/>
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="annex-range 0.1.0 documentation" href="index.html"/>
-        <link rel="next" title="Concepts" href="concepts.html"/>
-        <link rel="prev" title="Scope" href="scope.html"/> 
+        <link rel="next" title="Quickstart" href="reference/quickstart.html"/>
+        <link rel="prev" title="Associated types" href="study/elements/types.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -85,29 +91,30 @@
           
             
             
-                <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
-<li class="toctree-l1"><a class="reference internal" href="motivation.html">Motivation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="scope.html">Scope</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="concepts.html">Concepts</a></li>
-<li class="toctree-l2"><a class="reference internal" href="operations.html">Operations &amp; functions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sources.html">Sources</a></li>
-<li class="toctree-l2"><a class="reference internal" href="consumers.html">Consumers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="transformations.html">Transformations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="compositions.html">Compositions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="arrangements.html">Arrangements</a></li>
-<li class="toctree-l2"><a class="reference internal" href="common.html">Common</a></li>
-<li class="toctree-l2"><a class="reference internal" href="annex.html">Annex quick reference</a></li>
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="study.html">Designing a Range Abstraction</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">The annex-range library</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/quickstart.html">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/scope.html">Scope</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/concepts.html">Concepts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/operations.html">Operations &amp; functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/sources.html">Sources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/consumers.html">Consumers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/transformations.html">Transformations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/compositions.html">Compositions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/arrangements.html">Arrangements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/common.html">Common</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/annex.html">Annex quick reference</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#how-to-read-the-reference">How to read the reference</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#range-function">Range function</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="open_questions.html">Open questions</a></li>
-</ul>
-<ul>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About this document</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
 </ul>
 
@@ -121,8 +128,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="index.html">annex-range</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">annex-range</a>
+        
       </nav>
 
 
@@ -131,7 +140,13 @@
         <div class="rst-content">
           
 
- 
+
+
+
+
+
+
+
 
 
 
@@ -140,81 +155,102 @@
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="index.html">Docs</a> &raquo;</li>
-      
-    <li>Reference</li>
-    <li class="wy-breadcrumbs-aside">
-      
-          
-          <a href="_sources/reference.rst.txt" rel="nofollow"> View page source</a>
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
         
-      
-    </li>
+      <li>The annex-range library</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/reference.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="reference">
-<h1>Reference<a class="headerlink" href="#reference" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="the-annex-range-library">
+<h1>The annex-range library<a class="headerlink" href="#the-annex-range-library" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="concepts.html">Concepts</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="concepts.html#associated-types">Associated types</a></li>
-<li class="toctree-l2"><a class="reference internal" href="concepts.html#taxonomy-of-ranges">Taxonomy of ranges</a></li>
-<li class="toctree-l2"><a class="reference internal" href="concepts.html#ranges-and-copying-moving">Ranges and copying/moving</a></li>
-<li class="toctree-l2"><a class="reference internal" href="concepts.html#range-properties">Range properties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference/quickstart.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/quickstart.html#creating-and-using-simple-ranges">Creating and using simple ranges</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/quickstart.html#transforming-composing-and-arranging-ranges">Transforming, composing, and arranging ranges</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="operations.html">Operations &amp; functions</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="operations.html#operations">Operations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="operations.html#functions">Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference/scope.html">Scope</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/scope.html#the-users">The users</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/scope.html#a-hybrid-approach">A hybrid approach</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/scope.html#current-features">Current features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/scope.html#possible-future-work">Possible future work</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/scope.html#out-of-scope">Out of scope</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/scope.html#the-great-big-bikeshed">The great big bikeshed</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="sources.html">Sources</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="sources.html#fundamental-sources">Fundamental sources</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sources.html#container-sources">Container sources</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sources.html#i-o-sources">I/O sources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference/concepts.html">Concepts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/concepts.html#associated-types">Associated types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/concepts.html#taxonomy-of-ranges">Taxonomy of ranges</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/concepts.html#ranges-and-copying-moving">Ranges and copying/moving</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/concepts.html#range-properties">Range properties</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="consumers.html">Consumers</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="consumers.html#in-range-based-for-statements">In range-based for statements</a></li>
-<li class="toctree-l2"><a class="reference internal" href="consumers.html#into-a-container">Into a container</a></li>
-<li class="toctree-l2"><a class="reference internal" href="consumers.html#compatibility-with-iterator-code">Compatibility with iterator code</a></li>
-<li class="toctree-l2"><a class="reference internal" href="consumers.html#algorithms">Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference/operations.html">Operations &amp; functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/operations.html#operations">Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/operations.html#functions">Functions</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="transformations.html">Transformations</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="transformations.html#defer">defer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="transformations.html#map">map</a></li>
-<li class="toctree-l2"><a class="reference internal" href="transformations.html#filter">filter</a></li>
-<li class="toctree-l2"><a class="reference internal" href="transformations.html#stride">stride</a></li>
-<li class="toctree-l2"><a class="reference internal" href="transformations.html#reverse">reverse</a></li>
-<li class="toctree-l2"><a class="reference internal" href="transformations.html#group">group</a></li>
-<li class="toctree-l2"><a class="reference internal" href="transformations.html#box">box</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference/sources.html">Sources</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/sources.html#fundamental-sources">Fundamental sources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/sources.html#container-sources">Container sources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/sources.html#i-o-sources">I/O sources</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="compositions.html">Compositions</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="compositions.html#concat">concat</a></li>
-<li class="toctree-l2"><a class="reference internal" href="compositions.html#zip">zip</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference/consumers.html">Consumers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/consumers.html#in-range-based-for-statements">In range-based for statements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/consumers.html#into-a-container">Into a container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/consumers.html#compatibility-with-iterator-code">Compatibility with iterator code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/consumers.html#algorithms">Algorithms</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="arrangements.html">Arrangements</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="arrangements.html#flatten">flatten</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference/transformations.html">Transformations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/transformations.html#defer">defer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/transformations.html#map">map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/transformations.html#filter">filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/transformations.html#stride">stride</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/transformations.html#reverse">reverse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/transformations.html#group">group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/transformations.html#box">box</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="common.html">Common</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="common.html#flat-map">flat_map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference/compositions.html">Compositions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/compositions.html#concat">concat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/compositions.html#zip">zip</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="annex.html">Annex quick reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="annex.html#concepts-for-variables">Concepts for variables</a></li>
-<li class="toctree-l2"><a class="reference internal" href="annex.html#forward-storing">Forward Storing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="annex.html#function">Function</a></li>
-<li class="toctree-l2"><a class="reference internal" href="annex.html#simple-model">Simple model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="annex.html#concepts">Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference/arrangements.html">Arrangements</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/arrangements.html#flatten">flatten</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference/common.html">Common</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/common.html#flat-map">flat_map</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference/annex.html">Annex quick reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/annex.html#concepts-for-variables">Concepts for variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/annex.html#forward-storing">Forward Storing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/annex.html#function">Function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/annex.html#simple-model">Simple model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/annex.html#concepts">Concepts</a></li>
 </ul>
 </li>
 </ul>
@@ -223,27 +259,27 @@
 <h2>How to read the reference<a class="headerlink" href="#how-to-read-the-reference" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="range-function">
 <span id="id1"></span><h3>Range function<a class="headerlink" href="#range-function" title="Permalink to this headline">¶</a></h3>
-<p>A <em>range function</em> is a particular kind of <a class="reference internal" href="annex.html#function"><span class="std std-ref">Function</span></a> which produces a model of <a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a>. In particular, many range
-functions produce <a class="reference internal" href="annex.html#simple-model"><span class="std std-ref">simple models</span></a> in which case the simple model will be named e.g. <a class="reference internal" href="compositions.html#_CPPv2IDpEX8ContextsIsp4CtxsEEN5annex5range12concat_rangeE" title="annex::range::concat_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">concat_range</span></code></a>
-for the result of a call to <a class="reference internal" href="compositions.html#_CPPv2N5annex5range6concatE" title="annex::range::concat"><code class="xref cpp cpp-any docutils literal"><span class="pre">concat</span></code></a>.</p>
+<p>A <em>range function</em> is a particular kind of <a class="reference internal" href="reference/annex.html#function"><span class="std std-ref">Function</span></a> which produces a model of <a class="reference internal" href="reference/concepts.html#_CPPv3I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a>. In particular, many range
+functions produce <a class="reference internal" href="reference/annex.html#simple-model"><span class="std std-ref">simple models</span></a> in which case the simple model will be named e.g. <a class="reference internal" href="reference/compositions.html#_CPPv3IDpEX8ContextsIsp4CtxsEEN5annex5range12concat_rangeE" title="annex::range::concat_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">concat_range</span></code></a>
+for the result of a call to <a class="reference internal" href="reference/compositions.html#_CPPv3N5annex5range6concatE" title="annex::range::concat"><code class="xref cpp cpp-any docutils literal"><span class="pre">concat</span></code></a>.</p>
 <p class="rubric">Storing &amp; context members</p>
-<p><a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a> simple models store and expose their public data in their <code class="docutils literal"><span class="pre">context</span></code>, documenting them as the <em>simple context
+<p><a class="reference internal" href="reference/concepts.html#_CPPv3I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a> simple models store and expose their public data in their <code class="docutils literal"><span class="pre">context</span></code>, documenting them as the <em>simple context
 members</em>:</p>
-<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="k">auto</span> <span class="n">res</span> <span class="o">=</span> <span class="n">range</span><span class="o">::</span><span class="n">interval</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">);</span>
+<div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="k">auto</span> <span class="n">res</span> <span class="o">=</span> <span class="n">range</span><span class="o">::</span><span class="n">interval</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">);</span>
 <span class="c1">// names of data members documented by interval</span>
 <span class="n">assert</span><span class="p">(</span> <span class="n">res</span><span class="p">.</span><span class="n">context</span><span class="p">.</span><span class="n">from</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">);</span>
 <span class="n">assert</span><span class="p">(</span> <span class="n">res</span><span class="p">.</span><span class="n">context</span><span class="p">.</span><span class="n">to</span>   <span class="o">==</span> <span class="mi">6</span> <span class="p">);</span>
 </pre></div>
 </div>
 <p>Typically the resulting range is built using the various arguments to the function. When those arguments are directly
-stored in the result (e.g. as is often done with <a class="reference internal" href="annex.html#simple-model"><span class="std std-ref">simple models</span></a>), the following convention is
+stored in the result (e.g. as is often done with <a class="reference internal" href="reference/annex.html#simple-model"><span class="std std-ref">simple models</span></a>), the following convention is
 normally used:</p>
 <ul class="simple">
-<li>non-range arguments (e.g. functors) are <a class="reference internal" href="annex.html#forward-storing"><span class="std std-ref">forward stored</span></a></li>
-<li>range arguments are decayed</li>
+<li><p>non-range arguments (e.g. functors) are <a class="reference internal" href="reference/annex.html#forward-storing"><span class="std std-ref">forward stored</span></a></p></li>
+<li><p>range arguments are decayed</p></li>
 </ul>
-<p>This results in the following behaviour (using <a class="reference internal" href="transformations.html#_CPPv2N5annex5range6filterE" title="annex::range::filter"><code class="xref cpp cpp-any docutils literal"><span class="pre">filter</span></code></a> as an example):</p>
-<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="k">auto</span> <span class="n">pred</span> <span class="o">=</span> <span class="p">...;</span>
+<p>This results in the following behaviour (using <a class="reference internal" href="reference/transformations.html#_CPPv3N5annex5range6filterE" title="annex::range::filter"><code class="xref cpp cpp-any docutils literal"><span class="pre">filter</span></code></a> as an example):</p>
+<div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="k">auto</span> <span class="n">pred</span> <span class="o">=</span> <span class="p">...;</span>
 <span class="k">auto</span> <span class="n">rng</span>  <span class="o">=</span> <span class="p">...;</span>
 
 <span class="p">{</span>
@@ -262,62 +298,60 @@ normally used:</p>
 </pre></div>
 </div>
 <p class="rubric">Constraints</p>
-<p>It&#8217;s the combined constraints on the <a class="reference internal" href="annex.html#simple-model"><span class="std std-ref">Simple model</span></a> and its associated <a class="reference internal" href="#range-function"><span class="std std-ref">Range function</span></a> that describe when a
-call is valid. Taking <a class="reference internal" href="transformations.html#_CPPv2N5annex5range7reverseE" title="annex::range::reverse"><code class="xref cpp cpp-any docutils literal"><span class="pre">reverse</span></code></a> as an example:</p>
+<p>It’s the combined constraints on the <a class="reference internal" href="reference/annex.html#simple-model"><span class="std std-ref">Simple model</span></a> and its associated <a class="reference internal" href="#range-function"><span class="std std-ref">Range function</span></a> that describe when a
+call is valid. Taking <a class="reference internal" href="reference/transformations.html#_CPPv3N5annex5range7reverseE" title="annex::range::reverse"><code class="xref cpp cpp-any docutils literal"><span class="pre">reverse</span></code></a> as an example:</p>
 <blockquote>
-<div><p><a class="reference internal" href="transformations.html#_CPPv2I0EX20BidirectionalContextI3CtxEEN5annex5range13reverse_rangeE" title="annex::range::reverse_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">BidirectionalContext{Ctx}</span> <span class="pre">reverse_range</span></code></a></p>
-<p><a class="reference internal" href="transformations.html#_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range7reverseclE3Rng" title="annex::range::reverse::operator()"><code class="xref cpp cpp-any docutils literal"><span class="pre">MoveConstructible{Rng}</span> <span class="pre">constexpr</span> <span class="pre">reverse_range&lt;context_t&lt;Rng&gt;&gt;</span> <span class="pre">reverse::operator()(Rng</span> <span class="pre">rng)</span> <span class="pre">const</span></code></a></p>
+<div><p><a class="reference internal" href="reference/transformations.html#_CPPv3I0EX20BidirectionalContextI3CtxEEN5annex5range13reverse_rangeE" title="annex::range::reverse_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">BidirectionalContext{Ctx}</span> <span class="pre">reverse_range</span></code></a></p>
+<p><a class="reference internal" href="reference/transformations.html#_CPPv3I0EX17MoveConstructibleI3RngEENK5annex5range7reverseclE3Rng" title="annex::range::reverse::operator()"><code class="xref cpp cpp-any docutils literal"><span class="pre">MoveConstructible{Rng}</span> <span class="pre">constexpr</span> <span class="pre">reverse_range&lt;context_t&lt;Rng&gt;&gt;</span> <span class="pre">reverse::operator()(Rng</span> <span class="pre">rng)</span> <span class="pre">const</span></code></a></p>
 </div></blockquote>
 <p>Then <code class="docutils literal"><span class="pre">range::reverse(arg)</span></code> is valid as long as:</p>
 <ul class="simple">
-<li>the <em>rng</em> parameter is constructible from <em>arg</em></li>
-<li><em>rng</em> models <a class="reference internal" href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex17MoveConstructibleE" title="annex::MoveConstructible"><code class="xref cpp cpp-any docutils literal"><span class="pre">MoveConstructible</span></code></a></li>
-<li><code class="xref cpp cpp-any docutils literal"><span class="pre">context_t&lt;Rng&gt;</span></code> models <a class="reference internal" href="concepts.html#_CPPv2I0EX16MultipassContextI3CtxEEN5annex5range20BidirectionalContextE" title="annex::range::BidirectionalContext"><code class="xref cpp cpp-any docutils literal"><span class="pre">BidirectionalContext</span></code></a></li>
+<li><p>the <em>rng</em> parameter is constructible from <em>arg</em></p></li>
+<li><p><em>rng</em> models <a class="reference internal" href="reference/annex.html#_CPPv3I0EX8VariableI3VarEEN5annex17MoveConstructibleE" title="annex::MoveConstructible"><code class="xref cpp cpp-any docutils literal"><span class="pre">MoveConstructible</span></code></a></p></li>
+<li><p><a class="reference internal" href="reference/concepts.html#_CPPv3I0EX4TypeI3RngEEN5annex5range9context_tE" title="annex::range::context_t"><code class="xref cpp cpp-any docutils literal"><span class="pre">context_t&lt;Rng&gt;</span></code></a> models <a class="reference internal" href="reference/concepts.html#_CPPv3I0EX16MultipassContextI3CtxEEN5annex5range20BidirectionalContextE" title="annex::range::BidirectionalContext"><code class="xref cpp cpp-any docutils literal"><span class="pre">BidirectionalContext</span></code></a></p></li>
 </ul>
 <p class="rubric">Capabities</p>
-<p>The <a class="reference internal" href="concepts.html#range-properties"><span class="std std-ref">Range properties</span></a> of the result of the range function are documented under the &#8216;Models:&#8217; entry, sometimes in
+<p>The <a class="reference internal" href="reference/concepts.html#range-properties"><span class="std std-ref">Range properties</span></a> of the result of the range function are documented under the ‘Models:’ entry, sometimes in
 the form of a table.</p>
 <p>Sometimes a range may provide additional functionality beyond that required by the concepts it models. This is
-documented under the &#8216;Additional context capabilities:&#8217; or &#8216;Additional range capabilities:&#8217; entry, as appropriate.</p>
+documented under the ‘Additional context capabilities:’ or ‘Additional range capabilities:’ entry, as appropriate.</p>
 <p class="rubric" id="call-complexity">Call complexity</p>
-<p>When range functions perform the duties of constructing a range (<a class="reference internal" href="annex.html#simple-model"><span class="std std-ref">Simple model</span></a> or otherwise), they may require
+<p>When range functions perform the duties of constructing a range (<a class="reference internal" href="reference/annex.html#simple-model"><span class="std std-ref">Simple model</span></a> or otherwise), they may require
 additional complexity beyond that of forwarding or moving their parameters into the result. Typically, they may need to
-compute appropriate starting and ending positions. This additional complexity is documented under the &#8216;Additional
-construction complexity:&#8217; entry.</p>
+compute appropriate starting and ending positions. This additional complexity is documented under the ‘Additional
+construction complexity:’ entry.</p>
 <p class="rubric">Equivalents</p>
 <p>Some range functions document their equivalents in terms of different range abstractions, sometimes as found in other
-languages (see <a class="reference internal" href="motivation.html"><span class="doc">Motivation</span></a>):</p>
+languages (see <a class="reference internal" href="reference/scope.html"><span class="doc">Scope</span></a>):</p>
 <ul class="simple">
-<li>hand-written C++ <code class="docutils literal"><span class="pre">for</span></code> loops</li>
-<li>D ranges</li>
-<li>Rust iterators</li>
-<li>Haskell lists (or occasionally certain list-like type classes)</li>
-<li>Python iterators</li>
-<li>C# enumerators</li>
+<li><p>hand-written C++ <code class="docutils literal"><span class="pre">for</span></code> loops</p></li>
+<li><p>D ranges</p></li>
+<li><p>Rust iterators</p></li>
+<li><p>Haskell lists (or occasionally certain list-like type classes)</p></li>
+<li><p>Python iterators</p></li>
+<li><p>C# enumerators</p></li>
 </ul>
 <p>They are described in pseudo-code according to the following:</p>
 <ul>
-<li><p class="first">the hand-written loops consume the elements by passing them to an illustrative <code class="docutils literal"><span class="pre">use</span></code> function</p>
-</li>
-<li><p class="first">the Rust examples may need additional functionality provided by the third-party <a class="reference external" href="https://docs.rs/itertools/">itertools</a> crate in
+<li><p>the hand-written loops consume the elements by passing them to an illustrative <code class="docutils literal"><span class="pre">use</span></code> function</p></li>
+<li><p>the Rust examples may need additional functionality provided by the third-party <a class="reference external" href="https://docs.rs/itertools/">itertools</a> crate in
 which case this will be shown by the following import:</p>
 <blockquote>
-<div><div class="highlight-rust"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">itertools</span>::<span class="n">Itertools</span><span class="p">;</span><span class="w"></span>
+<div><div class="highlight-container highlight-rust" data-highlight-language="Rust"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">itertools</span>::<span class="n">Itertools</span><span class="p">;</span><span class="w"></span>
 </pre></div>
 </div>
 </div></blockquote>
 </li>
-<li><p class="first">the Python examples assume that the standard <code class="xref py py-mod docutils literal"><span class="pre">itertools</span></code> module is in scope as if introduced by the following
+<li><p>the Python examples assume that the standard <code class="xref py py-mod docutils literal"><span class="pre">itertools</span></code> module is in scope as if introduced by the following
 import:</p>
 <blockquote>
-<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">itertools</span>
+<div><div class="highlight-container highlight-python" data-highlight-language="Python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">itertools</span>
 </pre></div>
 </div>
 </div></blockquote>
 </li>
-<li><p class="first">the equivalents are typically used on illustrative arguments <code class="docutils literal"><span class="pre">xs</span></code>, <code class="docutils literal"><span class="pre">ys</span></code>, and so on corresponding to the <a class="reference internal" href="concepts.html#_CPPv2I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a>
-parameters of the range function</p>
-</li>
+<li><p>the equivalents are typically used on illustrative arguments <code class="docutils literal"><span class="pre">xs</span></code>, <code class="docutils literal"><span class="pre">ys</span></code>, and so on corresponding to the <a class="reference internal" href="reference/concepts.html#_CPPv3I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a>
+parameters of the range function</p></li>
 </ul>
 </div>
 </div>
@@ -325,15 +359,18 @@ parameters of the range function</p>
 
 
            </div>
+           <div class="articleComments">
+            
+           </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="concepts.html" class="btn btn-neutral float-right" title="Concepts" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="reference/quickstart.html" class="btn btn-neutral float-right" title="Quickstart" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="scope.html" class="btn btn-neutral" title="Scope" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="study/elements/types.html" class="btn btn-neutral" title="Associated types" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -342,7 +379,7 @@ parameters of the range function</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2016, mickk.
+        &copy; Copyright 2017, mickk.
 
     </p>
   </div>
@@ -367,13 +404,14 @@ parameters of the range function</p>
             VERSION:'0.1.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 
