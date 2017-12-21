@@ -1,0 +1,577 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Consumers &#8212; annex-range 0.1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/styles.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Transformations" href="transformations.html" />
+    <link rel="prev" title="Sources" href="sources.html" /> 
+  </head><body>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(".collapsed > *").hide();
+        $("div.collapsed > p.admonition-title").show();
+        $("div.collapsed").children("p.admonition-title").toggleClass("closed");
+        $("table.collapsed > caption").show();
+        $("table.collapsed").children("caption").toggleClass("closed");
+        const collapse_duration = 300;
+        for(selector of [".collapsed", ".collapsible"]) {
+            $(`div${selector} > p.admonition-title`).click(function() {
+                $(this).parent().children().not("p.admonition-title").toggle(collapse_duration);
+                $(this).parent().children("p.admonition-title").toggleClass("closed");
+            });
+            $(`table${selector} > caption`).click(function(ev) {
+                // crude way to avoid intercepting a click on the anchor link
+                if(ev.target.nodeName == "A") {
+                    return;
+                }
+                $(this).parent().children().not("caption").toggle(collapse_duration);
+                $(this).parent().children("caption").toggleClass("closed");
+            })
+        }
+    });
+</script>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="transformations.html" title="Transformations"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="sources.html" title="Sources"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">annex-range 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../reference.html" accesskey="U">The annex-range library</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="consumers">
+<h1>Consumers<a class="headerlink" href="#consumers" title="Permalink to this headline">¶</a></h1>
+<p>There are various ways to make use of a <a class="reference internal" href="concepts.html#_CPPv3I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a>. They are overall referred to as <em>consumers</em> and can be distinguished by
+the various situations in which ranges are meant to be used:</p>
+<div class="section" id="in-range-based-for-statements">
+<h2>In range-based for statements<a class="headerlink" href="#in-range-based-for-statements" title="Permalink to this headline">¶</a></h2>
+<p>Provided by <code class="file docutils literal"><span class="pre">annex/range/range.hpp</span></code>.</p>
+<dl class="type">
+<dt id="_CPPv3I0EX5RangeI3RngEEN5annex5range9loop_typeE">
+<span id="_CPPv2I0EX5RangeI3RngEEN5annex5range9loop_typeE"></span><a class="reference internal" href="concepts.html#_CPPv3I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range">Range</a>{<code class="descname">Rng</code>}<br /><em class="property">using </em><code class="descname">loop_type</code><a class="headerlink" href="#_CPPv3I0EX5RangeI3RngEEN5annex5range9loop_typeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>A special type to make a <a class="reference internal" href="concepts.html#_CPPv3I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a> usable in a range-based <code class="docutils literal"><span class="pre">for</span></code> statement. Ranges are not directly usable that
+way due to limitations of the language.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#_CPPv3I0EX5RangeI3RngEEN5annex5range9loop_typeE" title="annex::range::loop_type"><code class="xref cpp cpp-any docutils literal"><span class="pre">loop_type</span></code></a> is for use in <code class="docutils literal"><span class="pre">for</span></code> statements only, it is not a model of <a class="reference internal" href="annex.html#_CPPv3I0EX8VariableI4IterEEN5annex8IterableE" title="annex::Iterable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Iterable</span></code></a>. <a class="reference internal" href="#_CPPv3I0EX11ContextTypeI3CtxEEN5annex5range19range_iterator_pairE" title="annex::range::range_iterator_pair"><code class="xref cpp cpp-any docutils literal"><span class="pre">range_iterator_pair</span></code></a> is
+such a type.</p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#_CPPv3N5annex5range4loopE" title="annex::range::loop"><code class="xref cpp cpp-any docutils literal"><span class="pre">loop</span></code></a>, <a class="reference internal" href="#_CPPv3N5annex5range12inplace_loopE" title="annex::range::inplace_loop"><code class="xref cpp cpp-any docutils literal"><span class="pre">inplace_loop</span></code></a>, <a class="reference internal" href="#_CPPv3N5annex5range12as_iteratorsE" title="annex::range::as_iterators"><code class="xref cpp cpp-any docutils literal"><span class="pre">as_iterators</span></code></a></p>
+</div>
+</dd></dl>
+
+<dl class="var">
+<dt id="_CPPv3N5annex5range4loopE">
+<span id="_CPPv2N5annex5range4loopE"></span><span id="annex::range::loop__functors::loop"></span><em class="property">constexpr</em> functors::loop <code class="descname">loop</code><a class="headerlink" href="#_CPPv3N5annex5range4loopE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This constant is a <a class="reference internal" href="annex.html#function"><span class="std std-ref">Function</span></a> with one or more associated <a class="reference internal" href="annex.html#simple-model"><span class="std std-ref">simple models</span></a>:</p>
+<blockquote>
+<div><p><a class="reference internal" href="#_CPPv3I0EX5RangeI3RngEEN5annex5range9loop_typeE" title="annex::range::loop_type"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range{Rng}</span> <span class="pre">loop_type</span></code></a></p>
+</div></blockquote>
+<dl class="function">
+<dt id="_CPPv3I0EX17MoveConstructibleI3RngEENK5annex5range4loopclE3Rng">
+<span id="_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range4loopclE3Rng"></span><a class="reference internal" href="annex.html#_CPPv3I0EX8VariableI3VarEEN5annex17MoveConstructibleE" title="annex::MoveConstructible">MoveConstructible</a>{<code class="descname">Rng</code>}<br /><em class="property">constexpr</em> <a class="reference internal" href="#_CPPv3I0EX5RangeI3RngEEN5annex5range9loop_typeE" title="annex::range::loop_type">loop_type</a>&lt;<a class="reference internal" href="#_CPPv3I0EX17MoveConstructibleI3RngEENK5annex5range4loopclE3Rng" title="annex::range::loop::operator()::Rng">Rng</a>&gt; <code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv3I0EX17MoveConstructibleI3RngEENK5annex5range4loopclE3Rng" title="annex::range::loop::operator()::Rng">Rng</a> <em>rng</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3I0EX17MoveConstructibleI3RngEENK5annex5range4loopclE3Rng" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Make <em>rng</em> available for use in a range-based <code class="docutils literal"><span class="pre">for</span></code> statement. This does not modify <em>rng</em>:</p>
+<div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="k">for</span><span class="p">(</span><span class="k">auto</span><span class="o">&amp;&amp;</span> <span class="nl">elem</span><span class="p">:</span> <span class="n">range</span><span class="o">::</span><span class="n">loop</span><span class="p">(</span><span class="n">rng</span><span class="p">))</span> <span class="p">{</span>
+    <span class="c1">// use each element of rng successively</span>
+<span class="p">}</span>
+
+<span class="k">for</span><span class="p">(</span><span class="k">auto</span><span class="o">&amp;&amp;</span> <span class="nl">elem</span><span class="p">:</span> <span class="n">range</span><span class="o">::</span><span class="n">loop</span><span class="p">(</span><span class="n">rng</span><span class="p">))</span> <span class="p">{</span>
+    <span class="c1">// use each element of rng successively, again</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The result of <a class="reference internal" href="#_CPPv3N5annex5range4loopE" title="annex::range::loop"><code class="xref cpp cpp-any docutils literal"><span class="pre">loop</span></code></a> will however be consumed in the operation:</p>
+<div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="k">auto</span> <span class="n">lp</span> <span class="o">=</span> <span class="n">range</span><span class="o">::</span><span class="n">loop</span><span class="p">(</span><span class="n">rng</span><span class="p">);</span>
+<span class="k">for</span><span class="p">(</span><span class="k">auto</span><span class="o">&amp;&amp;</span> <span class="nl">elem</span><span class="p">:</span> <span class="n">lp</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// use each element of rng succesively</span>
+<span class="p">}</span>
+
+<span class="c1">// rng is untouched, but lp is done</span>
+<span class="k">for</span><span class="p">(</span><span class="k">auto</span><span class="o">&amp;&amp;</span> <span class="nl">elem</span><span class="p">:</span> <span class="n">lp</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// not reached</span>
+    <span class="n">assert</span><span class="p">(</span> <span class="nb">false</span> <span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Simple model members</dt>
+<dd class="field-odd"><p><code class="docutils literal"><span class="pre">looped_range</span></code>: <em>rng</em></p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="#_CPPv3N5annex5range12inplace_loopE" title="annex::range::inplace_loop"><code class="xref cpp cpp-any docutils literal"><span class="pre">inplace_loop</span></code></a>:</dt>
+<dd><p>In-place variant.</p>
+</dd>
+<dt><a class="reference internal" href="#_CPPv3N5annex5range12as_iteratorsE" title="annex::range::as_iterators"><code class="xref cpp cpp-any docutils literal"><span class="pre">as_iterators</span></code></a>:</dt>
+<dd><p>For compatibility with iterator-based code.</p>
+</dd>
+<dt><a class="reference internal" href="#_CPPv3IIDpE0EN5annex5range10collect_asE" title="annex::range::collect_as"><code class="xref cpp cpp-any docutils literal"><span class="pre">collect_as</span></code></a>, <a class="reference internal" href="#_CPPv3I0EX4TypeI4ContEEN5annex5range12collect_intoE" title="annex::range::collect_into"><code class="xref cpp cpp-any docutils literal"><span class="pre">collect_into</span></code></a>:</dt>
+<dd><p>For compatibility with iterator-taking containers.</p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="var">
+<dt id="_CPPv3N5annex5range12inplace_loopE">
+<span id="_CPPv2N5annex5range12inplace_loopE"></span><span id="annex::range::inplace_loop__functors::inplace_loop"></span><em class="property">constexpr</em> functors::inplace_loop <code class="descname">inplace_loop</code><a class="headerlink" href="#_CPPv3N5annex5range12inplace_loopE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><dl class="function">
+<dt id="_CPPv3I0EX4TypeI3RngEENK5annex5range12inplace_loopclER3Rng">
+<span id="_CPPv2I0EX4TypeI3RngEENK5annex5range12inplace_loopclER3Rng"></span><a class="reference internal" href="annex.html#_CPPv3I0EN5annex4TypeE" title="annex::Type">Type</a>{<code class="descname">Rng</code>}<br /><em class="property">constexpr</em> <a class="reference internal" href="#_CPPv3I0EX5RangeI3RngEEN5annex5range9loop_typeE" title="annex::range::loop_type">loop_type</a>&lt;<a class="reference internal" href="#_CPPv3I0EX4TypeI3RngEENK5annex5range12inplace_loopclER3Rng" title="annex::range::inplace_loop::operator()::Rng">Rng</a>&amp;&gt; <code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv3I0EX4TypeI3RngEENK5annex5range12inplace_loopclER3Rng" title="annex::range::inplace_loop::operator()::Rng">Rng</a> &amp;<em>rng</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3I0EX4TypeI3RngEENK5annex5range12inplace_loopclER3Rng" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Make <em>rng</em> available for in-place use in a range-based <code class="docutils literal"><span class="pre">for</span></code> statement. ‘In-place’ means that <em>rng</em> will be
+mutated in the process. In particular a full, uninterrupted iteration through all the elements of <em>rng</em> means
+that <code class="docutils literal"><span class="pre">equal_pos(rng.context,</span> <span class="pre">rng.from,</span> <span class="pre">rng.to)</span></code> will hold after the <code class="docutils literal"><span class="pre">for</span></code> statement:</p>
+<div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="k">for</span><span class="p">(</span><span class="k">auto</span><span class="o">&amp;&amp;</span> <span class="nl">elem</span><span class="p">:</span> <span class="n">range</span><span class="o">::</span><span class="n">inplace_loop</span><span class="p">(</span><span class="n">rng</span><span class="p">))</span> <span class="p">{</span>
+    <span class="c1">// use each element of rng successively</span>
+<span class="p">}</span>
+<span class="c1">// rng is now empty, the result of inplace_loop is done as well</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Simple model members</dt>
+<dd class="field-odd"><p><code class="docutils literal"><span class="pre">looped_range</span></code>: <em>rng</em></p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="#_CPPv3N5annex5range4loopE" title="annex::range::loop"><code class="xref cpp cpp-any docutils literal"><span class="pre">loop</span></code></a>:</dt>
+<dd><p>Non-mutating variant.</p>
+</dd>
+<dt><a class="reference internal" href="#_CPPv3N5annex5range12as_iteratorsE" title="annex::range::as_iterators"><code class="xref cpp cpp-any docutils literal"><span class="pre">as_iterators</span></code></a>:</dt>
+<dd><p>For compatibility with iterator-based code.</p>
+</dd>
+<dt><a class="reference internal" href="#_CPPv3IIDpE0EN5annex5range10collect_asE" title="annex::range::collect_as"><code class="xref cpp cpp-any docutils literal"><span class="pre">collect_as</span></code></a>, <a class="reference internal" href="#_CPPv3I0EX4TypeI4ContEEN5annex5range12collect_intoE" title="annex::range::collect_into"><code class="xref cpp cpp-any docutils literal"><span class="pre">collect_into</span></code></a>:</dt>
+<dd><p>For compatibility with iterator-taking containers.</p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="into-a-container">
+<span id="collects"></span><h2>Into a container<a class="headerlink" href="#into-a-container" title="Permalink to this headline">¶</a></h2>
+<p>Provided by <code class="file docutils literal"><span class="pre">annex/range/consumer/collect.hpp</span></code>.</p>
+<dl class="var">
+<dt id="_CPPv3IIDpE0EN5annex5range10collect_asE">
+<span id="_CPPv2IIDpE0EN5annex5range10collect_asE"></span>template&lt;template&lt;typename...&gt; typename <code class="descname">Cont</code>&gt;<br /><em class="property">constexpr</em> functors::collect_as&lt;<a class="reference internal" href="#_CPPv3IIDpE0EN5annex5range10collect_asE" title="annex::range::collect_as::Cont">Cont</a>&gt; <code class="descname">collect_as</code><a class="headerlink" href="#_CPPv3IIDpE0EN5annex5range10collect_asE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This constant is a <a class="reference internal" href="annex.html#function"><span class="std std-ref">Function</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Template Parameters</dt>
+<dd class="field-odd"><p><strong>Cont</strong> – An alias to a container type.</p>
+</dd>
+</dl>
+<dl class="function">
+<dt id="_CPPv3I0EX5RangeI3RngEENK5annex5range10collect_asclE3Rng">
+<span id="_CPPv2I0EX5RangeI3RngEENK5annex5range10collect_asclE3Rng"></span><a class="reference internal" href="concepts.html#_CPPv3I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range">Range</a>{<code class="descname">Rng</code>}<br /><em class="property">constexpr</em> <a class="reference internal" href="#_CPPv3IIDpE0EN5annex5range10collect_asE" title="annex::range::collect_as::Cont">Cont</a>&lt;std::decay_t&lt;<a class="reference internal" href="concepts.html#_CPPv3I0EX4TypeI3CtxEEN5annex5range9element_tE" title="annex::range::element_t">element_t</a>&lt;<a class="reference internal" href="concepts.html#_CPPv3I0EX4TypeI3RngEEN5annex5range9context_tE" title="annex::range::context_t">context_t</a>&lt;<a class="reference internal" href="#_CPPv3I0EX5RangeI3RngEENK5annex5range10collect_asclE3Rng" title="annex::range::collect_as::operator()::Rng">Rng</a>&gt;&gt;&gt;&gt; <code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv3I0EX5RangeI3RngEENK5annex5range10collect_asclE3Rng" title="annex::range::collect_as::operator()::Rng">Rng</a> <em>rng</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3I0EX5RangeI3RngEENK5annex5range10collect_asclE3Rng" title="Permalink to this definition">¶</a><br /></dt>
+<dd><dl class="field-list">
+<dt class="field-odd">Notation</dt>
+<dd class="field-odd"><div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Ctx</span>      <span class="o">=</span> <span class="n">context_t</span><span class="o">&lt;</span><span class="n">Rng</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">stored_t</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">decay_t</span><span class="o">&lt;</span><span class="n">element_t</span><span class="o">&lt;</span><span class="n">Ctx</span><span class="o">&gt;&gt;</span><span class="p">;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p>Collect the elements of <em>rng</em> into a container, which type will be a specialization of <a class="reference internal" href="#_CPPv3IIDpE0EN5annex5range10collect_asE" title="annex::range::collect_as::Cont"><code class="xref cpp cpp-any docutils literal"><span class="pre">Cont</span></code></a>. The elements
+will be decayed and stored as <code class="docutils literal"><span class="pre">stored_t</span></code>.</p>
+<dl class="field-list">
+<dt class="field-odd">Additional requirements</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#_CPPv3IIDpE0EN5annex5range10collect_asE" title="annex::range::collect_as::Cont"><code class="xref cpp cpp-any docutils literal"><span class="pre">Cont&lt;stored_t&gt;</span></code></a> must be a well-formed type that is constructible from an appropriate pair of
+iterators</p>
+<p><a class="reference internal" href="annex.html#_CPPv3I0EX4TypeI3VarEEN5annex12StorableTypeE" title="annex::StorableType"><code class="xref cpp cpp-any docutils literal"><span class="pre">StorableType&lt;element_t&lt;Ctx&gt;&gt;</span></code></a></p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="#_CPPv3I0EX4TypeI4ContEEN5annex5range12collect_intoE" title="annex::range::collect_into"><code class="xref cpp cpp-any docutils literal"><span class="pre">collect_into</span></code></a>:</dt>
+<dd><p>a variant taking a concrete type rather than a type alias</p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="var">
+<dt id="_CPPv3I0EX4TypeI4ContEEN5annex5range12collect_intoE">
+<span id="_CPPv2I0EX4TypeI4ContEEN5annex5range12collect_intoE"></span><a class="reference internal" href="annex.html#_CPPv3I0EN5annex4TypeE" title="annex::Type">Type</a>{<code class="descname">Cont</code>}<br /><em class="property">constexpr</em> functors::collect_into&lt;<a class="reference internal" href="#_CPPv3I0EX4TypeI4ContEEN5annex5range12collect_intoE" title="annex::range::collect_into::Cont">Cont</a>&gt; <code class="descname">collect_into</code><a class="headerlink" href="#_CPPv3I0EX4TypeI4ContEEN5annex5range12collect_intoE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This constant is a <a class="reference internal" href="annex.html#function"><span class="std std-ref">Function</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Template Parameters</dt>
+<dd class="field-odd"><p><strong>Cont</strong> – A container type.</p>
+</dd>
+</dl>
+<dl class="function">
+<dt id="_CPPv3I0EX5RangeI3RngEENK5annex5range12collect_intoclE3Rng">
+<span id="_CPPv2I0EX5RangeI3RngEENK5annex5range12collect_intoclE3Rng"></span><a class="reference internal" href="concepts.html#_CPPv3I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range">Range</a>{<code class="descname">Rng</code>}<br /><em class="property">constexpr</em> <a class="reference internal" href="#_CPPv3I0EX4TypeI4ContEEN5annex5range12collect_intoE" title="annex::range::collect_into::Cont">Cont</a> <code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv3I0EX5RangeI3RngEENK5annex5range12collect_intoclE3Rng" title="annex::range::collect_into::operator()::Rng">Rng</a> <em>rng</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3I0EX5RangeI3RngEENK5annex5range12collect_intoclE3Rng" title="Permalink to this definition">¶</a><br /></dt>
+<dd><dl class="field-list">
+<dt class="field-odd">Notation</dt>
+<dd class="field-odd"><div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Ctx</span> <span class="o">=</span> <span class="n">context_t</span><span class="o">&lt;</span><span class="n">Rng</span><span class="o">&gt;</span><span class="p">;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p>Collect the elements of <em>rng</em> into a container of type <a class="reference internal" href="#_CPPv3I0EX4TypeI4ContEEN5annex5range12collect_intoE" title="annex::range::collect_into::Cont"><code class="xref cpp cpp-any docutils literal"><span class="pre">Cont</span></code></a>.</p>
+<dl class="field-list">
+<dt class="field-odd">Additional requirements</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#_CPPv3I0EX4TypeI4ContEEN5annex5range12collect_intoE" title="annex::range::collect_into::Cont"><code class="xref cpp cpp-any docutils literal"><span class="pre">Cont</span></code></a> must expose a <code class="docutils literal"><span class="pre">value_type</span></code> member type and be constructible from an appropriate pair of
+iterators</p>
+<p><a class="reference internal" href="annex.html#_CPPv3I_8VariableDpEN5annex13ConstructibleE" title="annex::Constructible"><code class="xref cpp cpp-any docutils literal"><span class="pre">Constructible&lt;typename</span> <span class="pre">Cont::value_type,</span> <span class="pre">element_t&lt;Ctx&gt;&gt;</span></code></a></p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="#_CPPv3IIDpE0EN5annex5range10collect_asE" title="annex::range::collect_as"><code class="xref cpp cpp-any docutils literal"><span class="pre">collect_as</span></code></a>:</dt>
+<dd><p>a variant taking a type alias rather than a concrete type</p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="compatibility-with-iterator-code">
+<h2>Compatibility with iterator code<a class="headerlink" href="#compatibility-with-iterator-code" title="Permalink to this headline">¶</a></h2>
+<p>Provided by <code class="file docutils literal"><span class="pre">annex/range/range.hpp</span></code>.</p>
+<dl class="type">
+<dt id="_CPPv3I0EX11ContextTypeI3CtxEEN5annex5range14range_iteratorE">
+<span id="_CPPv2I0EX11ContextTypeI3CtxEEN5annex5range14range_iteratorE"></span><a class="reference internal" href="concepts.html#_CPPv3I0EX4TypeI3CtxEEN5annex5range11ContextTypeE" title="annex::range::ContextType">ContextType</a>{<code class="descname">Ctx</code>}<br /><em class="property">using </em><code class="descname">range_iterator</code><a class="headerlink" href="#_CPPv3I0EX11ContextTypeI3CtxEEN5annex5range14range_iteratorE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Additional requirements</dt>
+<dd class="field-odd"><p><code class="xref cpp cpp-any docutils literal"><span class="pre">SameType&lt;position_t&lt;Ctx&gt;,</span> <span class="pre">sentinel_t&lt;Ctx&gt;&gt;</span></code></p>
+</dd>
+</dl>
+<p>A ‘fat’ iterator adaptor bridging the gap between range-based code and iterator-based code. ‘Fat’ means that in
+addition to storing position-specific information the iterator also references the underlying <a class="reference internal" href="concepts.html#_CPPv3I0EX8VariableI3CtxEEN5annex5range7ContextE" title="annex::range::Context"><code class="xref cpp cpp-any docutils literal"><span class="pre">Context</span></code></a> of the
+range. As a consequence, that context must outlive any iterator that references it.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#_CPPv3N5annex5range12as_iteratorsE" title="annex::range::as_iterators"><code class="xref cpp cpp-any docutils literal"><span class="pre">as_iterators</span></code></a></p>
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv3I0EX11ContextTypeI3CtxEEN5annex5range19range_iterator_pairE">
+<span id="_CPPv2I0EX11ContextTypeI3CtxEEN5annex5range19range_iterator_pairE"></span><a class="reference internal" href="concepts.html#_CPPv3I0EX4TypeI3CtxEEN5annex5range11ContextTypeE" title="annex::range::ContextType">ContextType</a>{<code class="descname">Ctx</code>}<br /><em class="property">class </em><code class="descname">range_iterator_pair</code><a class="headerlink" href="#_CPPv3I0EX11ContextTypeI3CtxEEN5annex5range19range_iterator_pairE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><dl class="var">
+<dt id="_CPPv3N5annex5range19range_iterator_pair5firstE">
+<span id="_CPPv2N5annex5range19range_iterator_pair5firstE"></span><span id="annex::range::range_iterator_pair::first__range_iterator:Ctx:"></span><a class="reference internal" href="#_CPPv3I0EX11ContextTypeI3CtxEEN5annex5range14range_iteratorE" title="annex::range::range_iterator">range_iterator</a>&lt;<a class="reference internal" href="#_CPPv3I0EX11ContextTypeI3CtxEEN5annex5range19range_iterator_pairE" title="annex::range::range_iterator_pair::Ctx">Ctx</a>&gt; <code class="descname">first</code><a class="headerlink" href="#_CPPv3N5annex5range19range_iterator_pair5firstE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv3N5annex5range19range_iterator_pair4lastE">
+<span id="_CPPv2N5annex5range19range_iterator_pair4lastE"></span><span id="annex::range::range_iterator_pair::last__range_iterator:Ctx:"></span><a class="reference internal" href="#_CPPv3I0EX11ContextTypeI3CtxEEN5annex5range14range_iteratorE" title="annex::range::range_iterator">range_iterator</a>&lt;<a class="reference internal" href="#_CPPv3I0EX11ContextTypeI3CtxEEN5annex5range19range_iterator_pairE" title="annex::range::range_iterator_pair::Ctx">Ctx</a>&gt; <code class="descname">last</code><a class="headerlink" href="#_CPPv3N5annex5range19range_iterator_pair4lastE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<p>A simple model of <a class="reference internal" href="annex.html#_CPPv3I0EX8VariableI4IterEEN5annex8IterableE" title="annex::Iterable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Iterable</span></code></a>. Can be 2-decomposed:</p>
+<div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="o">&amp;</span> <span class="p">[</span><span class="n">first</span><span class="p">,</span> <span class="n">last</span><span class="p">]</span> <span class="o">=</span> <span class="n">iter</span><span class="p">;</span>
+<span class="n">assert</span><span class="p">(</span> <span class="o">&amp;</span><span class="n">first</span> <span class="o">==</span> <span class="o">&amp;</span><span class="n">iter</span><span class="p">.</span><span class="n">first</span> <span class="p">);</span>
+<span class="n">assert</span><span class="p">(</span> <span class="o">&amp;</span><span class="n">last</span>  <span class="o">==</span> <span class="o">&amp;</span><span class="n">iter</span><span class="p">.</span><span class="n">last</span>  <span class="p">);</span>
+</pre></div>
+</div>
+<dl class="function">
+<dt id="_CPPv3NKR5annex5range19range_iterator_pair5beginEv">
+<span id="_CPPv2NKR5annex5range19range_iterator_pair5beginEv"></span><span id="annex::range::range_iterator_pair::beginCRCE"></span><em class="property">constexpr</em> <a class="reference internal" href="#_CPPv3I0EX11ContextTypeI3CtxEEN5annex5range14range_iteratorE" title="annex::range::range_iterator">range_iterator</a>&lt;<a class="reference internal" href="#_CPPv3I0EX11ContextTypeI3CtxEEN5annex5range19range_iterator_pairE" title="annex::range::range_iterator_pair::Ctx">Ctx</a>&gt; <em class="property">const</em> &amp;<code class="descname">begin</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em> &amp;<a class="headerlink" href="#_CPPv3NKR5annex5range19range_iterator_pair5beginEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv3NO5annex5range19range_iterator_pair5beginEv">
+<span id="_CPPv2NO5annex5range19range_iterator_pair5beginEv"></span><span id="annex::range::range_iterator_pair::beginOCE"></span><em class="property">constexpr</em> <a class="reference internal" href="#_CPPv3I0EX11ContextTypeI3CtxEEN5annex5range14range_iteratorE" title="annex::range::range_iterator">range_iterator</a>&lt;<a class="reference internal" href="#_CPPv3I0EX11ContextTypeI3CtxEEN5annex5range19range_iterator_pairE" title="annex::range::range_iterator_pair::Ctx">Ctx</a>&gt; <code class="descname">begin</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &amp;&amp;<a class="headerlink" href="#_CPPv3NO5annex5range19range_iterator_pair5beginEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#_CPPv3N5annex5range19range_iterator_pair5firstE" title="annex::range::range_iterator_pair::first"><code class="xref cpp cpp-any docutils literal"><span class="pre">first</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3NKR5annex5range19range_iterator_pair3endEv">
+<span id="_CPPv2NKR5annex5range19range_iterator_pair3endEv"></span><span id="annex::range::range_iterator_pair::endCRCE"></span><em class="property">constexpr</em> <a class="reference internal" href="#_CPPv3I0EX11ContextTypeI3CtxEEN5annex5range14range_iteratorE" title="annex::range::range_iterator">range_iterator</a>&lt;<a class="reference internal" href="#_CPPv3I0EX11ContextTypeI3CtxEEN5annex5range19range_iterator_pairE" title="annex::range::range_iterator_pair::Ctx">Ctx</a>&gt; <em class="property">const</em> &amp;<code class="descname">end</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em> &amp;<a class="headerlink" href="#_CPPv3NKR5annex5range19range_iterator_pair3endEv" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv3NO5annex5range19range_iterator_pair3endEv">
+<span id="_CPPv2NO5annex5range19range_iterator_pair3endEv"></span><span id="annex::range::range_iterator_pair::endOCE"></span><em class="property">constexpr</em> <a class="reference internal" href="#_CPPv3I0EX11ContextTypeI3CtxEEN5annex5range14range_iteratorE" title="annex::range::range_iterator">range_iterator</a>&lt;<a class="reference internal" href="#_CPPv3I0EX11ContextTypeI3CtxEEN5annex5range19range_iterator_pairE" title="annex::range::range_iterator_pair::Ctx">Ctx</a>&gt; <code class="descname">end</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &amp;&amp;<a class="headerlink" href="#_CPPv3NO5annex5range19range_iterator_pair3endEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#_CPPv3N5annex5range19range_iterator_pair4lastE" title="annex::range::range_iterator_pair::last"><code class="xref cpp cpp-any docutils literal"><span class="pre">last</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#_CPPv3N5annex5range12as_iteratorsE" title="annex::range::as_iterators"><code class="xref cpp cpp-any docutils literal"><span class="pre">as_iterators</span></code></a></p>
+</div>
+</dd></dl>
+
+<dl class="var">
+<dt id="_CPPv3N5annex5range12as_iteratorsE">
+<span id="_CPPv2N5annex5range12as_iteratorsE"></span><span id="annex::range::as_iterators__functors::as_iterators"></span><em class="property">constexpr</em> functors::as_iterators <code class="descname">as_iterators</code><a class="headerlink" href="#_CPPv3N5annex5range12as_iteratorsE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><dl class="simple">
+<dt>This constant is a <a class="reference internal" href="annex.html#function"><span class="std std-ref">Function</span></a> with one or more associated <a class="reference internal" href="annex.html#simple-model"><span class="std std-ref">simple models</span></a>:</dt>
+<dd><p><a class="reference internal" href="#_CPPv3I0EX11ContextTypeI3CtxEEN5annex5range19range_iterator_pairE" title="annex::range::range_iterator_pair"><code class="xref cpp cpp-any docutils literal"><span class="pre">ContextType{Ctx}</span> <span class="pre">range_iterator_pair</span></code></a></p>
+</dd>
+</dl>
+<dl class="function">
+<dt id="_CPPv3I0EX11ContextTypeI3CtxEENK5annex5range12as_iteratorsclER3Ctx10position_tI3CtxE10sentinel_tI3CtxE">
+<span id="_CPPv2I0EX11ContextTypeI3CtxEENK5annex5range12as_iteratorsclER3Ctx10position_tI3CtxE10sentinel_tI3CtxE"></span><a class="reference internal" href="concepts.html#_CPPv3I0EX4TypeI3CtxEEN5annex5range11ContextTypeE" title="annex::range::ContextType">ContextType</a>{<code class="descname">Ctx</code>}<br /><em class="property">constexpr</em> <a class="reference internal" href="#_CPPv3I0EX11ContextTypeI3CtxEEN5annex5range19range_iterator_pairE" title="annex::range::range_iterator_pair">range_iterator_pair</a>&lt;<a class="reference internal" href="#_CPPv3I0EX11ContextTypeI3CtxEENK5annex5range12as_iteratorsclER3Ctx10position_tI3CtxE10sentinel_tI3CtxE" title="annex::range::as_iterators::operator()::Ctx">Ctx</a>&gt; <code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv3I0EX11ContextTypeI3CtxEENK5annex5range12as_iteratorsclER3Ctx10position_tI3CtxE10sentinel_tI3CtxE" title="annex::range::as_iterators::operator()::Ctx">Ctx</a> &amp;<em>ctx</em>, <a class="reference internal" href="concepts.html#_CPPv3I0EX4TypeI3CtxEEN5annex5range10position_tE" title="annex::range::position_t">position_t</a>&lt;<a class="reference internal" href="#_CPPv3I0EX11ContextTypeI3CtxEENK5annex5range12as_iteratorsclER3Ctx10position_tI3CtxE10sentinel_tI3CtxE" title="annex::range::as_iterators::operator()::Ctx">Ctx</a>&gt; <em>from</em>, <a class="reference internal" href="concepts.html#_CPPv3I0EX4TypeI3CtxEEN5annex5range10sentinel_tE" title="annex::range::sentinel_t">sentinel_t</a>&lt;<a class="reference internal" href="#_CPPv3I0EX11ContextTypeI3CtxEENK5annex5range12as_iteratorsclER3Ctx10position_tI3CtxE10sentinel_tI3CtxE" title="annex::range::as_iterators::operator()::Ctx">Ctx</a>&gt; <em>to</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3I0EX11ContextTypeI3CtxEENK5annex5range12as_iteratorsclER3Ctx10position_tI3CtxE10sentinel_tI3CtxE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This is a feature of last resort. It may be hard to use correctly or otherwise undesirable, and is only provided for
+situations where no alternative is possible.</p>
+<p>In particular, <em>ctx</em> <strong>must</strong> outlive the result of <a class="reference internal" href="#_CPPv3N5annex5range12as_iteratorsE" title="annex::range::as_iterators"><code class="xref cpp cpp-any docutils literal"><span class="pre">as_iterators</span></code></a>.</p>
+</div>
+<p>Create a model of <a class="reference internal" href="annex.html#_CPPv3I0EX8VariableI4IterEEN5annex8IterableE" title="annex::Iterable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Iterable</span></code></a> over the range defined by <span class="math">\(\left\{ctx, from, to\right\}\)</span>. This makes it
+possible to use the range with iterator-based code:</p>
+<div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="k">auto</span> <span class="n">iter</span> <span class="o">=</span> <span class="n">range</span><span class="o">::</span><span class="n">as_iterators</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">from</span><span class="p">,</span> <span class="n">to</span><span class="p">);</span>
+<span class="c1">// code that takes an Iterable</span>
+<span class="n">iterable_code</span><span class="p">(</span><span class="n">iter</span><span class="p">);</span>
+<span class="c1">// code that takes a pair of Iterators explicitly</span>
+<span class="n">std</span><span class="o">::</span><span class="n">sort</span><span class="p">(</span><span class="n">iter</span><span class="p">.</span><span class="n">first</span><span class="p">,</span> <span class="n">iter</span><span class="p">.</span><span class="n">last</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Due to the differences between range and iterator concepts, there are limitations on when <a class="reference internal" href="#_CPPv3N5annex5range12as_iteratorsE" title="annex::range::as_iterators"><code class="xref cpp cpp-any docutils literal"><span class="pre">as_iterators</span></code></a> may
+be used.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ctx</strong> – A range context with identical position and sentinel types.</p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="#_CPPv3N5annex5range4loopE" title="annex::range::loop"><code class="xref cpp cpp-any docutils literal"><span class="pre">loop</span></code></a>, <a class="reference internal" href="#_CPPv3N5annex5range12inplace_loopE" title="annex::range::inplace_loop"><code class="xref cpp cpp-any docutils literal"><span class="pre">inplace_loop</span></code></a>:</dt>
+<dd><p>For using a range with a range-based <code class="docutils literal"><span class="pre">for</span></code> statement.</p>
+</dd>
+<dt><a class="reference internal" href="#_CPPv3IIDpE0EN5annex5range10collect_asE" title="annex::range::collect_as"><code class="xref cpp cpp-any docutils literal"><span class="pre">collect_as</span></code></a>, <a class="reference internal" href="#_CPPv3I0EX4TypeI4ContEEN5annex5range12collect_intoE" title="annex::range::collect_into"><code class="xref cpp cpp-any docutils literal"><span class="pre">collect_into</span></code></a>:</dt>
+<dd><p>For compatibility with iterator-taking containers.</p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv3I0EX9RangeTypeI3RngEENK5annex5range12as_iteratorsclER3Rng">
+<span id="_CPPv2I0EX9RangeTypeI3RngEENK5annex5range12as_iteratorsclER3Rng"></span><a class="reference internal" href="concepts.html#_CPPv3I0EX4TypeI3RngEEN5annex5range9RangeTypeE" title="annex::range::RangeType">RangeType</a>{<code class="descname">Rng</code>}<br /><em class="property">constexpr</em> auto <code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv3I0EX9RangeTypeI3RngEENK5annex5range12as_iteratorsclER3Rng" title="annex::range::as_iterators::operator()::Rng">Rng</a> &amp;<em>rng</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3I0EX9RangeTypeI3RngEENK5annex5range12as_iteratorsclER3Rng" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Equivalent to <a class="reference internal" href="#_CPPv3I0EX9RangeTypeI3RngEENK5annex5range12as_iteratorsclER3Rng" title="annex::range::as_iterators::operator()"><code class="xref cpp cpp-any docutils literal"><span class="pre">operator()(rng.context,</span> <span class="pre">rng.from,</span> <span class="pre">rng.to)</span></code></a>.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="algorithms">
+<h2>Algorithms<a class="headerlink" href="#algorithms" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="folds">
+<span id="id1"></span><h3>Folds<a class="headerlink" href="#folds" title="Permalink to this headline">¶</a></h3>
+<p>Provided by <code class="file docutils literal"><span class="pre">annex/range/consumer/fold.hpp</span></code>.</p>
+<dl class="var">
+<dt id="_CPPv3N5annex5range4foldE">
+<span id="_CPPv2N5annex5range4foldE"></span><span id="annex::range::fold__functors::fold"></span><em class="property">constexpr</em> functors::fold <code class="descname">fold</code><a class="headerlink" href="#_CPPv3N5annex5range4foldE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This constant is a <a class="reference internal" href="annex.html#function"><span class="std std-ref">Function</span></a>.</p>
+<dl class="function">
+<dt id="_CPPv3I0_7Movable_5RangeENK5annex5range4foldclERR8Combiner4Seed3Rng">
+<span id="_CPPv2I0_7Movable_5RangeENK5annex5range4foldclERR8Combiner4Seed3Rng"></span>template&lt;typename <code class="descname">Combiner</code>, <a class="reference internal" href="annex.html#_CPPv3I0EX8VariableI3VarEEN5annex7MovableE" title="annex::Movable">Movable</a> <code class="descname">Seed</code>, <a class="reference internal" href="concepts.html#_CPPv3I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range">Range</a> <code class="descname">Rng</code>&gt;<br /><em class="property">constexpr</em> <a class="reference internal" href="#_CPPv3I0_7Movable_5RangeENK5annex5range4foldclERR8Combiner4Seed3Rng" title="annex::range::fold::operator()::Seed">Seed</a> <code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv3I0_7Movable_5RangeENK5annex5range4foldclERR8Combiner4Seed3Rng" title="annex::range::fold::operator()::Combiner">Combiner</a> &amp;&amp;<em>combiner</em>, <a class="reference internal" href="#_CPPv3I0_7Movable_5RangeENK5annex5range4foldclERR8Combiner4Seed3Rng" title="annex::range::fold::operator()::Seed">Seed</a> <em>seed</em>, <a class="reference internal" href="#_CPPv3I0_7Movable_5RangeENK5annex5range4foldclERR8Combiner4Seed3Rng" title="annex::range::fold::operator()::Rng">Rng</a> <em>rng</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3I0_7Movable_5RangeENK5annex5range4foldclERR8Combiner4Seed3Rng" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Combines all the elements of <em>rng</em> according to <em>combiner</em> starting with the initial <em>seed</em>. Using
+<code class="docutils literal"><span class="pre">e0</span></code>, <code class="docutils literal"><span class="pre">e1</span></code>, …, <code class="docutils literal"><span class="pre">e_n</span></code> to denote the elements of <em>rng</em>, this amounts to computing:</p>
+<div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="k">auto</span> <span class="n">result</span> <span class="o">=</span> <span class="n">combiner</span><span class="p">(...</span><span class="n">combiner</span><span class="p">(</span><span class="n">combiner</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">seed</span><span class="p">),</span> <span class="n">e0</span><span class="p">),</span> <span class="n">e1</span><span class="p">)...,</span> <span class="n">e_n</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>(Except that <a class="reference internal" href="annex.html#_CPPv3I0EN5annex9invoke_asE" title="annex::invoke_as"><code class="xref cpp cpp-any docutils literal"><span class="pre">invoke_as&lt;Seed&gt;</span></code></a> is used for the purpose of invoking.)</p>
+<p>In the case that <em>rng</em> is empty, the result is <em>seed</em>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>combiner</strong> – A function object satisfying <a class="reference internal" href="annex.html#_CPPv3I0_8VariableDpEN5annex11InvokableAsE" title="annex::InvokableAs"><code class="xref cpp cpp-any docutils literal"><span class="pre">InvokableAs&lt;Seed,</span> <span class="pre">Combiner,</span> <span class="pre">Seed,</span>
+<span class="pre">element_t&lt;context_t&lt;Rng&gt;&gt;&gt;</span></code></a>. The parameter order is significant.</p></li>
+<li><p><strong>seed</strong> – The initial value to grow with <em>combiner</em>.</p></li>
+<li><p><strong>rng</strong> – A <a class="reference internal" href="concepts.html#_CPPv3I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a> which elements will each be read once, in order.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="var">
+<dt id="_CPPv3N5annex5range3sumE">
+<span id="_CPPv2N5annex5range3sumE"></span><span id="annex::range::sum__functors::sum"></span><em class="property">constexpr</em> functors::sum <code class="descname">sum</code><a class="headerlink" href="#_CPPv3N5annex5range3sumE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This constant is a <a class="reference internal" href="annex.html#function"><span class="std std-ref">Function</span></a>.</p>
+<dl class="function">
+<dt id="_CPPv3I00EX18MoveConstructiblesI4Seed3RngEENK5annex5range3sumclE4Seed3Rng">
+<span id="_CPPv2I00EX18MoveConstructiblesI4Seed3RngEENK5annex5range3sumclE4Seed3Rng"></span><a class="reference internal" href="annex.html#_CPPv3IDpEX9VariablesIsp4VarsEEN5annex18MoveConstructiblesE" title="annex::MoveConstructibles">MoveConstructibles</a>{<code class="descname">Seed</code>, <code class="descname">Rng</code>}<br /><em class="property">constexpr</em> <a class="reference internal" href="#_CPPv3I00EX18MoveConstructiblesI4Seed3RngEENK5annex5range3sumclE4Seed3Rng" title="annex::range::sum::operator()::Seed">Seed</a> <code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv3I00EX18MoveConstructiblesI4Seed3RngEENK5annex5range3sumclE4Seed3Rng" title="annex::range::sum::operator()::Seed">Seed</a> <em>seed</em>, <a class="reference internal" href="#_CPPv3I00EX18MoveConstructiblesI4Seed3RngEENK5annex5range3sumclE4Seed3Rng" title="annex::range::sum::operator()::Rng">Rng</a> <em>rng</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3I00EX18MoveConstructiblesI4Seed3RngEENK5annex5range3sumclE4Seed3Rng" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv3I0EX17MoveConstructibleI3RngEENK5annex5range3sumclE3Rng">
+<span id="_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range3sumclE3Rng"></span><a class="reference internal" href="annex.html#_CPPv3I0EX8VariableI3VarEEN5annex17MoveConstructibleE" title="annex::MoveConstructible">MoveConstructible</a>{<code class="descname">Rng</code>}<br /><em class="property">constexpr</em> Seed <code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv3I0EX17MoveConstructibleI3RngEENK5annex5range3sumclE3Rng" title="annex::range::sum::operator()::Rng">Rng</a> <em>rng</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3I0EX17MoveConstructibleI3RngEENK5annex5range3sumclE3Rng" title="Permalink to this definition">¶</a><br /></dt>
+<dd><dl class="field-list">
+<dt class="field-odd">Notation</dt>
+<dd class="field-odd"><div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">seed_t</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">decay_t</span><span class="o">&lt;</span><span class="n">element_t</span><span class="o">&lt;</span><span class="n">context_t</span><span class="o">&lt;</span><span class="n">Rng</span><span class="o">&gt;&gt;&gt;</span><span class="p">;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p>Special case of <a class="reference internal" href="#_CPPv3N5annex5range4foldE" title="annex::range::fold"><code class="xref cpp cpp-any docutils literal"><span class="pre">fold</span></code></a> for addition using the <code class="docutils literal"><span class="pre">+</span></code> operator. Equivalent to:</p>
+<div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="c1">// first form</span>
+<span class="n">fold</span><span class="p">(</span><span class="n">functors</span><span class="o">::</span><span class="n">plus</span> <span class="p">{},</span> <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">seed</span><span class="p">),</span> <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">rng</span><span class="p">));</span>
+<span class="c1">// second form</span>
+<span class="n">fold</span><span class="p">(</span><span class="n">functors</span><span class="o">::</span><span class="n">plus</span> <span class="p">{},</span> <span class="n">seed_t</span> <span class="p">{},</span> <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">rng</span><span class="p">));</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="var">
+<dt id="_CPPv3N5annex5range7productE">
+<span id="_CPPv2N5annex5range7productE"></span><span id="annex::range::product__functors::product"></span><em class="property">constexpr</em> functors::product <code class="descname">product</code><a class="headerlink" href="#_CPPv3N5annex5range7productE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This constant is a <a class="reference internal" href="annex.html#function"><span class="std std-ref">Function</span></a>.</p>
+<dl class="function">
+<dt id="_CPPv3I00EX18MoveConstructiblesI4Seed3RngEENK5annex5range7productclE4Seed3Rng">
+<span id="_CPPv2I00EX18MoveConstructiblesI4Seed3RngEENK5annex5range7productclE4Seed3Rng"></span><a class="reference internal" href="annex.html#_CPPv3IDpEX9VariablesIsp4VarsEEN5annex18MoveConstructiblesE" title="annex::MoveConstructibles">MoveConstructibles</a>{<code class="descname">Seed</code>, <code class="descname">Rng</code>}<br /><em class="property">constexpr</em> <a class="reference internal" href="#_CPPv3I00EX18MoveConstructiblesI4Seed3RngEENK5annex5range7productclE4Seed3Rng" title="annex::range::product::operator()::Seed">Seed</a> <code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv3I00EX18MoveConstructiblesI4Seed3RngEENK5annex5range7productclE4Seed3Rng" title="annex::range::product::operator()::Seed">Seed</a> <em>seed</em>, <a class="reference internal" href="#_CPPv3I00EX18MoveConstructiblesI4Seed3RngEENK5annex5range7productclE4Seed3Rng" title="annex::range::product::operator()::Rng">Rng</a> <em>rng</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3I00EX18MoveConstructiblesI4Seed3RngEENK5annex5range7productclE4Seed3Rng" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv3I0EX17MoveConstructibleI3RngEENK5annex5range7productclE3Rng">
+<span id="_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range7productclE3Rng"></span><a class="reference internal" href="annex.html#_CPPv3I0EX8VariableI3VarEEN5annex17MoveConstructibleE" title="annex::MoveConstructible">MoveConstructible</a>{<code class="descname">Rng</code>}<br /><em class="property">constexpr</em> Seed <code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv3I0EX17MoveConstructibleI3RngEENK5annex5range7productclE3Rng" title="annex::range::product::operator()::Rng">Rng</a> <em>rng</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3I0EX17MoveConstructibleI3RngEENK5annex5range7productclE3Rng" title="Permalink to this definition">¶</a><br /></dt>
+<dd><dl class="field-list">
+<dt class="field-odd">Notation</dt>
+<dd class="field-odd"><div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">seed_t</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">decay_t</span><span class="o">&lt;</span><span class="n">element_t</span><span class="o">&lt;</span><span class="n">context_t</span><span class="o">&lt;</span><span class="n">Rng</span><span class="o">&gt;&gt;&gt;</span><span class="p">;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p>Special case of <a class="reference internal" href="#_CPPv3N5annex5range4foldE" title="annex::range::fold"><code class="xref cpp cpp-any docutils literal"><span class="pre">fold</span></code></a> for multiplication using the <code class="docutils literal"><span class="pre">*</span></code> operator. Equivalent to:</p>
+<div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="c1">// first form</span>
+<span class="n">fold</span><span class="p">(</span><span class="n">functors</span><span class="o">::</span><span class="n">multiplies</span> <span class="p">{},</span> <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">seed</span><span class="p">),</span> <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">rng</span><span class="p">));</span>
+<span class="c1">// second form</span>
+<span class="n">fold</span><span class="p">(</span><span class="n">functors</span><span class="o">::</span><span class="n">multiplies</span> <span class="p">{},</span> <span class="n">seed_t</span> <span class="p">{</span> <span class="mi">1</span> <span class="p">},</span> <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">rng</span><span class="p">));</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../study.html">Designing a Range Abstraction</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../reference.html">The annex-range library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scope.html">Scope</a></li>
+<li class="toctree-l2"><a class="reference internal" href="concepts.html">Concepts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operations.html">Operations &amp; functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sources.html">Sources</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Consumers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#in-range-based-for-statements">In range-based for statements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#into-a-container">Into a container</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compatibility-with-iterator-code">Compatibility with iterator code</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#algorithms">Algorithms</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#folds">Folds</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="transformations.html">Transformations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="compositions.html">Compositions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arrangements.html">Arrangements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common.html">Common</a></li>
+<li class="toctree-l2"><a class="reference internal" href="annex.html">Annex quick reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference.html#how-to-read-the-reference">How to read the reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About this document</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="sources.html"
+                        title="previous chapter">Sources</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="transformations.html"
+                        title="next chapter">Transformations</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/reference/consumers.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="transformations.html" title="Transformations"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="sources.html" title="Sources"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">annex-range 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../reference.html" >The annex-range library</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, mickk.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7+.
+    </div>
+  </body>
+</html>

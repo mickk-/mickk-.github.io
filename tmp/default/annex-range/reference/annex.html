@@ -1,0 +1,838 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Annex quick reference &#8212; annex-range 0.1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/styles.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="About this document" href="../about.html" />
+    <link rel="prev" title="Common" href="common.html" /> 
+  </head><body>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(".collapsed > *").hide();
+        $("div.collapsed > p.admonition-title").show();
+        $("div.collapsed").children("p.admonition-title").toggleClass("closed");
+        $("table.collapsed > caption").show();
+        $("table.collapsed").children("caption").toggleClass("closed");
+        const collapse_duration = 300;
+        for(selector of [".collapsed", ".collapsible"]) {
+            $(`div${selector} > p.admonition-title`).click(function() {
+                $(this).parent().children().not("p.admonition-title").toggle(collapse_duration);
+                $(this).parent().children("p.admonition-title").toggleClass("closed");
+            });
+            $(`table${selector} > caption`).click(function(ev) {
+                // crude way to avoid intercepting a click on the anchor link
+                if(ev.target.nodeName == "A") {
+                    return;
+                }
+                $(this).parent().children().not("caption").toggle(collapse_duration);
+                $(this).parent().children("caption").toggleClass("closed");
+            })
+        }
+    });
+</script>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../about.html" title="About this document"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="common.html" title="Common"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">annex-range 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../reference.html" accesskey="U">The annex-range library</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="annex-quick-reference">
+<h1>Annex quick reference<a class="headerlink" href="#annex-quick-reference" title="Permalink to this headline">¶</a></h1>
+<p>This library is part of the annex series of libraries and as such relies on certain conventions and pre-defined
+concepts. The most common and important ones are briefly documented here, while the library proper is documented in the
+rest of the <a class="reference internal" href="../reference.html"><span class="doc">The annex-range library</span></a>.</p>
+<div class="section" id="concepts-for-variables">
+<span id="id1"></span><h2>Concepts for variables<a class="headerlink" href="#concepts-for-variables" title="Permalink to this headline">¶</a></h2>
+<p>The annex series of libraries follow the philosophy of <a class="reference external" href="http://mickk-on-cpp.github.io">Concepts for variables</a>. Not all concepts are written for
+variables however, but the two can be easily distinguished:</p>
+<ul>
+<li><p>concepts for variables introduce a <a class="reference internal" href="#_CPPv3I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Variable</span></code></a> constraint on at least one parameter, but not necessarily all:</p>
+<div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="n">Variable</span> <span class="n">Func</span><span class="p">,</span> <span class="k">typename</span><span class="p">...</span> <span class="n">Args</span><span class="o">&gt;</span> <span class="n">concept</span> <span class="kt">bool</span> <span class="n">Invokable</span> <span class="o">=</span> <span class="p">...;</span>
+</pre></div>
+</div>
+</li>
+<li><p>concepts for types follow the naming convention of ending in <code class="docutils literal"><span class="pre">-Type</span></code>, starting with the trivial concept <a class="reference internal" href="#_CPPv3I0EN5annex4TypeE" title="annex::Type"><code class="xref cpp cpp-any docutils literal"><span class="pre">Type</span></code></a>:</p>
+<div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">X</span><span class="o">&gt;</span> <span class="n">concept</span> <span class="kt">bool</span> <span class="n">Type</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+<span class="n">Type</span><span class="p">{</span><span class="n">X</span><span class="p">}</span> <span class="n">concept</span> <span class="kt">bool</span> <span class="n">StorableType</span> <span class="o">=</span> <span class="p">...;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="forward-storing">
+<span id="id3"></span><h2>Forward Storing<a class="headerlink" href="#forward-storing" title="Permalink to this headline">¶</a></h2>
+<p>It’s common in C++ for generic data to come with factory function templates, to reduce boilerplate thanks to template
+argument deduction. <code class="xref cpp cpp-any docutils literal"><span class="pre">std::make_tuple</span></code> is a very prominent example of such and many factories use the <code class="docutils literal"><span class="pre">make_*</span></code> naming
+convention:</p>
+<div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="k">auto</span> <span class="n">xs</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_tuple</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="sc">&#39;a&#39;</span><span class="p">,</span> <span class="s">&quot;bcd&quot;</span><span class="p">);</span>
+<span class="c1">// more convenient than:</span>
+<span class="n">std</span><span class="o">::</span><span class="n">tuple</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">char</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span><span class="o">*&gt;</span> <span class="n">xs</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="sc">&#39;a&#39;</span><span class="p">,</span> <span class="s">&quot;bcd&quot;</span> <span class="p">};</span>
+</pre></div>
+</div>
+<p>Unfortunately, the generic <code class="xref cpp cpp-any docutils literal"><span class="pre">std::tuple</span></code> actually comes with <em>three</em> factories: <code class="xref cpp cpp-any docutils literal"><span class="pre">std::make_tuple</span></code>, <code class="xref cpp cpp-any docutils literal"><span class="pre">std::tie</span></code>, and
+<code class="xref cpp cpp-any docutils literal"><span class="pre">std::forward_as_tuple</span></code> which each have a particular purpose. The annex series of libraries instead typically provides
+one factory per generic type which can serve those three purposes simultaneously:</p>
+<table class="docutils">
+<colgroup>
+<col style="width: 41%" />
+<col style="width: 59%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="docutils literal"><span class="pre">std::make_tuple(a,</span> <span class="pre">std::ref(b))</span></code></p></td>
+<td><p><code class="docutils literal"><span class="pre">annex::tuples::tuple(decay(a),</span> <span class="pre">b)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal"><span class="pre">std::tie(a,</span> <span class="pre">b,</span> <span class="pre">c)</span></code></p></td>
+<td><p><code class="docutils literal"><span class="pre">annex::tuples::tuple(a,</span> <span class="pre">b,</span> <span class="pre">c)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal"><span class="pre">std::forward_as_tuple(a,</span> <span class="pre">std::move(b))</span></code></p></td>
+<td><p><code class="docutils literal"><span class="pre">annex::tuples::tuple(a,</span> <span class="pre">std::move(b))</span></code> <a class="footnote-reference brackets" href="#tuple-note" id="id4">1</a></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="footnote brackets">
+<dt class="label" id="tuple-note"><span class="brackets"><a class="fn-backref" href="#id4">1</a></span></dt>
+<dd><p><code class="docutils literal"><span class="pre">std::forward_as_tuple(0)</span></code> and <code class="docutils literal"><span class="pre">annex::tuples::tuple(0)</span></code> differ in that the former creates an
+<code class="docutils literal"><span class="pre">std::tuple&lt;int&amp;&amp;&gt;</span></code>, the latter an <code class="docutils literal"><span class="pre">std::tuple&lt;int&gt;</span></code>.</p>
+</dd>
+</dl>
+<p>When the circumstances call for it a traditional, additional <code class="docutils literal"><span class="pre">make_*</span></code> factory is sometimes provided as well.</p>
+</div>
+<div class="section" id="function">
+<span id="id5"></span><h2>Function<a class="headerlink" href="#function" title="Permalink to this headline">¶</a></h2>
+<p>The annex series of libraries attempts to avoid namespace-scope functions and function templates, favouring instead
+namespace-scope constant function objects or variable templates. That is, something such as <code class="docutils literal"><span class="pre">annex::decay(0)</span></code> calls a
+particular <code class="docutils literal"><span class="pre">operator()</span></code> overload on a constant named <code class="docutils literal"><span class="pre">decay</span></code>. The motivation behind this is as follows:</p>
+<ul>
+<li><p>to avoid unwanted and uncontrolled use of Argument-Dependent Lookup</p></li>
+<li><p>to encourage and facilitate higher-order manipulation; e.g. <code class="docutils literal"><span class="pre">auto&amp;</span> <span class="pre">dc</span> <span class="pre">=</span> <span class="pre">annex::decay;</span></code> is an easy way to alias a
+<a class="reference internal" href="#function"><span class="std std-ref">Function</span></a>. Perhaps more importantly the referred <code class="docutils literal"><span class="pre">decay</span></code> object can be passed to another <a class="reference internal" href="#function"><span class="std std-ref">Function</span></a> using
+this very same mechanism:</p>
+<div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="n">assert</span><span class="p">(</span> <span class="n">annex</span><span class="o">::</span><span class="n">tuples</span><span class="o">::</span><span class="n">map</span><span class="p">(</span><span class="n">dc</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">make_tuple</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="o">==</span> <span class="n">std</span><span class="o">::</span><span class="n">make_tuple</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">);</span>
+</pre></div>
+</div>
+<p>If <code class="docutils literal"><span class="pre">decay</span></code> were a function template, something such as the following would have to be used as a verbose workaround:</p>
+<div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="k">auto</span> <span class="n">function_object</span> <span class="o">=</span> <span class="p">[](</span><span class="k">auto</span><span class="o">&amp;&amp;</span><span class="p">...</span> <span class="n">args</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// explicitly qualify to avoid unwanted ADL</span>
+    <span class="k">return</span> <span class="n">annex</span><span class="o">::</span><span class="n">decay</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">forward</span><span class="o">&lt;</span><span class="k">decltype</span><span class="p">(</span><span class="n">args</span><span class="p">)</span><span class="o">&gt;</span><span class="p">(</span><span class="n">args</span><span class="p">)...);</span>
+<span class="p">};</span>
+<span class="n">assert</span><span class="p">(</span> <span class="n">annex</span><span class="o">::</span><span class="n">tuples</span><span class="o">::</span><span class="n">map</span><span class="p">(</span><span class="n">function_object</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">make_tuple</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="o">==</span> <span class="n">std</span><span class="o">::</span><span class="n">make_tuple</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">);</span>
+</pre></div>
+</div>
+<p>Transforming the function template into a function object so that it can be passed as an argument is pure boilerplate.
+In a sense the annex libraries take this precaution ahead of time for convenience to the user.</p>
+</li>
+</ul>
+<p>Eric Niebler elaborates on the benefits of function-like objects in his post <a class="reference external" href="http://ericniebler.com/2014/10/21/customization-point-design-in-c11-and-beyond/">Customization Point Design in C++11 and
+Beyond</a>, especially as it relates to ADL.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>annex functions are not customization points and do not perform ADL on behalf of the user unless otherwise
+specified.</p>
+</div>
+<p>For conciseness, and because their nature as objects is mostly an implementation detail, function-like objects are still
+referred to as <em>functions</em>. Additionally, functions are consistently defined as follows throughout annex libraries
+(e.g. for an assumed <code class="docutils literal"><span class="pre">foo</span></code> function):</p>
+<ul>
+<li><p>the constant lives in its relevant annex namespace or subnamespace, e.g. <code class="docutils literal"><span class="pre">annex::tuples::foo</span></code></p></li>
+<li><p>it has type <code class="docutils literal"><span class="pre">annex::tuples::functors::foo</span> <span class="pre">const</span></code></p></li>
+<li><p>there is an associated <code class="docutils literal"><span class="pre">annex::tuples::result_of::foo&lt;X,</span> <span class="pre">Y,</span> <span class="pre">Z&gt;</span></code> alias which is short for:</p>
+<div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="k">decltype</span><span class="p">(</span> <span class="n">annex</span><span class="o">::</span><span class="n">tuples</span><span class="o">::</span><span class="n">foo</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">declval</span><span class="o">&lt;</span><span class="n">X</span><span class="o">&gt;</span><span class="p">(),</span> <span class="n">std</span><span class="o">::</span><span class="n">declval</span><span class="o">&lt;</span><span class="n">Y</span><span class="o">&gt;</span><span class="p">(),</span> <span class="n">std</span><span class="o">::</span><span class="n">declval</span><span class="o">&lt;</span><span class="n">Z</span><span class="o">&gt;</span><span class="p">()</span> <span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>some functions are parametrised over types and constants, in which case they are constant templates e.g.
+<code class="docutils literal"><span class="pre">annex::tuples::foo&lt;int,</span> <span class="pre">0&gt;</span></code> of type <code class="docutils literal"><span class="pre">annex::tuples::functors::foo&lt;int,</span> <span class="pre">0&gt;</span> <span class="pre">const</span></code> and with alias
+<code class="docutils literal"><span class="pre">annex::tuples::result_of::foo&lt;int,</span> <span class="pre">0,</span> <span class="pre">X,</span> <span class="pre">Y,</span> <span class="pre">Z&gt;</span></code> short for:</p>
+<div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="k">decltype</span><span class="p">(</span> <span class="n">annex</span><span class="o">::</span><span class="n">tuples</span><span class="o">::</span><span class="n">foo</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">declval</span><span class="o">&lt;</span><span class="n">X</span><span class="o">&gt;</span><span class="p">(),</span> <span class="n">std</span><span class="o">::</span><span class="n">declval</span><span class="o">&lt;</span><span class="n">Y</span><span class="o">&gt;</span><span class="p">(),</span> <span class="n">std</span><span class="o">::</span><span class="n">declval</span><span class="o">&lt;</span><span class="n">Z</span><span class="o">&gt;</span><span class="p">())</span> <span class="p">)</span>
+</pre></div>
+</div>
+<p>Due to limitations in the language, constant templates that accept a variadic number of arguments cannot have a
+<code class="docutils literal"><span class="pre">result_of</span></code> alias:</p>
+<div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="k">auto</span> <span class="n">res</span> <span class="o">=</span> <span class="n">annex</span><span class="o">::</span><span class="n">tuples</span><span class="o">::</span><span class="n">reorder_to</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">char</span><span class="o">&gt;</span><span class="p">(</span><span class="n">tup</span><span class="p">);</span>
+<span class="c1">// not possible:</span>
+<span class="c1">// using res_t = annex::tuples::result_of::reorder_to&lt;int, char, decltype(tup)&amp;&gt;;</span>
+</pre></div>
+</div>
+</li>
+<li><p>functions have additional functionality, e.g. they can be partially applied:</p>
+<div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="n">assert</span><span class="p">(</span> <span class="n">annex</span><span class="o">::</span><span class="n">tuples</span><span class="o">::</span><span class="n">foo</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="sc">&#39;a&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.</span><span class="p">,</span> <span class="s">&quot;hello&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="n">annex</span><span class="o">::</span><span class="n">tuples</span><span class="o">::</span><span class="n">foo</span><span class="p">.</span><span class="n">partial</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">partial</span><span class="p">(</span><span class="sc">&#39;a&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.</span><span class="p">)(</span><span class="s">&quot;hello&quot;</span><span class="p">)</span> <span class="p">);</span>
+</pre></div>
+</div>
+<p>A call to <code class="docutils literal"><span class="pre">partial</span></code> produces a new function-like object, which can in turn be subject to a call to <code class="docutils literal"><span class="pre">partial</span></code>
+again, or be invoked with final arguments. Many functions take <code class="docutils literal"><span class="pre">partial</span></code> into account when it comes to parameter
+order to help with higher-order usage:</p>
+<div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">annex</span><span class="o">::</span><span class="n">tuples</span><span class="o">::</span><span class="n">map</span><span class="p">;</span>
+<span class="k">auto</span> <span class="n">succ</span> <span class="o">=</span> <span class="p">[](</span><span class="k">auto</span> <span class="n">arg</span><span class="p">)</span> <span class="p">{</span> <span class="o">++</span><span class="n">arg</span><span class="p">;</span> <span class="k">return</span> <span class="n">arg</span><span class="p">;</span> <span class="p">};</span>
+<span class="n">assert</span><span class="p">(</span> <span class="n">map</span><span class="p">(</span><span class="n">map</span><span class="p">.</span><span class="n">partial</span><span class="p">(</span><span class="n">succ</span><span class="p">),</span> <span class="n">std</span><span class="o">::</span><span class="n">make_tuple</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">make_tuple</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">std</span><span class="o">::</span><span class="n">make_tuple</span><span class="p">(</span><span class="mi">2</span><span class="p">)))</span>
+        <span class="o">==</span> <span class="n">std</span><span class="o">::</span><span class="n">make_tuple</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">make_tuple</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">std</span><span class="o">::</span><span class="n">make_tuple</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span> <span class="p">);</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="simple-model">
+<span id="id6"></span><h2>Simple model<a class="headerlink" href="#simple-model" title="Permalink to this headline">¶</a></h2>
+<p>A <em>simple model</em> of a concept is intended to be the least surprising possible type which fulfils this concept, given
+some parameters. In particular, simple models associated with a factory <a class="reference internal" href="#function"><span class="std std-ref">Function</span></a> behave according to the
+following (e.g. assuming an associated <code class="docutils literal"><span class="pre">annex::ns::foo</span></code> factory):</p>
+<ul>
+<li><p>the name of the class or class template that will model the concept follows closely that of the <a class="reference internal" href="#function"><span class="std std-ref">Function</span></a>, e.g.
+<code class="docutils literal"><span class="pre">annex::ns::foo_type</span></code></p></li>
+<li><p>a valid call <code class="docutils literal"><span class="pre">annex::ns::foo(a,</span> <span class="pre">b,</span> <span class="pre">c)</span></code> produces an <code class="docutils literal"><span class="pre">annex::ns::foo_type&lt;A,</span> <span class="pre">B,</span> <span class="pre">C&gt;</span></code> result, where <code class="docutils literal"><span class="pre">A</span></code>, <code class="docutils literal"><span class="pre">B</span></code>, and
+<code class="docutils literal"><span class="pre">C</span></code> are types related to <code class="docutils literal"><span class="pre">a</span></code>, <code class="docutils literal"><span class="pre">b</span></code>, and <code class="docutils literal"><span class="pre">c</span></code> respectively (e.g. a <a class="reference internal" href="#forward-storing"><span class="std std-ref">forward storing</span></a>
+<a class="reference internal" href="#function"><span class="std std-ref">Function</span></a> called as <code class="docutils literal"><span class="pre">annex::ns::foo(i,</span> <span class="pre">std::move(j),</span> <span class="pre">0)</span></code> yields an <code class="docutils literal"><span class="pre">annex::ns::foo_type&lt;int&amp;,</span> <span class="pre">int,</span> <span class="pre">int&gt;</span></code>
+assuming all <code class="docutils literal"><span class="pre">int</span></code> arguments); while <code class="docutils literal"><span class="pre">annex::ns::foo&lt;X,</span> <span class="pre">Y,</span> <span class="pre">Z&gt;(a,</span> <span class="pre">b,</span> <span class="pre">c)</span></code> would produce an <code class="docutils literal"><span class="pre">annex::ns::foo_type&lt;X,</span>
+<span class="pre">Y,</span> <span class="pre">Z,</span> <span class="pre">A,</span> <span class="pre">B,</span> <span class="pre">C&gt;</span></code> result</p></li>
+<li><p>some or all of the parameters used to construct the simple model may be available as public data members:</p>
+<div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="k">namespace</span> <span class="n">range</span> <span class="o">=</span> <span class="n">annex</span><span class="o">::</span><span class="n">range</span><span class="p">;</span>
+<span class="c1">// decltype( res ) is intended as the least surprising model of a range of ints from 0 to 6 exclusive</span>
+<span class="k">auto</span> <span class="n">res</span> <span class="o">=</span> <span class="n">range</span><span class="o">::</span><span class="n">interval</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">);</span>
+<span class="c1">// names of data members documented by interval</span>
+<span class="n">assert</span><span class="p">(</span> <span class="n">res</span><span class="p">.</span><span class="n">context</span><span class="p">.</span><span class="n">from</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">);</span>
+<span class="n">assert</span><span class="p">(</span> <span class="n">res</span><span class="p">.</span><span class="n">context</span><span class="p">.</span><span class="n">to</span>   <span class="o">==</span> <span class="mi">6</span> <span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The data members are made public so that the values used to construct the simple model can be retrieved, which
+usually takes place <strong>after</strong> normal usage. Hence the members are able to be accessed mutably so as to allow
+moves.</p>
+<p>However those data members are used by the type in order to fulfil the concept operations and are not merely
+copies of the parameters used at construction–the user should store its own if that’s what they need. This means
+that modifying those members before or during use of the associated concept operations should be done at own risk,
+and considered extremely brittle.</p>
+</div>
+</li>
+</ul>
+<p>Because a simple model is closely associated to its factory <a class="reference internal" href="#function"><span class="std std-ref">Function</span></a>, its precise capabilities are normally
+described in the function documentation.</p>
+</div>
+<div class="section" id="concepts">
+<h2>Concepts<a class="headerlink" href="#concepts" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="base-convenience-concepts">
+<h3>Base &amp; convenience concepts<a class="headerlink" href="#base-convenience-concepts" title="Permalink to this headline">¶</a></h3>
+<dl class="concept">
+<dt id="_CPPv3I0EN5annex4TypeE">
+<span id="_CPPv2I0EN5annex4TypeE"></span>template&lt;typename <code class="descname">X</code>&gt;<br /><em class="property">concept </em><code class="descname">Type</code><a class="headerlink" href="#_CPPv3I0EN5annex4TypeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The trivial concept satisfied by any type. It’s used as a shortcut for template introductions:</p>
+<div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="n">Type</span><span class="p">{</span><span class="n">Item</span><span class="p">}</span> <span class="n">Item</span><span class="o">*</span> <span class="n">addressof</span><span class="p">(</span><span class="n">Item</span><span class="o">&amp;</span> <span class="n">item</span><span class="p">);</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="concept">
+<dt id="_CPPv3IDpEN5annex5TypesE">
+<span id="_CPPv2IDpEN5annex5TypesE"></span>template&lt;typename ...<code class="descname">Xs</code>&gt;<br /><em class="property">concept </em><code class="descname">Types</code> = (... &amp;&amp; <a class="reference internal" href="#_CPPv3I0EN5annex4TypeE" title="annex::Type">Type</a>&lt;<a class="reference internal" href="#_CPPv3IDpEN5annex5TypesE" title="annex::Types::Xs">Xs</a>&gt;)<a class="headerlink" href="#_CPPv3IDpEN5annex5TypesE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>A variadic variant of <a class="reference internal" href="#_CPPv3I0EN5annex4TypeE" title="annex::Type"><code class="xref cpp cpp-any docutils literal"><span class="pre">Type</span></code></a>, for introducing multiple parameters and/or a pack:</p>
+<div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="n">Types</span><span class="p">{</span><span class="n">First</span><span class="p">,</span> <span class="p">...</span> <span class="n">Rest</span><span class="p">}</span> <span class="n">tuple</span><span class="o">&lt;</span><span class="n">First</span><span class="p">,</span> <span class="n">Rest</span><span class="p">...</span><span class="o">&gt;</span> <span class="n">accept</span><span class="p">(</span><span class="n">First</span><span class="o">&amp;&amp;</span> <span class="n">first</span><span class="p">,</span> <span class="n">Rest</span><span class="o">&amp;&amp;</span><span class="p">...</span> <span class="n">rest</span><span class="p">);</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="concept">
+<dt id="_CPPv3I0EX4TypeI1XEEN5annex8VariableE">
+<span id="_CPPv2I0EX4TypeI1XEEN5annex8VariableE"></span><a class="reference internal" href="#_CPPv3I0EN5annex4TypeE" title="annex::Type">Type</a>{<code class="descname">X</code>}<br /><em class="property">concept </em><code class="descname">Variable</code><a class="headerlink" href="#_CPPv3I0EX4TypeI1XEEN5annex8VariableE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The basis of <a class="reference internal" href="#concepts-for-variables"><span class="std std-ref">Concepts for variables</span></a>. It is the minimal constraint for the following:</p>
+<div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="n">Variable</span><span class="p">{</span><span class="n">Var</span><span class="p">}</span> <span class="k">struct</span> <span class="n">generic_data</span> <span class="p">{</span> <span class="n">Var</span> <span class="n">member</span><span class="p">;</span> <span class="p">};</span>
+
+<span class="n">Variable</span><span class="p">{</span><span class="n">Var</span><span class="p">}</span> <span class="kt">void</span> <span class="n">generic_function</span><span class="p">(</span><span class="n">generic_data</span><span class="o">&lt;</span><span class="n">Var</span><span class="o">&gt;</span> <span class="n">arg</span><span class="p">);</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="concept">
+<dt id="_CPPv3IDpEX5TypesIsp2XsEEN5annex9VariablesE">
+<span id="_CPPv2IDpEX5TypesIsp2XsEEN5annex9VariablesE"></span><a class="reference internal" href="#_CPPv3IDpEN5annex5TypesE" title="annex::Types">Types</a>{...<code class="descname">Xs</code>}<br /><em class="property">concept </em><code class="descname">Variables</code> = (... &amp;&amp; <a class="reference internal" href="#_CPPv3I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a>&lt;<a class="reference internal" href="#_CPPv3IDpEX5TypesIsp2XsEEN5annex9VariablesE" title="annex::Variables::Xs">Xs</a>&gt;)<a class="headerlink" href="#_CPPv3IDpEX5TypesIsp2XsEEN5annex9VariablesE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>A variadic variant of <a class="reference internal" href="#_CPPv3I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Variable</span></code></a>, for introducing multiple parameters and/or a pack.</p>
+</dd></dl>
+
+<dl class="concept">
+<dt id="_CPPv3IDpEX5TypesIsp4PackEEN5annex12NonEmptyPackE">
+<span id="_CPPv2IDpEX5TypesIsp4PackEEN5annex12NonEmptyPackE"></span><a class="reference internal" href="#_CPPv3IDpEN5annex5TypesE" title="annex::Types">Types</a>{...<code class="descname">Pack</code>}<br /><em class="property">concept </em><code class="descname">NonEmptyPack</code> = sizeof...(<a class="reference internal" href="#_CPPv3IDpEX5TypesIsp4PackEEN5annex12NonEmptyPackE" title="annex::NonEmptyPack::Pack">Pack</a>) != 0<a class="headerlink" href="#_CPPv3IDpEX5TypesIsp4PackEEN5annex12NonEmptyPackE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>A pseudo-concept for constraining variadic templates that are not valid for empty packs.</p>
+</dd></dl>
+
+<p>Sister concepts are usually presented together, alongside variadic variants when they make sense:</p>
+<dl class="concept">
+<dt id="_CPPv3I0EX8VariableI3VarEEN5annex7ExampleE">
+<span id="_CPPv2I0EX8VariableI3VarEEN5annex7ExampleE"></span><a class="reference internal" href="#_CPPv3I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a>{<code class="descname">Var</code>}<br /><em class="property">concept </em><code class="descname">Example</code><a class="headerlink" href="#_CPPv3I0EX8VariableI3VarEEN5annex7ExampleE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv3I0EX4TypeI1XEEN5annex11ExampleTypeE">
+<span id="_CPPv2I0EX4TypeI1XEEN5annex11ExampleTypeE"></span><a class="reference internal" href="#_CPPv3I0EN5annex4TypeE" title="annex::Type">Type</a>{<code class="descname">X</code>}<br /><em class="property">concept </em><code class="descname">ExampleType</code><a class="headerlink" href="#_CPPv3I0EX4TypeI1XEEN5annex11ExampleTypeE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv3IDpEX9VariablesIsp4VarsEEN5annex8ExamplesE">
+<span id="_CPPv2IDpEX9VariablesIsp4VarsEEN5annex8ExamplesE"></span><a class="reference internal" href="#_CPPv3IDpEX5TypesIsp2XsEEN5annex9VariablesE" title="annex::Variables">Variables</a>{...<code class="descname">Vars</code>}<br /><em class="property">concept </em><code class="descname">Examples</code> = (... &amp;&amp; <a class="reference internal" href="#_CPPv3I0EX8VariableI3VarEEN5annex7ExampleE" title="annex::Example">Example</a>&lt;<a class="reference internal" href="#_CPPv3IDpEX9VariablesIsp4VarsEEN5annex8ExamplesE" title="annex::Examples::Vars">Vars</a>&gt;)<a class="headerlink" href="#_CPPv3IDpEX9VariablesIsp4VarsEEN5annex8ExamplesE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv3IDpEX5TypesIsp2XsEEN5annex12ExampleTypesE">
+<span id="_CPPv2IDpEX5TypesIsp2XsEEN5annex12ExampleTypesE"></span><a class="reference internal" href="#_CPPv3IDpEN5annex5TypesE" title="annex::Types">Types</a>{...<code class="descname">Xs</code>}<br /><em class="property">concept </em><code class="descname">ExampleTypes</code> = (... &amp;&amp; <a class="reference internal" href="#_CPPv3I0EX4TypeI1XEEN5annex11ExampleTypeE" title="annex::ExampleType">ExampleType</a>&lt;<a class="reference internal" href="#_CPPv3IDpEX5TypesIsp2XsEEN5annex12ExampleTypesE" title="annex::ExampleTypes::Xs">Xs</a>&gt;)<a class="headerlink" href="#_CPPv3IDpEX5TypesIsp2XsEEN5annex12ExampleTypesE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>A dummy concept to showcase the documentation.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="construction">
+<h3>Construction<a class="headerlink" href="#construction" title="Permalink to this headline">¶</a></h3>
+<p>These concepts are nearly equivalent to the corresponding trait (e.g. <code class="xref cpp cpp-any docutils literal"><span class="pre">std::is_constructible_v</span></code> and so on), but in
+<a class="reference internal" href="#concepts-for-variables"><span class="std std-ref">Concepts for variables</span></a> form:</p>
+<dl class="concept">
+<dt id="_CPPv3I_8VariableDpEN5annex13ConstructibleE">
+<span id="_CPPv2I_8VariableDpEN5annex13ConstructibleE"></span>template&lt;<a class="reference internal" href="#_CPPv3I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a> <code class="descname">Var</code>, typename ...<code class="descname">Inits</code>&gt;<br /><em class="property">concept </em><code class="descname">Constructible</code><a class="headerlink" href="#_CPPv3I_8VariableDpEN5annex13ConstructibleE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="concept">
+<dt id="_CPPv3I_8Variable0EN5annex10AssignableE">
+<span id="_CPPv2I_8Variable0EN5annex10AssignableE"></span>template&lt;<a class="reference internal" href="#_CPPv3I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a> <code class="descname">Var</code>, typename <code class="descname">Init</code>&gt;<br /><em class="property">concept </em><code class="descname">Assignable</code><a class="headerlink" href="#_CPPv3I_8Variable0EN5annex10AssignableE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="concept">
+<dt id="_CPPv3I0EX8VariableI3VarEEN5annex17MoveConstructibleE">
+<span id="_CPPv2I0EX8VariableI3VarEEN5annex17MoveConstructibleE"></span><a class="reference internal" href="#_CPPv3I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a>{<code class="descname">Var</code>}<br /><em class="property">concept </em><code class="descname">MoveConstructible</code><a class="headerlink" href="#_CPPv3I0EX8VariableI3VarEEN5annex17MoveConstructibleE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv3IDpEX9VariablesIsp4VarsEEN5annex18MoveConstructiblesE">
+<span id="_CPPv2IDpEX9VariablesIsp4VarsEEN5annex18MoveConstructiblesE"></span><a class="reference internal" href="#_CPPv3IDpEX5TypesIsp2XsEEN5annex9VariablesE" title="annex::Variables">Variables</a>{...<code class="descname">Vars</code>}<br /><em class="property">concept </em><code class="descname">MoveConstructibles</code> = (... &amp;&amp; <a class="reference internal" href="#_CPPv3I0EX8VariableI3VarEEN5annex17MoveConstructibleE" title="annex::MoveConstructible">MoveConstructible</a>&lt;<a class="reference internal" href="#_CPPv3IDpEX9VariablesIsp4VarsEEN5annex18MoveConstructiblesE" title="annex::MoveConstructibles::Vars">Vars</a>&gt;)<a class="headerlink" href="#_CPPv3IDpEX9VariablesIsp4VarsEEN5annex18MoveConstructiblesE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="concept">
+<dt id="_CPPv3I0EX8VariableI3VarEEN5annex14MoveAssignableE">
+<span id="_CPPv2I0EX8VariableI3VarEEN5annex14MoveAssignableE"></span><a class="reference internal" href="#_CPPv3I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a>{<code class="descname">Var</code>}<br /><em class="property">concept </em><code class="descname">MoveAssignable</code><a class="headerlink" href="#_CPPv3I0EX8VariableI3VarEEN5annex14MoveAssignableE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="concept">
+<dt id="_CPPv3I0EX8VariableI3VarEEN5annex17CopyConstructibleE">
+<span id="_CPPv2I0EX8VariableI3VarEEN5annex17CopyConstructibleE"></span><a class="reference internal" href="#_CPPv3I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a>{<code class="descname">Var</code>}<br /><em class="property">concept </em><code class="descname">CopyConstructible</code><a class="headerlink" href="#_CPPv3I0EX8VariableI3VarEEN5annex17CopyConstructibleE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv3IDpEX9VariablesIsp4VarsEEN5annex18CopyConstructiblesE">
+<span id="_CPPv2IDpEX9VariablesIsp4VarsEEN5annex18CopyConstructiblesE"></span><a class="reference internal" href="#_CPPv3IDpEX5TypesIsp2XsEEN5annex9VariablesE" title="annex::Variables">Variables</a>{...<code class="descname">Vars</code>}<br /><em class="property">concept </em><code class="descname">CopyConstructibles</code> = (... &amp;&amp; <a class="reference internal" href="#_CPPv3I0EX8VariableI3VarEEN5annex17CopyConstructibleE" title="annex::CopyConstructible">CopyConstructible</a>&lt;<a class="reference internal" href="#_CPPv3IDpEX9VariablesIsp4VarsEEN5annex18CopyConstructiblesE" title="annex::CopyConstructibles::Vars">Vars</a>&gt;)<a class="headerlink" href="#_CPPv3IDpEX9VariablesIsp4VarsEEN5annex18CopyConstructiblesE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="concept">
+<dt id="_CPPv3I0EX8VariableI3VarEEN5annex14CopyAssignableE">
+<span id="_CPPv2I0EX8VariableI3VarEEN5annex14CopyAssignableE"></span><a class="reference internal" href="#_CPPv3I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a>{<code class="descname">Var</code>}<br /><em class="property">concept </em><code class="descname">CopyAssignable</code><a class="headerlink" href="#_CPPv3I0EX8VariableI3VarEEN5annex14CopyAssignableE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<p>As well as some shortcuts:</p>
+<dl class="concept">
+<dt id="_CPPv3I0EX8VariableI3VarEEN5annex7MovableE">
+<span id="_CPPv2I0EX8VariableI3VarEEN5annex7MovableE"></span><a class="reference internal" href="#_CPPv3I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a>{<code class="descname">Var</code>}<br /><em class="property">concept </em><code class="descname">Movable</code> = <a class="reference internal" href="#_CPPv3I0EX8VariableI3VarEEN5annex17MoveConstructibleE" title="annex::MoveConstructible">MoveConstructible</a>&lt;<a class="reference internal" href="#_CPPv3I0EX8VariableI3VarEEN5annex7MovableE" title="annex::Movable::Var">Var</a>&gt; &amp;&amp; <a class="reference internal" href="#_CPPv3I0EX8VariableI3VarEEN5annex14MoveAssignableE" title="annex::MoveAssignable">MoveAssignable</a>&lt;<a class="reference internal" href="#_CPPv3I0EX8VariableI3VarEEN5annex7MovableE" title="annex::Movable::Var">Var</a>&gt;<a class="headerlink" href="#_CPPv3I0EX8VariableI3VarEEN5annex7MovableE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv3IDpEX9VariablesIsp4VarsEEN5annex8MovablesE">
+<span id="_CPPv2IDpEX9VariablesIsp4VarsEEN5annex8MovablesE"></span><a class="reference internal" href="#_CPPv3IDpEX5TypesIsp2XsEEN5annex9VariablesE" title="annex::Variables">Variables</a>{...<code class="descname">Vars</code>}<br /><em class="property">concept </em><code class="descname">Movables</code> = (... &amp;&amp; <a class="reference internal" href="#_CPPv3I0EX8VariableI3VarEEN5annex7MovableE" title="annex::Movable">Movable</a>&lt;<a class="reference internal" href="#_CPPv3IDpEX9VariablesIsp4VarsEEN5annex8MovablesE" title="annex::Movables::Vars">Vars</a>&gt;)<a class="headerlink" href="#_CPPv3IDpEX9VariablesIsp4VarsEEN5annex8MovablesE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="concept">
+<dt id="_CPPv3I0EX8VariableI3VarEEN5annex8CopyableE">
+<span id="_CPPv2I0EX8VariableI3VarEEN5annex8CopyableE"></span><a class="reference internal" href="#_CPPv3I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a>{<code class="descname">Var</code>}<br /><em class="property">concept </em><code class="descname">Copyable</code> = <a class="reference internal" href="#_CPPv3I0EX8VariableI3VarEEN5annex17CopyConstructibleE" title="annex::CopyConstructible">CopyConstructible</a>&lt;<a class="reference internal" href="#_CPPv3I0EX8VariableI3VarEEN5annex8CopyableE" title="annex::Copyable::Var">Var</a>&gt; &amp;&amp; <a class="reference internal" href="#_CPPv3I0EX8VariableI3VarEEN5annex14CopyAssignableE" title="annex::CopyAssignable">CopyAssignable</a>&lt;<a class="reference internal" href="#_CPPv3I0EX8VariableI3VarEEN5annex8CopyableE" title="annex::Copyable::Var">Var</a>&gt;<a class="headerlink" href="#_CPPv3I0EX8VariableI3VarEEN5annex8CopyableE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv3IDpEX9VariablesIsp4VarsEEN5annex9CopyablesE">
+<span id="_CPPv2IDpEX9VariablesIsp4VarsEEN5annex9CopyablesE"></span><a class="reference internal" href="#_CPPv3IDpEX5TypesIsp2XsEEN5annex9VariablesE" title="annex::Variables">Variables</a>{...<code class="descname">Vars</code>}<br /><em class="property">concept </em><code class="descname">Copyables</code> = (... &amp;&amp; <a class="reference internal" href="#_CPPv3I0EX8VariableI3VarEEN5annex8CopyableE" title="annex::Copyable">Copyable</a>&lt;<a class="reference internal" href="#_CPPv3IDpEX9VariablesIsp4VarsEEN5annex9CopyablesE" title="annex::Copyables::Vars">Vars</a>&gt;)<a class="headerlink" href="#_CPPv3IDpEX9VariablesIsp4VarsEEN5annex9CopyablesE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<p>There are construction concepts that make it easy to constrain factory <a class="reference internal" href="#function"><span class="std std-ref">functions</span></a>:</p>
+<dl class="concept">
+<dt id="_CPPv3I0EX8VariableI3VarEEN5annex11ForwardableE">
+<span id="_CPPv2I0EX8VariableI3VarEEN5annex11ForwardableE"></span><a class="reference internal" href="#_CPPv3I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a>{<code class="descname">Var</code>}<br /><em class="property">concept </em><code class="descname">Forwardable</code><a class="headerlink" href="#_CPPv3I0EX8VariableI3VarEEN5annex11ForwardableE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv3I0EX4TypeI1XEEN5annex15ForwardableTypeE">
+<span id="_CPPv2I0EX4TypeI1XEEN5annex15ForwardableTypeE"></span><a class="reference internal" href="#_CPPv3I0EN5annex4TypeE" title="annex::Type">Type</a>{<code class="descname">X</code>}<br /><em class="property">concept </em><code class="descname">ForwardableType</code><a class="headerlink" href="#_CPPv3I0EX4TypeI1XEEN5annex15ForwardableTypeE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv3IDpEX9VariablesIsp4VarsEEN5annex12ForwardablesE">
+<span id="_CPPv2IDpEX9VariablesIsp4VarsEEN5annex12ForwardablesE"></span><a class="reference internal" href="#_CPPv3IDpEX5TypesIsp2XsEEN5annex9VariablesE" title="annex::Variables">Variables</a>{...<code class="descname">Vars</code>}<br /><em class="property">concept </em><code class="descname">Forwardables</code> = (... &amp;&amp; <a class="reference internal" href="#_CPPv3I0EX8VariableI3VarEEN5annex11ForwardableE" title="annex::Forwardable">Forwardable</a>&lt;<a class="reference internal" href="#_CPPv3IDpEX9VariablesIsp4VarsEEN5annex12ForwardablesE" title="annex::Forwardables::Vars">Vars</a>&gt;)<a class="headerlink" href="#_CPPv3IDpEX9VariablesIsp4VarsEEN5annex12ForwardablesE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv3IDpEX5TypesIsp2XsEEN5annex16ForwardableTypesE">
+<span id="_CPPv2IDpEX5TypesIsp2XsEEN5annex16ForwardableTypesE"></span><a class="reference internal" href="#_CPPv3IDpEN5annex5TypesE" title="annex::Types">Types</a>{...<code class="descname">Xs</code>}<br /><em class="property">concept </em><code class="descname">ForwardableTypes</code> = (... &amp;&amp; <a class="reference internal" href="#_CPPv3I0EX4TypeI1XEEN5annex15ForwardableTypeE" title="annex::ForwardableType">ForwardableType</a>&lt;<a class="reference internal" href="#_CPPv3IDpEX5TypesIsp2XsEEN5annex16ForwardableTypesE" title="annex::ForwardableTypes::Xs">Xs</a>&gt;)<a class="headerlink" href="#_CPPv3IDpEX5TypesIsp2XsEEN5annex16ForwardableTypesE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>For factories that use <a class="reference internal" href="#forward-storing"><span class="std std-ref">Forward Storing</span></a> for their arguments:</p>
+<div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="n">ForwardableType</span><span class="p">{</span><span class="n">Param</span><span class="p">}</span>
+<span class="n">foo_type</span><span class="o">&lt;</span><span class="n">Param</span><span class="o">&gt;</span> <span class="n">foo</span><span class="p">(</span><span class="n">Param</span><span class="o">&amp;&amp;</span> <span class="n">param</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">{</span> <span class="n">std</span><span class="o">::</span><span class="n">forward</span><span class="o">&lt;</span><span class="n">Param</span><span class="o">&gt;</span><span class="p">(</span><span class="n">param</span><span class="p">)</span> <span class="p">};</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="concept">
+<dt id="_CPPv3I0EX8VariableI3VarEEN5annex8StorableE">
+<span id="_CPPv2I0EX8VariableI3VarEEN5annex8StorableE"></span><a class="reference internal" href="#_CPPv3I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a>{<code class="descname">Var</code>}<br /><em class="property">concept </em><code class="descname">Storable</code><a class="headerlink" href="#_CPPv3I0EX8VariableI3VarEEN5annex8StorableE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv3I0EX4TypeI3VarEEN5annex12StorableTypeE">
+<span id="_CPPv2I0EX4TypeI3VarEEN5annex12StorableTypeE"></span><a class="reference internal" href="#_CPPv3I0EN5annex4TypeE" title="annex::Type">Type</a>{<code class="descname">Var</code>}<br /><em class="property">concept </em><code class="descname">StorableType</code><a class="headerlink" href="#_CPPv3I0EX4TypeI3VarEEN5annex12StorableTypeE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv3IDpEX9VariablesIsp4VarsEEN5annex9StorablesE">
+<span id="_CPPv2IDpEX9VariablesIsp4VarsEEN5annex9StorablesE"></span><a class="reference internal" href="#_CPPv3IDpEX5TypesIsp2XsEEN5annex9VariablesE" title="annex::Variables">Variables</a>{...<code class="descname">Vars</code>}<br /><em class="property">concept </em><code class="descname">Storables</code> = (... &amp;&amp; <a class="reference internal" href="#_CPPv3I0EX8VariableI3VarEEN5annex8StorableE" title="annex::Storable">Storable</a>&lt;<a class="reference internal" href="#_CPPv3IDpEX9VariablesIsp4VarsEEN5annex9StorablesE" title="annex::Storables::Vars">Vars</a>&gt;)<a class="headerlink" href="#_CPPv3IDpEX9VariablesIsp4VarsEEN5annex9StorablesE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv3IDpEX5TypesIsp2XsEEN5annex13StorableTypesE">
+<span id="_CPPv2IDpEX5TypesIsp2XsEEN5annex13StorableTypesE"></span><a class="reference internal" href="#_CPPv3IDpEN5annex5TypesE" title="annex::Types">Types</a>{...<code class="descname">Xs</code>}<br /><em class="property">concept </em><code class="descname">StorableTypes</code> = (... &amp;&amp; <a class="reference internal" href="#_CPPv3I0EX4TypeI3VarEEN5annex12StorableTypeE" title="annex::StorableType">StorableType</a>&lt;<a class="reference internal" href="#_CPPv3IDpEX5TypesIsp2XsEEN5annex13StorableTypesE" title="annex::StorableTypes::Xs">Xs</a>&gt;)<a class="headerlink" href="#_CPPv3IDpEX5TypesIsp2XsEEN5annex13StorableTypesE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>For factories that decay their arguments:</p>
+<div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="n">StorableType</span><span class="p">{</span><span class="n">Param</span><span class="p">}</span>
+<span class="n">foo_type</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">decay_t</span><span class="o">&lt;</span><span class="n">Param</span><span class="o">&gt;&gt;</span> <span class="n">make_foo</span><span class="p">(</span><span class="n">Param</span><span class="o">&amp;&amp;</span> <span class="n">param</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">{</span> <span class="n">std</span><span class="o">::</span><span class="n">forward</span><span class="o">&lt;</span><span class="n">Param</span><span class="o">&gt;</span><span class="p">(</span><span class="n">param</span><span class="p">)</span> <span class="p">};</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="iterators">
+<h3>Iterators<a class="headerlink" href="#iterators" title="Permalink to this headline">¶</a></h3>
+<p>These correspond to the Standard iterator concepts, but in <a class="reference internal" href="#concepts-for-variables"><span class="std std-ref">Concepts for variables</span></a> form:</p>
+<dl class="concept">
+<dt id="_CPPv3I0EX8VariableI2ItEEN5annex13InputIteratorE">
+<span id="_CPPv2I0EX8VariableI2ItEEN5annex13InputIteratorE"></span><a class="reference internal" href="#_CPPv3I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a>{<code class="descname">It</code>}<br /><em class="property">concept </em><code class="descname">InputIterator</code><a class="headerlink" href="#_CPPv3I0EX8VariableI2ItEEN5annex13InputIteratorE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv3I0EX4TypeI2ItEEN5annex17InputIteratorTypeE">
+<span id="_CPPv2I0EX4TypeI2ItEEN5annex17InputIteratorTypeE"></span><a class="reference internal" href="#_CPPv3I0EN5annex4TypeE" title="annex::Type">Type</a>{<code class="descname">It</code>}<br /><em class="property">concept </em><code class="descname">InputIteratorType</code><a class="headerlink" href="#_CPPv3I0EX4TypeI2ItEEN5annex17InputIteratorTypeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="concept">
+<dt id="_CPPv3I0EX13InputIteratorI2ItEEN5annex15ForwardIteratorE">
+<span id="_CPPv2I0EX13InputIteratorI2ItEEN5annex15ForwardIteratorE"></span><a class="reference internal" href="#_CPPv3I0EX8VariableI2ItEEN5annex13InputIteratorE" title="annex::InputIterator">InputIterator</a>{<code class="descname">It</code>}<br /><em class="property">concept </em><code class="descname">ForwardIterator</code><a class="headerlink" href="#_CPPv3I0EX13InputIteratorI2ItEEN5annex15ForwardIteratorE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv3I0EX17InputIteratorTypeI2ItEEN5annex19ForwardIteratorTypeE">
+<span id="_CPPv2I0EX17InputIteratorTypeI2ItEEN5annex19ForwardIteratorTypeE"></span><a class="reference internal" href="#_CPPv3I0EX4TypeI2ItEEN5annex17InputIteratorTypeE" title="annex::InputIteratorType">InputIteratorType</a>{<code class="descname">It</code>}<br /><em class="property">concept </em><code class="descname">ForwardIteratorType</code><a class="headerlink" href="#_CPPv3I0EX17InputIteratorTypeI2ItEEN5annex19ForwardIteratorTypeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="concept">
+<dt id="_CPPv3I0EX15ForwardIteratorI2ItEEN5annex21BidirectionalIteratorE">
+<span id="_CPPv2I0EX15ForwardIteratorI2ItEEN5annex21BidirectionalIteratorE"></span><a class="reference internal" href="#_CPPv3I0EX13InputIteratorI2ItEEN5annex15ForwardIteratorE" title="annex::ForwardIterator">ForwardIterator</a>{<code class="descname">It</code>}<br /><em class="property">concept </em><code class="descname">BidirectionalIterator</code><a class="headerlink" href="#_CPPv3I0EX15ForwardIteratorI2ItEEN5annex21BidirectionalIteratorE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv3I0EX19ForwardIteratorTypeI2ItEEN5annex25BidirectionalIteratorTypeE">
+<span id="_CPPv2I0EX19ForwardIteratorTypeI2ItEEN5annex25BidirectionalIteratorTypeE"></span><a class="reference internal" href="#_CPPv3I0EX17InputIteratorTypeI2ItEEN5annex19ForwardIteratorTypeE" title="annex::ForwardIteratorType">ForwardIteratorType</a>{<code class="descname">It</code>}<br /><em class="property">concept </em><code class="descname">BidirectionalIteratorType</code><a class="headerlink" href="#_CPPv3I0EX19ForwardIteratorTypeI2ItEEN5annex25BidirectionalIteratorTypeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="concept">
+<dt id="_CPPv3I0EX21BidirectionalIteratorI2ItEEN5annex20RandomAccessIteratorE">
+<span id="_CPPv2I0EX21BidirectionalIteratorI2ItEEN5annex20RandomAccessIteratorE"></span><a class="reference internal" href="#_CPPv3I0EX15ForwardIteratorI2ItEEN5annex21BidirectionalIteratorE" title="annex::BidirectionalIterator">BidirectionalIterator</a>{<code class="descname">It</code>}<br /><em class="property">concept </em><code class="descname">RandomAccessIterator</code><a class="headerlink" href="#_CPPv3I0EX21BidirectionalIteratorI2ItEEN5annex20RandomAccessIteratorE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv3I0EX25BidirectionalIteratorTypeI2ItEEN5annex24RandomAccessIteratorTypeE">
+<span id="_CPPv2I0EX25BidirectionalIteratorTypeI2ItEEN5annex24RandomAccessIteratorTypeE"></span><a class="reference internal" href="#_CPPv3I0EX19ForwardIteratorTypeI2ItEEN5annex25BidirectionalIteratorTypeE" title="annex::BidirectionalIteratorType">BidirectionalIteratorType</a>{<code class="descname">It</code>}<br /><em class="property">concept </em><code class="descname">RandomAccessIteratorType</code><a class="headerlink" href="#_CPPv3I0EX25BidirectionalIteratorTypeI2ItEEN5annex24RandomAccessIteratorTypeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<p>As well as the non-standard:</p>
+<dl class="concept">
+<dt id="_CPPv3I0EX8VariableI4IterEEN5annex8IterableE">
+<span id="_CPPv2I0EX8VariableI4IterEEN5annex8IterableE"></span><a class="reference internal" href="#_CPPv3I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a>{<code class="descname">Iter</code>}<br /><em class="property">concept </em><code class="descname">Iterable</code><a class="headerlink" href="#_CPPv3I0EX8VariableI4IterEEN5annex8IterableE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv3I0EX4TypeI4IterEEN5annex12IterableTypeE">
+<span id="_CPPv2I0EX4TypeI4IterEEN5annex12IterableTypeE"></span><a class="reference internal" href="#_CPPv3I0EN5annex4TypeE" title="annex::Type">Type</a>{<code class="descname">Iter</code>}<br /><em class="property">concept </em><code class="descname">IterableType</code><a class="headerlink" href="#_CPPv3I0EX4TypeI4IterEEN5annex12IterableTypeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><dl class="field-list">
+<dt class="field-odd">Notation</dt>
+<dd class="field-odd"><div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="n">Iter</span> <span class="n">iter</span><span class="p">;</span>
+<span class="k">auto</span> <span class="n">first</span> <span class="o">=</span> <span class="n">ops</span><span class="o">::</span><span class="n">begin</span><span class="p">(</span><span class="n">iter</span><span class="p">);</span>
+<span class="k">auto</span> <span class="n">last</span>  <span class="o">=</span> <span class="n">ops</span><span class="o">::</span><span class="n">end</span><span class="p">(</span><span class="n">iter</span><span class="p">);</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p>A variable which can provide a readable, notional sequence of elements via models of <a class="reference internal" href="#_CPPv3I0EX8VariableI2ItEEN5annex13InputIteratorE" title="annex::InputIterator"><code class="xref cpp cpp-any docutils literal"><span class="pre">InputIterator</span></code></a> provided
+through the <code class="xref cpp cpp-any docutils literal"><span class="pre">ops::begin</span></code> and <code class="xref cpp cpp-any docutils literal"><span class="pre">ops::end</span></code> operations:</p>
+<div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="k">auto</span> <span class="n">first</span> <span class="o">=</span> <span class="n">ops</span><span class="o">::</span><span class="n">begin</span><span class="p">(</span><span class="n">iter</span><span class="p">);</span>
+<span class="k">auto</span> <span class="n">last</span>  <span class="o">=</span> <span class="n">ops</span><span class="o">::</span><span class="n">end</span><span class="p">(</span><span class="n">iter</span><span class="p">);</span>
+<span class="k">for</span><span class="p">(;</span> <span class="n">first</span> <span class="o">!=</span> <span class="n">last</span><span class="p">;</span> <span class="o">++</span><span class="n">first</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">auto</span><span class="o">&amp;&amp;</span> <span class="n">elem</span> <span class="o">=</span> <span class="o">*</span><span class="n">first</span><span class="p">;</span>
+    <span class="c1">// use elem</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Requirements</dt>
+<dd class="field-odd"><p><code class="xref cpp cpp-any docutils literal"><span class="pre">ops::begin(iter)</span></code>, <code class="xref cpp cpp-any docutils literal"><span class="pre">ops::end(iter)</span></code>: obtain an initial and final <a class="reference internal" href="#_CPPv3I0EX8VariableI2ItEEN5annex13InputIteratorE" title="annex::InputIterator"><code class="xref cpp cpp-any docutils literal"><span class="pre">InputIterator</span></code></a> into
+the notional sequence respectively—both results must have identical types, and <em>last</em> must be reachable from
+<em>first</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="invocation">
+<h3>Invocation<a class="headerlink" href="#invocation" title="Permalink to this headline">¶</a></h3>
+<dl class="var">
+<dt id="_CPPv3N5annex6invokeE">
+<span id="_CPPv2N5annex6invokeE"></span><span id="annex::invoke__functors::invoke"></span><em class="property">constexpr</em> functors::invoke <code class="descname">invoke</code><a class="headerlink" href="#_CPPv3N5annex6invokeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><dl class="function">
+<dt id="_CPPv3I0DpENK5annex6invokeclERR4FuncDpRR4Args">
+<span id="_CPPv2I0DpENK5annex6invokeclERR4FuncDpRR4Args"></span>template&lt;typename <code class="descname">Func</code>, typename ...<code class="descname">Args</code>&gt;<br /><em class="property">constexpr</em> unspecified <code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv3I0DpENK5annex6invokeclERR4FuncDpRR4Args" title="annex::invoke::operator()::Func">Func</a> &amp;&amp;<em>func</em>, <a class="reference internal" href="#_CPPv3I0DpENK5annex6invokeclERR4FuncDpRR4Args" title="annex::invoke::operator()::Args">Args</a>&amp;&amp;... <em>args</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3I0DpENK5annex6invokeclERR4FuncDpRR4Args" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Invoke <em>func</em> given arguments <em>args…</em>. This is an implementation of the Standard <em>INVOKE</em> protocol with no
+given converted return type.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="var">
+<dt id="_CPPv3I0EN5annex9invoke_asE">
+<span id="_CPPv2I0EN5annex9invoke_asE"></span>template&lt;typename <code class="descname">Result</code>&gt;<br /><em class="property">constexpr</em> functors::invoke_as&lt;<a class="reference internal" href="#_CPPv3I0EN5annex9invoke_asE" title="annex::invoke_as::Result">Result</a>&gt; <code class="descname">invoke_as</code><a class="headerlink" href="#_CPPv3I0EN5annex9invoke_asE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Template Parameters</dt>
+<dd class="field-odd"><p><strong>Result</strong> – Converted return type.</p>
+</dd>
+</dl>
+<dl class="function">
+<dt id="_CPPv3I0DpENK5annex9invoke_asclERR4FuncDpRR4Args">
+<span id="_CPPv2I0DpENK5annex9invoke_asclERR4FuncDpRR4Args"></span>template&lt;typename <code class="descname">Func</code>, typename ...<code class="descname">Args</code>&gt;<br /><em class="property">constexpr</em> <a class="reference internal" href="#_CPPv3I0EN5annex9invoke_asE" title="annex::invoke_as::Result">Result</a> <code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv3I0DpENK5annex9invoke_asclERR4FuncDpRR4Args" title="annex::invoke_as::operator()::Func">Func</a> &amp;&amp;<em>func</em>, <a class="reference internal" href="#_CPPv3I0DpENK5annex9invoke_asclERR4FuncDpRR4Args" title="annex::invoke_as::operator()::Args">Args</a>&amp;&amp;... <em>args</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3I0DpENK5annex9invoke_asclERR4FuncDpRR4Args" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Invoke <em>func</em> given arguments <em>args…</em> and implicitly convert the result to <a class="reference internal" href="#_CPPv3I0EN5annex9invoke_asE" title="annex::invoke_as::Result"><code class="xref cpp cpp-any docutils literal"><span class="pre">Result</span></code></a>. This is an implementation
+of the Standard <em>INVOKE</em> protocol with a given converted return type.</p>
+<p><a class="reference internal" href="#_CPPv3I0EN5annex9invoke_asE" title="annex::invoke_as::Result"><code class="xref cpp cpp-any docutils literal"><span class="pre">Result</span></code></a> may also be <code class="docutils literal"><span class="pre">void</span></code> or <code class="xref cpp cpp-any docutils literal"><span class="pre">unit_type</span></code>, in which case the result is discarded.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="concept">
+<dt id="_CPPv3I_8VariableDpEN5annex13OnceInvokableE">
+<span id="_CPPv2I_8VariableDpEN5annex13OnceInvokableE"></span>template&lt;<a class="reference internal" href="#_CPPv3I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a> <code class="descname">Func</code>, typename ...<code class="descname">Args</code>&gt;<br /><em class="property">concept </em><code class="descname">OnceInvokable</code><a class="headerlink" href="#_CPPv3I_8VariableDpEN5annex13OnceInvokableE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv3I0DpEN5annex17OnceInvokableTypeE">
+<span id="_CPPv2I0DpEN5annex17OnceInvokableTypeE"></span>template&lt;typename <code class="descname">Func</code>, typename ...<code class="descname">Args</code>&gt;<br /><em class="property">concept </em><code class="descname">OnceInvokableType</code><a class="headerlink" href="#_CPPv3I0DpEN5annex17OnceInvokableTypeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><dl class="field-list">
+<dt class="field-odd">Notation</dt>
+<dd class="field-odd"><div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="n">Func</span> <span class="n">func</span><span class="p">;</span>
+<span class="n">Args</span> <span class="n">args</span><span class="p">...;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p>A variable that can be once-invoked given some arguments. Note that the <code class="docutils literal"><span class="pre">Args</span></code> are not constrained to be models of
+<a class="reference internal" href="#_CPPv3I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Variable</span></code></a>.</p>
+<dl class="field-list">
+<dt class="field-odd">Associated expressions</dt>
+<dd class="field-odd"><div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="n">annex</span><span class="o">::</span><span class="n">invoke</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">forward</span><span class="o">&lt;</span><span class="n">Func</span><span class="o">&gt;</span><span class="p">(</span><span class="n">func</span><span class="p">),</span> <span class="n">std</span><span class="o">::</span><span class="n">forward</span><span class="o">&lt;</span><span class="n">Args</span><span class="o">&gt;</span><span class="p">(</span><span class="n">args</span><span class="p">)...);</span>
+<span class="c1">// N.B. ------^^^^^^^^^^^^^^^^^^^^^^^^</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p>Forwarding gives an opportunity to <em>func</em> to optimise the invocation, but it means that <em>func</em> should be treated
+with caution if the invocation was final in the case that <em>func</em> was effectively moved from:</p>
+<div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">Func</span><span class="p">,</span> <span class="k">typename</span><span class="p">...</span> <span class="n">Params</span><span class="o">&gt;</span>
+<span class="kt">void</span> <span class="n">example</span><span class="p">(</span><span class="n">Func</span><span class="o">&amp;&amp;</span> <span class="n">func</span><span class="p">,</span> <span class="n">Params</span> <span class="k">const</span><span class="o">&amp;</span><span class="p">...</span> <span class="n">params</span><span class="p">)</span>
+    <span class="n">requires</span>
+        <span class="c1">// first invocations constraint</span>
+        <span class="n">OnceInvokableType</span><span class="o">&lt;</span><span class="n">Func</span><span class="o">&amp;</span><span class="p">,</span> <span class="n">Params</span> <span class="k">const</span><span class="o">&amp;</span><span class="p">...</span><span class="o">&gt;</span>
+
+        <span class="c1">// possibly final invocation constraint</span>
+        <span class="n">OnceInvokableType</span><span class="o">&lt;</span><span class="n">Func</span><span class="p">,</span> <span class="n">Params</span> <span class="k">const</span><span class="o">&amp;</span><span class="p">...</span><span class="o">&gt;</span>
+<span class="p">{</span>
+    <span class="c1">// first invocation</span>
+    <span class="n">annex</span><span class="o">::</span><span class="n">invoke</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">params</span><span class="p">...);</span>
+    <span class="c1">// second invocation possible: func has not been forwarded</span>
+    <span class="n">annex</span><span class="o">::</span><span class="n">invoke</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">params</span><span class="p">...);</span>
+
+    <span class="c1">// possibly final invocation</span>
+    <span class="n">annex</span><span class="o">::</span><span class="n">invoke</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">forward</span><span class="o">&lt;</span><span class="n">Func</span><span class="o">&gt;</span><span class="p">(</span><span class="n">func</span><span class="p">),</span> <span class="n">params</span><span class="p">...);</span>
+
+    <span class="c1">// invoking again would be ill-advised: func may have been</span>
+    <span class="c1">// moved-from or otherwise pilfered</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="#_CPPv3I_8VariableDpEN5annex9InvokableE" title="annex::Invokable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Invokable</span></code></a>, <a class="reference internal" href="#_CPPv3I0DpEN5annex13InvokableTypeE" title="annex::InvokableType"><code class="xref cpp cpp-any docutils literal"><span class="pre">InvokableType</span></code></a></dt>
+<dd><p>Non-forwarding variants that should be preferred if <em>func</em> is not being forwarded and will be called
+repeatedly.</p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+<dl class="concept">
+<dt id="_CPPv3I_8VariableDpEN5annex9InvokableE">
+<span id="_CPPv2I_8VariableDpEN5annex9InvokableE"></span>template&lt;<a class="reference internal" href="#_CPPv3I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a> <code class="descname">Func</code>, typename ...<code class="descname">Args</code>&gt;<br /><em class="property">concept </em><code class="descname">Invokable</code><a class="headerlink" href="#_CPPv3I_8VariableDpEN5annex9InvokableE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv3I0DpEN5annex13InvokableTypeE">
+<span id="_CPPv2I0DpEN5annex13InvokableTypeE"></span>template&lt;typename <code class="descname">Func</code>, typename ...<code class="descname">Args</code>&gt;<br /><em class="property">concept </em><code class="descname">InvokableType</code><a class="headerlink" href="#_CPPv3I0DpEN5annex13InvokableTypeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><dl class="field-list">
+<dt class="field-odd">Notation</dt>
+<dd class="field-odd"><div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="n">Func</span> <span class="n">func</span><span class="p">;</span>
+<span class="n">Args</span> <span class="n">args</span><span class="p">...;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p>A variable that can be invoked repeatedly given some arguments. Note that the <code class="docutils literal"><span class="pre">Args</span></code> are not constrained to be
+models of <a class="reference internal" href="#_CPPv3I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Variable</span></code></a>.</p>
+<dl class="field-list">
+<dt class="field-odd">Associated expressions</dt>
+<dd class="field-odd"><div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="n">annex</span><span class="o">::</span><span class="n">invoke</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">forward</span><span class="o">&lt;</span><span class="n">Args</span><span class="o">&gt;</span><span class="p">(</span><span class="n">args</span><span class="p">)...);</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="#_CPPv3I_8VariableDpEN5annex13OnceInvokableE" title="annex::OnceInvokable"><code class="xref cpp cpp-any docutils literal"><span class="pre">OnceInvokable</span></code></a>, <a class="reference internal" href="#_CPPv3I0DpEN5annex17OnceInvokableTypeE" title="annex::OnceInvokableType"><code class="xref cpp cpp-any docutils literal"><span class="pre">OnceInvokableType</span></code></a></dt>
+<dd><p>Forwarding variants, applicable for one-shot invocations.</p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+<dl class="concept">
+<dt id="_CPPv3I0_8VariableDpEN5annex15OnceInvokableAsE">
+<span id="_CPPv2I0_8VariableDpEN5annex15OnceInvokableAsE"></span>template&lt;typename <code class="descname">Result</code>, <a class="reference internal" href="#_CPPv3I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a> <code class="descname">Func</code>, typename ...<code class="descname">Args</code>&gt;<br /><em class="property">concept </em><code class="descname">OnceInvokableAs</code><a class="headerlink" href="#_CPPv3I0_8VariableDpEN5annex15OnceInvokableAsE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv3I00DpEN5annex19OnceInvokableAsTypeE">
+<span id="_CPPv2I00DpEN5annex19OnceInvokableAsTypeE"></span>template&lt;typename <code class="descname">Result</code>, typename <code class="descname">Func</code>, typename ...<code class="descname">Args</code>&gt;<br /><em class="property">concept </em><code class="descname">OnceInvokableAsType</code><a class="headerlink" href="#_CPPv3I00DpEN5annex19OnceInvokableAsTypeE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv3I0_8VariableDpEN5annex11InvokableAsE">
+<span id="_CPPv2I0_8VariableDpEN5annex11InvokableAsE"></span>template&lt;typename <code class="descname">Result</code>, <a class="reference internal" href="#_CPPv3I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a> <code class="descname">Func</code>, typename ...<code class="descname">Args</code>&gt;<br /><em class="property">concept </em><code class="descname">InvokableAs</code><a class="headerlink" href="#_CPPv3I0_8VariableDpEN5annex11InvokableAsE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv3I00DpEN5annex15InvokableAsTypeE">
+<span id="_CPPv2I00DpEN5annex15InvokableAsTypeE"></span>template&lt;typename <code class="descname">Result</code>, typename <code class="descname">Func</code>, typename ...<code class="descname">Args</code>&gt;<br /><em class="property">concept </em><code class="descname">InvokableAsType</code><a class="headerlink" href="#_CPPv3I00DpEN5annex15InvokableAsTypeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Variants of <a class="reference internal" href="#_CPPv3I_8VariableDpEN5annex13OnceInvokableE" title="annex::OnceInvokable"><code class="xref cpp cpp-any docutils literal"><span class="pre">OnceInvokable</span></code></a> and <a class="reference internal" href="#_CPPv3I_8VariableDpEN5annex9InvokableE" title="annex::Invokable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Invokable</span></code></a> except specified in terms of <a class="reference internal" href="#_CPPv3I0EN5annex9invoke_asE" title="annex::invoke_as"><code class="xref cpp cpp-any docutils literal"><span class="pre">annex::invoke_as&lt;Result&gt;</span></code></a>
+instead of <a class="reference internal" href="#_CPPv3N5annex6invokeE" title="annex::invoke"><code class="xref cpp cpp-any docutils literal"><span class="pre">annex::invoke</span></code></a>.</p>
+</dd></dl>
+
+<dl class="concept">
+<dt id="_CPPv3I_8VariableDpEN5annex9PredicateE">
+<span id="_CPPv2I_8VariableDpEN5annex9PredicateE"></span>template&lt;<a class="reference internal" href="#_CPPv3I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a> <code class="descname">Pred</code>, typename ...<code class="descname">Args</code>&gt;<br /><em class="property">concept </em><code class="descname">Predicate</code><a class="headerlink" href="#_CPPv3I_8VariableDpEN5annex9PredicateE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv3I0DpEN5annex13PredicateTypeE">
+<span id="_CPPv2I0DpEN5annex13PredicateTypeE"></span>template&lt;typename <code class="descname">Pred</code>, typename ...<code class="descname">Args</code>&gt;<br /><em class="property">concept </em><code class="descname">PredicateType</code><a class="headerlink" href="#_CPPv3I0DpEN5annex13PredicateTypeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><dl class="field-list">
+<dt class="field-odd">Notation</dt>
+<dd class="field-odd"><div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="n">Pred</span> <span class="n">pred</span><span class="p">;</span>
+<span class="n">Args</span> <span class="n">args</span><span class="p">...;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p>A refinement of <a class="reference internal" href="#_CPPv3I_8VariableDpEN5annex9InvokableE" title="annex::Invokable"><code class="xref cpp cpp-any docutils literal"><span class="pre">Invokable&lt;Pred,</span> <span class="pre">Args...&gt;</span></code></a>, which further requires that the invocation
+result must be a model of <code class="xref cpp cpp-any docutils literal"><span class="pre">ContextualBool</span></code>.</p>
+<dl class="field-list">
+<dt class="field-odd">Associated expressions</dt>
+<dd class="field-odd"><div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="kt">bool</span> <span class="p">{</span> <span class="n">annex</span><span class="o">::</span><span class="n">invoke</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">forward</span><span class="o">&lt;</span><span class="n">Args</span><span class="o">&gt;</span><span class="p">(</span><span class="n">args</span><span class="p">)...)</span> <span class="p">};</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="concept">
+<dt id="_CPPv3I_8Variable00EN5annex11EquivalenceE">
+<span id="_CPPv2I_8Variable00EN5annex11EquivalenceE"></span>template&lt;<a class="reference internal" href="#_CPPv3I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a> <code class="descname">Pred</code>, typename <code class="descname">Lhs</code>, typename <code class="descname">Rhs</code> = <a class="reference internal" href="#_CPPv3I_8Variable00EN5annex11EquivalenceE" title="annex::Equivalence::Lhs">Lhs</a>&gt;<br /><em class="property">concept </em><code class="descname">Equivalence</code><a class="headerlink" href="#_CPPv3I_8Variable00EN5annex11EquivalenceE" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv3I000EN5annex15EquivalenceTypeE">
+<span id="_CPPv2I000EN5annex15EquivalenceTypeE"></span>template&lt;typename <code class="descname">Pred</code>, typename <code class="descname">Lhs</code>, typename <code class="descname">Rhs</code> = <a class="reference internal" href="#_CPPv3I000EN5annex15EquivalenceTypeE" title="annex::EquivalenceType::Lhs">Lhs</a>&gt;<br /><em class="property">concept </em><code class="descname">EquivalenceType</code><a class="headerlink" href="#_CPPv3I000EN5annex15EquivalenceTypeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><dl class="field-list">
+<dt class="field-odd">Notation</dt>
+<dd class="field-odd"><div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="n">Pred</span> <span class="n">pred</span><span class="p">;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p>A refinement of <a class="reference internal" href="#_CPPv3I_8VariableDpEN5annex9PredicateE" title="annex::Predicate"><code class="xref cpp cpp-any docutils literal"><span class="pre">Predicate</span></code></a> (see additional requirements) where <em>pred</em> induces an equivalence relation, meaning it
+respects the axioms of reflexivity, symmetry, and transitivity when called on arguments with types <a class="reference internal" href="#_CPPv3I000EN5annex15EquivalenceTypeE" title="annex::EquivalenceType::Lhs"><code class="xref cpp cpp-any docutils literal"><span class="pre">Lhs</span></code></a> or <a class="reference internal" href="#_CPPv3I000EN5annex15EquivalenceTypeE" title="annex::EquivalenceType::Rhs"><code class="xref cpp cpp-any docutils literal"><span class="pre">Rhs</span></code></a>.</p>
+<dl class="field-list">
+<dt class="field-odd">Additional requirements</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#_CPPv3I_8VariableDpEN5annex9PredicateE" title="annex::Predicate"><code class="xref cpp cpp-any docutils literal"><span class="pre">Predicate&lt;Pred,</span> <span class="pre">Lhs,</span> <span class="pre">Lhs&gt;</span></code></a></p>
+<p><a class="reference internal" href="#_CPPv3I_8VariableDpEN5annex9PredicateE" title="annex::Predicate"><code class="xref cpp cpp-any docutils literal"><span class="pre">Predicate&lt;Pred,</span> <span class="pre">Rhs,</span> <span class="pre">Rhs&gt;</span></code></a></p>
+<p><a class="reference internal" href="#_CPPv3I_8VariableDpEN5annex9PredicateE" title="annex::Predicate"><code class="xref cpp cpp-any docutils literal"><span class="pre">Predicate&lt;Pred,</span> <span class="pre">Lhs,</span> <span class="pre">Rhs&gt;</span></code></a></p>
+<p><a class="reference internal" href="#_CPPv3I_8VariableDpEN5annex9PredicateE" title="annex::Predicate"><code class="xref cpp cpp-any docutils literal"><span class="pre">Predicate&lt;Pred,</span> <span class="pre">Rhs,</span> <span class="pre">Rhs&gt;</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="various">
+<h3>Various<a class="headerlink" href="#various" title="Permalink to this headline">¶</a></h3>
+<dl class="concept">
+<dt id="_CPPv3I0EX8VariableI3IntEEN5annex8IntegralE">
+<span id="_CPPv2I0EX8VariableI3IntEEN5annex8IntegralE"></span><a class="reference internal" href="#_CPPv3I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a>{<code class="descname">Int</code>}<br /><em class="property">concept </em><code class="descname">Integral</code><a class="headerlink" href="#_CPPv3I0EX8VariableI3IntEEN5annex8IntegralE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><code class="xref cpp cpp-any docutils literal"><span class="pre">std::is_integral_v</span></code> in <a class="reference internal" href="#concepts-for-variables"><span class="std std-ref">Concepts for variables</span></a> form.</p>
+</dd></dl>
+
+<dl class="concept">
+<dt id="_CPPv3I0EX8VariableI3IntEEN5annex14SignedIntegralE">
+<span id="_CPPv2I0EX8VariableI3IntEEN5annex14SignedIntegralE"></span><a class="reference internal" href="#_CPPv3I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a>{<code class="descname">Int</code>}<br /><em class="property">concept </em><code class="descname">SignedIntegral</code><a class="headerlink" href="#_CPPv3I0EX8VariableI3IntEEN5annex14SignedIntegralE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>A refinement of <a class="reference internal" href="#_CPPv3I0EX8VariableI3IntEEN5annex8IntegralE" title="annex::Integral"><code class="xref cpp cpp-any docutils literal"><span class="pre">Integral</span></code></a> for signed integer types.</p>
+</dd></dl>
+
+<dl class="concept">
+<dt id="_CPPv3I_8Variable_8VariableEN5annex18EqualityComparableE">
+<span id="_CPPv2I_8Variable_8VariableEN5annex18EqualityComparableE"></span>template&lt;<a class="reference internal" href="#_CPPv3I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a> <code class="descname">Lhs</code>, <a class="reference internal" href="#_CPPv3I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a> <code class="descname">Rhs</code> = <a class="reference internal" href="#_CPPv3I_8Variable_8VariableEN5annex18EqualityComparableE" title="annex::EqualityComparable::Lhs">Lhs</a>&gt;<br /><em class="property">concept </em><code class="descname">EqualityComparable</code><a class="headerlink" href="#_CPPv3I_8Variable_8VariableEN5annex18EqualityComparableE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><dl class="field-list">
+<dt class="field-odd">Notation</dt>
+<dd class="field-odd"><div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="n">Lhs</span> <span class="n">lhs</span><span class="p">;</span> <span class="n">Rhs</span> <span class="n">rhs</span><span class="p">;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p>Decidable equality relation between possibly heterogeneous variables. This must induce an equivalence relation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Associated expressions</dt>
+<dd class="field-odd"><p><code class="docutils literal"><span class="pre">lhs</span> <span class="pre">==</span> <span class="pre">rhs</span></code>, <code class="docutils literal"><span class="pre">lhs</span> <span class="pre">!=</span> <span class="pre">rhs</span></code> which must be contextual booleans</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv3I0EX4TypeI4NullEEN5annex22nullable_dereference_tE">
+<span id="_CPPv2I0EX4TypeI4NullEEN5annex22nullable_dereference_tE"></span><a class="reference internal" href="#_CPPv3I0EN5annex4TypeE" title="annex::Type">Type</a>{<code class="descname">Null</code>}<br /><em class="property">using </em><code class="descname">nullable_dereference_t</code><a class="headerlink" href="#_CPPv3I0EX4TypeI4NullEEN5annex22nullable_dereference_tE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><dl class="field-list">
+<dt class="field-odd">Notation</dt>
+<dd class="field-odd"><div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="n">Null</span> <span class="n">nullable</span><span class="p">;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p>The result type of <code class="docutils literal"><span class="pre">*std::forward&lt;Null&gt;(nullable)</span></code></p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv3I0EX4TypeI4NullEEN5annex18nullable_element_tE">
+<span id="_CPPv2I0EX4TypeI4NullEEN5annex18nullable_element_tE"></span><a class="reference internal" href="#_CPPv3I0EN5annex4TypeE" title="annex::Type">Type</a>{<code class="descname">Null</code>}<br /><em class="property">using </em><code class="descname">nullable_element_t</code><a class="headerlink" href="#_CPPv3I0EX4TypeI4NullEEN5annex18nullable_element_tE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The underlying element type of a nullable variable.</p>
+</dd></dl>
+
+<dl class="concept">
+<dt id="_CPPv3I0EX8VariableI4NullEEN5annex8NullableE">
+<span id="_CPPv2I0EX8VariableI4NullEEN5annex8NullableE"></span><a class="reference internal" href="#_CPPv3I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a>{<code class="descname">Null</code>}<br /><em class="property">concept </em><code class="descname">Nullable</code><a class="headerlink" href="#_CPPv3I0EX8VariableI4NullEEN5annex8NullableE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><dl class="field-list">
+<dt class="field-odd">Notation</dt>
+<dd class="field-odd"><div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="n">Null</span> <span class="n">nullable</span><span class="p">;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p>A possibly null variable which can be tested for, indirected if non-null, and reset to a null state.</p>
+<dl class="field-list">
+<dt class="field-odd">Associated expressions</dt>
+<dd class="field-odd"><p><code class="docutils literal"><span class="pre">nullable</span></code>: must be a contextual <code class="docutils literal"><span class="pre">bool</span></code> for testing the null state; <code class="docutils literal"><span class="pre">true</span></code> indicates a non-null <em>nullable</em></p>
+<p><code class="docutils literal"><span class="pre">nullable</span> <span class="pre">=</span> <span class="pre">{}</span></code>: reset the variable to a null state, such that <code class="docutils literal"><span class="pre">!nullable</span></code> holds afterwards</p>
+<p><code class="docutils literal"><span class="pre">*std::forward&lt;Null&gt;(nullable)</span></code>: access to the indirected value on the precondition that <em>nullable</em> is non-null</p>
+</dd>
+<dt class="field-even">Associated types</dt>
+<dd class="field-even"><p><a class="reference internal" href="#_CPPv3I0EX4TypeI4NullEEN5annex22nullable_dereference_tE" title="annex::nullable_dereference_t"><code class="xref cpp cpp-any docutils literal"><span class="pre">nullable_dereference_t</span></code></a>, <a class="reference internal" href="#_CPPv3I0EX4TypeI4NullEEN5annex18nullable_element_tE" title="annex::nullable_element_t"><code class="xref cpp cpp-any docutils literal"><span class="pre">nullable_element_t</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="concept">
+<dt id="_CPPv3I_8Variable0EN5annex17StreamExtractableE">
+<span id="_CPPv2I_8Variable0EN5annex17StreamExtractableE"></span>template&lt;<a class="reference internal" href="#_CPPv3I0EX4TypeI1XEEN5annex8VariableE" title="annex::Variable">Variable</a> <code class="descname">Var</code>, typename <code class="descname">Stream</code> = std::ostream&amp;&gt;<br /><em class="property">concept </em><code class="descname">StreamExtractable</code><a class="headerlink" href="#_CPPv3I_8Variable0EN5annex17StreamExtractableE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><dl class="field-list">
+<dt class="field-odd">Notation</dt>
+<dd class="field-odd"><div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="n">Var</span> <span class="n">extractable</span><span class="p">;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p>A variable which can be extracted from a stream.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Associated expression</dt>
+<dd class="field-odd"><p><code class="docutils literal"><span class="pre">std::declval&lt;Stream&amp;&gt;()</span> <span class="pre">&gt;&gt;</span> <span class="pre">extractable</span></code>: extract into variable</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../study.html">Designing a Range Abstraction</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../reference.html">The annex-range library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scope.html">Scope</a></li>
+<li class="toctree-l2"><a class="reference internal" href="concepts.html">Concepts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operations.html">Operations &amp; functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sources.html">Sources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="consumers.html">Consumers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transformations.html">Transformations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="compositions.html">Compositions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arrangements.html">Arrangements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common.html">Common</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Annex quick reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#concepts-for-variables">Concepts for variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#forward-storing">Forward Storing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#function">Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#simple-model">Simple model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#concepts">Concepts</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#base-convenience-concepts">Base &amp; convenience concepts</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#construction">Construction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#iterators">Iterators</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#invocation">Invocation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#various">Various</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../reference.html#how-to-read-the-reference">How to read the reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About this document</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="common.html"
+                        title="previous chapter">Common</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../about.html"
+                        title="next chapter">About this document</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/reference/annex.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../about.html" title="About this document"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="common.html" title="Common"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">annex-range 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../reference.html" >The annex-range library</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, mickk.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7+.
+    </div>
+  </body>
+</html>

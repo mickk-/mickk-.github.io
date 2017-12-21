@@ -1,0 +1,492 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>The litmus test for ranges &#8212; annex-range 0.1.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/styles.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="../../../about.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Traversal consistency" href="information.html" />
+    <link rel="prev" title="Representation" href="../representation.html" /> 
+  </head><body>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(".collapsed > *").hide();
+        $("div.collapsed > p.admonition-title").show();
+        $("div.collapsed").children("p.admonition-title").toggleClass("closed");
+        $("table.collapsed > caption").show();
+        $("table.collapsed").children("caption").toggleClass("closed");
+        const collapse_duration = 300;
+        for(selector of [".collapsed", ".collapsible"]) {
+            $(`div${selector} > p.admonition-title`).click(function() {
+                $(this).parent().children().not("p.admonition-title").toggle(collapse_duration);
+                $(this).parent().children("p.admonition-title").toggleClass("closed");
+            });
+            $(`table${selector} > caption`).click(function(ev) {
+                // crude way to avoid intercepting a click on the anchor link
+                if(ev.target.nodeName == "A") {
+                    return;
+                }
+                $(this).parent().children().not("caption").toggle(collapse_duration);
+                $(this).parent().children("caption").toggleClass("closed");
+            })
+        }
+    });
+</script>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="information.html" title="Traversal consistency"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../representation.html" title="Representation"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">annex-range 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../study.html" >Designing a Range Abstraction</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../representation.html" accesskey="U">Representation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="the-litmus-test-for-ranges">
+<h1>The litmus test for ranges<a class="headerlink" href="#the-litmus-test-for-ranges" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="iterables-ranges">
+<h2>Iterables &amp; Ranges<a class="headerlink" href="#iterables-ranges" title="Permalink to this headline">¶</a></h2>
+<p>As we noted in the <a class="reference internal" href="../../iteration.html#fundamentals"><span class="std std-ref">Fundamentals</span></a>, if the goal of a well-designed iteration abstraction is to give the means to the
+programmer to manipulate abstract sequences then it may achieve so by providing concrete and practical representations
+of these sequences. We intend here to give precise meanings to these representations. To this end we have devised a
+litmus test: what should happen in a program which iterates multiple times over the elements of a sequence
+representation?</p>
+<p>Consider for instance this function that processes the first up to five elements of its argument twice in a row:</p>
+<div class="highlight-container highlight-C++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">Arg</span><span class="o">&gt;</span>
+<span class="kt">void</span> <span class="n">litmus_test</span><span class="p">(</span><span class="n">Arg</span> <span class="n">arg</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">counter</span><span class="p">;</span>
+
+    <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">for</span> <span class="n">elem</span> <span class="n">in</span> <span class="n">arg</span> <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="o">++</span><span class="n">counter</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="n">process</span><span class="p">(</span><span class="n">elem</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">for</span> <span class="n">elem</span> <span class="n">in</span> <span class="n">arg</span> <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="o">++</span><span class="n">counter</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="n">process</span><span class="p">(</span><span class="n">elem</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It is not our intention here to define notions in terms of the C++ ecosystem. To make that explicit we use the
+straw syntax <code class="docutils literal"><span class="pre">for</span> <span class="pre">elem</span> <span class="pre">in</span> <span class="pre">arg</span></code> to stand for traversing a sequence abstraction, regardless of specifics. This
+should not be confused with actual C++ syntax e.g. <code class="docutils literal"><span class="pre">for(auto&amp;&amp;</span> <span class="pre">elem:</span> <span class="pre">arg)</span></code>.</p>
+</div>
+<p>Suppose we pass to this function an argument which stands for the notional sequence of integers
+<span class="math">\(\mathopen{}\left\{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 \mathclose{}\right\}\)</span>, and suppose that the
+processing consists of printing each element. There are two possible reasonable outcomes:</p>
+<ul class="simple">
+<li><p>the first traversal prints the integers from <span class="math">\(0\)</span> to <span class="math">\(4\)</span> (inclusive); and the second does so as well</p></li>
+<li><p>the first traversal prints the integers from <span class="math">\(0\)</span> to <span class="math">\(4\)</span>; the second from <span class="math">\(5\)</span> to <span class="math">\(9\)</span></p></li>
+</ul>
+<p>In this chapter, we will designate any practical representation of a sequence an <em class="dfn">iterable</em> if and only if it leads
+to the first outcome when used as an argument to the litmus test. A representation that results in the second outcome is
+a <em class="dfn">range</em>. Their respective defining properties, which informed how we built the litmus test, are as follows:</p>
+<dl class="simple">
+<dt>Range</dt>
+<dd><p>A precise, embodied iteration state. It evolves in the course of iteration, and to pause iteration is to suspend this
+state as if taking a snapshot. Once iteration is resumed from such a suspended state the course goes on from where it
+stopped.</p>
+</dd>
+<dt>Iterable</dt>
+<dd><p>A representation from which a canonical range can be produced. In a strict setting each such produced range is its
+own separate state, independent from any other: traversing a given, produced range has no effect on traversing
+another one.</p>
+</dd>
+</dl>
+<table class="collapsed docutils" id="id3">
+<caption><span class="caption-text">Iteration abstractions and their iterables &amp; ranges</span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 23%" />
+<col style="width: 39%" />
+<col style="width: 39%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Iteration abstraction</p></th>
+<th class="head"><p>Ranges</p></th>
+<th class="head"><p>Iterables</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Loops</p></td>
+<td><p>implicit in the loop variables
+and loop statement</p></td>
+<td><p>ad hoc</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="http://en.cppreference.com/w/cpp/concept/Iterator">C++ iterators</a></p></td>
+<td><p>implicit or explicit pairs of iterators</p></td>
+<td><p>ill-defined (<code class="docutils literal"><span class="pre">begin</span></code> and <code class="docutils literal"><span class="pre">end</span></code>
+pair of operations)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#typeiter">Python iterators</a></p></td>
+<td><p>iterators</p></td>
+<td><p><a class="reference external" href="https://docs.python.org/3/glossary.html#term-iterable">iterables</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://dlang.org/phobos/std_range.html">D ranges</a></p></td>
+<td><p>ranges (conforming to the <a class="reference external" href="https://dlang.org/phobos/std_range_primitives.html">range
+primitives</a>)</p></td>
+<td><p>not defined</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://doc.rust-lang.org/std/iter/index.html">Rust iterators</a></p></td>
+<td><p>iterators (<a class="reference external" href="https://doc.rust-lang.org/std/iter/trait.Iterator.html"><code class="xref cpp cpp-any docutils literal"><span class="pre">Iterator</span></code></a> trait)</p></td>
+<td><p>types implementing the
+<a class="reference external" href="https://doc.rust-lang.org/std/iter/trait.IntoIterator.html"><code class="xref cpp cpp-any docutils literal"><span class="pre">IntoIterator</span></code></a> trait</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://msdn.microsoft.com/en-us/library/78dfe2yb%28v=vs.110%29.aspx">C# enumerators</a></p></td>
+<td><p>enumerators (<a class="reference external" href="https://msdn.microsoft.com/en-us/library/78dfe2yb%28v=vs.110%29.aspx"><code class="xref cpp cpp-any docutils literal"><span class="pre">IEnumerator</span></code></a> interface)</p></td>
+<td><p>enumerables (<a class="reference external" href="https://msdn.microsoft.com/en-us/library/system.collections.ienumerable(v=vs.110).aspx"><code class="xref cpp cpp-any docutils literal"><span class="pre">IEnumerable</span></code></a> interface)</p></td>
+</tr>
+</tbody>
+</table>
+<p>It is apparent from the fact that its definition depends on the definition of a range that the notion of an iterable is
+a supporting concept. That being said, iterables are no less important or useful. For instance ecosystems tend to have
+convenience syntax for working over sequences, and most of those operate over iterables and not ranges:</p>
+<table class="docutils">
+<colgroup>
+<col style="width: 23%" />
+<col style="width: 39%" />
+<col style="width: 39%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Iteration abstraction</p></th>
+<th class="head"><p>Convenience traversal syntax</p></th>
+<th class="head"><p>Syntax operates on…</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Loops</p></td>
+<td><p>traditional <code class="docutils literal"><span class="pre">for</span></code>, <code class="docutils literal"><span class="pre">while</span></code>, etc.
+loops</p></td>
+<td><p>n/a</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="http://en.cppreference.com/w/cpp/concept/Iterator">C++ iterators</a></p></td>
+<td><div class="highlight-container highlight-C++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="k">for</span><span class="p">(</span><span class="k">auto</span><span class="o">&amp;&amp;</span> <span class="nl">elem</span><span class="p">:</span> <span class="n">iterable</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">process</span><span class="p">(</span><span class="n">elem</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</td>
+<td><p>quasi-iterables<a class="footnote-reference brackets" href="#quasi-iterables" id="id1">1</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#typeiter">Python iterators</a></p></td>
+<td><div class="highlight-container highlight-Python" data-highlight-language="Python"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>
+    <span class="n">process</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+<td><p>iterables (<a class="reference external" href="https://docs.python.org/3/glossary.html#term-iterable">Python iterables</a>)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://dlang.org/phobos/std_range.html">D ranges</a></p></td>
+<td><div class="highlight-container highlight-D" data-highlight-language="D"><div class="highlight"><pre><span></span><span class="k">foreach</span><span class="p">(</span><span class="n">elem</span><span class="p">;</span> <span class="n">rng</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">process</span><span class="p">(</span><span class="n">elem</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</td>
+<td><p>ranges (<a class="reference external" href="https://dlang.org/phobos/std_range_primitives.html">D range primitives</a>)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://doc.rust-lang.org/std/iter/index.html">Rust iterators</a></p></td>
+<td><div class="highlight-container highlight-Rust" data-highlight-language="Rust"><div class="highlight"><pre><span></span><span class="k">for</span><span class="w"> </span><span class="n">elem</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">iterable</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">process</span><span class="p">(</span><span class="n">elem</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</td>
+<td><p>iterables (<a class="reference external" href="https://doc.rust-lang.org/std/iter/trait.IntoIterator.html">Rust <code class="xref cpp cpp-any docutils literal"><span class="pre">IntoIterator</span></code></a>),
+but see note<a class="footnote-reference brackets" href="#rust-loops" id="id2">2</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://msdn.microsoft.com/en-us/library/78dfe2yb%28v=vs.110%29.aspx">C# enumerators</a></p></td>
+<td><div class="highlight-container highlight-C#" data-highlight-language="C#"><div class="highlight"><pre><span></span><span class="k">foreach</span><span class="p">(</span><span class="kt">var</span> <span class="n">elem</span> <span class="k">in</span> <span class="n">enumerable</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">process</span><span class="p">(</span><span class="n">elem</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</td>
+<td><p>iterables (<a class="reference external" href="https://msdn.microsoft.com/en-us/library/system.collections.ienumerable(v=vs.110).aspx">C# <code class="xref cpp cpp-any docutils literal"><span class="pre">IEnumerable</span></code></a>)</p></td>
+</tr>
+</tbody>
+</table>
+<p>Notes:</p>
+<dl class="footnote brackets">
+<dt class="label" id="quasi-iterables"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>The <code class="docutils literal"><span class="pre">begin()</span></code>/<code class="docutils literal"><span class="pre">end()</span></code> protocol of C++ is too under-specified to conclusively say that the
+ecosystem exhibits iterables.</p>
+</dd>
+<dt class="label" id="rust-loops"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p>Mutably borrowing a <a class="reference external" href="https://doc.rust-lang.org/std/iter/trait.Iterator.html">Rust <code class="xref cpp cpp-any docutils literal"><span class="pre">Iterator</span></code></a> allows for what is functionally the same as looping over ranges.
+The trait exposes this functionality with its <a class="reference external" href="https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.by_ref"><em class="pre quoted-variable">by_ref</em></a> convenience method, giving the user two alternative ways of
+doing the same:</p>
+<div class="highlight-container highlight-Rust" data-highlight-language="Rust"><div class="highlight"><pre><span></span><span class="kd">let</span><span class="w"> </span><span class="n">iterable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_</span><span class="p">;</span><span class="w"></span>
+<span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">it</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iterable</span><span class="p">.</span><span class="n">into_iter</span><span class="p">();</span><span class="w"></span>
+
+<span class="c1">// loop over up to the first five elements</span>
+<span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="hll"><span class="k">for</span><span class="w"> </span><span class="n">elem</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="n">it</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+</span><span class="w">    </span><span class="n">process</span><span class="p">(</span><span class="n">elem</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">counter</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="c1">// loop over all remaining elements</span>
+<span class="hll"><span class="k">for</span><span class="w"> </span><span class="n">elem</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">it</span><span class="p">.</span><span class="n">by_ref</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+</span><span class="w">    </span><span class="n">process</span><span class="p">(</span><span class="n">elem</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="c1">// it is now empty</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p>The essence of the litmus test is to capture the following design questions: should a piece of code work on ranges, on
+iterables, or both? What semantical difference does either kind of sequence representation entail for that particular
+piece of code? These questions apply not just to traversal syntax, but also to any interface wishing to use an iteration
+abstraction.</p>
+</div>
+<div class="section" id="incomplete-semantics-of-copying">
+<h2>Incomplete semantics of copying<a class="headerlink" href="#incomplete-semantics-of-copying" title="Permalink to this headline">¶</a></h2>
+<p>The distinction between an iterable and a range can also be reframed in terms of copying. For instance the archetypical
+iterable is a container, such as one providing backing storage for concrete elements living in program memory. When such
+a container is copied, so are its contents—a potentially expensive operation with clear-cut semantics:</p>
+<div class="highlight-container highlight-C++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">elems</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span> <span class="p">};</span>
+
+<span class="c1">// linear complexity with respect to elems.size()</span>
+<span class="k">auto</span> <span class="n">copy</span> <span class="o">=</span> <span class="n">elems</span><span class="p">;</span>
+
+<span class="c1">// the copy has distinct elements from the original</span>
+<span class="n">assert</span><span class="p">(</span> <span class="o">&amp;</span><span class="n">elems</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="o">&amp;</span><span class="n">copy</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">);</span>
+</pre></div>
+</div>
+<p>In comparison, to copy a range is to copy exactly that amount of information which is necessary to preserve traversal
+state. It need not entail a copy of elements:</p>
+<div class="highlight-container highlight-C++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">elems</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span> <span class="p">};</span>
+
+<span class="k">struct</span> <span class="n">iter_state</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="kt">ptrdiff_t</span> <span class="n">start</span> <span class="p">{},</span> <span class="n">stop</span> <span class="p">{};</span>
+<span class="p">};</span>
+<span class="n">iter_state</span> <span class="n">state</span> <span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="kt">ptrdiff_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">elems</span><span class="p">.</span><span class="n">size</span><span class="p">())</span> <span class="p">};</span>
+
+<span class="c1">// simple copy of two std::ptrdiff_t values regardless of elems.size()</span>
+<span class="k">auto</span> <span class="n">copy</span> <span class="o">=</span> <span class="n">state</span><span class="p">;</span>
+
+<span class="c1">// the original and copy each embody a separate traversal state</span>
+<span class="c1">// in this case they happen to refer to the same objects</span>
+<span class="n">assert</span><span class="p">(</span> <span class="o">&amp;</span><span class="n">elems</span><span class="p">[</span><span class="n">state</span><span class="p">.</span><span class="n">start</span><span class="p">]</span> <span class="o">==</span> <span class="o">&amp;</span><span class="n">elems</span><span class="p">[</span><span class="n">copy</span><span class="p">.</span><span class="n">start</span><span class="p">]</span> <span class="p">);</span>
+
+<span class="c1">// do one traversal using the original state</span>
+<span class="k">for</span><span class="p">(;</span> <span class="n">state</span><span class="p">.</span><span class="n">start</span> <span class="o">!=</span> <span class="n">state</span><span class="p">.</span><span class="n">stop</span><span class="p">;</span> <span class="o">++</span><span class="n">state</span><span class="p">.</span><span class="n">start</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">process</span><span class="p">(</span><span class="n">elems</span><span class="p">[</span><span class="n">state</span><span class="p">.</span><span class="n">start</span><span class="p">]);</span>
+<span class="p">}</span>
+
+<span class="c1">// using the original did not affect the copy, so we can</span>
+<span class="c1">// perform another traversal</span>
+<span class="k">for</span><span class="p">(;</span> <span class="n">copy</span><span class="p">.</span><span class="n">start</span> <span class="o">!=</span> <span class="n">copy</span><span class="p">.</span><span class="n">stop</span><span class="p">;</span> <span class="o">++</span><span class="n">copy</span><span class="p">.</span><span class="n">start</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">process</span><span class="p">(</span><span class="n">elems</span><span class="p">[</span><span class="n">copy</span><span class="p">.</span><span class="n">start</span><span class="p">]);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>We go so far as claiming that a well-designed iteration abstraction should in fact <a class="tradeoff-icon reference internal" href="../../../study.html#designers-tradeoff"><span class="std std-ref"></span></a><strong class="tradeoff">require</strong> of its ranges
+that their operations of copying and moving (in languages with move semantics or equivalent) should take constant time
+complexity with respect to the number of elements of its associated notional sequence. These constraining guarantees
+make it possible for users to tightly reason about the code they write.</p>
+</div>
+<div class="section" id="ranges-as-self-iterables">
+<h2>Ranges as self-iterables<a class="headerlink" href="#ranges-as-self-iterables" title="Permalink to this headline">¶</a></h2>
+<p>If an iterable is a sequence representation from which an associated range can be produced, then taken to its logical
+conclusion each range is an iterable insofar as it can very well be its own associated range. We must take care to
+articulate this relationship precisely however, consider the following Python session:</p>
+<div class="highlight-container highlight-Python" data-highlight-language="Python"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">iterable</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="c1">#1</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">iterable</span><span class="p">))</span>
+<span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">list</span><span class="p">(</span><span class="n">iterable</span><span class="p">)</span>
+<span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="c1">#2</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">copy</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">it</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">iterable</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="n">copy</span><span class="p">(</span><span class="n">it</span><span class="p">)))</span>
+<span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">list</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
+<span class="p">[]</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="c1">#3</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">it</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">iterable</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="n">it</span><span class="p">))</span>
+<span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)]</span>
+</pre></div>
+</div>
+<p>All three examples are designed to showcase zipping a notional sequence with itself, producing a new sequence of pairs
+of elements drawn from the zip arguments. However all three snippets also operate on different representations of the
+same notional sequence <span class="math">\(\mathopen{}\left\{ 0, 1, 2, 3, 4, 5 \mathclose{}\right\}\)</span> of integers:</p>
+<ul class="simple">
+<li><p>the result <em class="pre quoted-variable">iterable</em> of a call to <code class="xref py py-func docutils literal"><span class="pre">range()</span></code> is an iterable object</p></li>
+<li><p>the result <em class="pre quoted-variable">it</em> of a call to <code class="xref py py-func docutils literal"><span class="pre">iter()</span></code> is a fresh range (i.e. a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#typeiter">Python iterator</a>)</p></li>
+<li><p>the result of the <code class="docutils literal"><span class="pre">copy(it)</span></code> call is a fresh copy of the iteration state embodied by <em class="pre quoted-variable">it</em></p></li>
+</ul>
+<p>Consequently the differences in choice of representation explain the various results of each snippet:</p>
+<ol class="arabic">
+<li><p>each iterable argument is used to produce a respective fresh range, so #1 has the semantics of <code class="docutils literal"><span class="pre">zip(iter(iterable),</span>
+<span class="pre">iter(iterable))</span></code> and each pair of the result draws its element from separate iterator objects</p></li>
+<li><p>when operating over iterators, <code class="xref py py-func docutils literal"><span class="pre">zip()</span></code> directly uses and mutates the objects referenced by the arguments,
+which we can observe right after the call when <em class="pre quoted-variable">it</em> is empty—but because we took take care to create a copy for
+the second argument, the overall result is the same as with #1 save for those side-effects</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In the Python ecosystem, <code class="docutils literal"><span class="pre">iter(it)</span></code> would not have created a fresh copy as <code class="docutils literal"><span class="pre">copy(it)</span></code> does.
+<code class="xref py py-func docutils literal"><span class="pre">copy()</span></code> must be used to demonstrate the self-iterable nature of Python iterators in the sense we intend.</p>
+</div>
+</li>
+<li><p>when passing the same iterator twice, each pair of the result draws from its elements from the the same iterator
+object that is referenced by <em class="pre quoted-variable">it</em>—producing a quite different outcome than with #1 and #2</p></li>
+</ol>
+<p>In fact, snippet #3 is a particular case of a Python idiom to group sequence elements into chunks of length <span class="math">\(n\)</span>:</p>
+<div class="highlight-container highlight-Python" data-highlight-language="Python"><div class="highlight"><pre><span></span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="nb">iter</span><span class="p">(</span><span class="n">seq</span><span class="p">)]</span> <span class="o">*</span> <span class="n">n</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>While this is reliant on side-effects on the part of the <code class="xref py py-func docutils literal"><span class="pre">zip()</span></code> implementation, <a class="reference external" href="https://docs.python.org/3/library/functions.html#zip">it is guaranteed by the
+ecosystem</a>.</p>
+<p>Put together, we reach the following conclusions:</p>
+<ul class="simple">
+<li><p>the distinction between an iterable and a range is fundamental, not accidental</p></li>
+<li><p>the distinction between the two arises from semantical causes, and is not e.g. an artifact of language limitations</p></li>
+<li><p>the difference in semantics between an iterable and a range allows for writing precise programs and should be embraced
+by the designer, not ignored</p></li>
+</ul>
+<p>Next, we will be looking at the full picture of copy semantics in order to define <a class="reference internal" href="information.html"><span class="doc">Traversal consistency</span></a>.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../../index.html">Table Of Contents</a></h3>
+  <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../../study.html">Designing a Range Abstraction</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../iteration.html">Iteration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../study.html#criticism">Criticism</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../../study.html#design-elements">Design elements</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../work.html">Amount of work</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../representation.html">Representation</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">The litmus test for ranges</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#iterables-ranges">Iterables &amp; Ranges</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#incomplete-semantics-of-copying">Incomplete semantics of copying</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#ranges-as-self-iterables">Ranges as self-iterables</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="information.html">Traversal consistency</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../traversal.html">Forms of traversal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../termination.html">Termination and finiteness</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../types.html">Associated types</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference.html">The annex-range library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../about.html">About this document</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../representation.html"
+                        title="previous chapter">Representation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="information.html"
+                        title="next chapter">Traversal consistency</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/study/elements/representation/litmus.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="information.html" title="Traversal consistency"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../representation.html" title="Representation"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">annex-range 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../study.html" >Designing a Range Abstraction</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../representation.html" >Representation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, mickk.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7+.
+    </div>
+  </body>
+</html>

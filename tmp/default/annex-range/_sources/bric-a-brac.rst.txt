@@ -1,0 +1,59 @@
+:orphan:
+
+Bric-à-brac
+===========
+
+.. warning:: This is a collection of early thoughts and notes which haven't yet made it in the actual study or
+    reference. This is unfinished business, not fit for publication. If you have made your way to here, you were not
+    supposed to!
+
+More Alexandrescu-style range shortcomings
+------------------------------------------
+
+Actual D ranges are laxly specified in terms of when element work is actually performed, e.g.:
+
+.. code-block:: D
+
+    void double_ended_work()
+    {
+        import std.range;
+        import std.stdio;
+
+        auto singleton = [3];
+        writefln("front: %s; back: %s", singleton.front, singleton.back);
+
+        /* output:
+        front: 3; back: 3
+        */
+    }
+
+Which looks straightforward and innocent enough. We can however decorate the single element with some message printing
+to stand for element-producing work:
+
+.. code-block:: D
+
+    void decorated_double_ended_work()
+    {
+        import std.range;
+        import std.algorithm;
+        import std.stdio;
+
+        auto singleton = [3];
+        auto decorated = singleton.map!(function(item) { writefln("producing: %s", item); return item; });
+        writefln("front: %s; back: %s", decorated.front, decorated.back);
+
+        /* output:
+        producing: 3
+        producing: 3
+        front: 3; back: 3
+        */
+    }
+
+This is also a consequence of the presentation of double-ended ranges that exists in D, namely where performing work via
+calling either ``popFront`` or ``popBack`` is separate from selecting the current front or back elements via the
+``front`` and ``back`` properties. In the Rust ecosystem, which iterators were influenced by the work of Andrei
+Alexandrescu and D ranges, this doesn't manifest because performing the work and selecting the associated element is
+'fused' in a single operation.
+
+The study however is more interested in commenting on the ideas behind D ranges rather than the existing implementation
+at large.

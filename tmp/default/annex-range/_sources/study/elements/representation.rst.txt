@@ -1,0 +1,11 @@
+Representation
+==============
+
+.. toctree::
+    :maxdepth: 2
+    :hidden:
+
+    representation/litmus
+    representation/information
+
+In our first section we will present :doc:`representation/litmus`.

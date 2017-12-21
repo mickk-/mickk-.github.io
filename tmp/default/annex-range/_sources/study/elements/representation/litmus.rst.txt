@@ -1,0 +1,270 @@
+The litmus test for ranges
+==========================
+
+Iterables & Ranges
+------------------
+
+As we noted in the :ref:`fundamentals`, if the goal of a well-designed iteration abstraction is to give the means to the
+programmer to manipulate abstract sequences then it may achieve so by providing concrete and practical representations
+of these sequences. We intend here to give precise meanings to these representations. To this end we have devised a
+litmus test: what should happen in a program which iterates multiple times over the elements of a sequence
+representation?
+
+Consider for instance this function that processes the first up to five elements of its argument twice in a row:
+
+.. code-block:: C++
+
+    template<typename Arg>
+    void litmus_test(Arg arg)
+    {
+        int counter;
+
+        counter = 0;
+        for elem in arg {
+            if(++counter > 5) {
+                break;
+            }
+
+            process(elem);
+        }
+
+        counter = 0;
+        for elem in arg {
+            if(++counter > 5) {
+                break;
+            }
+
+            process(elem);
+        }
+    }
+
+.. note:: It is not our intention here to define notions in terms of the C++ ecosystem. To make that explicit we use the
+    straw syntax ``for elem in arg`` to stand for traversing a sequence abstraction, regardless of specifics. This
+    should not be confused with actual C++ syntax e.g. ``for(auto&& elem: arg)``.
+
+Suppose we pass to this function an argument which stands for the notional sequence of integers
+:math:`\mathopen{}\left\{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 \mathclose{}\right\}`, and suppose that the
+processing consists of printing each element. There are two possible reasonable outcomes:
+
+- the first traversal prints the integers from :math:`0` to :math:`4` (inclusive); and the second does so as well
+- the first traversal prints the integers from :math:`0` to :math:`4`; the second from :math:`5` to :math:`9`
+
+In this chapter, we will designate any practical representation of a sequence an :dfn:`iterable` if and only if it leads
+to the first outcome when used as an argument to the litmus test. A representation that results in the second outcome is
+a :dfn:`range`. Their respective defining properties, which informed how we built the litmus test, are as follows:
+
+Range
+    .. include:: ../../recaps/range.txt
+
+Iterable
+    A representation from which a canonical range can be produced. In a strict setting each such produced range is its
+    own separate state, independent from any other: traversing a given, produced range has no effect on traversing
+    another one.
+
+.. table:: Iteration abstractions and their iterables & ranges
+    :class: collapsed
+
+    .. include:: ../../recaps/iterables.txt
+
+It is apparent from the fact that its definition depends on the definition of a range that the notion of an iterable is
+a supporting concept. That being said, iterables are no less important or useful. For instance ecosystems tend to have
+convenience syntax for working over sequences, and most of those operate over iterables and not ranges:
+
+======================= ======================================= =======================================
+Iteration abstraction   Convenience traversal syntax            Syntax operates on...
+======================= ======================================= =======================================
+Loops                   traditional ``for``, ``while``, etc.    n/a
+                        loops
+|C++ iterators|_        .. code-block:: C++                     quasi-iterables\ [#quasi-iterables]_
+
+                            for(auto&& elem: iterable) {
+                                process(elem);
+                            }
+|Python iterators|_     .. code-block:: Python                  iterables (|Python iterables|_)
+
+                            for elem in iterable:
+                                process(elem)
+|D ranges|_             .. code-block:: D                       ranges (|D primitives|_)
+
+                            foreach(elem; rng) {
+                                process(elem);
+                            }
+|Rust iterators|_       .. code-block:: Rust                    iterables (|Rust IntoIterator|_),
+                                                                but see note\ [#rust-loops]_
+                            for elem in iterable {
+                                process(elem);
+                            }
+|C# enumerators|_       .. code-block:: C#                      iterables (|C# IEnumerable|_)
+
+                            foreach(var elem in enumerable) {
+                                process(elem);
+                            }
+======================= ======================================= =======================================
+
+Notes:
+
+.. [#quasi-iterables] The ``begin()``/``end()`` protocol of C++ is too under-specified to conclusively say that the
+    ecosystem exhibits iterables.
+
+.. [#rust-loops] Mutably borrowing a |Rust iterator|_ allows for what is functionally the same as looping over ranges.
+    The trait exposes this functionality with its |by_ref|_ convenience method, giving the user two alternative ways of
+    doing the same:
+
+    .. code-block:: Rust
+        :emphasize-lines: 6, 16
+
+        let iterable = _;
+        let mut it = iterable.into_iter();
+
+        // loop over up to the first five elements
+        let mut counter = 0;
+        for elem in &mut it {
+            process(elem);
+
+            counter += 1;
+            if counter >= 5 {
+                break;
+            }
+        }
+
+        // loop over all remaining elements
+        for elem in it.by_ref() {
+            process(elem);
+        }
+
+        // it is now empty
+
+    .. |by_ref| replace:: :qv:`by_ref`
+    .. _by_ref: https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.by_ref
+
+The essence of the litmus test is to capture the following design questions: should a piece of code work on ranges, on
+iterables, or both? What semantical difference does either kind of sequence representation entail for that particular
+piece of code? These questions apply not just to traversal syntax, but also to any interface wishing to use an iteration
+abstraction.
+
+Incomplete semantics of copying
+-------------------------------
+
+The distinction between an iterable and a range can also be reframed in terms of copying. For instance the archetypical
+iterable is a container, such as one providing backing storage for concrete elements living in program memory. When such
+a container is copied, so are its contents---a potentially expensive operation with clear-cut semantics:
+
+.. code-block:: C++
+
+    std::vector<int> elems = { 0, 2, 4, 6, 8 };
+
+    // linear complexity with respect to elems.size()
+    auto copy = elems;
+
+    // the copy has distinct elements from the original
+    assert( &elems[0] != &copy[0] );
+
+In comparison, to copy a range is to copy exactly that amount of information which is necessary to preserve traversal
+state. It need not entail a copy of elements:
+
+.. code-block:: C++
+
+    std::vector<int> elems = { 0, 2, 4, 6, 8 };
+
+    struct iter_state {
+        std::ptrdiff_t start {}, stop {};
+    };
+    iter_state state { 0, static_cast<std::ptrdiff_t>(elems.size()) };
+
+    // simple copy of two std::ptrdiff_t values regardless of elems.size()
+    auto copy = state;
+
+    // the original and copy each embody a separate traversal state
+    // in this case they happen to refer to the same objects
+    assert( &elems[state.start] == &elems[copy.start] );
+
+    // do one traversal using the original state
+    for(; state.start != state.stop; ++state.start) {
+        process(elems[state.start]);
+    }
+
+    // using the original did not affect the copy, so we can
+    // perform another traversal
+    for(; copy.start != copy.stop; ++copy.start) {
+        process(elems[copy.start]);
+    }
+
+We go so far as claiming that a well-designed iteration abstraction should in fact :tradeoff:`require` of its ranges
+that their operations of copying and moving (in languages with move semantics or equivalent) should take constant time
+complexity with respect to the number of elements of its associated notional sequence. These constraining guarantees
+make it possible for users to tightly reason about the code they write.
+
+Ranges as self-iterables
+------------------------
+
+If an iterable is a sequence representation from which an associated range can be produced, then taken to its logical
+conclusion each range is an iterable insofar as it can very well be its own associated range. We must take care to
+articulate this relationship precisely however, consider the following Python session:
+
+.. highlight:: Python
+
+.. doctest::
+
+    >>> iterable = range(0, 6)
+
+    >>> #1
+    >>> list(zip(iterable, iterable))
+    [(0, 0), (1, 1), (2, 2), (3, 3), (4, 4), (5, 5)]
+    >>> list(iterable)
+    [0, 1, 2, 3, 4, 5]
+
+    >>> #2
+    >>> from copy import copy
+    >>> it = iter(iterable)
+    >>> list(zip(it, copy(it)))
+    [(0, 0), (1, 1), (2, 2), (3, 3), (4, 4), (5, 5)]
+    >>> list(it)
+    []
+
+    >>> #3
+    >>> it = iter(iterable)
+    >>> list(zip(it, it))
+    [(0, 1), (2, 3), (4, 5)]
+
+.. highlight:: C++
+
+All three examples are designed to showcase zipping a notional sequence with itself, producing a new sequence of pairs
+of elements drawn from the zip arguments. However all three snippets also operate on different representations of the
+same notional sequence :math:`\mathopen{}\left\{ 0, 1, 2, 3, 4, 5 \mathclose{}\right\}` of integers:
+
+- the result :qv:`iterable` of a call to :py:func:`range` is an iterable object
+- the result :qv:`it` of a call to :py:func:`iter` is a fresh range (i.e. a |Python iterator|_)
+- the result of the ``copy(it)`` call is a fresh copy of the iteration state embodied by :qv:`it`
+
+Consequently the differences in choice of representation explain the various results of each snippet:
+
+#. each iterable argument is used to produce a respective fresh range, so #1 has the semantics of ``zip(iter(iterable),
+   iter(iterable))`` and each pair of the result draws its element from separate iterator objects
+#. when operating over iterators, :py:func:`zip` directly uses and mutates the objects referenced by the arguments,
+   which we can observe right after the call when :qv:`it` is empty---but because we took take care to create a copy for
+   the second argument, the overall result is the same as with #1 save for those side-effects
+
+   .. note:: In the Python ecosystem, ``iter(it)`` would not have created a fresh copy as ``copy(it)`` does.
+       :py:func:`copy` must be used to demonstrate the self-iterable nature of Python iterators in the sense we intend.
+#. when passing the same iterator twice, each pair of the result draws from its elements from the the same iterator
+   object that is referenced by :qv:`it`---producing a quite different outcome than with #1 and #2
+
+In fact, snippet #3 is a particular case of a Python idiom to group sequence elements into chunks of length :math:`n`:
+
+.. code-block:: Python
+
+    zip(*[iter(seq)] * n)
+
+While this is reliant on side-effects on the part of the :py:func:`zip` implementation, `it is guaranteed by the
+ecosystem <zip docs_>`_.
+
+Put together, we reach the following conclusions:
+
+- the distinction between an iterable and a range is fundamental, not accidental
+- the distinction between the two arises from semantical causes, and is not e.g. an artifact of language limitations
+- the difference in semantics between an iterable and a range allows for writing precise programs and should be embraced
+  by the designer, not ignored
+
+.. _zip docs: https://docs.python.org/3/library/functions.html#zip
+
+Next, we will be looking at the full picture of copy semantics in order to define :doc:`information`.

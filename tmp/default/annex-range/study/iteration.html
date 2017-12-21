@@ -1,0 +1,327 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Iteration &#8212; annex-range 0.1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/styles.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="C++ iterators" href="state_of_the_art/iterators.html" />
+    <link rel="prev" title="Designing a Range Abstraction" href="../study.html" /> 
+  </head><body>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(".collapsed > *").hide();
+        $("div.collapsed > p.admonition-title").show();
+        $("div.collapsed").children("p.admonition-title").toggleClass("closed");
+        $("table.collapsed > caption").show();
+        $("table.collapsed").children("caption").toggleClass("closed");
+        const collapse_duration = 300;
+        for(selector of [".collapsed", ".collapsible"]) {
+            $(`div${selector} > p.admonition-title`).click(function() {
+                $(this).parent().children().not("p.admonition-title").toggle(collapse_duration);
+                $(this).parent().children("p.admonition-title").toggleClass("closed");
+            });
+            $(`table${selector} > caption`).click(function(ev) {
+                // crude way to avoid intercepting a click on the anchor link
+                if(ev.target.nodeName == "A") {
+                    return;
+                }
+                $(this).parent().children().not("caption").toggle(collapse_duration);
+                $(this).parent().children("caption").toggleClass("closed");
+            })
+        }
+    });
+</script>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="state_of_the_art/iterators.html" title="C++ iterators"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../study.html" title="Designing a Range Abstraction"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">annex-range 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../study.html" accesskey="U">Designing a Range Abstraction</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="iteration">
+<h1>Iteration<a class="headerlink" href="#iteration" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>Iteration is a staple of procedural and imperative programming. It allows the programmer to concisely express patterns
+of repetition in the code, as best illustrated by the classical <code class="docutils literal"><span class="pre">for</span></code> statement:</p>
+<div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">!=</span> <span class="mi">15</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">demonstration</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Here, fifteen calls to the <em class="pre quoted-variable">demonstration</em> function have been condensed into three lines of code. In a sense <code class="docutils literal"><span class="pre">for</span></code>
+loops (or simply ‘loops’) act as the base abstraction of iteration. They will serve as a point of reference throughout
+the study.</p>
+<p>As is typical in programming, this starting point can be improved on by factoring recurring functionality into clearly
+delineated constructs. This allows the programmer to more easily write, review, and talk about code such as the
+following:</p>
+<div class="highlight-container highlight-C++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="k">auto</span> <span class="n">this_month_customers</span> <span class="o">=</span> <span class="n">filter</span><span class="p">(</span><span class="n">customer_ordered_this_month</span><span class="p">,</span> <span class="n">customer_database</span><span class="p">);</span>
+<span class="k">auto</span> <span class="n">pending_customers</span>    <span class="o">=</span> <span class="n">map</span><span class="p">(</span><span class="o">&amp;</span><span class="n">order</span><span class="o">::</span><span class="n">customer</span><span class="p">,</span> <span class="n">filter</span><span class="p">(</span><span class="n">order_is_pending</span><span class="p">,</span> <span class="n">order_database</span><span class="p">));</span>
+<span class="k">auto</span> <span class="n">customers</span>            <span class="o">=</span> <span class="n">concat</span><span class="p">(</span><span class="n">this_month_customers</span><span class="p">,</span> <span class="n">pending_customers</span><span class="p">);</span>
+
+<span class="k">for</span><span class="p">(</span><span class="k">auto</span><span class="o">&amp;&amp;</span> <span class="nl">customer</span><span class="p">:</span> <span class="n">customers</span><span class="p">)</span> <span class="p">{</span>
+<span class="hll">    <span class="n">handle</span><span class="p">(</span><span class="n">customer</span><span class="p">);</span>
+</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>A correct iteration abstraction makes it possible to write and reason about piecemeal iteration constructs such as
+<em class="pre quoted-variable">filter</em> and their combinations, hopefully resulting in final semantics as close as possible to the hand-rolled
+code:</p>
+<div class="highlight-container highlight-C++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="n">index_type</span> <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">index_type</span> <span class="n">end</span> <span class="o">=</span> <span class="n">customer_database</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+    <span class="k">for</span><span class="p">(;</span> <span class="n">idx</span> <span class="o">!=</span> <span class="n">end</span><span class="p">;</span> <span class="o">++</span><span class="n">end</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">auto</span><span class="o">&amp;&amp;</span> <span class="n">customer</span> <span class="o">=</span> <span class="n">customer_database</span><span class="p">.</span><span class="n">at</span><span class="p">(</span><span class="n">idx</span><span class="p">);</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">customer_ordered_this_month</span><span class="p">(</span><span class="n">customer</span><span class="p">))</span> <span class="p">{</span>
+<span class="hll">            <span class="n">handle</span><span class="p">(</span><span class="n">customer</span><span class="p">);</span>
+</span>        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="p">{</span>
+    <span class="n">index_type</span> <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">index_type</span> <span class="n">end</span> <span class="o">=</span> <span class="n">order_database</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+    <span class="k">for</span><span class="p">(;</span> <span class="n">idx</span> <span class="o">!=</span> <span class="n">end</span><span class="p">;</span> <span class="o">++</span><span class="n">end</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">auto</span><span class="o">&amp;&amp;</span> <span class="n">order</span> <span class="o">=</span> <span class="n">order_database</span><span class="p">.</span><span class="n">at</span><span class="p">(</span><span class="n">idx</span><span class="p">);</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">order_is_pending</span><span class="p">(</span><span class="n">order</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">auto</span><span class="o">&amp;&amp;</span> <span class="n">customer</span> <span class="o">=</span> <span class="n">order</span><span class="p">.</span><span class="n">customer</span><span class="p">;</span>
+<span class="hll">            <span class="n">handle</span><span class="p">(</span><span class="n">customer</span><span class="p">);</span>
+</span>        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="internal-and-external-iteration">
+<span id="external-iteration"></span><h2>Internal and external iteration<a class="headerlink" href="#internal-and-external-iteration" title="Permalink to this headline">¶</a></h2>
+<p>There is a distinction to be made between so-called <em class="dfn">internal</em> and <em class="dfn">external</em> iteration. Both are concerned
+with patterns of repetition, but sit at opposite ends. To put it succinctly and in an ever-so-slightly-incorrect,
+non-technical manner tailored for a novice end-user perspective: external iteration makes it easy to write elaborate
+code that <em>consumes</em> elements, whereas internal iteration makes it easy to write elaborate code that <em>produces</em>
+elements.</p>
+<p>For the most part, this study does not intend to be comparative and sticks to exploring the external iteration
+space—and we will usually just say ‘iteration’ from now on. Still, since both kinds of iteration are closely related
+some remarks regarding internal iteration will be made from time to time. They can be treated as windows into the larger
+topic, or can be ignored just as well. They are displayed as follows:</p>
+<div class="admonition-internal-iteration admonition">
+<p class="admonition-title">Internal iteration</p>
+<p>Some topics and terms related to internal iteration:</p>
+<ul class="simple">
+<li><p>blocks or callbacks</p></li>
+<li><p>generators</p></li>
+<li><p>coroutines</p></li>
+<li><p>fibers</p></li>
+</ul>
+</div>
+<p>Finally, we defer curious readers to the <a class="reference external" href="http://journal.stuffwithstuff.com/2013/01/13/iteration-inside-and-out/"><cite>Iteration Inside and Out</cite></a> two-parter series of posts by Bob Nystrom. It
+provides a well-motivated introduction into the distinction between internal and external iteration.</p>
+</div>
+<div class="section" id="fundamentals">
+<span id="id1"></span><h2>Fundamentals<a class="headerlink" href="#fundamentals" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="abstract-sequences-and-practical-ranges">
+<h3>Abstract sequences and practical ranges<a class="headerlink" href="#abstract-sequences-and-practical-ranges" title="Permalink to this headline">¶</a></h3>
+<p>Iteration abstractions deal in notional, abstract sequences of elements that come in a certain natural order. ‘Notional
+and abstract’ means that the sequence and its elements need not explicitly and concretely live inside the program:</p>
+<div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="c1">// iterate over 0, 1, 2, 3, 4</span>
+<span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">!=</span> <span class="mi">5</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// use i</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>In the above the abstract sequence of numbers from 0 to 5 exclusive doesn’t exist e.g. as numbers in memory, but is
+instead implicitly encoded in the program structure and control flow (namely the <code class="docutils literal"><span class="pre">for</span></code> loop and its <em class="pre quoted-variable">i</em> variable).</p>
+<p>We can recast the previous fragment into a C++ iterator version:</p>
+<div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="k">auto</span> <span class="n">it</span>   <span class="o">=</span> <span class="n">counting_iterator</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="k">auto</span> <span class="n">stop</span> <span class="o">=</span> <span class="n">counting_iterator</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+<span class="k">for</span><span class="p">(;</span> <span class="n">it</span> <span class="o">!=</span> <span class="n">stop</span><span class="p">;</span> <span class="o">++</span><span class="n">it</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// use *it</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Or into a Python iterator version:</p>
+<div class="highlight-container highlight-python" data-highlight-language="Python"><div class="highlight"><pre><span></span><span class="n">rng</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">rng</span><span class="p">:</span>
+    <span class="c1"># use i</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p>Whenever an iteration abstraction gives us the means to to manipulate such an abstract sequence directly into code we’ll
+refer to this as a <em class="dfn">range</em> by analogy with mathematics, e.g. a range (or interval) of numbers. Marking the
+separation between the notional sequence and the range that represents it allows us to precisely outline their
+respective properties; much like we can discuss the properties of real numbers as idealised mathematical objects
+separately from the properties of their practical floating-point representations.</p>
+<p>It is interesting to note that ranges are not always explicit as demonstrated by the C++ iterator fragment where the
+range is given by the <span class="math">\(\left( it, stop \right)\)</span> pair of iterators. Neither <em class="pre quoted-variable">it</em> nor <em class="pre quoted-variable">stop</em> alone are
+enough to correctly represent the 0 to 5 sequence. By contrast, in the Python iterator fragment the range is given by
+<em class="pre quoted-variable">rng</em> on its own.</p>
+<p>As a quick overview here are the common, basic ranges found in several iteration abstractions of interest to this study:</p>
+<table class="docutils" id="id2">
+<caption><span class="caption-text">Iteration abstractions and their ranges</span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 37%" />
+<col style="width: 63%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Iteration abstraction</p></th>
+<th class="head"><p>Ranges</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Loops</p></td>
+<td><p>implicit in the loop variables
+and loop statement</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="http://en.cppreference.com/w/cpp/concept/Iterator">C++ iterators</a></p></td>
+<td><p>implicit or explicit pairs of iterators</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#typeiter">Python iterators</a></p></td>
+<td><p>iterators</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://dlang.org/phobos/std_range.html">D ranges</a></p></td>
+<td><p>ranges (conforming to the <a class="reference external" href="https://dlang.org/phobos/std_range_primitives.html">range
+primitives</a>)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://doc.rust-lang.org/std/iter/index.html">Rust iterators</a></p></td>
+<td><p>iterators (<a class="reference external" href="https://doc.rust-lang.org/std/iter/trait.Iterator.html"><code class="xref cpp cpp-any docutils literal"><span class="pre">Iterator</span></code></a> trait)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://msdn.microsoft.com/en-us/library/78dfe2yb%28v=vs.110%29.aspx">C# enumerators</a></p></td>
+<td><p>enumerators (<a class="reference external" href="https://msdn.microsoft.com/en-us/library/78dfe2yb%28v=vs.110%29.aspx"><code class="xref cpp cpp-any docutils literal"><span class="pre">IEnumerator</span></code></a> interface)</p></td>
+</tr>
+</tbody>
+</table>
+<p>Since it is such a crucial element of design it has its own chapter: <a class="reference internal" href="elements/representation.html"><span class="doc">Representation</span></a>.</p>
+</div>
+<div class="section" id="consuming-a-range">
+<h3>Consuming a range<a class="headerlink" href="#consuming-a-range" title="Permalink to this headline">¶</a></h3>
+<p>The raison d’être of imperative <code class="docutils literal"><span class="pre">for</span></code> loops is ultimately to run a block of code potentially multiple times. Iteration
+abstractions provide the means to do the same, typically through a loop-compatible interface (oftentimes called an
+iteration protocol or similar). This interface is also sometimes accompanied by a layer of helpful syntax, e.g. the
+range-based <code class="docutils literal"><span class="pre">for</span></code> statement of C++:</p>
+<div class="highlight-container highlight-C++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="nl">element</span><span class="p">:</span> <span class="n">rng</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// use element</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>These syntax facilities may look superficially similar to one another across different range abstractions, but the
+essential design decisions that underlie them can give them subtly different semantics.</p>
+<p>In addition, consuming a range may not always directly take the form of a loop. E.g. computing the mean, sum, or
+variance of a range are all common operations in a numerical context and may be provided as standalone functions. In a
+sense these and others are refactored forms of particular patterns of consumption.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../study.html">Designing a Range Abstraction</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Iteration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#internal-and-external-iteration">Internal and external iteration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fundamentals">Fundamentals</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#abstract-sequences-and-practical-ranges">Abstract sequences and practical ranges</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#consuming-a-range">Consuming a range</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../study.html#criticism">Criticism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../study.html#design-elements">Design elements</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reference.html">The annex-range library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About this document</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../study.html"
+                        title="previous chapter">Designing a Range Abstraction</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="state_of_the_art/iterators.html"
+                        title="next chapter">C++ iterators</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/study/iteration.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="state_of_the_art/iterators.html" title="C++ iterators"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../study.html" title="Designing a Range Abstraction"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">annex-range 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../study.html" >Designing a Range Abstraction</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, mickk.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7+.
+    </div>
+  </body>
+</html>

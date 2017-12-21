@@ -1,0 +1,173 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Bric-à-brac &#8212; annex-range 0.1.0 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/styles.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head><body>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(".collapsed > *").hide();
+        $("div.collapsed > p.admonition-title").show();
+        $("div.collapsed").children("p.admonition-title").toggleClass("closed");
+        $("table.collapsed > caption").show();
+        $("table.collapsed").children("caption").toggleClass("closed");
+        const collapse_duration = 300;
+        for(selector of [".collapsed", ".collapsible"]) {
+            $(`div${selector} > p.admonition-title`).click(function() {
+                $(this).parent().children().not("p.admonition-title").toggle(collapse_duration);
+                $(this).parent().children("p.admonition-title").toggleClass("closed");
+            });
+            $(`table${selector} > caption`).click(function(ev) {
+                // crude way to avoid intercepting a click on the anchor link
+                if(ev.target.nodeName == "A") {
+                    return;
+                }
+                $(this).parent().children().not("caption").toggle(collapse_duration);
+                $(this).parent().children("caption").toggleClass("closed");
+            })
+        }
+    });
+</script>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="nav-item nav-item-0"><a href="index.html">annex-range 0.1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="bric-a-brac">
+<h1>Bric-à-brac<a class="headerlink" href="#bric-a-brac" title="Permalink to this headline">¶</a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This is a collection of early thoughts and notes which haven’t yet made it in the actual study or
+reference. This is unfinished business, not fit for publication. If you have made your way to here, you were not
+supposed to!</p>
+</div>
+<div class="section" id="more-alexandrescu-style-range-shortcomings">
+<h2>More Alexandrescu-style range shortcomings<a class="headerlink" href="#more-alexandrescu-style-range-shortcomings" title="Permalink to this headline">¶</a></h2>
+<p>Actual D ranges are laxly specified in terms of when element work is actually performed, e.g.:</p>
+<div class="highlight-container highlight-D" data-highlight-language="D"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="n">double_ended_work</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">import</span> <span class="n">std</span><span class="p">.</span><span class="n">range</span><span class="p">;</span>
+    <span class="k">import</span> <span class="n">std</span><span class="p">.</span><span class="n">stdio</span><span class="p">;</span>
+
+    <span class="k">auto</span> <span class="n">singleton</span> <span class="p">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+    <span class="n">writefln</span><span class="p">(</span><span class="s">&quot;front: %s; back: %s&quot;</span><span class="p">,</span> <span class="n">singleton</span><span class="p">.</span><span class="n">front</span><span class="p">,</span> <span class="n">singleton</span><span class="p">.</span><span class="n">back</span><span class="p">);</span>
+
+    <span class="cm">/* output:</span>
+<span class="cm">    front: 3; back: 3</span>
+<span class="cm">    */</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Which looks straightforward and innocent enough. We can however decorate the single element with some message printing
+to stand for element-producing work:</p>
+<div class="highlight-container highlight-D" data-highlight-language="D"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="n">decorated_double_ended_work</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">import</span> <span class="n">std</span><span class="p">.</span><span class="n">range</span><span class="p">;</span>
+    <span class="k">import</span> <span class="n">std</span><span class="p">.</span><span class="n">algorithm</span><span class="p">;</span>
+    <span class="k">import</span> <span class="n">std</span><span class="p">.</span><span class="n">stdio</span><span class="p">;</span>
+
+    <span class="k">auto</span> <span class="n">singleton</span> <span class="p">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+    <span class="k">auto</span> <span class="n">decorated</span> <span class="p">=</span> <span class="n">singleton</span><span class="p">.</span><span class="n">map</span><span class="p">!(</span><span class="k">function</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="p">{</span> <span class="n">writefln</span><span class="p">(</span><span class="s">&quot;producing: %s&quot;</span><span class="p">,</span> <span class="n">item</span><span class="p">);</span> <span class="k">return</span> <span class="n">item</span><span class="p">;</span> <span class="p">});</span>
+    <span class="n">writefln</span><span class="p">(</span><span class="s">&quot;front: %s; back: %s&quot;</span><span class="p">,</span> <span class="n">decorated</span><span class="p">.</span><span class="n">front</span><span class="p">,</span> <span class="n">decorated</span><span class="p">.</span><span class="n">back</span><span class="p">);</span>
+
+    <span class="cm">/* output:</span>
+<span class="cm">    producing: 3</span>
+<span class="cm">    producing: 3</span>
+<span class="cm">    front: 3; back: 3</span>
+<span class="cm">    */</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This is also a consequence of the presentation of double-ended ranges that exists in D, namely where performing work via
+calling either <code class="docutils literal"><span class="pre">popFront</span></code> or <code class="docutils literal"><span class="pre">popBack</span></code> is separate from selecting the current front or back elements via the
+<code class="docutils literal"><span class="pre">front</span></code> and <code class="docutils literal"><span class="pre">back</span></code> properties. In the Rust ecosystem, which iterators were influenced by the work of Andrei
+Alexandrescu and D ranges, this doesn’t manifest because performing the work and selecting the associated element is
+‘fused’ in a single operation.</p>
+<p>The study however is more interested in commenting on the ideas behind D ranges rather than the existing implementation
+at large.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li class="toctree-l1"><a class="reference internal" href="study.html">Designing a Range Abstraction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">The annex-range library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About this document</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/bric-a-brac.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="nav-item nav-item-0"><a href="index.html">annex-range 0.1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, mickk.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7+.
+    </div>
+  </body>
+</html>

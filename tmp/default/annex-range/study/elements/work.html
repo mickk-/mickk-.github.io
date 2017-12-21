@@ -1,0 +1,194 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Amount of work &#8212; annex-range 0.1.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/styles.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Division of work" href="work/division.html" />
+    <link rel="prev" title="Alexandrescu-style ranges" href="../state_of_the_art/alexandrescu_ranges.html" /> 
+  </head><body>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(".collapsed > *").hide();
+        $("div.collapsed > p.admonition-title").show();
+        $("div.collapsed").children("p.admonition-title").toggleClass("closed");
+        $("table.collapsed > caption").show();
+        $("table.collapsed").children("caption").toggleClass("closed");
+        const collapse_duration = 300;
+        for(selector of [".collapsed", ".collapsible"]) {
+            $(`div${selector} > p.admonition-title`).click(function() {
+                $(this).parent().children().not("p.admonition-title").toggle(collapse_duration);
+                $(this).parent().children("p.admonition-title").toggleClass("closed");
+            });
+            $(`table${selector} > caption`).click(function(ev) {
+                // crude way to avoid intercepting a click on the anchor link
+                if(ev.target.nodeName == "A") {
+                    return;
+                }
+                $(this).parent().children().not("caption").toggle(collapse_duration);
+                $(this).parent().children("caption").toggleClass("closed");
+            })
+        }
+    });
+</script>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="work/division.html" title="Division of work"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../state_of_the_art/alexandrescu_ranges.html" title="Alexandrescu-style ranges"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">annex-range 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../study.html" accesskey="U">Designing a Range Abstraction</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="amount-of-work">
+<h1>Amount of work<a class="headerlink" href="#amount-of-work" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<p>Given limitless computer resources, programmers wouldn’t need elaborate iteration abstractions. Limitless time would
+mean that we could compute everything that can possibly ever be computed and limitless space would mean we could store
+as many of these results as we want, whether we might actually need them later or not. Slices of memory and numerical
+offsets is all we would ever need—random-access wouldn’t even be a requirement! We do not however live in such a world
+and wish to use our resources sparingly. In this sense, designing a practical iteration abstraction implies carefully
+picking a scheme to divide the computational work or memory usage that are involved in making use of a notional
+sequence.</p>
+<p>For instance, if an iteration abstraction ever hopes to be able to provide a practical representation <code class="docutils literal"><span class="pre">naturals()</span></code> of
+the mathematical natural numbers <span class="math">\(\mathbb{N}\)</span> then it should ensure that the following program works given an
+arbitrary <em class="pre quoted-variable">limit</em>:</p>
+<div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="k">auto</span> <span class="n">nats</span> <span class="o">=</span> <span class="n">naturals</span><span class="p">();</span>
+<span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="nl">nat</span><span class="p">:</span> <span class="n">nats</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">nat</span> <span class="o">&gt;=</span> <span class="n">limit</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="c1">// use nat</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>It’s common between programmers to refer to this by saying that practical ranges should be <em>lazy</em> or <em>deferred</em>. For
+instance, in certain circumstances the Rust compiler can emit this helpful warning to guide the user:</p>
+<div class="highlight-container highlight-text"><div class="highlight"><pre><span></span>warning: unused result which must be used: iterator adaptors are lazy and do nothing unless consumed
+</pre></div>
+</div>
+<p>It should however be noted that this usage is informal, and we will refrain from using this terminology outside of this
+section in order to avoid confusion. For instance what we are considering here is entirely independent of the
+language-level evaluation strategy: both so-called lazy and strict languages can make good use of iteration abstractions
+for exactly the same reasons of bounded usage of resources. Instead we will be explicitly mentioning the computational
+work (or just <em class="dfn">work</em> for short) needed to produce results, when it will or must be performed, and the computational
+complexity consequences that our design choices lead us to.</p>
+<p>In our first section we will study two <a class="reference internal" href="work/division.html"><span class="doc">Division of work</span></a> schemes.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../index.html">Table Of Contents</a></h3>
+  <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../study.html">Designing a Range Abstraction</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../iteration.html">Iteration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../study.html#criticism">Criticism</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../study.html#design-elements">Design elements</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Amount of work</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="work/division.html">Division of work</a></li>
+<li class="toctree-l4"><a class="reference internal" href="work/semantics.html">Work semantics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="work/traversal.html">Impact of traversal on work</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="representation.html">Representation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="traversal.html">Forms of traversal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="termination.html">Termination and finiteness</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types.html">Associated types</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference.html">The annex-range library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About this document</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../state_of_the_art/alexandrescu_ranges.html"
+                        title="previous chapter">Alexandrescu-style ranges</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="work/division.html"
+                        title="next chapter">Division of work</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/study/elements/work.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="work/division.html" title="Division of work"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../state_of_the_art/alexandrescu_ranges.html" title="Alexandrescu-style ranges"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">annex-range 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../study.html" >Designing a Range Abstraction</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, mickk.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7+.
+    </div>
+  </body>
+</html>

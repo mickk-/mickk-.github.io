@@ -1,0 +1,282 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Scope &#8212; annex-range 0.1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/styles.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Concepts" href="concepts.html" />
+    <link rel="prev" title="Quickstart" href="quickstart.html" /> 
+  </head><body>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(".collapsed > *").hide();
+        $("div.collapsed > p.admonition-title").show();
+        $("div.collapsed").children("p.admonition-title").toggleClass("closed");
+        $("table.collapsed > caption").show();
+        $("table.collapsed").children("caption").toggleClass("closed");
+        const collapse_duration = 300;
+        for(selector of [".collapsed", ".collapsible"]) {
+            $(`div${selector} > p.admonition-title`).click(function() {
+                $(this).parent().children().not("p.admonition-title").toggle(collapse_duration);
+                $(this).parent().children("p.admonition-title").toggleClass("closed");
+            });
+            $(`table${selector} > caption`).click(function(ev) {
+                // crude way to avoid intercepting a click on the anchor link
+                if(ev.target.nodeName == "A") {
+                    return;
+                }
+                $(this).parent().children().not("caption").toggle(collapse_duration);
+                $(this).parent().children("caption").toggleClass("closed");
+            })
+        }
+    });
+</script>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="concepts.html" title="Concepts"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="quickstart.html" title="Quickstart"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">annex-range 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../reference.html" accesskey="U">The annex-range library</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="scope">
+<h1>Scope<a class="headerlink" href="#scope" title="Permalink to this headline">¶</a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This part of the documentation is not up-to-speed. It is more of a collection of notes that needs to be written up
+into proper discourse than anything.</p>
+</div>
+<p>This library is narrow in purpose. In order to best manage expectations we outline which things are within scope and
+provided, which are within scope but left for future work, and finally what is out of scope.</p>
+<p>Self-contained range abstractions are a staple feature of programming languages as seen with <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#typeiter">Python iterators</a>, <a class="reference external" href="https://dlang.org/phobos/std_range.html">D
+ranges</a>, <a class="reference external" href="https://doc.rust-lang.org/std/iter/index.html">Rust iterators</a>, or <a class="reference external" href="https://msdn.microsoft.com/en-us/library/78dfe2yb%28v=vs.110%29.aspx">C# enumerators</a>. In C++ however the closest analogue concepts of <a class="reference external" href="http://en.cppreference.com/w/cpp/concept/Iterator">iterators</a> have
+been found wanting at times.</p>
+<p>This library is a tabula rasa approach at the problems that range abstractions aim to solve, with the double goal of
+producing a defense of position-based ranges as well as a practically-minded API.</p>
+<div class="section" id="the-users">
+<h2>The users<a class="headerlink" href="#the-users" title="Permalink to this headline">¶</a></h2>
+<p>When evaluating the merits and shortcomings of a range abstraction, it’s not often made explicit who are its users and
+how it is intended they use the abstraction. This library considers two types of users:</p>
+<ul class="simple">
+<li><p>implementers (i.e. range authors), who write code that provides instances or models that conform to the range
+abstraction</p></li>
+<li><p>consumers (typically, but not just end users), who write code that uses and consumes those instances</p></li>
+</ul>
+<p>It is the author’s opinion that most range abstractions at large put too much emphasis on end users, with the net result
+that implementing a model of a range is considered somewhat of an expert’s task. This approach makes sense when a range
+library aims to be as complete as possible, with the expectation that end users will pick and choose the right tools
+from the library to match their needs. Furthermore if end users are also expected to outnumber expert implementers then
+putting the burden on experts makes sense, resulting in an economy of complexity.</p>
+<p>On the other hand it is also the author’s opinion and experience that aiming for completeness is a tall order as the
+need for new kinds of range frequently arises in end-user code. When existing libraries cannot fulfil that need this
+leads to a a frustrating situation where the end users either have to use shortcuts or enlist the help of experts,
+rather than tackle their need by authoring a range themselves.</p>
+<p>Just as equally it is also the author’s opinion that if a range library wants to be as complete as possible, then we
+should lend to the range implementers as much consideration as we do to end users. The easier it is to implement a
+range, the faster the features land.</p>
+<div class="admonition-study admonition">
+<p class="admonition-title">study</p>
+<p>This is an intrinsic balancing act, which roots are briefly scrutinied in <a class="reference internal" href="../study.html#designers-tradeoff"><span class="std std-ref">The designer’s trade-off</span></a> as part of
+the study.</p>
+</div>
+</div>
+<div class="section" id="a-hybrid-approach">
+<h2>A hybrid approach<a class="headerlink" href="#a-hybrid-approach" title="Permalink to this headline">¶</a></h2>
+<p>Two concerns have dominated the discussion so far:</p>
+<ul class="simple">
+<li><p>The need to package related information together in one object (e.g. the filtering predicate of a filtering range).
+This concern is oriented around construction and argument passing, including copy semantics (‘saving’ in Alexandrescu
+terminology). Correct lifetime semantics is a staple of C++ programming that is not as readily alleviated as it can be
+in another language. Garbage collection can give great mileage to double-ended ranges together with range saving, but
+that is not an option here.</p></li>
+<li><p>The need to maintain functionality parity with iterators, in particular with regards to bidirectional and
+random-access algorithms.</p></li>
+</ul>
+<p>This library aims to defend and implement a dual interface approach, with a self-contained range object concept that
+comes with individual position objects. End users need only be concerned with an interface that deals in self-contained
+ranges, while range implementers will focus on the position interfaces.</p>
+</div>
+<div class="section" id="current-features">
+<h2>Current features<a class="headerlink" href="#current-features" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="concepts.html"><span class="doc">Concepts</span></a> for ranges and their positions</p></li>
+<li><p>common but simple enough <a class="reference internal" href="sources.html"><span class="doc">source ranges</span></a></p></li>
+<li><p>core composite ranges (<a class="reference internal" href="transformations.html#_CPPv3N5annex5range3mapE" title="annex::range::map"><code class="xref cpp cpp-any docutils literal"><span class="pre">map</span></code></a>, <a class="reference internal" href="transformations.html#_CPPv3N5annex5range6filterE" title="annex::range::filter"><code class="xref cpp cpp-any docutils literal"><span class="pre">filter</span></code></a>, <a class="reference internal" href="compositions.html#_CPPv3N5annex5range3zipE" title="annex::range::zip"><code class="xref cpp cpp-any docutils literal"><span class="pre">zip</span></code></a>, <a class="reference internal" href="arrangements.html#_CPPv3N5annex5range7flattenE" title="annex::range::flatten"><code class="xref cpp cpp-any docutils literal"><span class="pre">flatten</span></code></a>, <a class="reference internal" href="compositions.html#_CPPv3N5annex5range6concatE" title="annex::range::concat"><code class="xref cpp cpp-any docutils literal"><span class="pre">concat</span></code></a>)</p></li>
+<li><p>some additional composite ranges (available as <a class="reference internal" href="transformations.html"><span class="doc">Transformations</span></a>, <a class="reference internal" href="compositions.html"><span class="doc">Compositions</span></a>, or <a class="reference internal" href="arrangements.html"><span class="doc">Arrangements</span></a>)</p></li>
+<li><p>simple range consumption patterns (<a class="reference internal" href="consumers.html#_CPPv3N5annex5range4loopE" title="annex::range::loop"><code class="xref cpp cpp-any docutils literal"><span class="pre">loop</span></code></a>, <a class="reference internal" href="consumers.html#collects"><span class="std std-ref">Into a container</span></a>, <a class="reference internal" href="consumers.html#folds"><span class="std std-ref">Folds</span></a>)</p></li>
+<li><p>a last resort adapter for iterator-based code: <a class="reference internal" href="consumers.html#_CPPv3N5annex5range12as_iteratorsE" title="annex::range::as_iterators"><code class="xref cpp cpp-any docutils literal"><span class="pre">as_iterators</span></code></a></p></li>
+</ul>
+</div>
+<div class="section" id="possible-future-work">
+<h2>Possible future work<a class="headerlink" href="#possible-future-work" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="compositions.html#_CPPv3N5annex5range6concatE" title="annex::range::concat"><code class="xref cpp cpp-any docutils literal"><span class="pre">concat</span></code></a> and <a class="reference internal" href="arrangements.html#_CPPv3N5annex5range7flattenE" title="annex::range::flatten"><code class="xref cpp cpp-any docutils literal"><span class="pre">flatten</span></code></a> <strong>must</strong> be usable</p></li>
+<li><p>Tailored composite range capabilities. (This may be connected to the previous item.)</p></li>
+<li><p>More work on the connection between ‘eager’ algorithms as range consumers and ‘lazy’/on-demand online algorithms as
+composite ranges (e.g. in-place sort vs online sort).</p></li>
+<li><p>More elaborate source ranges.</p></li>
+<li><p>More <a class="reference internal" href="consumers.html"><span class="doc">Consumers</span></a> (e.g. algorithms).</p></li>
+<li><p>A solid vocabulary of composite ranges to cover enough ground in several areas, e.g.:</p>
+<ul>
+<li><p>typical variadic composition patterns (e.g. round-robin)</p></li>
+<li><p>typical but non-fundamental composite patterns, e.g. moved/decayed, enumerate</p></li>
+<li><p>intersperse/join</p></li>
+</ul>
+</li>
+<li><p>An IEnumerable (or begin/end) equivalent for things that are not necessarily ranges themselves, but come with an
+associated range. A lot of code that is currently written against <a class="reference internal" href="concepts.html#_CPPv3I0EX8VariableI3RngEEN5annex5range5RangeE" title="annex::range::Range"><code class="xref cpp cpp-any docutils literal"><span class="pre">Range</span></code></a> (including the composite ranges and
+algorithms) should really be written against this putative concept. E.g. <a class="reference internal" href="arrangements.html#_CPPv3N5annex5range7flattenE" title="annex::range::flatten"><code class="xref cpp cpp-any docutils literal"><span class="pre">flatten</span></code></a> already does this to an extent, see
+<a class="reference internal" href="sources.html#_CPPv3I0EX8VariableI3VarEEN5annex5range7AsRangeE" title="annex::range::AsRange"><code class="xref cpp cpp-any docutils literal"><span class="pre">AsRange</span></code></a>.</p></li>
+<li><p>Known-finite ranges (algorithms should be found first).</p></li>
+</ul>
+</div>
+<div class="section" id="out-of-scope">
+<h2>Out of scope<a class="headerlink" href="#out-of-scope" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>most things having to do with <a class="reference internal" href="../study/iteration.html#external-iteration"><span class="std std-ref">internal iteration</span></a>, e.g. await/yield (but see <a class="reference internal" href="sources.html#_CPPv3I0EX8VariableI5ValueEEN5annex5range4coroE" title="annex::range::coro"><code class="xref cpp cpp-any docutils literal"><span class="pre">coro</span></code></a>)</p></li>
+<li><p>an equivalent to the notion of output iterator, which should be unnecessary: ranges are meant to be used with
+<a class="reference internal" href="consumers.html"><span class="doc">Consumers</span></a></p></li>
+<li><p>containers (although <a class="reference internal" href="sources.html#_CPPv3N5annex5range8as_rangeE" title="annex::range::as_range"><code class="xref cpp cpp-any docutils literal"><span class="pre">as_range</span></code></a> and <a class="reference internal" href="sources.html#_CPPv3N5annex5range9containerE" title="annex::range::container"><code class="xref cpp cpp-any docutils literal"><span class="pre">container</span></code></a> serve to construct a view into a container or to adapt a container)</p></li>
+<li><p>clever syntax (operators, member functions), at least for now</p></li>
+</ul>
+</div>
+<div class="section" id="the-great-big-bikeshed">
+<h2>The great big bikeshed<a class="headerlink" href="#the-great-big-bikeshed" title="Permalink to this headline">¶</a></h2>
+<p>In vague descending order of importance:</p>
+<ul class="simple">
+<li><p>terminology and include layout for sources, composites (transformations/compositions/arrangements), consumers, etc.</p></li>
+<li><p>naming convention for composite ranges: e.g. is <a class="reference internal" href="transformations.html#_CPPv3N5annex5range7reverseE" title="annex::range::reverse"><code class="xref cpp cpp-any docutils literal"><span class="pre">reverse(arg)</span></code></a> appropriate even though it creates a separate
+range without modifying its argument? any answer would also apply to well-known quantities such as <a class="reference internal" href="transformations.html#_CPPv3N5annex5range3mapE" title="annex::range::map"><code class="xref cpp cpp-any docutils literal"><span class="pre">map</span></code></a></p></li>
+<li><p><a class="reference internal" href="transformations.html#_CPPv3N5annex5range5groupE" title="annex::range::group"><code class="xref cpp cpp-any docutils literal"><span class="pre">group</span></code></a>:</p>
+<ul>
+<li><p>what to call the <a class="reference internal" href="transformations.html#_CPPv3N5annex5range5groupE" title="annex::range::group"><code class="xref cpp cpp-any docutils literal"><span class="pre">group</span></code></a> elements: <em>groupings</em>, <em>runs</em>, <em>groups</em></p></li>
+<li><p>what to call the first argument of <a class="reference internal" href="transformations.html#_CPPv3N5annex5range5groupE" title="annex::range::group"><code class="xref cpp cpp-any docutils literal"><span class="pre">group</span></code></a>: a key function, a projection function</p></li>
+<li><p>whether <a class="reference internal" href="transformations.html#_CPPv3N5annex5range5groupE" title="annex::range::group"><code class="xref cpp cpp-any docutils literal"><span class="pre">group</span></code></a> elements should carry their computed criterion around</p></li>
+</ul>
+</li>
+<li><p>whether <a class="reference internal" href="sources.html#_CPPv3I_4typeEN5annex5range8integersE" title="annex::range::integers"><code class="xref cpp cpp-any docutils literal"><span class="pre">integers&lt;Num&gt;</span></code></a> and <a class="reference internal" href="sources.html#_CPPv3N5annex5range4intsE" title="annex::range::ints"><code class="xref cpp cpp-any docutils literal"><span class="pre">ints</span></code></a> should be function-like constants, or constant ranges</p></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../study.html">Designing a Range Abstraction</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../reference.html">The annex-range library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Scope</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#the-users">The users</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#a-hybrid-approach">A hybrid approach</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#current-features">Current features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#possible-future-work">Possible future work</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#out-of-scope">Out of scope</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-great-big-bikeshed">The great big bikeshed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="concepts.html">Concepts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operations.html">Operations &amp; functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sources.html">Sources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="consumers.html">Consumers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transformations.html">Transformations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="compositions.html">Compositions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arrangements.html">Arrangements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common.html">Common</a></li>
+<li class="toctree-l2"><a class="reference internal" href="annex.html">Annex quick reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference.html#how-to-read-the-reference">How to read the reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About this document</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="quickstart.html"
+                        title="previous chapter">Quickstart</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="concepts.html"
+                        title="next chapter">Concepts</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/reference/scope.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="concepts.html" title="Concepts"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="quickstart.html" title="Quickstart"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">annex-range 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../reference.html" >The annex-range library</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, mickk.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7+.
+    </div>
+  </body>
+</html>

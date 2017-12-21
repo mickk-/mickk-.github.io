@@ -1,17 +1,14 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
+    <meta charset="utf-8" />
     <title>Index &#8212; annex-range 0.1.0 documentation</title>
-    
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
+    <link rel="stylesheet" href="_static/styles.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
@@ -25,11 +22,36 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="#" />
     <link rel="search" title="Search" href="search.html" /> 
-  </head>
-  <body role="document">
+  </head><body>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(".collapsed > *").hide();
+        $("div.collapsed > p.admonition-title").show();
+        $("div.collapsed").children("p.admonition-title").toggleClass("closed");
+        $("table.collapsed > caption").show();
+        $("table.collapsed").children("caption").toggleClass("closed");
+        const collapse_duration = 300;
+        for(selector of [".collapsed", ".collapsible"]) {
+            $(`div${selector} > p.admonition-title`).click(function() {
+                $(this).parent().children().not("p.admonition-title").toggle(collapse_duration);
+                $(this).parent().children("p.admonition-title").toggleClass("closed");
+            });
+            $(`table${selector} > caption`).click(function(ev) {
+                // crude way to avoid intercepting a click on the anchor link
+                if(ev.target.nodeName == "A") {
+                    return;
+                }
+                $(this).parent().children().not("caption").toggle(collapse_duration);
+                $(this).parent().children("caption").toggleClass("closed");
+            })
+        }
+    });
+</script>
+
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -50,540 +72,225 @@
 
 <div class="genindex-jumpbox">
  <a href="#A"><strong>A</strong></a>
+ | <a href="#B"><strong>B</strong></a>
+ | <a href="#C"><strong>C</strong></a>
+ | <a href="#D"><strong>D</strong></a>
+ | <a href="#E"><strong>E</strong></a>
  | <a href="#F"><strong>F</strong></a>
+ | <a href="#G"><strong>G</strong></a>
+ | <a href="#I"><strong>I</strong></a>
  | <a href="#L"><strong>L</strong></a>
+ | <a href="#M"><strong>M</strong></a>
+ | <a href="#N"><strong>N</strong></a>
+ | <a href="#O"><strong>O</strong></a>
+ | <a href="#P"><strong>P</strong></a>
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
+ | <a href="#T"><strong>T</strong></a>
+ | <a href="#U"><strong>U</strong></a>
+ | <a href="#V"><strong>V</strong></a>
+ | <a href="#Y"><strong>Y</strong></a>
+ | <a href="#Z"><strong>Z</strong></a>
  
 </div>
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="annex.html#_CPPv2I_8Variable0EN5annex10AssignableE">annex::Assignable (C++ concept)</a>
+      <li><a href="reference/transformations.html#_CPPv3I00_bEN5annex5range23any_bidirectional_rangeE">any_bidirectional_range (C++ type)</a>
 </li>
-      <li><a href="annex.html#_CPPv2I0EX15ForwardIteratorI2ItEEN5annex21BidirectionalIteratorE">annex::BidirectionalIterator (C++ concept)</a>
+      <li><a href="reference/transformations.html#_CPPv3I00_bEN5annex5range17any_forward_rangeE">any_forward_range (C++ type)</a>
 </li>
-      <li><a href="annex.html#_CPPv2I0EX19ForwardIteratorTypeI2ItEEN5annex25BidirectionalIteratorTypeE">annex::BidirectionalIteratorType (C++ concept)</a>
+      <li><a href="reference/transformations.html#_CPPv3I00_bEN5annex5range19any_multipass_rangeE">any_multipass_range (C++ type)</a>
 </li>
-      <li><a href="annex.html#_CPPv2I_8VariableDpEN5annex13ConstructibleE">annex::Constructible (C++ concept)</a>
+      <li><a href="reference/transformations.html#_CPPv3I000_bEN5annex5range23any_random_access_rangeE">any_random_access_range (C++ type)</a>
 </li>
-      <li><a href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex8CopyableE">annex::Copyable (C++ concept)</a>
+      <li><a href="reference/transformations.html#_CPPv3I_9Traversal000_bEN5annex5range9any_rangeE">any_range (C++ type)</a>
 </li>
-      <li><a href="annex.html#_CPPv2IDpEX9VariablesIsp4VarsEEN5annex9CopyablesE">annex::Copyables (C++ concept)</a>
+      <li><a href="reference/transformations.html#_CPPv3I0EX7ContextI3CtxEEN5annex5range13any_range_forE">any_range_for (C++ type)</a>
 </li>
-      <li><a href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex14CopyAssignableE">annex::CopyAssignable (C++ concept)</a>
+      <li><a href="reference/sources.html#_CPPv3I_8Variable_8VariableEN5annex5range10ArithmeticE">Arithmetic (C++ concept)</a>
 </li>
-      <li><a href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex17CopyConstructibleE">annex::CopyConstructible (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2IDpEX9VariablesIsp4VarsEEN5annex18CopyConstructiblesE">annex::CopyConstructibles (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2I_8Variable_8VariableEN5annex18EqualityComparableE">annex::EqualityComparable (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2I_8Variable00EN5annex11EquivalenceE">annex::Equivalence (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2I000EN5annex15EquivalenceTypeE">annex::EquivalenceType (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex7ExampleE">annex::Example (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2IDpEX9VariablesIsp4VarsEEN5annex8ExamplesE">annex::Examples (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex11ExampleTypeE">annex::ExampleType (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2IDpEX5TypesIsp2XsEEN5annex12ExampleTypesE">annex::ExampleTypes (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex11ForwardableE">annex::Forwardable (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2IDpEX9VariablesIsp4VarsEEN5annex12ForwardablesE">annex::Forwardables (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex15ForwardableTypeE">annex::ForwardableType (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2IDpEX5TypesIsp2XsEEN5annex16ForwardableTypesE">annex::ForwardableTypes (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2I0EX13InputIteratorI2ItEEN5annex15ForwardIteratorE">annex::ForwardIterator (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2I0EX17InputIteratorTypeI2ItEEN5annex19ForwardIteratorTypeE">annex::ForwardIteratorType (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2I0EX8VariableI2ItEEN5annex13InputIteratorE">annex::InputIterator (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2I0EX4TypeI2ItEEN5annex17InputIteratorTypeE">annex::InputIteratorType (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2I0EX8VariableI3IntEEN5annex8IntegralE">annex::Integral (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2I_8VariableDpEN5annex9InvokableE">annex::Invokable (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2I0_8VariableDpEN5annex11InvokableAsE">annex::InvokableAs (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2I00DpEN5annex15InvokableAsTypeE">annex::InvokableAsType (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2I0DpEN5annex13InvokableTypeE">annex::InvokableType (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2N5annex6invokeE">annex::invoke (C++ member)</a>
-</li>
-      <li><a href="annex.html#_CPPv2I0DpENK5annex6invokeclERR4FuncDpRR4Args">annex::invoke::operator() (C++ function)</a>
-</li>
-      <li><a href="annex.html#_CPPv2I0EN5annex9invoke_asE">annex::invoke_as (C++ member)</a>
-</li>
-      <li><a href="annex.html#_CPPv2I0DpENK5annex9invoke_asclERR4FuncDpRR4Args">annex::invoke_as::operator() (C++ function)</a>
-</li>
-      <li><a href="annex.html#_CPPv2I0EX8VariableI4IterEEN5annex8IterableE">annex::Iterable (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2I0EX4TypeI4IterEEN5annex12IterableTypeE">annex::IterableType (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex7MovableE">annex::Movable (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2IDpEX9VariablesIsp4VarsEEN5annex8MovablesE">annex::Movables (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex14MoveAssignableE">annex::MoveAssignable (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex17MoveConstructibleE">annex::MoveConstructible (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2IDpEX9VariablesIsp4VarsEEN5annex18MoveConstructiblesE">annex::MoveConstructibles (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2IDpEX5TypesIsp4PackEEN5annex12NonEmptyPackE">annex::NonEmptyPack (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2I0EX8VariableI4NullEEN5annex8NullableE">annex::Nullable (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2I0EX4TypeI4NullEEN5annex22nullable_dereference_tE">annex::nullable_dereference_t (C++ type)</a>
-</li>
-      <li><a href="annex.html#_CPPv2I0EX4TypeI4NullEEN5annex18nullable_element_tE">annex::nullable_element_t (C++ type)</a>
-</li>
-      <li><a href="annex.html#_CPPv2I_8VariableDpEN5annex13OnceInvokableE">annex::OnceInvokable (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2I0_8VariableDpEN5annex15OnceInvokableAsE">annex::OnceInvokableAs (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2I00DpEN5annex19OnceInvokableAsTypeE">annex::OnceInvokableAsType (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2I0DpEN5annex17OnceInvokableTypeE">annex::OnceInvokableType (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2I_8VariableDpEN5annex9PredicateE">annex::Predicate (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2I0DpEN5annex13PredicateTypeE">annex::PredicateType (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2I0EX21BidirectionalIteratorI2ItEEN5annex20RandomAccessIteratorE">annex::RandomAccessIterator (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2I0EX25BidirectionalIteratorTypeI2ItEEN5annex24RandomAccessIteratorTypeE">annex::RandomAccessIteratorType (C++ concept)</a>
-</li>
-      <li><a href="transformations.html#_CPPv2I00_bEN5annex5range23any_bidirectional_rangeE">annex::range::any_bidirectional_range (C++ type)</a>
-</li>
-      <li><a href="transformations.html#_CPPv2I00_bEN5annex5range17any_forward_rangeE">annex::range::any_forward_range (C++ type)</a>
-</li>
-      <li><a href="transformations.html#_CPPv2I00_bEN5annex5range19any_multipass_rangeE">annex::range::any_multipass_range (C++ type)</a>
-</li>
-      <li><a href="transformations.html#_CPPv2I000_bEN5annex5range23any_random_access_rangeE">annex::range::any_random_access_range (C++ type)</a>
-</li>
-      <li><a href="transformations.html#_CPPv2I_9Traversal000_bEN5annex5range9any_rangeE">annex::range::any_range (C++ type)</a>
-</li>
-      <li><a href="transformations.html#_CPPv2I0EX7ContextI3CtxEEN5annex5range13any_range_forE">annex::range::any_range_for (C++ type)</a>
-</li>
-      <li><a href="sources.html#_CPPv2I_8Variable_8VariableEN5annex5range10ArithmeticE">annex::range::Arithmetic (C++ concept)</a>
-</li>
-      <li><a href="consumers.html#_CPPv2N5annex5range12as_iteratorsE">annex::range::as_iterators (C++ member)</a>
-</li>
-      <li><a href="consumers.html#_CPPv2I0EX11ContextTypeI3CtxEENK5annex5range12as_iteratorsclER3Ctx10position_tI3CtxE10sentinel_tI3CtxE">annex::range::as_iterators::operator() (C++ function)</a>, <a href="consumers.html#_CPPv2I0EX9RangeTypeI3RngEENK5annex5range12as_iteratorsclER3Rng">[1]</a>
-</li>
-      <li><a href="sources.html#_CPPv2N5annex5range8as_rangeE">annex::range::as_range (C++ member)</a>
-</li>
-      <li><a href="sources.html#_CPPv2I0EX12StorableTypeI3RngEENK5annex5range8as_rangeclERR3Rng">annex::range::as_range::operator() (C++ function)</a>, <a href="sources.html#_CPPv2I0EX8IterableI4IterEENK5annex5range8as_rangeclER4Iter">[1]</a>
-</li>
-      <li><a href="sources.html#_CPPv2I0EX4TypeI9IterOrRngEEN5annex5range10as_range_tE">annex::range::as_range_t (C++ type)</a>
-</li>
-      <li><a href="sources.html#_CPPv2I0EX8VariableI3VarEEN5annex5range7AsRangeE">annex::range::AsRange (C++ concept)</a>
-</li>
-      <li><a href="operations.html#_CPPv2N5annex5range2atE">annex::range::at (C++ member)</a>
-</li>
-      <li><a href="operations.html#_CPPv2I00EX5TypesI3Ctx3PosEENK5annex5range2atclER3CtxR3Pos">annex::range::at::operator() (C++ function)</a>
-</li>
-      <li><a href="operations.html#_CPPv2N5annex5range6beforeE">annex::range::before (C++ member)</a>
-</li>
-      <li><a href="operations.html#_CPPv2I_11ContextType_8VariableENK5annex5range6beforeclER3Ctx3Pos">annex::range::before::operator() (C++ function)</a>
-</li>
-      <li><a href="concepts.html#_CPPv2I0EX16MultipassContextI3CtxEEN5annex5range20BidirectionalContextE">annex::range::BidirectionalContext (C++ concept)</a>
-</li>
-      <li><a href="concepts.html#_CPPv2I0EX20MultipassContextTypeI3CtxEEN5annex5range24BidirectionalContextTypeE">annex::range::BidirectionalContextType (C++ concept)</a>
-</li>
-      <li><a href="transformations.html#_CPPv2N5annex5range3boxE">annex::range::box (C++ member)</a>
-</li>
-      <li><a href="transformations.html#_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range3boxclE3Rng">annex::range::box::operator() (C++ function)</a>
-</li>
-      <li><a href="transformations.html#_CPPv2I_9Traversal0000EN5annex5range6box_asE">annex::range::box_as (C++ member)</a>
-</li>
-      <li><a href="transformations.html#_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range6box_asclE3Rng">annex::range::box_as::operator() (C++ function)</a>
-</li>
-      <li><a href="sources.html#_CPPv2N5annex5range12close_optionE">annex::range::close_option (C++ enum)</a>
-</li>
-      <li><a href="sources.html#_CPPv2N5annex5range12close_option12close_at_endE">annex::range::close_option::close_at_end (C++ enumerator)</a>
-</li>
-      <li><a href="sources.html#_CPPv2N5annex5range12close_option10leave_openE">annex::range::close_option::leave_open (C++ enumerator)</a>
-</li>
-      <li><a href="consumers.html#_CPPv2IIDpE0EN5annex5range10collect_asE">annex::range::collect_as (C++ member)</a>
-</li>
-      <li><a href="consumers.html#_CPPv2I0EX5RangeI3RngEENK5annex5range10collect_asclE3Rng">annex::range::collect_as::operator() (C++ function)</a>
-</li>
-      <li><a href="consumers.html#_CPPv2I0EX4TypeI4ContEEN5annex5range12collect_intoE">annex::range::collect_into (C++ member)</a>
-</li>
-      <li><a href="consumers.html#_CPPv2I0EX5RangeI3RngEENK5annex5range12collect_intoclE3Rng">annex::range::collect_into::operator() (C++ function)</a>
-</li>
-      <li><a href="compositions.html#_CPPv2N5annex5range6concatE">annex::range::concat (C++ member)</a>
-</li>
-      <li><a href="compositions.html#_CPPv2I0EX17MoveConstructibleI3RngEEN5annex5range6concatclE3Rng">annex::range::concat::operator() (C++ function)</a>, <a href="compositions.html#_CPPv2IDpEX18MoveConstructiblesIsp4RngsEEN5annex5range6concatclEDp4Rngs">[1]</a>
-</li>
-      <li><a href="compositions.html#_CPPv2IDpEX8ContextsIsp4CtxsEEN5annex5range12concat_rangeE">annex::range::concat_range (C++ type)</a>
-</li>
-      <li><a href="sources.html#_CPPv2N5annex5range9containerE">annex::range::container (C++ member)</a>
-</li>
-      <li><a href="sources.html#_CPPv2I0EX12StorableTypeI4IterEENK5annex5range9containerclERR4Iter">annex::range::container::operator() (C++ function)</a>
-</li>
-      <li><a href="sources.html#_CPPv2I0EX8IterableI4IterEEN5annex5range15container_rangeE">annex::range::container_range (C++ type)</a>
-</li>
-      <li><a href="sources.html#_CPPv2I0EX8IterableI4IterEEN5annex5range22container_range_sourceE">annex::range::container_range_source (C++ type)</a>
-</li>
-      <li><a href="concepts.html#_CPPv2I0EX8VariableI3CtxEEN5annex5range7ContextE">annex::range::Context (C++ concept)</a>
-</li>
-      <li><a href="concepts.html#_CPPv2I0EX4TypeI3RngEEN5annex5range9context_tE">annex::range::context_t (C++ type)</a>
-</li>
-      <li><a href="concepts.html#_CPPv2I0EX4TypeI3CtxEEN5annex5range11ContextTypeE">annex::range::ContextType (C++ concept)</a>
-</li>
-      <li><a href="sources.html#_CPPv2I0EX8VariableI5ValueEEN5annex5range4coroE">annex::range::coro (C++ member)</a>
-</li>
-      <li><a href="sources.html#_CPPv2I0EX12StorableTypeI7FunctorEENK5annex5range4coroclERR7Functor">annex::range::coro::operator() (C++ function)</a>, <a href="sources.html#_CPPv2NK5annex5range4coroclEN5boost11coroutines29coroutineI5ValueE9pull_typeE">[1]</a>
-</li>
-      <li><a href="sources.html#_CPPv2I0EX8VariableI5ValueEEN5annex5range15coroutine_rangeE">annex::range::coroutine_range (C++ type)</a>
-</li>
-      <li><a href="operations.html#_CPPv2N5annex5range4decrE">annex::range::decr (C++ member)</a>
-</li>
-      <li><a href="operations.html#_CPPv2I00EX5TypesI3Ctx4SentEENK5annex5range4decrclER3CtxR4Sent">annex::range::decr::operator() (C++ function)</a>
-</li>
-      <li><a href="operations.html#_CPPv2N5annex5range6decr_nE">annex::range::decr_n (C++ member)</a>
-</li>
-      <li><a href="operations.html#_CPPv2I0EX23RandomAccessContextTypeI3CtxEENK5annex5range6decr_nclER3CtxR10position_tI3CtxER10position_tI3CtxER10position_tI3CtxER12difference_tI3CtxE">annex::range::decr_n::operator() (C++ function)</a>, <a href="operations.html#_CPPv2I_24BidirectionalContextType0_14SignedIntegralENK5annex5range6decr_nclER3CtxR3PosR10sentinel_tI3CtxER10sentinel_tI3CtxE5Steps">[1]</a>, <a href="operations.html#_CPPv2I_9RangeType0ENK5annex5range6decr_nclER3RngR10sentinel_tI3RngERR5Steps">[2]</a>
-</li>
-      <li><a href="sources.html#_CPPv2I0EX8VariableI3VarEEN5annex5range13DecrementableE">annex::range::Decrementable (C++ concept)</a>
-</li>
-      <li><a href="sources.html#_CPPv2N5annex5range16default_generateE">annex::range::default_generate (C++ member)</a>
-</li>
-      <li><a href="transformations.html#_CPPv2N5annex5range5deferE">annex::range::defer (C++ member)</a>
-</li>
-      <li><a href="transformations.html#_CPPv2I0DpEX13StorableTypesI7Functorsp4ArgsEENK5annex5range5deferclERR7FunctorDpRR4Args">annex::range::defer::operator() (C++ function)</a>
-</li>
-      <li><a href="transformations.html#_CPPv2I0DpEX9VariablesI7Functorsp4ArgsEEN5annex5range13defer_contextE">annex::range::defer_context (C++ class)</a>
-</li>
-      <li><a href="transformations.html#_CPPv2N5annex5range13defer_context13deferred_argsE">annex::range::defer_context::deferred_args (C++ member)</a>
-</li>
-      <li><a href="transformations.html#_CPPv2N5annex5range13defer_context16deferred_functorE">annex::range::defer_context::deferred_functor (C++ member)</a>
-</li>
-      <li><a href="transformations.html#_CPPv2I0DpEX9VariablesI7Functorsp4ArgsEEN5annex5range11defer_rangeE">annex::range::defer_range (C++ type)</a>
-</li>
-      <li><a href="operations.html#_CPPv2N5annex5range10differenceE">annex::range::difference (C++ member)</a>
-</li>
-      <li><a href="operations.html#_CPPv2I00EX5TypesI3Ctx3PosEENK5annex5range10differenceclER3CtxR3PosR3Pos">annex::range::difference::operator() (C++ function)</a>
-</li>
-      <li><a href="concepts.html#_CPPv2I0EX4TypeI3CtxEEN5annex5range12difference_tE">annex::range::difference_t (C++ type)</a>
-</li>
-      <li><a href="operations.html#_CPPv2N5annex5range8distanceE">annex::range::distance (C++ member)</a>
-</li>
-      <li><a href="operations.html#_CPPv2I0EX23RandomAccessContextTypeI3CtxEENK5annex5range8distanceclER3CtxR10position_tI3CtxER10position_tI3CtxE">annex::range::distance::operator() (C++ function)</a>, <a href="operations.html#_CPPv2I0EX9RangeTypeI3RngEENK5annex5range8distanceclER3Rng">[1]</a>, <a href="operations.html#_CPPv2I_11ContextType0ENK5annex5range8distanceclER3Ctx10position_tI3CtxER4Sent">[2]</a>
-</li>
-      <li><a href="concepts.html#_CPPv2I0EX4TypeI3CtxEEN5annex5range9element_tE">annex::range::element_t (C++ type)</a>
-</li>
-      <li><a href="operations.html#_CPPv2N5annex5range9equal_posE">annex::range::equal_pos (C++ member)</a>
-</li>
-      <li><a href="operations.html#_CPPv2I000EX5TypesI3Ctx3Pos4SentEENK5annex5range9equal_posclER3CtxR3PosR4Sent">annex::range::equal_pos::operator() (C++ function)</a>
-</li>
-      <li><a href="transformations.html#_CPPv2I0_9Traversal000_bEN5annex5range10ErasableAsE">annex::range::ErasableAs (C++ concept)</a>
-</li>
-      <li><a href="transformations.html#_CPPv2N5annex5range6filterE">annex::range::filter (C++ member)</a>
-</li>
-      <li><a href="transformations.html#_CPPv2I_15ForwardableType_17MoveConstructibleENK5annex5range6filterclERR4Pred3Rng">annex::range::filter::operator() (C++ function)</a>
-</li>
-      <li><a href="transformations.html#_CPPv2I_8Variable_7ContextEN5annex5range12filter_rangeE">annex::range::filter_range (C++ type)</a>
-</li>
-      <li><a href="common.html#_CPPv2N5annex5range8flat_mapE">annex::range::flat_map (C++ member)</a>
-</li>
-      <li><a href="common.html#_CPPv2I_12StorableType_12StorableType_17MoveConstructibleENK5annex5range8flat_mapclERR11PeekFunctorRR7Functor3Rng">annex::range::flat_map::operator() (C++ function)</a>, <a href="common.html#_CPPv2I_15ForwardableType_17MoveConstructibleENK5annex5range8flat_mapclERR7Functor3Rng">[1]</a>
-</li>
-      <li><a href="arrangements.html#_CPPv2N5annex5range7flattenE">annex::range::flatten (C++ member)</a>
-</li>
-      <li><a href="arrangements.html#_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range7flattenclE3Rng">annex::range::flatten::operator() (C++ function)</a>
-</li>
-      <li><a href="arrangements.html#_CPPv2I0EX7ContextI3CtxEEN5annex5range13flatten_rangeE">annex::range::flatten_range (C++ type)</a>
-</li>
-      <li><a href="consumers.html#_CPPv2N5annex5range4foldE">annex::range::fold (C++ member)</a>
-</li>
-      <li><a href="consumers.html#_CPPv2I0_7Movable_5RangeENK5annex5range4foldclERR8Combiner4Seed3Rng">annex::range::fold::operator() (C++ function)</a>
-</li>
-      <li><a href="sources.html#_CPPv2N5annex5range8generateE">annex::range::generate (C++ member)</a>
-</li>
-      <li><a href="sources.html#_CPPv2I0EX15ForwardableTypeI7FunctorEENK5annex5range8generateclERR7Functor">annex::range::generate::operator() (C++ function)</a>, <a href="sources.html#_CPPv2I_8Variable_15ForwardableTypeENK5annex5range8generateclE6PolicyRR7Functor">[1]</a>
-</li>
-      <li><a href="sources.html#_CPPv2I_8Variable0EN5annex5range14generate_rangeE">annex::range::generate_range (C++ type)</a>
-</li>
-      <li><a href="sources.html#_CPPv2I_8Variable_8VariableEN5annex5range7GetlineE">annex::range::Getline (C++ concept)</a>
-</li>
-      <li><a href="transformations.html#_CPPv2N5annex5range5groupE">annex::range::group (C++ member)</a>
+      <li><a href="reference/consumers.html#_CPPv3N5annex5range12as_iteratorsE">as_iterators (C++ member)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="transformations.html#_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range5groupclE3Rng">annex::range::group::operator() (C++ function)</a>, <a href="transformations.html#_CPPv2I_15ForwardableType_15ForwardableType_17MoveConstructibleENK5annex5range5groupclERR4ProjRR5Equiv3Rng">[1]</a>
+      <li><a href="reference/consumers.html#_CPPv3I0EX11ContextTypeI3CtxEENK5annex5range12as_iteratorsclER3Ctx10position_tI3CtxE10sentinel_tI3CtxE">as_iterators::operator() (C++ function)</a>, <a href="reference/consumers.html#_CPPv3I0EX9RangeTypeI3RngEENK5annex5range12as_iteratorsclER3Rng">[1]</a>
 </li>
-      <li><a href="transformations.html#_CPPv2N5annex5range8group_byE">annex::range::group_by (C++ member)</a>
+      <li><a href="reference/sources.html#_CPPv3N5annex5range8as_rangeE">as_range (C++ member)</a>
 </li>
-      <li><a href="transformations.html#_CPPv2I_15ForwardableType_17MoveConstructibleENK5annex5range8group_byclERR4Proj3Rng">annex::range::group_by::operator() (C++ function)</a>
+      <li><a href="reference/sources.html#_CPPv3I0EX12StorableTypeI3RngEENK5annex5range8as_rangeclERR3Rng">as_range::operator() (C++ function)</a>, <a href="reference/sources.html#_CPPv3I0EX8IterableI4IterEENK5annex5range8as_rangeclER4Iter">[1]</a>
 </li>
-      <li><a href="transformations.html#_CPPv2I_8Variable_8Variable_16MultipassContextEN5annex5range11group_rangeE">annex::range::group_range (C++ type)</a>
+      <li><a href="reference/sources.html#_CPPv3I0EX4TypeI9IterOrRngEEN5annex5range10as_range_tE">as_range_t (C++ type)</a>
 </li>
-      <li><a href="operations.html#_CPPv2N5annex5range4incrE">annex::range::incr (C++ member)</a>
+      <li><a href="reference/sources.html#_CPPv3I0EX8VariableI3VarEEN5annex5range7AsRangeE">AsRange (C++ concept)</a>
 </li>
-      <li><a href="operations.html#_CPPv2I00EX5TypesI3Ctx3PosEENK5annex5range4incrclER3CtxR3Pos">annex::range::incr::operator() (C++ function)</a>
+      <li><a href="reference/annex.html#_CPPv3I_8Variable0EN5annex10AssignableE">Assignable (C++ concept)</a>
 </li>
-      <li><a href="operations.html#_CPPv2N5annex5range6incr_nE">annex::range::incr_n (C++ member)</a>
+      <li><a href="reference/operations.html#_CPPv3N5annex5range2atE">at (C++ member)</a>
 </li>
-      <li><a href="operations.html#_CPPv2I0EX23RandomAccessContextTypeI3CtxEENK5annex5range6incr_nclER3CtxR10position_tI3CtxER10position_tI3CtxER10position_tI3CtxER12difference_tI3CtxE">annex::range::incr_n::operator() (C++ function)</a>, <a href="operations.html#_CPPv2I_11ContextType0_14SignedIntegralENK5annex5range6incr_nclER3CtxR10position_tI3CtxER4SentR10position_tI3CtxE5Steps">[1]</a>, <a href="operations.html#_CPPv2I_9RangeType0ENK5annex5range6incr_nclER3RngR10position_tI3RngERR5Steps">[2]</a>
+      <li><a href="reference/operations.html#_CPPv3I00EX5TypesI3Ctx3PosEENK5annex5range2atclER3CtxR3Pos">at::operator() (C++ function)</a>
 </li>
-      <li><a href="sources.html#_CPPv2I0EX8VariableI3VarEEN5annex5range13IncrementableE">annex::range::Incrementable (C++ concept)</a>
+  </ul></td>
+</tr></table>
+
+<h2 id="B">B</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/operations.html#_CPPv3N5annex5range6beforeE">before (C++ member)</a>
 </li>
-      <li><a href="sources.html#_CPPv2I0EX8VariableI3IdxEEN5annex5range9IndexableE">annex::range::Indexable (C++ concept)</a>
+      <li><a href="reference/operations.html#_CPPv3I_11ContextType_8VariableENK5annex5range6beforeclER3Ctx3Pos">before::operator() (C++ function)</a>
 </li>
-      <li><a href="sources.html#_CPPv2N5annex5range9indexableE">annex::range::indexable (C++ member)</a>
+      <li><a href="reference/concepts.html#_CPPv3I0EX16MultipassContextI3CtxEEN5annex5range20BidirectionalContextE">BidirectionalContext (C++ concept)</a>
 </li>
-      <li><a href="sources.html#_CPPv2I0EX12StorableTypeI3IdxEENK5annex5range9indexableclERR3Idx">annex::range::indexable::operator() (C++ function)</a>
+      <li><a href="reference/concepts.html#_CPPv3I0EX20MultipassContextTypeI3CtxEEN5annex5range24BidirectionalContextTypeE">BidirectionalContextType (C++ concept)</a>
 </li>
-      <li><a href="sources.html#_CPPv2I0EX4TypeI3IdxEEN5annex5range19indexable_element_tE">annex::range::indexable_element_t (C++ type)</a>
+      <li><a href="reference/annex.html#_CPPv3I0EX15ForwardIteratorI2ItEEN5annex21BidirectionalIteratorE">BidirectionalIterator (C++ concept)</a>
 </li>
-      <li><a href="sources.html#_CPPv2I0EX4TypeI3IdxEEN5annex5range18indexable_offset_tE">annex::range::indexable_offset_t (C++ type)</a>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/annex.html#_CPPv3I0EX19ForwardIteratorTypeI2ItEEN5annex25BidirectionalIteratorTypeE">BidirectionalIteratorType (C++ concept)</a>
 </li>
-      <li><a href="sources.html#_CPPv2I0EX9IndexableI3IdxEEN5annex5range15indexable_rangeE">annex::range::indexable_range (C++ type)</a>
+      <li><a href="reference/transformations.html#_CPPv3N5annex5range3boxE">box (C++ member)</a>
 </li>
-      <li><a href="sources.html#_CPPv2I0EX4TypeI3IdxEEN5annex5range13IndexableTypeE">annex::range::IndexableType (C++ concept)</a>
+      <li><a href="reference/transformations.html#_CPPv3I0EX17MoveConstructibleI3RngEENK5annex5range3boxclE3Rng">box::operator() (C++ function)</a>
 </li>
-      <li><a href="consumers.html#_CPPv2N5annex5range12inplace_loopE">annex::range::inplace_loop (C++ member)</a>
+      <li><a href="reference/transformations.html#_CPPv3I_9Traversal0000EN5annex5range6box_asE">box_as (C++ member)</a>
 </li>
-      <li><a href="consumers.html#_CPPv2I0EX4TypeI3RngEENK5annex5range12inplace_loopclER3Rng">annex::range::inplace_loop::operator() (C++ function)</a>
+      <li><a href="reference/transformations.html#_CPPv3I0EX17MoveConstructibleI3RngEENK5annex5range6box_asclE3Rng">box_as::operator() (C++ function)</a>
 </li>
-      <li><a href="sources.html#_CPPv2I_4typeEN5annex5range8integersE">annex::range::integers (C++ member)</a>
+  </ul></td>
+</tr></table>
+
+<h2 id="C">C</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/sources.html#_CPPv3N5annex5range12close_optionE">close_option (C++ enum)</a>
 </li>
-      <li><a href="sources.html#_CPPv2NK5annex5range8integersclEv">annex::range::integers::operator() (C++ function)</a>
+      <li><a href="reference/sources.html#_CPPv3N5annex5range12close_option12close_at_endE">close_option::close_at_end (C++ enumerator)</a>
 </li>
-      <li><a href="sources.html#_CPPv2N5annex5range8intervalE">annex::range::interval (C++ member)</a>
+      <li><a href="reference/sources.html#_CPPv3N5annex5range12close_option10leave_openE">close_option::leave_open (C++ enumerator)</a>
 </li>
-      <li><a href="sources.html#_CPPv2I00EX18MoveConstructiblesI7Element6StrideEENK5annex5range8intervalclE7Element7Element6Stride">annex::range::interval::operator() (C++ function)</a>, <a href="sources.html#_CPPv2I0EX17MoveConstructibleI7ElementEENK5annex5range8intervalclE7Element7Element">[1]</a>
+      <li><a href="reference/consumers.html#_CPPv3IIDpE0EN5annex5range10collect_asE">collect_as (C++ member)</a>
 </li>
-      <li><a href="sources.html#_CPPv2I0EX8VariableI7ElementEEN5annex5range14interval_rangeE">annex::range::interval_range (C++ type)</a>
+      <li><a href="reference/consumers.html#_CPPv3I0EX5RangeI3RngEENK5annex5range10collect_asclE3Rng">collect_as::operator() (C++ function)</a>
 </li>
-      <li><a href="sources.html#_CPPv2N5annex5range4intsE">annex::range::ints (C++ member)</a>
+      <li><a href="reference/consumers.html#_CPPv3I0EX4TypeI4ContEEN5annex5range12collect_intoE">collect_into (C++ member)</a>
 </li>
-      <li><a href="sources.html#_CPPv2I0EX8VariableI4ItemEEN5annex5range7istreamE">annex::range::istream (C++ member)</a>
+      <li><a href="reference/consumers.html#_CPPv3I0EX5RangeI3RngEENK5annex5range12collect_intoclE3Rng">collect_into::operator() (C++ function)</a>
 </li>
-      <li><a href="sources.html#_CPPv2I0EX15ForwardableTypeI6StreamEENK5annex5range7istreamclE12close_optionRR6Stream">annex::range::istream::operator() (C++ function)</a>, <a href="sources.html#_CPPv2I0EX15ForwardableTypeI6StreamEENK5annex5range7istreamclERR6Stream">[1]</a>
+      <li><a href="reference/compositions.html#_CPPv3N5annex5range6concatE">concat (C++ member)</a>
 </li>
-      <li><a href="sources.html#_CPPv2I00EX9VariablesI4Item6StreamEEN5annex5range13istream_rangeE">annex::range::istream_range (C++ type)</a>
+      <li><a href="reference/compositions.html#_CPPv3I0EX17MoveConstructibleI3RngEEN5annex5range6concatclE3Rng">concat::operator() (C++ function)</a>, <a href="reference/compositions.html#_CPPv3IDpEX18MoveConstructiblesIsp4RngsEEN5annex5range6concatclEDp4Rngs">[1]</a>
 </li>
-      <li><a href="sources.html#_CPPv2N5annex5range17iterator_intervalE">annex::range::iterator_interval (C++ member)</a>
+      <li><a href="reference/compositions.html#_CPPv3IDpEX8ContextsIsp4CtxsEEN5annex5range12concat_rangeE">concat_range (C++ type)</a>
 </li>
-      <li><a href="sources.html#_CPPv2I0EX13InputIteratorI2ItEENK5annex5range17iterator_intervalclE2It2It">annex::range::iterator_interval::operator() (C++ function)</a>, <a href="sources.html#_CPPv2I0EX8IterableI4IterEENK5annex5range17iterator_intervalclER4Iter">[1]</a>
+      <li><a href="reference/annex.html#_CPPv3I_8VariableDpEN5annex13ConstructibleE">Constructible (C++ concept)</a>
 </li>
-      <li><a href="sources.html#_CPPv2I0EX13InputIteratorI2ItEEN5annex5range23iterator_interval_rangeE">annex::range::iterator_interval_range (C++ type)</a>
+      <li><a href="reference/sources.html#_CPPv3N5annex5range9containerE">container (C++ member)</a>
 </li>
-      <li><a href="sources.html#_CPPv2I00EX9VariablesI6Stream6StringEEN5annex5range10line_rangeE">annex::range::line_range (C++ type)</a>
+      <li><a href="reference/sources.html#_CPPv3I0EX12StorableTypeI4IterEENK5annex5range9containerclERR4Iter">container::operator() (C++ function)</a>
 </li>
-      <li><a href="sources.html#_CPPv2N5annex5range5linesE">annex::range::lines (C++ member)</a>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/sources.html#_CPPv3I0EX8IterableI4IterEEN5annex5range15container_rangeE">container_range (C++ type)</a>
 </li>
-      <li><a href="sources.html#_CPPv2I0EX8VariableI6StringEEN5annex5range8lines_ofE">annex::range::lines_of (C++ member)</a>
+      <li><a href="reference/sources.html#_CPPv3I0EX8IterableI4IterEEN5annex5range22container_range_sourceE">container_range_source (C++ type)</a>
 </li>
-      <li><a href="sources.html#_CPPv2I0EX15ForwardableTypeI6StreamEENK5annex5range8lines_ofclE12close_optionRR6Stream">annex::range::lines_of::operator() (C++ function)</a>, <a href="sources.html#_CPPv2I0EX15ForwardableTypeI6StreamEENK5annex5range8lines_ofclERR6Stream">[1]</a>
+      <li><a href="reference/concepts.html#_CPPv3I0EX8VariableI3CtxEEN5annex5range7ContextE">Context (C++ concept)</a>
 </li>
-      <li><a href="consumers.html#_CPPv2N5annex5range4loopE">annex::range::loop (C++ member)</a>
+      <li><a href="reference/concepts.html#_CPPv3I0EX4TypeI3RngEEN5annex5range9context_tE">context_t (C++ type)</a>
 </li>
-      <li><a href="consumers.html#_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range4loopclE3Rng">annex::range::loop::operator() (C++ function)</a>
+      <li><a href="reference/concepts.html#_CPPv3I0EX4TypeI3CtxEEN5annex5range11ContextTypeE">ContextType (C++ concept)</a>
 </li>
-      <li><a href="consumers.html#_CPPv2I0EX5RangeI3RngEEN5annex5range9loop_typeE">annex::range::loop_type (C++ type)</a>
+      <li><a href="reference/annex.html#_CPPv3I0EX8VariableI3VarEEN5annex8CopyableE">Copyable (C++ concept)</a>
 </li>
-      <li><a href="sources.html#_CPPv2N5annex5range10make_arrayE">annex::range::make_array (C++ member)</a>
+      <li><a href="reference/annex.html#_CPPv3IDpEX9VariablesIsp4VarsEEN5annex9CopyablesE">Copyables (C++ concept)</a>
 </li>
-      <li><a href="sources.html#_CPPv2IDpEX5TypesIsp4ArgsEENK5annex5range10make_arrayclEDpRR4Args">annex::range::make_array::operator() (C++ function)</a>
+      <li><a href="reference/annex.html#_CPPv3I0EX8VariableI3VarEEN5annex14CopyAssignableE">CopyAssignable (C++ concept)</a>
 </li>
-      <li><a href="sources.html#_CPPv2I0EX8VariableI7ElementEEN5annex5range13make_array_ofE">annex::range::make_array_of (C++ member)</a>
+      <li><a href="reference/annex.html#_CPPv3I0EX8VariableI3VarEEN5annex17CopyConstructibleE">CopyConstructible (C++ concept)</a>
 </li>
-      <li><a href="sources.html#_CPPv2IDpEX5TypesIsp4ArgsEENK5annex5range13make_array_ofclEDpRR4Args">annex::range::make_array_of::operator() (C++ function)</a>
+      <li><a href="reference/annex.html#_CPPv3IDpEX9VariablesIsp4VarsEEN5annex18CopyConstructiblesE">CopyConstructibles (C++ concept)</a>
 </li>
-      <li><a href="sources.html#_CPPv2N5annex5range11make_repeatE">annex::range::make_repeat (C++ member)</a>
+      <li><a href="reference/sources.html#_CPPv3I0EX8VariableI5ValueEEN5annex5range4coroE">coro (C++ member)</a>
 </li>
-      <li><a href="sources.html#_CPPv2I0EX12StorableTypeI4ItemEENK5annex5range11make_repeatclERR4Item">annex::range::make_repeat::operator() (C++ function)</a>
+      <li><a href="reference/sources.html#_CPPv3I0EX12StorableTypeI7FunctorEENK5annex5range4coroclERR7Functor">coro::operator() (C++ function)</a>, <a href="reference/sources.html#_CPPv3NK5annex5range4coroclEN5boost11coroutines29coroutineI5ValueE9pull_typeE">[1]</a>
 </li>
-      <li><a href="sources.html#_CPPv2N5annex5range14make_replicateE">annex::range::make_replicate (C++ member)</a>
+      <li><a href="reference/sources.html#_CPPv3I0EX8VariableI5ValueEEN5annex5range15coroutine_rangeE">coroutine_range (C++ type)</a>
 </li>
-      <li><a href="sources.html#_CPPv2I_12StorableType_8IntegralENK5annex5range14make_replicateclERR4Item3Int">annex::range::make_replicate::operator() (C++ function)</a>
+  </ul></td>
+</tr></table>
+
+<h2 id="D">D</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/operations.html#_CPPv3N5annex5range4decrE">decr (C++ member)</a>
 </li>
-      <li><a href="transformations.html#_CPPv2N5annex5range3mapE">annex::range::map (C++ member)</a>
+      <li><a href="reference/operations.html#_CPPv3I00EX5TypesI3Ctx4SentEENK5annex5range4decrclER3CtxR4Sent">decr::operator() (C++ function)</a>
 </li>
-      <li><a href="transformations.html#_CPPv2I_12StorableType_12StorableType_17MoveConstructibleENK5annex5range3mapclERR11PeekFunctorRR7Functor3Rng">annex::range::map::operator() (C++ function)</a>, <a href="transformations.html#_CPPv2I_15ForwardableType_17MoveConstructibleENK5annex5range3mapclERR7Functor3Rng">[1]</a>
+      <li><a href="reference/operations.html#_CPPv3N5annex5range6decr_nE">decr_n (C++ member)</a>
 </li>
-      <li><a href="transformations.html#_CPPv2I_8Variable_7ContextEN5annex5range9map_rangeE">annex::range::map_range (C++ type)</a>
+      <li><a href="reference/operations.html#_CPPv3I0EX23RandomAccessContextTypeI3CtxEENK5annex5range6decr_nclER3CtxR10position_tI3CtxER10position_tI3CtxER10position_tI3CtxER12difference_tI3CtxE">decr_n::operator() (C++ function)</a>, <a href="reference/operations.html#_CPPv3I_24BidirectionalContextType0_14SignedIntegralENK5annex5range6decr_nclER3CtxR3PosR10sentinel_tI3CtxER10sentinel_tI3CtxE5Steps">[1]</a>, <a href="reference/operations.html#_CPPv3I_9RangeType0ENK5annex5range6decr_nclER3RngR10sentinel_tI3RngERR5Steps">[2]</a>
 </li>
-      <li><a href="concepts.html#_CPPv2I0EX7ContextI3CtxEEN5annex5range16MultipassContextE">annex::range::MultipassContext (C++ concept)</a>
+      <li><a href="reference/sources.html#_CPPv3I0EX8VariableI3VarEEN5annex5range13DecrementableE">Decrementable (C++ concept)</a>
 </li>
-      <li><a href="concepts.html#_CPPv2I0EX11ContextTypeI3CtxEEN5annex5range20MultipassContextTypeE">annex::range::MultipassContextType (C++ concept)</a>
+      <li><a href="reference/sources.html#_CPPv3N5annex5range16default_generateE">default_generate (C++ member)</a>
 </li>
-      <li><a href="operations.html#_CPPv2N5annex5range4nextE">annex::range::next (C++ member)</a>
+      <li><a href="reference/sources.html#_CPPv3N5annex5range23default_generate_policyE">default_generate_policy (C++ type)</a>
 </li>
-      <li><a href="operations.html#_CPPv2I_11ContextType_17MoveConstructibleENK5annex5range4nextclER3Ctx3Pos">annex::range::next::operator() (C++ function)</a>
+      <li><a href="reference/transformations.html#_CPPv3N5annex5range5deferE">defer (C++ member)</a>
 </li>
-      <li><a href="operations.html#_CPPv2N5annex5range6next_nE">annex::range::next_n (C++ member)</a>
+      <li><a href="reference/transformations.html#_CPPv3I0DpEX13StorableTypesI7Functorsp4ArgsEENK5annex5range5deferclERR7FunctorDpRR4Args">defer::operator() (C++ function)</a>
 </li>
-      <li><a href="operations.html#_CPPv2I0_17MoveConstructible00ENK5annex5range6next_nclER3CtxR3PosR4Sent3PosRR5Steps">annex::range::next_n::operator() (C++ function)</a>, <a href="operations.html#_CPPv2I_9RangeType0ENK5annex5range6next_nclER3Rng10position_tI3RngERR5Steps">[1]</a>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/transformations.html#_CPPv3I0DpEX9VariablesI7Functorsp4ArgsEEN5annex5range13defer_contextE">defer_context (C++ class)</a>
 </li>
-      <li><a href="sources.html#_CPPv2N5annex5range8nullableE">annex::range::nullable (C++ member)</a>
+      <li><a href="reference/transformations.html#_CPPv3N5annex5range13defer_context13deferred_argsE">defer_context::deferred_args (C++ member)</a>
 </li>
-      <li><a href="sources.html#_CPPv2I0EX15ForwardableTypeI4NullEENK5annex5range8nullableclERR4Null">annex::range::nullable::operator() (C++ function)</a>
+      <li><a href="reference/transformations.html#_CPPv3N5annex5range13defer_context16deferred_functorE">defer_context::deferred_functor (C++ member)</a>
 </li>
-      <li><a href="sources.html#_CPPv2I0EX8NullableI4NullEEN5annex5range14nullable_rangeE">annex::range::nullable_range (C++ type)</a>
+      <li><a href="reference/transformations.html#_CPPv3I0DpEX9VariablesI7Functorsp4ArgsEEN5annex5range11defer_rangeE">defer_range (C++ type)</a>
 </li>
-      <li><a href="operations.html#_CPPv2N5annex5range6offsetE">annex::range::offset (C++ member)</a>
+      <li><a href="reference/operations.html#_CPPv3N5annex5range10differenceE">difference (C++ member)</a>
 </li>
-      <li><a href="operations.html#_CPPv2I_11ContextType_17MoveConstructible0ENK5annex5range6offsetclER3Ctx3PosR6Offset">annex::range::offset::operator() (C++ function)</a>
+      <li><a href="reference/operations.html#_CPPv3I00EX5TypesI3Ctx3PosEENK5annex5range10differenceclER3CtxR3PosR3Pos">difference::operator() (C++ function)</a>
 </li>
-      <li><a href="operations.html#_CPPv2N5annex5range7peek_atE">annex::range::peek_at (C++ member)</a>
+      <li><a href="reference/concepts.html#_CPPv3I0EX4TypeI3CtxEEN5annex5range12difference_tE">difference_t (C++ type)</a>
 </li>
-      <li><a href="operations.html#_CPPv2I00EX5TypesI3Ctx3PosEENK5annex5range7peek_atclER3CtxR3Pos">annex::range::peek_at::operator() (C++ function)</a>
+      <li><a href="reference/operations.html#_CPPv3N5annex5range8distanceE">distance (C++ member)</a>
 </li>
-      <li><a href="operations.html#_CPPv2N5annex5range11peek_beforeE">annex::range::peek_before (C++ member)</a>
+      <li><a href="reference/operations.html#_CPPv3I0EX23RandomAccessContextTypeI3CtxEENK5annex5range8distanceclER3CtxR10position_tI3CtxER10position_tI3CtxE">distance::operator() (C++ function)</a>, <a href="reference/operations.html#_CPPv3I0EX9RangeTypeI3RngEENK5annex5range8distanceclER3Rng">[1]</a>, <a href="reference/operations.html#_CPPv3I_11ContextType0ENK5annex5range8distanceclER3Ctx10position_tI3CtxER4Sent">[2]</a>
 </li>
-      <li><a href="operations.html#_CPPv2I_11ContextType_8VariableENK5annex5range11peek_beforeclER3Ctx3Pos">annex::range::peek_before::operator() (C++ function)</a>
+  </ul></td>
+</tr></table>
+
+<h2 id="E">E</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/concepts.html#_CPPv3I0EX4TypeI3CtxEEN5annex5range9element_tE">element_t (C++ type)</a>
 </li>
-      <li><a href="concepts.html#_CPPv2I0EX4TypeI3CtxEEN5annex5range14peek_element_tE">annex::range::peek_element_t (C++ type)</a>
+      <li><a href="reference/operations.html#_CPPv3N5annex5range9equal_posE">equal_pos (C++ member)</a>
 </li>
-      <li><a href="transformations.html#_CPPv2I00EX9VariablesI11PeekFunctor7FunctorEEN5annex5range26peek_functor_overload_typeE">annex::range::peek_functor_overload_type (C++ class)</a>
+      <li><a href="reference/operations.html#_CPPv3I000EX5TypesI3Ctx3Pos4SentEENK5annex5range9equal_posclER3CtxR3PosR4Sent">equal_pos::operator() (C++ function)</a>
 </li>
-      <li><a href="transformations.html#_CPPv2NKR5annex5range26peek_functor_overload_type7functorEv">annex::range::peek_functor_overload_type::functor (C++ function)</a>, <a href="transformations.html#_CPPv2NO5annex5range26peek_functor_overload_type7functorEv">[1]</a>, <a href="transformations.html#_CPPv2NR5annex5range26peek_functor_overload_type7functorEv">[2]</a>
+      <li><a href="reference/annex.html#_CPPv3I_8Variable_8VariableEN5annex18EqualityComparableE">EqualityComparable (C++ concept)</a>
 </li>
-      <li><a href="transformations.html#_CPPv2N5annex5range26peek_functor_overload_typeclE11unspecified">annex::range::peek_functor_overload_type::operator() (C++ function)</a>
+      <li><a href="reference/annex.html#_CPPv3I_8Variable00EN5annex11EquivalenceE">Equivalence (C++ concept)</a>
 </li>
-      <li><a href="transformations.html#_CPPv2NKR5annex5range26peek_functor_overload_type12peek_functorEv">annex::range::peek_functor_overload_type::peek_functor (C++ function)</a>, <a href="transformations.html#_CPPv2NO5annex5range26peek_functor_overload_type12peek_functorEv">[1]</a>, <a href="transformations.html#_CPPv2NR5annex5range26peek_functor_overload_type12peek_functorEv">[2]</a>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/annex.html#_CPPv3I000EN5annex15EquivalenceTypeE">EquivalenceType (C++ concept)</a>
 </li>
-      <li><a href="concepts.html#_CPPv2I0EX4TypeI3CtxEEN5annex5range10position_tE">annex::range::position_t (C++ type)</a>
+      <li><a href="reference/transformations.html#_CPPv3I0_9Traversal000_bEN5annex5range10ErasableAsE">ErasableAs (C++ concept)</a>
 </li>
-      <li><a href="operations.html#_CPPv2N5annex5range4prevE">annex::range::prev (C++ member)</a>
+      <li><a href="reference/annex.html#_CPPv3I0EX8VariableI3VarEEN5annex7ExampleE">Example (C++ concept)</a>
 </li>
-      <li><a href="operations.html#_CPPv2I_11ContextType_17MoveConstructibleENK5annex5range4prevclER3Ctx3Pos">annex::range::prev::operator() (C++ function)</a>
+      <li><a href="reference/annex.html#_CPPv3IDpEX9VariablesIsp4VarsEEN5annex8ExamplesE">Examples (C++ concept)</a>
 </li>
-      <li><a href="operations.html#_CPPv2N5annex5range6prev_nE">annex::range::prev_n (C++ member)</a>
+      <li><a href="reference/annex.html#_CPPv3I0EX4TypeI1XEEN5annex11ExampleTypeE">ExampleType (C++ concept)</a>
 </li>
-      <li><a href="operations.html#_CPPv2I00_17MoveConstructible0ENK5annex5range6prev_nclER3CtxR3PosR4Sent4SentRR5Steps">annex::range::prev_n::operator() (C++ function)</a>, <a href="operations.html#_CPPv2I_9RangeType0ENK5annex5range6prev_nclER3Rng10sentinel_tI3RngERR5Steps">[1]</a>
-</li>
-      <li><a href="consumers.html#_CPPv2N5annex5range7productE">annex::range::product (C++ member)</a>
-</li>
-      <li><a href="consumers.html#_CPPv2I00EX18MoveConstructiblesI4Seed3RngEENK5annex5range7productclE4Seed3Rng">annex::range::product::operator() (C++ function)</a>, <a href="consumers.html#_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range7productclE3Rng">[1]</a>
-</li>
-      <li><a href="concepts.html#_CPPv2I0EX20BidirectionalContextI3CtxEEN5annex5range19RandomAccessContextE">annex::range::RandomAccessContext (C++ concept)</a>
-</li>
-      <li><a href="concepts.html#_CPPv2I0EX24BidirectionalContextTypeI3CtxEEN5annex5range23RandomAccessContextTypeE">annex::range::RandomAccessContextType (C++ concept)</a>
-</li>
-      <li><a href="concepts.html#_CPPv2I0EX8VariableI3RngEEN5annex5range5RangeE">annex::range::Range (C++ concept)</a>
-</li>
-      <li><a href="consumers.html#_CPPv2I0EX11ContextTypeI3CtxEEN5annex5range14range_iteratorE">annex::range::range_iterator (C++ type)</a>
-</li>
-      <li><a href="consumers.html#_CPPv2I0EX11ContextTypeI3CtxEEN5annex5range19range_iterator_pairE">annex::range::range_iterator_pair (C++ class)</a>
-</li>
-      <li><a href="consumers.html#_CPPv2NKR5annex5range19range_iterator_pair5beginEv">annex::range::range_iterator_pair::begin (C++ function)</a>, <a href="consumers.html#_CPPv2NO5annex5range19range_iterator_pair5beginEv">[1]</a>
-</li>
-      <li><a href="consumers.html#_CPPv2NKR5annex5range19range_iterator_pair3endEv">annex::range::range_iterator_pair::end (C++ function)</a>, <a href="consumers.html#_CPPv2NO5annex5range19range_iterator_pair3endEv">[1]</a>
-</li>
-      <li><a href="consumers.html#_CPPv2N5annex5range19range_iterator_pair5firstE">annex::range::range_iterator_pair::first (C++ member)</a>
-</li>
-      <li><a href="consumers.html#_CPPv2N5annex5range19range_iterator_pair4lastE">annex::range::range_iterator_pair::last (C++ member)</a>
-</li>
-      <li><a href="concepts.html#_CPPv2IDpEX5TypesIsp4RngsEEN5annex5range6RangesE">annex::range::Ranges (C++ concept)</a>, <a href="concepts.html#_CPPv2IDpEX9VariablesIsp4RngsEEN5annex5range6RangesE">[1]</a>
-</li>
-      <li><a href="concepts.html#_CPPv2I0EX4TypeI3RngEEN5annex5range9RangeTypeE">annex::range::RangeType (C++ concept)</a>
-</li>
-      <li><a href="sources.html#_CPPv2N5annex5range16relaxed_generateE">annex::range::relaxed_generate (C++ member)</a>
-</li>
-      <li><a href="sources.html#_CPPv2N5annex5range6repeatE">annex::range::repeat (C++ member)</a>
-</li>
-      <li><a href="sources.html#_CPPv2I0EX15ForwardableTypeI4ItemEENK5annex5range6repeatclERR4Item">annex::range::repeat::operator() (C++ function)</a>
-</li>
-      <li><a href="sources.html#_CPPv2I0EX8VariableI4ItemEEN5annex5range12repeat_rangeE">annex::range::repeat_range (C++ type)</a>
-</li>
-      <li><a href="sources.html#_CPPv2N5annex5range9replicateE">annex::range::replicate (C++ member)</a>
-</li>
-      <li><a href="sources.html#_CPPv2I_15ForwardableType_8IntegralENK5annex5range9replicateclERR4Item3Int">annex::range::replicate::operator() (C++ function)</a>
-</li>
-      <li><a href="sources.html#_CPPv2I_8Variable_8IntegralEN5annex5range15replicate_rangeE">annex::range::replicate_range (C++ type)</a>
-</li>
-      <li><a href="transformations.html#_CPPv2N5annex5range7reverseE">annex::range::reverse (C++ member)</a>
-</li>
-      <li><a href="transformations.html#_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range7reverseclE3Rng">annex::range::reverse::operator() (C++ function)</a>
-</li>
-      <li><a href="transformations.html#_CPPv2I0EX20BidirectionalContextI3CtxEEN5annex5range13reverse_rangeE">annex::range::reverse_range (C++ type)</a>
-</li>
-      <li><a href="operations.html#_CPPv2N5annex5range4saveE">annex::range::save (C++ member)</a>
-</li>
-      <li><a href="operations.html#_CPPv2I0DpENK5annex5range4saveclER3CtxDpR3Pos">annex::range::save::operator() (C++ function)</a>
-</li>
-      <li><a href="concepts.html#_CPPv2I0EX7ContextI3CtxEEN5annex5range8SaveableE">annex::range::Saveable (C++ concept)</a>
-</li>
-      <li><a href="concepts.html#_CPPv2I0EX11ContextTypeI3CtxEEN5annex5range12SaveableTypeE">annex::range::SaveableType (C++ concept)</a>
-</li>
-      <li><a href="concepts.html#_CPPv2I0EX4TypeI3CtxEEN5annex5range10sentinel_tE">annex::range::sentinel_t (C++ type)</a>
-</li>
-      <li><a href="operations.html#_CPPv2N5annex5range4stepE">annex::range::step (C++ member)</a>
-</li>
-      <li><a href="operations.html#_CPPv2I000EX5TypesI3Ctx3Pos6OffsetEENK5annex5range4stepclER3CtxR3PosR6Offset">annex::range::step::operator() (C++ function)</a>
-</li>
-      <li><a href="transformations.html#_CPPv2N5annex5range6strideE">annex::range::stride (C++ member)</a>
-</li>
-      <li><a href="transformations.html#_CPPv2I_8Integral_17MoveConstructibleENK5annex5range6strideclE5Steps3Rng">annex::range::stride::operator() (C++ function)</a>
-</li>
-      <li><a href="transformations.html#_CPPv2I_8Integral_7ContextEN5annex5range12stride_rangeE">annex::range::stride_range (C++ type)</a>
-</li>
-      <li><a href="sources.html#_CPPv2I00EX9VariablesI7Element6StrideEEN5annex5range22strided_interval_rangeE">annex::range::strided_interval_range (C++ type)</a>
-</li>
-      <li><a href="consumers.html#_CPPv2N5annex5range3sumE">annex::range::sum (C++ member)</a>
-</li>
-      <li><a href="consumers.html#_CPPv2I00EX18MoveConstructiblesI4Seed3RngEENK5annex5range3sumclE4Seed3Rng">annex::range::sum::operator() (C++ function)</a>, <a href="consumers.html#_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range3sumclE3Rng">[1]</a>
-</li>
-      <li><a href="operations.html#_CPPv2N5annex5range16unchecked_decr_nE">annex::range::unchecked_decr_n (C++ member)</a>
-</li>
-      <li><a href="operations.html#_CPPv2I0EX11ContextTypeI3CtxEENK5annex5range16unchecked_decr_nclER3CtxR10sentinel_tI3CtxE14SignedIntegral">annex::range::unchecked_decr_n::operator() (C++ function)</a>
-</li>
-      <li><a href="operations.html#_CPPv2N5annex5range16unchecked_incr_nE">annex::range::unchecked_incr_n (C++ member)</a>
-</li>
-      <li><a href="operations.html#_CPPv2I0EX11ContextTypeI3CtxEENK5annex5range16unchecked_incr_nclER3CtxR10position_tI3CtxE14SignedIntegral">annex::range::unchecked_incr_n::operator() (C++ function)</a>
-</li>
-      <li><a href="operations.html#_CPPv2N5annex5range16unchecked_next_nE">annex::range::unchecked_next_n (C++ member)</a>
-</li>
-      <li><a href="operations.html#_CPPv2I0_17MoveConstructible0ENK5annex5range16unchecked_next_nclER3Ctx3PosRR5Steps">annex::range::unchecked_next_n::operator() (C++ function)</a>
-</li>
-      <li><a href="operations.html#_CPPv2N5annex5range16unchecked_prev_nE">annex::range::unchecked_prev_n (C++ member)</a>
-</li>
-      <li><a href="operations.html#_CPPv2I0_17MoveConstructible0ENK5annex5range16unchecked_prev_nclER3Ctx3PosRR5Steps">annex::range::unchecked_prev_n::operator() (C++ function)</a>
-</li>
-      <li><a href="sources.html#_CPPv2I0EX4TypeI5ValueEEN5annex5range7yield_tE">annex::range::yield_t (C++ type)</a>
-</li>
-      <li><a href="compositions.html#_CPPv2N5annex5range3zipE">annex::range::zip (C++ member)</a>
-</li>
-      <li><a href="compositions.html#_CPPv2I0EX17MoveConstructibleI3RngEENK5annex5range3zipclE3Rng">annex::range::zip::operator() (C++ function)</a>, <a href="compositions.html#_CPPv2IDpEX18MoveConstructiblesIsp4RngsEENK5annex5range3zipclEDp4Rngs">[1]</a>
-</li>
-      <li><a href="compositions.html#_CPPv2IDpEX8ContextsIsp4CtxsEEN5annex5range9zip_rangeE">annex::range::zip_range (C++ type)</a>
-</li>
-      <li><a href="annex.html#_CPPv2I0EX8VariableI3IntEEN5annex14SignedIntegralE">annex::SignedIntegral (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2I0EX8VariableI3VarEEN5annex8StorableE">annex::Storable (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2IDpEX9VariablesIsp4VarsEEN5annex9StorablesE">annex::Storables (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2I0EX4TypeI3VarEEN5annex12StorableTypeE">annex::StorableType (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2IDpEX5TypesIsp2XsEEN5annex13StorableTypesE">annex::StorableTypes (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2I_8Variable0EN5annex17StreamExtractableE">annex::StreamExtractable (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2I0EN5annex4TypeE">annex::Type (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2IDpEN5annex5TypesE">annex::Types (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2I0EX4TypeI1XEEN5annex8VariableE">annex::Variable (C++ concept)</a>
-</li>
-      <li><a href="annex.html#_CPPv2IDpEX5TypesIsp2XsEEN5annex9VariablesE">annex::Variables (C++ concept)</a>
+      <li><a href="reference/annex.html#_CPPv3IDpEX5TypesIsp2XsEEN5annex12ExampleTypesE">ExampleTypes (C++ concept)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -591,7 +298,153 @@
 <h2 id="F">F</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/transformations.html#_CPPv3N5annex5range6filterE">filter (C++ member)</a>
+</li>
+      <li><a href="reference/transformations.html#_CPPv3I_15ForwardableType_17MoveConstructibleENK5annex5range6filterclERR4Pred3Rng">filter::operator() (C++ function)</a>
+</li>
+      <li><a href="reference/transformations.html#_CPPv3I_8Variable_7ContextEN5annex5range12filter_rangeE">filter_range (C++ type)</a>
+</li>
+      <li><a href="reference/common.html#_CPPv3N5annex5range8flat_mapE">flat_map (C++ member)</a>
+</li>
+      <li><a href="reference/common.html#_CPPv3I_12StorableType_12StorableType_17MoveConstructibleENK5annex5range8flat_mapclERR11PeekFunctorRR7Functor3Rng">flat_map::operator() (C++ function)</a>, <a href="reference/common.html#_CPPv3I_15ForwardableType_17MoveConstructibleENK5annex5range8flat_mapclERR7Functor3Rng">[1]</a>
+</li>
+      <li><a href="reference/arrangements.html#_CPPv3N5annex5range7flattenE">flatten (C++ member)</a>
+</li>
+      <li><a href="reference/arrangements.html#_CPPv3I0EX17MoveConstructibleI3RngEENK5annex5range7flattenclE3Rng">flatten::operator() (C++ function)</a>
+</li>
+      <li><a href="reference/arrangements.html#_CPPv3I0EX7ContextI3CtxEEN5annex5range13flatten_rangeE">flatten_range (C++ type)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/consumers.html#_CPPv3N5annex5range4foldE">fold (C++ member)</a>
+</li>
+      <li><a href="reference/consumers.html#_CPPv3I0_7Movable_5RangeENK5annex5range4foldclERR8Combiner4Seed3Rng">fold::operator() (C++ function)</a>
+</li>
+      <li><a href="reference/annex.html#_CPPv3I0EX8VariableI3VarEEN5annex11ForwardableE">Forwardable (C++ concept)</a>
+</li>
+      <li><a href="reference/annex.html#_CPPv3IDpEX9VariablesIsp4VarsEEN5annex12ForwardablesE">Forwardables (C++ concept)</a>
+</li>
+      <li><a href="reference/annex.html#_CPPv3I0EX4TypeI1XEEN5annex15ForwardableTypeE">ForwardableType (C++ concept)</a>
+</li>
+      <li><a href="reference/annex.html#_CPPv3IDpEX5TypesIsp2XsEEN5annex16ForwardableTypesE">ForwardableTypes (C++ concept)</a>
+</li>
+      <li><a href="reference/annex.html#_CPPv3I0EX13InputIteratorI2ItEEN5annex15ForwardIteratorE">ForwardIterator (C++ concept)</a>
+</li>
+      <li><a href="reference/annex.html#_CPPv3I0EX17InputIteratorTypeI2ItEEN5annex19ForwardIteratorTypeE">ForwardIteratorType (C++ concept)</a>
+</li>
       <li><a href="glossary.html#term-function"><strong>function</strong></a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="G">G</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/sources.html#_CPPv3N5annex5range8generateE">generate (C++ member)</a>
+</li>
+      <li><a href="reference/sources.html#_CPPv3I0EX15ForwardableTypeI7FunctorEENK5annex5range8generateclERR7Functor">generate::operator() (C++ function)</a>, <a href="reference/sources.html#_CPPv3I_8Variable_15ForwardableTypeENK5annex5range8generateclE6PolicyRR7Functor">[1]</a>
+</li>
+      <li><a href="reference/sources.html#_CPPv3I_8Variable0EN5annex5range14generate_rangeE">generate_range (C++ type)</a>
+</li>
+      <li><a href="reference/sources.html#_CPPv3I_8Variable_8VariableEN5annex5range7GetlineE">Getline (C++ concept)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/transformations.html#_CPPv3N5annex5range5groupE">group (C++ member)</a>
+</li>
+      <li><a href="reference/transformations.html#_CPPv3I0EX17MoveConstructibleI3RngEENK5annex5range5groupclE3Rng">group::operator() (C++ function)</a>, <a href="reference/transformations.html#_CPPv3I_15ForwardableType_15ForwardableType_17MoveConstructibleENK5annex5range5groupclERR4ProjRR5Equiv3Rng">[1]</a>
+</li>
+      <li><a href="reference/transformations.html#_CPPv3N5annex5range8group_byE">group_by (C++ member)</a>
+</li>
+      <li><a href="reference/transformations.html#_CPPv3I_15ForwardableType_17MoveConstructibleENK5annex5range8group_byclERR4Proj3Rng">group_by::operator() (C++ function)</a>
+</li>
+      <li><a href="reference/transformations.html#_CPPv3I_8Variable_8Variable_16MultipassContextEN5annex5range11group_rangeE">group_range (C++ type)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="I">I</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/operations.html#_CPPv3N5annex5range4incrE">incr (C++ member)</a>
+</li>
+      <li><a href="reference/operations.html#_CPPv3I00EX5TypesI3Ctx3PosEENK5annex5range4incrclER3CtxR3Pos">incr::operator() (C++ function)</a>
+</li>
+      <li><a href="reference/operations.html#_CPPv3N5annex5range6incr_nE">incr_n (C++ member)</a>
+</li>
+      <li><a href="reference/operations.html#_CPPv3I0EX23RandomAccessContextTypeI3CtxEENK5annex5range6incr_nclER3CtxR10position_tI3CtxER10position_tI3CtxER10position_tI3CtxER12difference_tI3CtxE">incr_n::operator() (C++ function)</a>, <a href="reference/operations.html#_CPPv3I_11ContextType0_14SignedIntegralENK5annex5range6incr_nclER3CtxR10position_tI3CtxER4SentR10position_tI3CtxE5Steps">[1]</a>, <a href="reference/operations.html#_CPPv3I_9RangeType0ENK5annex5range6incr_nclER3RngR10position_tI3RngERR5Steps">[2]</a>
+</li>
+      <li><a href="reference/sources.html#_CPPv3I0EX8VariableI3VarEEN5annex5range13IncrementableE">Incrementable (C++ concept)</a>
+</li>
+      <li><a href="reference/sources.html#_CPPv3I0EX8VariableI3IdxEEN5annex5range9IndexableE">Indexable (C++ concept)</a>
+</li>
+      <li><a href="reference/sources.html#_CPPv3N5annex5range9indexableE">indexable (C++ member)</a>
+</li>
+      <li><a href="reference/sources.html#_CPPv3I0EX12StorableTypeI3IdxEENK5annex5range9indexableclERR3Idx">indexable::operator() (C++ function)</a>
+</li>
+      <li><a href="reference/sources.html#_CPPv3I0EX4TypeI3IdxEEN5annex5range19indexable_element_tE">indexable_element_t (C++ type)</a>
+</li>
+      <li><a href="reference/sources.html#_CPPv3I0EX4TypeI3IdxEEN5annex5range18indexable_offset_tE">indexable_offset_t (C++ type)</a>
+</li>
+      <li><a href="reference/sources.html#_CPPv3I0EX9IndexableI3IdxEEN5annex5range15indexable_rangeE">indexable_range (C++ type)</a>
+</li>
+      <li><a href="reference/sources.html#_CPPv3I0EX4TypeI3IdxEEN5annex5range13IndexableTypeE">IndexableType (C++ concept)</a>
+</li>
+      <li><a href="reference/consumers.html#_CPPv3N5annex5range12inplace_loopE">inplace_loop (C++ member)</a>
+</li>
+      <li><a href="reference/consumers.html#_CPPv3I0EX4TypeI3RngEENK5annex5range12inplace_loopclER3Rng">inplace_loop::operator() (C++ function)</a>
+</li>
+      <li><a href="reference/annex.html#_CPPv3I0EX8VariableI2ItEEN5annex13InputIteratorE">InputIterator (C++ concept)</a>
+</li>
+      <li><a href="reference/annex.html#_CPPv3I0EX4TypeI2ItEEN5annex17InputIteratorTypeE">InputIteratorType (C++ concept)</a>
+</li>
+      <li><a href="reference/sources.html#_CPPv3I_4typeEN5annex5range8integersE">integers (C++ member)</a>
+</li>
+      <li><a href="reference/sources.html#_CPPv3NK5annex5range8integersclEv">integers::operator() (C++ function)</a>
+</li>
+      <li><a href="reference/annex.html#_CPPv3I0EX8VariableI3IntEEN5annex8IntegralE">Integral (C++ concept)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/sources.html#_CPPv3N5annex5range8intervalE">interval (C++ member)</a>
+</li>
+      <li><a href="reference/sources.html#_CPPv3I00EX18MoveConstructiblesI7Element6StrideEENK5annex5range8intervalclE7Element7Element6Stride">interval::operator() (C++ function)</a>, <a href="reference/sources.html#_CPPv3I0EX17MoveConstructibleI7ElementEENK5annex5range8intervalclE7Element7Element">[1]</a>
+</li>
+      <li><a href="reference/sources.html#_CPPv3I0EX8VariableI7ElementEEN5annex5range14interval_rangeE">interval_range (C++ type)</a>
+</li>
+      <li><a href="reference/sources.html#_CPPv3N5annex5range4intsE">ints (C++ member)</a>
+</li>
+      <li><a href="reference/annex.html#_CPPv3I_8VariableDpEN5annex9InvokableE">Invokable (C++ concept)</a>
+</li>
+      <li><a href="reference/annex.html#_CPPv3I0_8VariableDpEN5annex11InvokableAsE">InvokableAs (C++ concept)</a>
+</li>
+      <li><a href="reference/annex.html#_CPPv3I00DpEN5annex15InvokableAsTypeE">InvokableAsType (C++ concept)</a>
+</li>
+      <li><a href="reference/annex.html#_CPPv3I0DpEN5annex13InvokableTypeE">InvokableType (C++ concept)</a>
+</li>
+      <li><a href="reference/annex.html#_CPPv3N5annex6invokeE">invoke (C++ member)</a>
+</li>
+      <li><a href="reference/annex.html#_CPPv3I0DpENK5annex6invokeclERR4FuncDpRR4Args">invoke::operator() (C++ function)</a>
+</li>
+      <li><a href="reference/annex.html#_CPPv3I0EN5annex9invoke_asE">invoke_as (C++ member)</a>
+</li>
+      <li><a href="reference/annex.html#_CPPv3I0DpENK5annex9invoke_asclERR4FuncDpRR4Args">invoke_as::operator() (C++ function)</a>
+</li>
+      <li><a href="reference/sources.html#_CPPv3I0EX8VariableI4ItemEEN5annex5range7istreamE">istream (C++ member)</a>
+</li>
+      <li><a href="reference/sources.html#_CPPv3I0EX15ForwardableTypeI6StreamEENK5annex5range7istreamclE12close_optionRR6Stream">istream::operator() (C++ function)</a>, <a href="reference/sources.html#_CPPv3I0EX15ForwardableTypeI6StreamEENK5annex5range7istreamclERR6Stream">[1]</a>
+</li>
+      <li><a href="reference/sources.html#_CPPv3I00EX9VariablesI4Item6StreamEEN5annex5range13istream_rangeE">istream_range (C++ type)</a>
+</li>
+      <li><a href="reference/annex.html#_CPPv3I0EX8VariableI4IterEEN5annex8IterableE">Iterable (C++ concept)</a>
+</li>
+      <li><a href="reference/annex.html#_CPPv3I0EX4TypeI4IterEEN5annex12IterableTypeE">IterableType (C++ concept)</a>
+</li>
+      <li><a href="reference/sources.html#_CPPv3N5annex5range17iterator_intervalE">iterator_interval (C++ member)</a>
+</li>
+      <li><a href="reference/sources.html#_CPPv3I0EX13InputIteratorI2ItEENK5annex5range17iterator_intervalclE2It2It">iterator_interval::operator() (C++ function)</a>, <a href="reference/sources.html#_CPPv3I0EX8IterableI4IterEENK5annex5range17iterator_intervalclER4Iter">[1]</a>
+</li>
+      <li><a href="reference/sources.html#_CPPv3I0EX13InputIteratorI2ItEEN5annex5range23iterator_interval_rangeE">iterator_interval_range (C++ type)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -601,13 +454,217 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="glossary.html#term-lax-range"><strong>lax range</strong></a>
 </li>
+      <li><a href="reference/sources.html#_CPPv3I00EX9VariablesI6Stream6StringEEN5annex5range10line_rangeE">line_range (C++ type)</a>
+</li>
+      <li><a href="reference/sources.html#_CPPv3N5annex5range5linesE">lines (C++ member)</a>
+</li>
+      <li><a href="reference/sources.html#_CPPv3I0EX8VariableI6StringEEN5annex5range8lines_ofE">lines_of (C++ member)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/sources.html#_CPPv3I0EX15ForwardableTypeI6StreamEENK5annex5range8lines_ofclE12close_optionRR6Stream">lines_of::operator() (C++ function)</a>, <a href="reference/sources.html#_CPPv3I0EX15ForwardableTypeI6StreamEENK5annex5range8lines_ofclERR6Stream">[1]</a>
+</li>
+      <li><a href="reference/consumers.html#_CPPv3N5annex5range4loopE">loop (C++ member)</a>
+</li>
+      <li><a href="reference/consumers.html#_CPPv3I0EX17MoveConstructibleI3RngEENK5annex5range4loopclE3Rng">loop::operator() (C++ function)</a>
+</li>
+      <li><a href="reference/consumers.html#_CPPv3I0EX5RangeI3RngEEN5annex5range9loop_typeE">loop_type (C++ type)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="M">M</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/sources.html#_CPPv3N5annex5range10make_arrayE">make_array (C++ member)</a>
+</li>
+      <li><a href="reference/sources.html#_CPPv3IDpEX5TypesIsp4ArgsEENK5annex5range10make_arrayclEDpRR4Args">make_array::operator() (C++ function)</a>
+</li>
+      <li><a href="reference/sources.html#_CPPv3I0EX8VariableI7ElementEEN5annex5range13make_array_ofE">make_array_of (C++ member)</a>
+</li>
+      <li><a href="reference/sources.html#_CPPv3IDpEX5TypesIsp4ArgsEENK5annex5range13make_array_ofclEDpRR4Args">make_array_of::operator() (C++ function)</a>
+</li>
+      <li><a href="reference/sources.html#_CPPv3N5annex5range11make_repeatE">make_repeat (C++ member)</a>
+</li>
+      <li><a href="reference/sources.html#_CPPv3I0EX12StorableTypeI4ItemEENK5annex5range11make_repeatclERR4Item">make_repeat::operator() (C++ function)</a>
+</li>
+      <li><a href="reference/sources.html#_CPPv3N5annex5range14make_replicateE">make_replicate (C++ member)</a>
+</li>
+      <li><a href="reference/sources.html#_CPPv3I_12StorableType_8IntegralENK5annex5range14make_replicateclERR4Item3Int">make_replicate::operator() (C++ function)</a>
+</li>
+      <li><a href="reference/transformations.html#_CPPv3N5annex5range3mapE">map (C++ member)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/transformations.html#_CPPv3I_12StorableType_12StorableType_17MoveConstructibleENK5annex5range3mapclERR11PeekFunctorRR7Functor3Rng">map::operator() (C++ function)</a>, <a href="reference/transformations.html#_CPPv3I_15ForwardableType_17MoveConstructibleENK5annex5range3mapclERR7Functor3Rng">[1]</a>
+</li>
+      <li><a href="reference/transformations.html#_CPPv3I_8Variable_7ContextEN5annex5range9map_rangeE">map_range (C++ type)</a>
+</li>
+      <li><a href="reference/annex.html#_CPPv3I0EX8VariableI3VarEEN5annex7MovableE">Movable (C++ concept)</a>
+</li>
+      <li><a href="reference/annex.html#_CPPv3IDpEX9VariablesIsp4VarsEEN5annex8MovablesE">Movables (C++ concept)</a>
+</li>
+      <li><a href="reference/annex.html#_CPPv3I0EX8VariableI3VarEEN5annex14MoveAssignableE">MoveAssignable (C++ concept)</a>
+</li>
+      <li><a href="reference/annex.html#_CPPv3I0EX8VariableI3VarEEN5annex17MoveConstructibleE">MoveConstructible (C++ concept)</a>
+</li>
+      <li><a href="reference/annex.html#_CPPv3IDpEX9VariablesIsp4VarsEEN5annex18MoveConstructiblesE">MoveConstructibles (C++ concept)</a>
+</li>
+      <li><a href="reference/concepts.html#_CPPv3I0EX7ContextI3CtxEEN5annex5range16MultipassContextE">MultipassContext (C++ concept)</a>
+</li>
+      <li><a href="reference/concepts.html#_CPPv3I0EX11ContextTypeI3CtxEEN5annex5range20MultipassContextTypeE">MultipassContextType (C++ concept)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="N">N</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/operations.html#_CPPv3N5annex5range4nextE">next (C++ member)</a>
+</li>
+      <li><a href="reference/operations.html#_CPPv3I_11ContextType_17MoveConstructibleENK5annex5range4nextclER3Ctx3Pos">next::operator() (C++ function)</a>
+</li>
+      <li><a href="reference/operations.html#_CPPv3N5annex5range6next_nE">next_n (C++ member)</a>
+</li>
+      <li><a href="reference/operations.html#_CPPv3I0_17MoveConstructible00ENK5annex5range6next_nclER3CtxR3PosR4Sent3PosRR5Steps">next_n::operator() (C++ function)</a>, <a href="reference/operations.html#_CPPv3I_9RangeType0ENK5annex5range6next_nclER3Rng10position_tI3RngERR5Steps">[1]</a>
+</li>
+      <li><a href="reference/annex.html#_CPPv3IDpEX5TypesIsp4PackEEN5annex12NonEmptyPackE">NonEmptyPack (C++ concept)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/annex.html#_CPPv3I0EX8VariableI4NullEEN5annex8NullableE">Nullable (C++ concept)</a>
+</li>
+      <li><a href="reference/sources.html#_CPPv3N5annex5range8nullableE">nullable (C++ member)</a>
+</li>
+      <li><a href="reference/sources.html#_CPPv3I0EX15ForwardableTypeI4NullEENK5annex5range8nullableclERR4Null">nullable::operator() (C++ function)</a>
+</li>
+      <li><a href="reference/annex.html#_CPPv3I0EX4TypeI4NullEEN5annex22nullable_dereference_tE">nullable_dereference_t (C++ type)</a>
+</li>
+      <li><a href="reference/annex.html#_CPPv3I0EX4TypeI4NullEEN5annex18nullable_element_tE">nullable_element_t (C++ type)</a>
+</li>
+      <li><a href="reference/sources.html#_CPPv3I0EX8NullableI4NullEEN5annex5range14nullable_rangeE">nullable_range (C++ type)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="O">O</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/operations.html#_CPPv3N5annex5range6offsetE">offset (C++ member)</a>
+</li>
+      <li><a href="reference/operations.html#_CPPv3I_11ContextType_17MoveConstructible0ENK5annex5range6offsetclER3Ctx3PosR6Offset">offset::operator() (C++ function)</a>
+</li>
+      <li><a href="reference/annex.html#_CPPv3I_8VariableDpEN5annex13OnceInvokableE">OnceInvokable (C++ concept)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/annex.html#_CPPv3I0_8VariableDpEN5annex15OnceInvokableAsE">OnceInvokableAs (C++ concept)</a>
+</li>
+      <li><a href="reference/annex.html#_CPPv3I00DpEN5annex19OnceInvokableAsTypeE">OnceInvokableAsType (C++ concept)</a>
+</li>
+      <li><a href="reference/annex.html#_CPPv3I0DpEN5annex17OnceInvokableTypeE">OnceInvokableType (C++ concept)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="P">P</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/operations.html#_CPPv3N5annex5range7peek_atE">peek_at (C++ member)</a>
+</li>
+      <li><a href="reference/operations.html#_CPPv3I00EX5TypesI3Ctx3PosEENK5annex5range7peek_atclER3CtxR3Pos">peek_at::operator() (C++ function)</a>
+</li>
+      <li><a href="reference/operations.html#_CPPv3N5annex5range11peek_beforeE">peek_before (C++ member)</a>
+</li>
+      <li><a href="reference/operations.html#_CPPv3I_11ContextType_8VariableENK5annex5range11peek_beforeclER3Ctx3Pos">peek_before::operator() (C++ function)</a>
+</li>
+      <li><a href="reference/concepts.html#_CPPv3I0EX4TypeI3CtxEEN5annex5range14peek_element_tE">peek_element_t (C++ type)</a>
+</li>
+      <li><a href="reference/transformations.html#_CPPv3I00EX9VariablesI11PeekFunctor7FunctorEEN5annex5range26peek_functor_overload_typeE">peek_functor_overload_type (C++ class)</a>
+</li>
+      <li><a href="reference/transformations.html#_CPPv3NKR5annex5range26peek_functor_overload_type7functorEv">peek_functor_overload_type::functor (C++ function)</a>, <a href="reference/transformations.html#_CPPv3NO5annex5range26peek_functor_overload_type7functorEv">[1]</a>, <a href="reference/transformations.html#_CPPv3NR5annex5range26peek_functor_overload_type7functorEv">[2]</a>
+</li>
+      <li><a href="reference/transformations.html#_CPPv3N5annex5range26peek_functor_overload_typeclE11unspecified">peek_functor_overload_type::operator() (C++ function)</a>
+</li>
+      <li><a href="reference/transformations.html#_CPPv3NKR5annex5range26peek_functor_overload_type12peek_functorEv">peek_functor_overload_type::peek_functor (C++ function)</a>, <a href="reference/transformations.html#_CPPv3NO5annex5range26peek_functor_overload_type12peek_functorEv">[1]</a>, <a href="reference/transformations.html#_CPPv3NR5annex5range26peek_functor_overload_type12peek_functorEv">[2]</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/concepts.html#_CPPv3I0EX4TypeI3CtxEEN5annex5range10position_tE">position_t (C++ type)</a>
+</li>
+      <li><a href="reference/annex.html#_CPPv3I_8VariableDpEN5annex9PredicateE">Predicate (C++ concept)</a>
+</li>
+      <li><a href="reference/annex.html#_CPPv3I0DpEN5annex13PredicateTypeE">PredicateType (C++ concept)</a>
+</li>
+      <li><a href="reference/operations.html#_CPPv3N5annex5range4prevE">prev (C++ member)</a>
+</li>
+      <li><a href="reference/operations.html#_CPPv3I_11ContextType_17MoveConstructibleENK5annex5range4prevclER3Ctx3Pos">prev::operator() (C++ function)</a>
+</li>
+      <li><a href="reference/operations.html#_CPPv3N5annex5range6prev_nE">prev_n (C++ member)</a>
+</li>
+      <li><a href="reference/operations.html#_CPPv3I00_17MoveConstructible0ENK5annex5range6prev_nclER3CtxR3PosR4Sent4SentRR5Steps">prev_n::operator() (C++ function)</a>, <a href="reference/operations.html#_CPPv3I_9RangeType0ENK5annex5range6prev_nclER3Rng10sentinel_tI3RngERR5Steps">[1]</a>
+</li>
+      <li><a href="reference/consumers.html#_CPPv3N5annex5range7productE">product (C++ member)</a>
+</li>
+      <li><a href="reference/consumers.html#_CPPv3I00EX18MoveConstructiblesI4Seed3RngEENK5annex5range7productclE4Seed3Rng">product::operator() (C++ function)</a>, <a href="reference/consumers.html#_CPPv3I0EX17MoveConstructibleI3RngEENK5annex5range7productclE3Rng">[1]</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/concepts.html#_CPPv3I0EX20BidirectionalContextI3CtxEEN5annex5range19RandomAccessContextE">RandomAccessContext (C++ concept)</a>
+</li>
+      <li><a href="reference/concepts.html#_CPPv3I0EX24BidirectionalContextTypeI3CtxEEN5annex5range23RandomAccessContextTypeE">RandomAccessContextType (C++ concept)</a>
+</li>
+      <li><a href="reference/annex.html#_CPPv3I0EX21BidirectionalIteratorI2ItEEN5annex20RandomAccessIteratorE">RandomAccessIterator (C++ concept)</a>
+</li>
+      <li><a href="reference/annex.html#_CPPv3I0EX25BidirectionalIteratorTypeI2ItEEN5annex24RandomAccessIteratorTypeE">RandomAccessIteratorType (C++ concept)</a>
+</li>
+      <li><a href="reference/concepts.html#_CPPv3I0EX8VariableI3RngEEN5annex5range5RangeE">Range (C++ concept)</a>
+</li>
       <li><a href="glossary.html#term-range-function"><strong>range function</strong></a>
+</li>
+      <li><a href="reference/consumers.html#_CPPv3I0EX11ContextTypeI3CtxEEN5annex5range14range_iteratorE">range_iterator (C++ type)</a>
+</li>
+      <li><a href="reference/consumers.html#_CPPv3I0EX11ContextTypeI3CtxEEN5annex5range19range_iterator_pairE">range_iterator_pair (C++ class)</a>
+</li>
+      <li><a href="reference/consumers.html#_CPPv3NKR5annex5range19range_iterator_pair5beginEv">range_iterator_pair::begin (C++ function)</a>, <a href="reference/consumers.html#_CPPv3NO5annex5range19range_iterator_pair5beginEv">[1]</a>
+</li>
+      <li><a href="reference/consumers.html#_CPPv3NKR5annex5range19range_iterator_pair3endEv">range_iterator_pair::end (C++ function)</a>, <a href="reference/consumers.html#_CPPv3NO5annex5range19range_iterator_pair3endEv">[1]</a>
+</li>
+      <li><a href="reference/consumers.html#_CPPv3N5annex5range19range_iterator_pair5firstE">range_iterator_pair::first (C++ member)</a>
+</li>
+      <li><a href="reference/consumers.html#_CPPv3N5annex5range19range_iterator_pair4lastE">range_iterator_pair::last (C++ member)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/concepts.html#_CPPv3IDpEX5TypesIsp4RngsEEN5annex5range6RangesE">Ranges (C++ concept)</a>, <a href="reference/concepts.html#_CPPv3IDpEX9VariablesIsp4RngsEEN5annex5range6RangesE">[1]</a>
+</li>
+      <li><a href="reference/concepts.html#_CPPv3I0EX4TypeI3RngEEN5annex5range9RangeTypeE">RangeType (C++ concept)</a>
+</li>
+      <li><a href="reference/sources.html#_CPPv3N5annex5range16relaxed_generateE">relaxed_generate (C++ member)</a>
+</li>
+      <li><a href="reference/sources.html#_CPPv3N5annex5range23relaxed_generate_policyE">relaxed_generate_policy (C++ type)</a>
+</li>
+      <li><a href="reference/sources.html#_CPPv3N5annex5range6repeatE">repeat (C++ member)</a>
+</li>
+      <li><a href="reference/sources.html#_CPPv3I0EX15ForwardableTypeI4ItemEENK5annex5range6repeatclERR4Item">repeat::operator() (C++ function)</a>
+</li>
+      <li><a href="reference/sources.html#_CPPv3I0EX8VariableI4ItemEEN5annex5range12repeat_rangeE">repeat_range (C++ type)</a>
+</li>
+      <li><a href="reference/sources.html#_CPPv3N5annex5range9replicateE">replicate (C++ member)</a>
+</li>
+      <li><a href="reference/sources.html#_CPPv3I_15ForwardableType_8IntegralENK5annex5range9replicateclERR4Item3Int">replicate::operator() (C++ function)</a>
+</li>
+      <li><a href="reference/sources.html#_CPPv3I_8Variable_8IntegralEN5annex5range15replicate_rangeE">replicate_range (C++ type)</a>
+</li>
+      <li><a href="reference/transformations.html#_CPPv3N5annex5range7reverseE">reverse (C++ member)</a>
+</li>
+      <li><a href="reference/transformations.html#_CPPv3I0EX17MoveConstructibleI3RngEENK5annex5range7reverseclE3Rng">reverse::operator() (C++ function)</a>
+</li>
+      <li><a href="reference/transformations.html#_CPPv3I0EX20BidirectionalContextI3CtxEEN5annex5range13reverse_rangeE">reverse_range (C++ type)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -615,11 +672,119 @@
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/operations.html#_CPPv3N5annex5range4saveE">save (C++ member)</a>
+</li>
+      <li><a href="reference/operations.html#_CPPv3I0DpENK5annex5range4saveclER3CtxDpR3Pos">save::operator() (C++ function)</a>
+</li>
+      <li><a href="reference/concepts.html#_CPPv3I0EX7ContextI3CtxEEN5annex5range8SaveableE">Saveable (C++ concept)</a>
+</li>
+      <li><a href="reference/concepts.html#_CPPv3I0EX11ContextTypeI3CtxEEN5annex5range12SaveableTypeE">SaveableType (C++ concept)</a>
+</li>
+      <li><a href="reference/concepts.html#_CPPv3I0EX4TypeI3CtxEEN5annex5range10sentinel_tE">sentinel_t (C++ type)</a>
+</li>
+      <li><a href="reference/annex.html#_CPPv3I0EX8VariableI3IntEEN5annex14SignedIntegralE">SignedIntegral (C++ concept)</a>
+</li>
       <li><a href="glossary.html#term-simple-model"><strong>simple model</strong></a>
+</li>
+      <li><a href="reference/operations.html#_CPPv3N5annex5range4stepE">step (C++ member)</a>
+</li>
+      <li><a href="reference/operations.html#_CPPv3I000EX5TypesI3Ctx3Pos6OffsetEENK5annex5range4stepclER3CtxR3PosR6Offset">step::operator() (C++ function)</a>
+</li>
+      <li><a href="reference/annex.html#_CPPv3I0EX8VariableI3VarEEN5annex8StorableE">Storable (C++ concept)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/annex.html#_CPPv3IDpEX9VariablesIsp4VarsEEN5annex9StorablesE">Storables (C++ concept)</a>
+</li>
+      <li><a href="reference/annex.html#_CPPv3I0EX4TypeI3VarEEN5annex12StorableTypeE">StorableType (C++ concept)</a>
+</li>
+      <li><a href="reference/annex.html#_CPPv3IDpEX5TypesIsp2XsEEN5annex13StorableTypesE">StorableTypes (C++ concept)</a>
+</li>
+      <li><a href="reference/annex.html#_CPPv3I_8Variable0EN5annex17StreamExtractableE">StreamExtractable (C++ concept)</a>
+</li>
       <li><a href="glossary.html#term-strict-range"><strong>strict range</strong></a>
+</li>
+      <li><a href="reference/transformations.html#_CPPv3N5annex5range6strideE">stride (C++ member)</a>
+</li>
+      <li><a href="reference/transformations.html#_CPPv3I_8Integral_17MoveConstructibleENK5annex5range6strideclE5Steps3Rng">stride::operator() (C++ function)</a>
+</li>
+      <li><a href="reference/transformations.html#_CPPv3I_8Integral_7ContextEN5annex5range12stride_rangeE">stride_range (C++ type)</a>
+</li>
+      <li><a href="reference/sources.html#_CPPv3I00EX9VariablesI7Element6StrideEEN5annex5range22strided_interval_rangeE">strided_interval_range (C++ type)</a>
+</li>
+      <li><a href="reference/consumers.html#_CPPv3N5annex5range3sumE">sum (C++ member)</a>
+</li>
+      <li><a href="reference/consumers.html#_CPPv3I00EX18MoveConstructiblesI4Seed3RngEENK5annex5range3sumclE4Seed3Rng">sum::operator() (C++ function)</a>, <a href="reference/consumers.html#_CPPv3I0EX17MoveConstructibleI3RngEENK5annex5range3sumclE3Rng">[1]</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="T">T</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/annex.html#_CPPv3I0EN5annex4TypeE">Type (C++ concept)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/annex.html#_CPPv3IDpEN5annex5TypesE">Types (C++ concept)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="U">U</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/operations.html#_CPPv3N5annex5range16unchecked_decr_nE">unchecked_decr_n (C++ member)</a>
+</li>
+      <li><a href="reference/operations.html#_CPPv3I0EX11ContextTypeI3CtxEENK5annex5range16unchecked_decr_nclER3CtxR10sentinel_tI3CtxE14SignedIntegral">unchecked_decr_n::operator() (C++ function)</a>
+</li>
+      <li><a href="reference/operations.html#_CPPv3N5annex5range16unchecked_incr_nE">unchecked_incr_n (C++ member)</a>
+</li>
+      <li><a href="reference/operations.html#_CPPv3I0EX11ContextTypeI3CtxEENK5annex5range16unchecked_incr_nclER3CtxR10position_tI3CtxE14SignedIntegral">unchecked_incr_n::operator() (C++ function)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/operations.html#_CPPv3N5annex5range16unchecked_next_nE">unchecked_next_n (C++ member)</a>
+</li>
+      <li><a href="reference/operations.html#_CPPv3I0_17MoveConstructible0ENK5annex5range16unchecked_next_nclER3Ctx3PosRR5Steps">unchecked_next_n::operator() (C++ function)</a>
+</li>
+      <li><a href="reference/operations.html#_CPPv3N5annex5range16unchecked_prev_nE">unchecked_prev_n (C++ member)</a>
+</li>
+      <li><a href="reference/operations.html#_CPPv3I0_17MoveConstructible0ENK5annex5range16unchecked_prev_nclER3Ctx3PosRR5Steps">unchecked_prev_n::operator() (C++ function)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="V">V</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/annex.html#_CPPv3I0EX4TypeI1XEEN5annex8VariableE">Variable (C++ concept)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/annex.html#_CPPv3IDpEX5TypesIsp2XsEEN5annex9VariablesE">Variables (C++ concept)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="Y">Y</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/sources.html#_CPPv3I0EX4TypeI5ValueEEN5annex5range7yield_tE">yield_t (C++ type)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="Z">Z</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/compositions.html#_CPPv3N5annex5range3zipE">zip (C++ member)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/compositions.html#_CPPv3I0EX17MoveConstructibleI3RngEENK5annex5range3zipclE3Rng">zip::operator() (C++ function)</a>, <a href="reference/compositions.html#_CPPv3IDpEX18MoveConstructiblesIsp4RngsEENK5annex5range3zipclEDp4Rngs">[1]</a>
+</li>
+      <li><a href="reference/compositions.html#_CPPv3IDpEX8ContextsIsp4CtxsEEN5annex5range9zip_rangeE">zip_range (C++ type)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -633,15 +798,11 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
-<li class="toctree-l1"><a class="reference internal" href="motivation.html">Motivation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="scope.html">Scope</a></li>
-<li class="toctree-l1"><a class="reference internal" href="reference.html">Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="open_questions.html">Open questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="study.html">Designing a Range Abstraction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">The annex-range library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About this document</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
 </ul>
-
-
-   
 
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
@@ -667,8 +828,8 @@
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2016, mickk.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.3.
+        &#169; Copyright 2017, mickk.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7+.
     </div>
   </body>
 </html>

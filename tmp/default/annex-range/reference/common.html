@@ -1,0 +1,196 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Common &#8212; annex-range 0.1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/styles.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Annex quick reference" href="annex.html" />
+    <link rel="prev" title="Arrangements" href="arrangements.html" /> 
+  </head><body>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(".collapsed > *").hide();
+        $("div.collapsed > p.admonition-title").show();
+        $("div.collapsed").children("p.admonition-title").toggleClass("closed");
+        $("table.collapsed > caption").show();
+        $("table.collapsed").children("caption").toggleClass("closed");
+        const collapse_duration = 300;
+        for(selector of [".collapsed", ".collapsible"]) {
+            $(`div${selector} > p.admonition-title`).click(function() {
+                $(this).parent().children().not("p.admonition-title").toggle(collapse_duration);
+                $(this).parent().children("p.admonition-title").toggleClass("closed");
+            });
+            $(`table${selector} > caption`).click(function(ev) {
+                // crude way to avoid intercepting a click on the anchor link
+                if(ev.target.nodeName == "A") {
+                    return;
+                }
+                $(this).parent().children().not("caption").toggle(collapse_duration);
+                $(this).parent().children("caption").toggleClass("closed");
+            })
+        }
+    });
+</script>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="annex.html" title="Annex quick reference"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="arrangements.html" title="Arrangements"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">annex-range 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../reference.html" accesskey="U">The annex-range library</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="common">
+<h1>Common<a class="headerlink" href="#common" title="Permalink to this headline">¶</a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This library feature is much more experimental than the rest, and is considered incomplete or unsatisfactory. It is
+likely to be subject to significant changes or dropped altogether.</p>
+</div>
+<p>TBD</p>
+<div class="section" id="flat-map">
+<h2>flat_map<a class="headerlink" href="#flat-map" title="Permalink to this headline">¶</a></h2>
+<dl class="var">
+<dt id="_CPPv3N5annex5range8flat_mapE">
+<span id="_CPPv2N5annex5range8flat_mapE"></span><span id="annex::range::flat_map__functors::flat_map"></span><em class="property">constexpr</em> functors::flat_map <code class="descname">flat_map</code><a class="headerlink" href="#_CPPv3N5annex5range8flat_mapE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>In <code class="file docutils literal"><span class="pre">annex/range/common/flat_map.hpp</span></code>.</p>
+<p>This constant is a <a class="reference internal" href="../reference.html#range-function"><span class="std std-ref">Range function</span></a>.</p>
+<dl class="function">
+<dt id="_CPPv3I_15ForwardableType_17MoveConstructibleENK5annex5range8flat_mapclERR7Functor3Rng">
+<span id="_CPPv2I_15ForwardableType_17MoveConstructibleENK5annex5range8flat_mapclERR7Functor3Rng"></span>template&lt;<a class="reference internal" href="annex.html#_CPPv3I0EX4TypeI1XEEN5annex15ForwardableTypeE" title="annex::ForwardableType">ForwardableType</a> <code class="descname">Functor</code>, <a class="reference internal" href="annex.html#_CPPv3I0EX8VariableI3VarEEN5annex17MoveConstructibleE" title="annex::MoveConstructible">MoveConstructible</a> <code class="descname">Rng</code>&gt;<br /><em class="property">constexpr</em> auto <code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv3I_15ForwardableType_17MoveConstructibleENK5annex5range8flat_mapclERR7Functor3Rng" title="annex::range::flat_map::operator()::Functor">Functor</a> &amp;&amp;<em>functor</em>, <a class="reference internal" href="#_CPPv3I_15ForwardableType_17MoveConstructibleENK5annex5range8flat_mapclERR7Functor3Rng" title="annex::range::flat_map::operator()::Rng">Rng</a> <em>rng</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3I_15ForwardableType_17MoveConstructibleENK5annex5range8flat_mapclERR7Functor3Rng" title="Permalink to this definition">¶</a><br /></dt>
+<dt id="_CPPv3I_12StorableType_12StorableType_17MoveConstructibleENK5annex5range8flat_mapclERR11PeekFunctorRR7Functor3Rng">
+<span id="_CPPv2I_12StorableType_12StorableType_17MoveConstructibleENK5annex5range8flat_mapclERR11PeekFunctorRR7Functor3Rng"></span>template&lt;<a class="reference internal" href="annex.html#_CPPv3I0EX4TypeI3VarEEN5annex12StorableTypeE" title="annex::StorableType">StorableType</a> <code class="descname">PeekFunctor</code>, <a class="reference internal" href="annex.html#_CPPv3I0EX4TypeI3VarEEN5annex12StorableTypeE" title="annex::StorableType">StorableType</a> <code class="descname">Functor</code>, <a class="reference internal" href="annex.html#_CPPv3I0EX8VariableI3VarEEN5annex17MoveConstructibleE" title="annex::MoveConstructible">MoveConstructible</a> <code class="descname">Rng</code>&gt;<br /><em class="property">constexpr</em> auto <code class="descname">operator()</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv3I_12StorableType_12StorableType_17MoveConstructibleENK5annex5range8flat_mapclERR11PeekFunctorRR7Functor3Rng" title="annex::range::flat_map::operator()::PeekFunctor">PeekFunctor</a> &amp;&amp;<em>peek_functor</em>, <a class="reference internal" href="#_CPPv3I_12StorableType_12StorableType_17MoveConstructibleENK5annex5range8flat_mapclERR11PeekFunctorRR7Functor3Rng" title="annex::range::flat_map::operator()::Functor">Functor</a> &amp;&amp;<em>functor</em>, <a class="reference internal" href="#_CPPv3I_12StorableType_12StorableType_17MoveConstructibleENK5annex5range8flat_mapclERR11PeekFunctorRR7Functor3Rng" title="annex::range::flat_map::operator()::Rng">Rng</a> <em>rng</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3I_12StorableType_12StorableType_17MoveConstructibleENK5annex5range8flat_mapclERR11PeekFunctorRR7Functor3Rng" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Equivalent to:</p>
+<div class="highlight-container highlight-c++" data-highlight-language="C++"><div class="highlight"><pre><span></span><span class="c1">// first overload</span>
+<span class="n">range</span><span class="o">::</span><span class="n">flatten</span><span class="p">(</span><span class="n">range</span><span class="o">::</span><span class="n">map</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">forward</span><span class="o">&lt;</span><span class="n">Functor</span><span class="o">&gt;</span><span class="p">(</span><span class="n">functor</span><span class="p">),</span> <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">rng</span><span class="p">)))</span>
+
+<span class="c1">// second overload</span>
+<span class="n">range</span><span class="o">::</span><span class="n">flatten</span><span class="p">(</span><span class="n">range</span><span class="o">::</span><span class="n">map</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">forward</span><span class="o">&lt;</span><span class="n">PeekFunctor</span><span class="o">&gt;</span><span class="p">(</span><span class="n">peek_functor</span><span class="p">),</span> <span class="n">std</span><span class="o">::</span><span class="n">forward</span><span class="o">&lt;</span><span class="n">Functor</span><span class="o">&gt;</span><span class="p">(</span><span class="n">functor</span><span class="p">),</span> <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">rng</span><span class="p">)))</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="transformations.html#_CPPv3N5annex5range3mapE" title="annex::range::map"><code class="xref cpp cpp-any docutils literal"><span class="pre">map</span></code></a>, <a class="reference internal" href="arrangements.html#_CPPv3N5annex5range7flattenE" title="annex::range::flatten"><code class="xref cpp cpp-any docutils literal"><span class="pre">flatten</span></code></a></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../study.html">Designing a Range Abstraction</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../reference.html">The annex-range library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scope.html">Scope</a></li>
+<li class="toctree-l2"><a class="reference internal" href="concepts.html">Concepts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operations.html">Operations &amp; functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sources.html">Sources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="consumers.html">Consumers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transformations.html">Transformations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="compositions.html">Compositions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arrangements.html">Arrangements</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Common</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#flat-map">flat_map</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="annex.html">Annex quick reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference.html#how-to-read-the-reference">How to read the reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About this document</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="arrangements.html"
+                        title="previous chapter">Arrangements</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="annex.html"
+                        title="next chapter">Annex quick reference</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/reference/common.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="annex.html" title="Annex quick reference"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="arrangements.html" title="Arrangements"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">annex-range 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../reference.html" >The annex-range library</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, mickk.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7+.
+    </div>
+  </body>
+</html>

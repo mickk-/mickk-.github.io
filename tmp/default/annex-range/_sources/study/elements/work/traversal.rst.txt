@@ -1,0 +1,219 @@
+Impact of traversal on work
+===========================
+
+Beyond forward traversal
+------------------------
+
+.. |peel_first| replace:: :qv:`peel_first`
+.. _peel_first: semantics.html#d-peel-first
+
+So far we've largely stuck to a somewhat simplistic translation of our notional sequences into practical ranges without
+question. This has allowed us to quickly pin down the fundamental semantics at the heart of practical iteration
+abstractions. It is interesting to note that we did so by keeping a close correspondence between range code and loop
+code. If you recall, we established the semantics of non-initial work thanks in part to the study of a particular
+|peel_first|_ function from which we drew an argument. We proceeded on to 'repeat' that argument on ever smaller
+suffixes of a sequence... as if we were using it in a loop! We can in fact rewrite :qv:`peel_first` to make this loop
+explicit:
+
+.. code-block:: D
+
+    void range_loop(Rng)(Rng rng)
+    {
+        import std.stdio;
+        import std.range;
+
+        for(; !rng.empty; rng.popFront()) {
+            writefln("element: %s", rng.front);
+        }
+        writeln("no more elements");
+    }
+
+We later verified that the semantics we settled on met our requirements relative to a similarly-shaped loop over the
+naturals. Namely this shape is that of *forward traversal*, proceeding through notional sequence elements in natural
+order. The forward nature of this kind of traversal justifies the nesting apparent in our semantics, where any element
+of the sequence can only be accessed by peeling away all the layers of work that come before it:
+
+.. math::
+
+    e_0,
+    \mathopen{}\left<work\right>\mathclose{} \rightarrow \mathopen{}\left\{
+        e_1,
+        \mathopen{}\left<work\right>\mathclose{} \rightarrow \mathopen{}\left\{
+            e_2,
+            …
+        \right\}\mathclose{}
+    \right\}\mathclose{}
+
+.. note:: When describing or discussing traversal, we prefer to use suggestive directional terms such as *forward*.
+    There is however potential for confusion with C++ *forward iterators*---while these do perform sequence traversals
+    in a forward fashion, their defining feature is really a topic that belongs to :doc:`../representation`. In the C++
+    ecosystem it is so-called *input iterators* which embody forward traversal.
+
+In this part we ponder what the existence of loops 'of a different shape' imply for work semantics.
+
+Initial work revisited
+----------------------
+
+Let's look at the problem of zipping together two sequences. For instance, given sequences :math:`a = 0, 2, 4, 6` and
+:math:`b = 1, 3, 5` we might like to ensure that:
+
+.. math::
+
+    zip(a, b) = (0, 1), (2, 3), (4, 5)
+
+(Using round brackets to denote pairs of values as sequence elements.)
+
+Note in particular that because :math:`a` and :math:`b` have mismatched lengths we choose to ignore the extra :math:`6`
+element of :math:`a`. As long as we are sticking to forward traversal, this is not especially troubling: we stop
+iteration as soon as the shortest of the two sequences is done.
+
+What should we do however if we wish for richer :math:`zip` functionality in relation to traversals? For instance we
+might very want its result to support bidirectional traversal if both argument ranges do. Then our implementation must
+be careful, for the last element of :math:`zip(a, b)` is the :math:`(4, 5)` pair of elements which is different from the
+:math:`(6, 5)` pair of last elements of :math:`a` and :math:`b`. Effectively the implementation needs to set aside in
+one way or another the extra elements from the longer range.
+
+.. note:: It is not our intention here to give any particular definition of bidirectional traversal. There's more than
+    one way to skin that cat, and ultimately it is for the iteration abstraction designer to take that sort of decision.
+    Our intent here is to demonstrate by way of illustration how these decisions have consequences with respect to the
+    semantics of work, so for the most part we will try to treat bidirectional and other forms of traversal abstractly.
+
+Let's assume that for the purposes of producing a bidirectional :math:`zip` result the input ranges must not only be
+bidirectional themselves, but must also support an efficient method of querying their lengths :math:`\lvert a \rvert` or
+:math:`\lvert b \rvert`. Now we can say that the implementation must handle on the order of :math:`abs(\lvert a \rvert -
+\lvert b \rvert)` superfluous elements (writing the absolute value as a function to avoid confusion), and must also
+perform some of their associated amounts of work as well.
+
+At this point we run into an obstacle: under these circumstances we cannot define a strictly performing bidirectional
+:math:`zip` following a prefix approach, and the reason for this is twofold. Firstly we cannot perform the work to
+prepare the correct last element during the :math:`zip` call itself, since prefix iterables must perform no
+range-related work as we saw in the :doc:`previous part <semantics>`. Secondly the amount of work to perform to prepare
+the correct last element is on the order of :math:`\mathcal{O}(abs(\lvert a \rvert - \lvert b \rvert))`, while the
+length of the resulting range is :math:`\min(\lvert a \rvert, \lvert b \rvert)`---that's a linear amount of work with
+respect to length! Hence, if we were to perform a reverse traversal of the range:
+
+.. code-block:: rust
+
+    fn main() {
+        let a = /* omitted */;
+        let b = /* omitted */;
+        let mut result = a.zip(b);
+
+        loop {
+            match result.next_back() {
+                Some(elem) => println!("element: {:?}", elem),
+                None => break,
+            }
+        }
+        /* displays:
+        element: (4, 5)
+        element: (2, 3)
+        element: (0, 1)
+        */
+    }
+
+The very first loop iteration will need to perform the work to skip superfluous elements, but the other ones only
+perform simple work steps. Note that had we performed a *forward* traversal, all steps would however have performed the
+same work without the need to discard superfluous elements. Our situation is a conjunction of the following
+circumstances:
+
+- work follows the prefix approach, so range authors must uniformly deal with initial (such as computing the correct
+  last :math:`zip` element) and non-initial work
+- we wish for :math:`zip` to support more interesting forms of traversal than just forward
+- a range consumer may use these forms of traversal to perform more than just a typical forward loop
+
+The best we can say of a bidirectional :math:`zip` following the prefix approach is that it produces a *lax* range,
+where the amount of work per step follows an *amortised* bound. For a forward traversal we can improve this to a strict
+bound. Other traversals may also respect a strict bound, but some will need to amortise a linear step over their whole
+course. Which follows which is entirely dependent on the shape of the final loop that consumes the range!
+
+Traversals & Algorithms
+-----------------------
+
+We can refine our initial insight regarding the dependency of the semantics of work on the final shape of traversal.
+Consider the well-studied algorithm of binary search over a sorted array. Here follows a possible Python implementation,
+returning the first :math:`offset` such that :math:`haystack[offset] == needle`; or ``None`` if there is no such value:
+
+.. code-block:: Python3
+
+    def binary_search(needle, haystack):
+        length = len(haystack)
+        low    = 0
+        high   = length - 1
+
+        while low < high:
+            mid = low + (high - low) // 2
+            candidate = haystack[mid]
+
+            if candidate < needle:
+                low = mid + 1
+            else:
+                high = mid
+
+        return low if low != length and haystack[low] == needle else None
+
+An important result is that binary search takes :math:`\mathcal{O}(\log n)` time on average to run, where :math:`n` is
+the length of the input. This can only hold on inputs which have the performance characteristics of *arrays*, i.e. where
+element access takes constant time regardless of array size (a property also known as *random access*). This ensures
+that fetching the midpoint value in a loop (i.e. ``haystack[mid]``) does not compromise overall performance.
+
+Our first insight here is that should the designer of an iteration abstraction decide to include a generalisation of
+arrays, e.g. random-access ranges, they would do well to preserve these traversal characteristics. To do otherwise would
+compromise the ability to write those algorithms which rely on random-access properties to perform well. This can be
+extended to any form of traversal together with the algorithms it enables, such as bidirectional traversal and
+algorithms that work over Unicode\ [#Unicode]_ grapheme clusters or word boundaries.
+
+It is instructive to trace algorithm execution, such as when running :math:`binary\_search(6, \left[0, 1, 2, 3, 4, 5, 6,
+7, 8, 9, 10, 11, 12, 13, 14, 15\right])`. In this instance the algorithm visits the elements at offsets 7, 3, 5, and the
+final result of 6 in that order, which is a noticeably different visiting pattern than we had before. With just forward
+traversal, a consumer of a sequence inspects a prefix of arbitrary length (up to sequence length) and is left with a
+remainder subsequence. Observe that in either case, the pattern of elements that are visited is not directly specified
+by the rules for forward or random-access traversal respectively. Instead it emerges as a consequence of the respective
+specifications for *single* element access while being guided by the needs of the final consumer, such as the
+algorithmic needs of implementing binary search.
+
+Hence the deeper insight is that it's not just individual operations and their characteristics that should give purpose
+to any form of traversal. Of equal importance is the entire space of traversals that it generates, which corresponds to
+all the possible shapes a loop could take. At one extreme, forward iteration gives rises to only forward loops because
+the sole operation is going from the current element to the next. At another, random-access makes it possible to write a
+bisecting loop such as happens during binary search, jumping between the midpoints of ever-shrinking sequence halves.
+But there are many more loops over random-access sequences that one can write, and its that totality that should be
+taken into account when evaluating the merits and consequences of random access.
+
+Element of design: work
+-----------------------
+
+Put all together, we leave the designer of an iteration abstraction with the following points:
+
+- The distinction between initial and non-initial work is not crucial for the purposes of work when it comes to just
+  forward traversal.
+- Distinction of initial and non-initial work becomes important for more elaborate forms of traversal, and is a matter
+  of separation of concerns:
+
+  * initial work is *non-navigational* and *representational*, typically a form of pre-processing:
+
+    * :dfn:`non-navigational` because the processing only needs to be performed once with respect to the overall range,
+      and not while traversing range elements;
+    * :dfn:`representational` because the nature and amount of pre-processing is influenced by the choices of
+      :doc:`../representation` which dictate what a concrete range looks like;
+  * non-initial work is :dfn:`navigational`, i.e. for going from a range element to another; the rules that govern which
+    element can be computed from another determine a form of traversal (e.g. bidirectional when either the predecessor
+    or successor can be computed or random-access when another element at given offset can be computed, just to mention
+    the popular ones).
+
+  Mixing or separating these concerns is a :tradeoff:`balancing act` that will affect both range *authors* and range
+  *consumers*. Both perspectives should be taken into account. If separating these concerns:
+
+  * iterables are the abstractions which perform initial work
+  * ranges are the abstractions which perform navigational work
+- Small picture view of work: the stricter the specification of the performance characteristics of range operations
+  (e.g. navigational work), the easier it is for range consumers to reason about their code such as when studying
+  generic range code or performing complexity analysis.
+- Big picture view of work: forms of traversal should be justified and informed by the algorithms or loops they enable,
+  which is closely related to the 'space' of loop shapes that the traversal rules generate.
+
+------
+
+.. [#Unicode] Unicode is a registered trademark of `Unicode, Inc <unicode website_>`_ in the United States and other
+    countries.
+.. _unicode website: http://www.unicode.org
