@@ -1,0 +1,60 @@
+.. rubric:: Some objects to describe
+
+.. cpp:class:: template<typename Arg> class_template
+
+.. cpp:class:: non_template
+
+.. rubric:: Styles
+
+.. cpp:type:: inside_description = const class_template<non_template>
+
+.. |inline-code| replace:: :code:`const class_template<non_template>&`
+
+.. table::
+    :widths: auto
+
+    +----------------------+-----------------------------------+
+    | Role                 | Styling                           |
+    +======================+===================================+
+    |                      | plain text followed by:           |
+    | :rst:role:`any`      | :any:`class_template\<\           |
+    |                      | non_template>`                    |
+    |                      |                                   |
+    +----------------------+-----------------------------------+
+    |                      | plain text followed by:           |
+    | :rst:role:`cpp:any`  | :cpp:any:`class_template\<\       |
+    |                      | non_template>`                    |
+    |                      |                                   |
+    +----------------------+-----------------------------------+
+    |                      | plain text followed by:           |
+    | :rst:role:`cpp:refs` | :cpp:refs:`const class_template<  |
+    |                      | non_template>&`                   |
+    |                      |                                   |
+    +----------------------+-----------------------------------+
+    |                      | plain text followed by:           |
+    | :rst:role:`code`     | |inline-code|                     |
+    |                      |                                   |
+    +----------------------+-----------------------------------+
+    |                      | plain text followed by:           |
+    | :rst:role:`cpp:expr` | :cpp:expr:`const class_template<  |
+    |                      | non_template>&`                   |
+    |                      |                                   |
+    +----------------------+-----------------------------------+
+
+.. rubric:: Fallbacks
+
+
+.. table::
+    :widths: auto
+
+    +----------------------+-----------------------------------+
+    | Role                 | Styling                           |
+    +======================+===================================+
+    |                      | plain text followed by:           |
+    | :rst:role:`cpp:refs` | :cpp:refs:`+@ can't parse this @+`|
+    |                      |                                   |
+    +----------------------+-----------------------------------+
+    |                      | plain text followed by:           |
+    | :rst:role:`cpp:expr` | :cpp:expr:`+@ can't parse this @+`|
+    |                      |                                   |
+    +----------------------+-----------------------------------+
