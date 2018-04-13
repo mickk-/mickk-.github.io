@@ -1,0 +1,20 @@
+div.highlight-container[data-highlight-language]::before {
+    content: attr(data-highlight-language);
+    font-size: smaller;
+    background: lightgrey;
+    padding: 0 5px;
+}
+
+div.highlight-container[data-highlight-language] {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+div.code-block-caption + div.highlight-container[data-highlight-language] {
+    margin-top: 0;
+}
+
+div.highlight-container[data-highlight-language] > div.highlight > pre {
+    margin-top: 0;
+    margin-bottom: 0;
+}
