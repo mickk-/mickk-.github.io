@@ -1,0 +1,17 @@
+.. cpp:class:: template<typename Arg> vector
+
+.. cpp:class:: udt
+
+.. table::
+    :widths: auto
+
+    ============== ===============================================================
+    Role           Looks
+    ============== ===============================================================
+    none           plain text for reference
+    any (full)     :cpp:any:`template\<typename Arg> vector` with plain text
+    any            :cpp:any:`vector\<udt> <vector>` with plain text
+    texpr          :cpp:texpr:`vector<udt>` with plain text
+    code           ``vector<udt>`` for reference
+    expr           :cpp:expr:`vector<udt>`, with ``more code``
+    ============== ===============================================================
