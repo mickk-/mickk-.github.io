@@ -15,3 +15,7 @@
     code           ``vector<udt>`` for reference
     expr           :cpp:expr:`vector<udt>`, with ``more code``
     ============== ===============================================================
+
+An external link for reference: Sphinx_
+
+.. _Sphinx: http://www.sphinx-doc.org
