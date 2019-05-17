@@ -1,0 +1,244 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Documentation items &#8212; Demo  documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/styles.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="nav-item nav-item-0"><a href="#">Demo  documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="documentation-items">
+<h1>Documentation items<a class="headerlink" href="#documentation-items" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num">
+<span id="_CPPv3I0_iENKR7iterateEF3Num3NumE3Num"></span><span id="_CPPv2I0_iENKR7iterateEF3Num3NumE3Num"></span>template&lt;<br />typename <code class="descname">Num</code>, <br />int  <code class="descname">Limit</code> = 1<br />&gt;<br /><a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate::Num">Num</a>  <code class="descname">iterate</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate::Num">Num</a>  <em>evaluand</em><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate::Num">Num</a>  arg<span class="sig-paren">)</span> [[<em class="property">ensures</em> <code class="descname">step</code>: 0 &lt;= step]], <a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate::Num">Num</a>  <em>point</em>, <span class="sig-paren">)</span> <em class="property">const</em> &amp; <em class="property">noexcept</em> __attribute__((deprecated)) <em class="property">final</em> <em class="property">override</em><a class="headerlink" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="Permalink to this definition">¶</a><br />[[<em class="property">expects</em>: <a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate::evaluand">evaluand</a>(<a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate::point">point</a>) &lt; <a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate::point">point</a>]]<br />[[<em class="property">ensures</em> <code class="descname">approx</code>: 0 &lt;= <a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate::approx">approx</a>]]<br /></dt>
+<dd><p>Function items separate their pre- and post-conditions from other attributes. This function purposefully exhibits a
+busy signature to demonstrate this.</p>
+<p>(The signature has a bug with the final comma which is not related to the implementation of contracts.)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Valid refs</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<p>In an assertion:</p>
+<div class="line-block">
+<div class="line"><code class="xref cpp cpp-expr docutils literal notranslate"><span class="pre">[[</span><em class="property"><span class="pre">assert</span></em><span class="pre">:</span> <a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate::approx"><span class="pre">approx</span></a> <span class="pre">*</span> <a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate::evaluand"><span class="pre">evaluand</span></a><span class="pre">(</span><a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate::approx"><span class="pre">approx</span></a><span class="pre">)</span> <span class="pre">&lt;=</span> <a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate::approx"><span class="pre">approx</span></a><span class="pre">]]</span></code></div>
+</div>
+<table class="docutils align-left">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 41%" />
+<col style="width: 40%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Kind \ Role</p></th>
+<th class="head"><p><code class="xref rst rst-role docutils literal notranslate"><span class="pre">any</span></code></p></th>
+<th class="head"><p><code class="xref rst rst-role docutils literal notranslate"><span class="pre">expr</span></code></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>template parameter</p></td>
+<td><p><a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate::Limit"><code class="xref cpp cpp-any docutils literal notranslate"><span class="pre">Limit</span></code></a></p></td>
+<td><p><code class="xref cpp cpp-expr docutils literal notranslate"><a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate::Limit"><span class="pre">Limit</span></a> <span class="pre">!=</span> <span class="pre">0</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>function parameter</p></td>
+<td><p><a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate::point"><code class="xref cpp cpp-any docutils literal notranslate"><span class="pre">point</span></code></a></p></td>
+<td><p><code class="xref cpp cpp-expr docutils literal notranslate"><a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate::point"><span class="pre">point</span></a> <span class="pre">!=</span> <span class="pre">0</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>contract identifier</p></td>
+<td><p><a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate::approx"><code class="xref cpp cpp-any docutils literal notranslate"><span class="pre">approx</span></code></a></p></td>
+<td><p><code class="xref cpp cpp-expr docutils literal notranslate"><a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate::approx"><span class="pre">approx</span></a> <span class="pre">!=</span> <span class="pre">0</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="field-list simple">
+<dt class="field-odd">Invalid refs</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<p>These aren’t valid because they relate to the <a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate::evaluand"><code class="xref cpp cpp-any docutils literal notranslate"><span class="pre">evaluand</span></code></a> parameter, and not to <a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate"><code class="xref cpp cpp-any docutils literal notranslate"><span class="pre">iterate()</span></code></a> itself.</p>
+<table class="docutils align-left">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 41%" />
+<col style="width: 40%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Kind \ Role</p></th>
+<th class="head"><p><code class="xref rst rst-role docutils literal notranslate"><span class="pre">any</span></code></p></th>
+<th class="head"><p><code class="xref rst rst-role docutils literal notranslate"><span class="pre">expr</span></code></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>parameter</p></td>
+<td><p><code class="xref cpp cpp-any docutils literal notranslate"><span class="pre">arg</span></code></p></td>
+<td><p><code class="xref cpp cpp-expr docutils literal notranslate"><span class="pre">arg</span> <span class="pre">!=</span> <span class="pre">0</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>contract identifier</p></td>
+<td><p><code class="xref cpp cpp-any docutils literal notranslate"><span class="pre">step</span></code></p></td>
+<td><p><code class="xref cpp cpp-expr docutils literal notranslate"><span class="pre">step</span> <span class="pre">!=</span> <span class="pre">0</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="alias">
+<dt>
+template&lt;typename <code class="descname">Num</code>, int  <code class="descname">Limit</code> = 1&gt;<br /><a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate::Num">Num</a>  <a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate">iterate</a><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate::Num">Num</a>  evaluand<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate::Num">Num</a>  arg<span class="sig-paren">)</span> [[<em class="property">ensures</em> <code class="descname">step</code>: 0 &lt;= step]], <a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate::Num">Num</a>  point, <span class="sig-paren">)</span> <em class="property">const</em> &amp; <em class="property">noexcept</em> __attribute__((deprecated)) [[<em class="property">expects</em>: <a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate::evaluand">evaluand</a>(<a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate::point">point</a>) &lt; <a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate::point">point</a>]] [[<em class="property">ensures</em> <code class="descname">approx</code>: 0 &lt;= <a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate::approx">approx</a>]] <em class="property">final</em> <em class="property">override</em><br /></dt>
+<dd><p>Alias items put the contracts alongside other attributes.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="valid-refs">
+<h1>Valid refs<a class="headerlink" href="#valid-refs" title="Permalink to this headline">¶</a></h1>
+<p>In an assertion:</p>
+<div class="line-block">
+<div class="line"><code class="xref cpp cpp-expr docutils literal notranslate"><span class="pre">[[</span><em class="property"><span class="pre">assert</span></em><span class="pre">:</span> <a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate"><span class="pre">iterate</span></a><span class="pre">::</span><a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate::approx"><span class="pre">approx</span></a> <span class="pre">*</span> <a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate"><span class="pre">iterate</span></a><span class="pre">::</span><a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate::evaluand"><span class="pre">evaluand</span></a><span class="pre">(</span><a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate"><span class="pre">iterate</span></a><span class="pre">::</span><a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate::approx"><span class="pre">approx</span></a><span class="pre">)</span> <span class="pre">&lt;=</span> <a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate"><span class="pre">iterate</span></a><span class="pre">::</span><a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate::approx"><span class="pre">approx</span></a><span class="pre">]]</span></code></div>
+</div>
+<table class="docutils align-left">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 41%" />
+<col style="width: 40%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Kind \ Role</p></th>
+<th class="head"><p><code class="xref rst rst-role docutils literal notranslate"><span class="pre">any</span></code></p></th>
+<th class="head"><p><code class="xref rst rst-role docutils literal notranslate"><span class="pre">expr</span></code></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>template parameter</p></td>
+<td><p><a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate::Limit"><code class="xref cpp cpp-any docutils literal notranslate"><span class="pre">iterate::Limit</span></code></a></p></td>
+<td><p><code class="xref cpp cpp-expr docutils literal notranslate"><a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate"><span class="pre">iterate</span></a><span class="pre">::</span><a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate::Limit"><span class="pre">Limit</span></a> <span class="pre">!=</span> <span class="pre">0</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>function parameter</p></td>
+<td><p><a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate::point"><code class="xref cpp cpp-any docutils literal notranslate"><span class="pre">iterate::point</span></code></a></p></td>
+<td><p><code class="xref cpp cpp-expr docutils literal notranslate"><a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate"><span class="pre">iterate</span></a><span class="pre">::</span><a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate::point"><span class="pre">point</span></a> <span class="pre">!=</span> <span class="pre">0</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>contract identifier</p></td>
+<td><p><a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate::approx"><code class="xref cpp cpp-any docutils literal notranslate"><span class="pre">iterate::approx</span></code></a></p></td>
+<td><p><code class="xref cpp cpp-expr docutils literal notranslate"><a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate"><span class="pre">iterate</span></a><span class="pre">::</span><a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate::approx"><span class="pre">approx</span></a> <span class="pre">!=</span> <span class="pre">0</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="invalid-refs">
+<h1>Invalid refs<a class="headerlink" href="#invalid-refs" title="Permalink to this headline">¶</a></h1>
+<table class="docutils align-left">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 41%" />
+<col style="width: 40%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Kind \ Role</p></th>
+<th class="head"><p><code class="xref rst rst-role docutils literal notranslate"><span class="pre">any</span></code></p></th>
+<th class="head"><p><code class="xref rst rst-role docutils literal notranslate"><span class="pre">expr</span></code></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>parameter</p></td>
+<td><p><code class="xref cpp cpp-any docutils literal notranslate"><span class="pre">iterate::arg</span></code></p></td>
+<td><p><code class="xref cpp cpp-expr docutils literal notranslate"><a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate"><span class="pre">iterate</span></a><span class="pre">::</span><span class="pre">arg</span> <span class="pre">!=</span> <span class="pre">0</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>contract identifier</p></td>
+<td><p><code class="xref cpp cpp-any docutils literal notranslate"><span class="pre">iterate::step</span></code></p></td>
+<td><p><code class="xref cpp cpp-expr docutils literal notranslate"><a class="reference internal" href="#_CPPv4I0_iENKR7iterateE3NumF3Num3NumE3Num" title="iterate"><span class="pre">iterate</span></a><span class="pre">::</span><span class="pre">step</span> <span class="pre">!=</span> <span class="pre">0</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="indentation-demo">
+<h1>Indentation demo<a class="headerlink" href="#indentation-demo" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="_CPPv44sqrtd">
+<span id="_CPPv34sqrtd"></span><span id="_CPPv24sqrtd"></span><span id="sqrt__double"></span>double  <code class="descname">sqrt</code><span class="sig-paren">(</span>double  <em>arg</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv44sqrtd" title="Permalink to this definition">¶</a><br />[[<em class="property">expects</em>: 0 &lt;= <a class="reference internal" href="#_CPPv44sqrtd" title="sqrt::arg">arg</a>]]<br />[[<em class="property">ensures</em> <code class="descname">root</code>: is_approx(<a class="reference internal" href="#_CPPv44sqrtd" title="sqrt::root">root</a> * <a class="reference internal" href="#_CPPv44sqrtd" title="sqrt::root">root</a>, <a class="reference internal" href="#_CPPv44sqrtd" title="sqrt::arg">arg</a>)]]<br /></dt>
+<dd><p>A demonstration of an indented contract list.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="demonstration-of-the-comma-bug">
+<h1>Demonstration of the comma bug<a class="headerlink" href="#demonstration-of-the-comma-bug" title="Permalink to this headline">¶</a></h1>
+<dl class="type">
+<dt id="_CPPv412handler_type">
+<span id="_CPPv312handler_type"></span><span id="_CPPv212handler_type"></span><em class="property">using </em><code class="descname">handler_type</code> = void <span class="sig-paren">(</span>int  callback<span class="sig-paren">(</span>int <span class="sig-paren">)</span>, int , <span class="sig-paren">)</span><a class="headerlink" href="#_CPPv412handler_type" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Documentation items</a></li>
+<li><a class="reference internal" href="#valid-refs">Valid refs</a></li>
+<li><a class="reference internal" href="#invalid-refs">Invalid refs</a></li>
+<li><a class="reference internal" href="#indentation-demo">Indentation demo</a></li>
+<li><a class="reference internal" href="#demonstration-of-the-comma-bug">Demonstration of the comma bug</a></li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="nav-item nav-item-0"><a href="#">Demo  documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 1970, mickk.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.0+/850cc7f6a.
+    </div>
+  </body>
+</html>

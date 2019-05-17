@@ -1,0 +1,94 @@
+Documentation items
+===================
+
+.. cpp:function::   template<typename Num, int Limit = 1> \
+                    Num iterate(Num evaluand(Num arg) [[ensures step: 0 <= step]], Num point) const& noexcept __attribute__((deprecated)) \
+                        [[expects: evaluand(point) < point]] \
+                        [[ensures approx: 0 <= approx]] \
+                        final override
+    :tparam-line-spec:
+    :contract-line-spec:
+
+    Function items separate their pre- and post-conditions from other attributes. This function purposefully exhibits a
+    busy signature to demonstrate this.
+
+    (The signature has a bug with the final comma which is not related to the implementation of contracts.)
+
+    :valid refs:
+
+    In an assertion:
+
+    | :cpp:expr:`[[assert: approx * evaluand(approx) <= approx]]`
+
+    .. table::
+        :align: left
+
+        =================== ======================================= ======================================
+        Kind \\ Role        :rst:role:`any`                         :rst:role:`expr`
+        =================== ======================================= ======================================
+        template parameter  :cpp:any:`Limit`                        :cpp:expr:`Limit != 0`
+        function parameter  :cpp:any:`point`                        :cpp:expr:`point != 0`
+        contract identifier :cpp:any:`approx`                       :cpp:expr:`approx != 0`
+        =================== ======================================= ======================================
+
+    :invalid refs:
+
+    These aren't valid because they relate to the :cpp:any:`evaluand` parameter, and not to :cpp:any:`iterate` itself.
+
+    .. table::
+        :align: left
+
+        =================== ======================================= ======================================
+        Kind \\ Role        :rst:role:`any`                         :rst:role:`expr`
+        =================== ======================================= ======================================
+        parameter           :cpp:any:`arg`                          :cpp:expr:`arg != 0`
+        contract identifier :cpp:any:`step`                         :cpp:expr:`step != 0`
+        =================== ======================================= ======================================
+
+.. cpp:alias:: iterate
+
+    Alias items put the contracts alongside other attributes.
+
+Valid refs
+==========
+
+In an assertion:
+
+| :cpp:expr:`[[assert: iterate::approx * iterate::evaluand(iterate::approx) <= iterate::approx]]`
+
+.. table::
+    :align: left
+
+    =================== ======================================= ======================================
+    Kind \\ Role        :rst:role:`any`                         :rst:role:`expr`
+    =================== ======================================= ======================================
+    template parameter  :cpp:any:`iterate::Limit`               :cpp:expr:`iterate::Limit != 0`
+    function parameter  :cpp:any:`iterate::point`               :cpp:expr:`iterate::point != 0`
+    contract identifier :cpp:any:`iterate::approx`              :cpp:expr:`iterate::approx != 0`
+    =================== ======================================= ======================================
+
+Invalid refs
+============
+
+.. table::
+    :align: left
+
+    =================== ======================================= ======================================
+    Kind \\ Role        :rst:role:`any`                         :rst:role:`expr`
+    =================== ======================================= ======================================
+    parameter           :cpp:any:`iterate::arg`                 :cpp:expr:`iterate::arg != 0`
+    contract identifier :cpp:any:`iterate::step`                :cpp:expr:`iterate::step != 0`
+    =================== ======================================= ======================================
+
+Indentation demo
+================
+
+.. cpp:function:: double sqrt(double arg) [[expects: 0 <= arg]] [[ensures root: is_approx(root * root, arg)]]
+    :contract-line-spec:
+
+    A demonstration of an indented contract list.
+
+Demonstration of the comma bug
+==============================
+
+.. cpp:type:: handler_type = void(int callback(int), int)
