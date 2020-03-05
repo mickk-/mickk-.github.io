@@ -16,6 +16,35 @@
   }
 }
 
+.title-imprint {
+    display: flex;
+}
+
+.title-imprint > * {
+    flex: auto;
+}
+
+.title-imprint > .title-imprint-history {
+    flex: initial;
+    text-align: right;
+}
+
+.title-imprint > .title-imprint-history p {
+    margin-bottom: 0;
+}
+
+@media (min-width: 48em) {
+    .title-imprint > .title-imprint-history {
+        font-size: 12px;
+    }
+}
+
+@media (min-width: 58em) {
+    .title-imprint > .title-imprint-history {
+        font-size: 16px;
+    }
+}
+
 .infobox > h1 {
     text-align: center;
     margin: 0px;

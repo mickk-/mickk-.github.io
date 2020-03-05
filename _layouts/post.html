@@ -4,12 +4,35 @@ layout: master
 
 {% include navigationtop.html %}
 <article class='post'>
-    {% if page.series %}
-        <h2 class='post-title'>{{ page.series }}</h2>
-        <h3 class='post-title'>{{count}}. {{ page.title }}</h3>
-    {% else %}
-        <h2 class='post-title'>{{ page.title }}</h2>
-    {% endif %}
+    <div class='title-imprint'>
+        <div>
+            {% if page.series %}
+                <h2 class='post-title'>{{ page.series }}</h2>
+                <h3 class='post-title'>{{count}}. {{ page.title }}</h3>
+            {% else %}
+                <h2 class='post-title'>{{ page.title }}</h2>
+            {% endif %}
+        </div>
+
+        <div class='title-imprint-history'>
+            <p>
+                Originally published on {{ page.date | date: '%-d %B %Y' }}.
+            </p>
+
+            {%- if page.last-modified-on -%}
+                <p>
+                    Last modified on {{ page.last-modified-on | date: '%-d %B %Y' }}.
+                </p>
+            {%- endif -%}
+
+            <p>
+                {% include linkback.html content="See post history." %}
+            </p>
+
+            {% include linkback.html %}
+        </div>
+    </div>
+
     {{ content }}
 </article>
 {% include navigationbot.html %}
