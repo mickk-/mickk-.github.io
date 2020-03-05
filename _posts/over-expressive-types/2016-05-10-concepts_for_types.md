@@ -5,6 +5,7 @@ series: Over-expressive Types
 categories: devlog over-expressive-types
 topics: generic concepts
 date: 2016-05-10
+last-modified-on: 2020-03-05
 ---
 
 In this post and the next I will be using a deliberately dumbed-down iterator concept for the
@@ -24,28 +25,28 @@ template<typename It>
 using iterator_reference_t = typename std::iterator_traits<It>::reference;
 
 template<typename It>
-concept bool IteratorType = requires {
+concept IteratorType = requires {
     typename iterator_reference_t<It>;
 } && requires(It it, It const cit) {
     { *cit } -> iterator_reference_t<It>;
     ++it;
 };
 
-IteratorType{It}
+template<IteratorType It>
 iterator_reference_t<It> the_simplest_function_by_val(It it)
 {
     ++it;
     return *it;
 }
 
-IteratorType{It}
+template<IteratorType It>
 iterator_reference_t<It> the_simplest_function_by_ref(It& it)
 {
     ++it;
     return *it;
 }
 
-IteratorType{It}
+template<IteratorType It>
 iterator_reference_t<It> the_simplest_forwarding_function(It&& it)
 {
     ++it;

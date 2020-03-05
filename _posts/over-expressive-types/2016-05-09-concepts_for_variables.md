@@ -43,7 +43,7 @@ using iterator_reference_t = typename std::iterator_traits<
 >::reference;
 
 template<typename It>
-concept bool IteratorVar = requires {
+concept IteratorVar = requires {
     typename iterator_reference_t<It>;
 } && requires(It it) {
     { *std::as_const(it) } -> iterator_reference_t<It>;
@@ -51,20 +51,20 @@ concept bool IteratorVar = requires {
 }
 
 template<typename It>
-concept bool IteratorTarget = IteratorVar<It&>;
+concept IteratorTarget = IteratorVar<It&>;
 
-IteratorVar{It}
+template<IteratorVar It>
 struct the_simplest_data {
     It as_a_data_member;
 };
 
-IteratorVar{It}
+template<IteratorVar It>
 iterator_reference_t<It> the_simplest_function_by_val(It as_a_value_param);
 
-IteratorTarget{It}
+template<IteratorTarget It>
 iterator_reference_t<It> the_simplest_function_by_ref(It& as_a_ref_param);
 
-IteratorTarget{It}
+template<IteratorTarget It>
 iterator_reference_t<It> the_simplest_forwarding_function(It&& as_a_forwarding_param);
 ```
 
@@ -74,7 +74,7 @@ function takes `It&&`, but once a reference variable is bound it does not matter
 they are an lvalue or rvalue reference variable). But on second thought, we could dispense with it:
 
 ```cpp
-IteratorVar{It}
+template<IteratorVar It>
 iterator_reference_t<It> the_simplest_function_by_ref(It& as_a_ref_param);
 
 // similarly for the_simplest_forwarding function
