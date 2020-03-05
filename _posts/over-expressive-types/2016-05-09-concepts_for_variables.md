@@ -5,6 +5,7 @@ series: Over-expressive Types
 categories: devlog over-expressive-types
 topics: generic concepts
 date: 2016-05-09
+last-modified-on: 2020-03-05
 ---
 
 Let's approach the situation from the opposite angle. Rather than starting at concepts, let's start
@@ -36,12 +37,10 @@ whether the declared type of the variable is `concrete_iterator`, `concrete_iter
 it:
 
 ```cpp
-// not provided by the Standard Library
-template<typename Type>
-using unqualified_t = std::remove_cv_t<std::remove_reference_t<Type>>;
-
 template<typename It>
-using iterator_reference_t = typename std::iterator_traits<unqualified_t<It>>::reference;
+using iterator_reference_t = typename std::iterator_traits<
+    std::remove_cvref_t<It> // N.b.
+>::reference;
 
 template<typename It>
 concept bool IteratorVar = requires {
