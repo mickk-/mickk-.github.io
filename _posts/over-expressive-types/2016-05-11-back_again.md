@@ -1,10 +1,11 @@
 ---
 layout: post
-title: From types to expressions back again
+title: From types to expressions & back again
 series: Over-expressive Types
 categories: devlog over-expressive-types
 topics: generic concepts
 date: 2016-05-11
+last-modified-on: 2020-03-05
 ---
 
 Considering expression-`decltype` introduces a mapping from expressions to types, let's try
